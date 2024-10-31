@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Identity.Domain.Seed
 {
-    internal interface IEventRepository
+    public interface IEventRepository
     {
         public IReadOnlyCollection<INotification> Notifications { get; }
-        Task PublishAllAsync();
         void RemoveNotification(INotification notification);
         void AddNotification(INotification notification);
         void ClearNotifications();
