@@ -18,9 +18,10 @@ namespace Identity.Infrastructure
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection collection, IConfiguration configuration)
         {
             IConfigurationSection connectionSection = configuration.GetSection("ConnectionStrings");
-            string dbConnection = connectionSection.GetValue<string>("identities") ?? string.Empty;
+            string dbConnection = connectionSection.GetValue<string>("Identities") ?? string.Empty;
 
             collection.AddScoped<IEventRepository, EventRepository>();
+            collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
             collection.AddNpgsql<IdentityDbContext>(dbConnection);
 
             collection.AddIdentityCore<IdentityPerson>(options =>

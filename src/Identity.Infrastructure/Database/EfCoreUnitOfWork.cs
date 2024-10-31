@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Identity.Infrastructure.Database
 {
-    public class EfCoreUnitOfWork<TContext>(TContext context, IEventRepository eventsRepository) : IUnitOfWork
+    public class EfCoreUnitOfWork<TContext>(TContext context, IEventRepository eventsRepository) : IUnitOfWork, IDisposable, IAsyncDisposable
         where TContext : DbContext
     {
         private IDbContextTransaction? _transaction;
@@ -28,7 +28,7 @@ namespace Identity.Infrastructure.Database
                 return _transaction.TransactionId;
             }
         }
-        public async Task<Guid> BeginTransactionAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Guid> BeginTransactionAsync(CancellationToken cancellationToken = default)
         {
             if (_transaction != null)
             {
@@ -40,7 +40,7 @@ namespace Identity.Infrastructure.Database
             return _transaction.TransactionId;
         }
 
-        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
             await eventsRepository.PublishAllAsync();
 
@@ -49,7 +49,7 @@ namespace Identity.Infrastructure.Database
             return true;
         }
 
-        public async Task CommitAsync(CancellationToken cancellationToken = default)
+        public virtual async Task CommitAsync(CancellationToken cancellationToken = default)
         {
             if (_transaction == null) throw new ArgumentNullException(nameof(_transaction));
 
@@ -69,7 +69,7 @@ namespace Identity.Infrastructure.Database
             }
         }
 
-        public async Task RollbackAsync(CancellationToken cancellationToken = default)
+        public virtual async Task RollbackAsync(CancellationToken cancellationToken = default)
         {
             if (_transaction == null) return;
 
@@ -84,12 +84,12 @@ namespace Identity.Infrastructure.Database
         }
 
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             DisposeTransaction();
         }
 
-        public ValueTask DisposeAsync()
+        public virtual ValueTask DisposeAsync()
         {
             DisposeTransaction();
             return ValueTask.CompletedTask;
@@ -104,7 +104,7 @@ namespace Identity.Infrastructure.Database
             }
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return context.SaveChangesAsync(cancellationToken);
         }
