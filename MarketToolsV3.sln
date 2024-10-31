@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Infrastructure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.WebApi", "src\Identity.WebApi\Identity.WebApi.csproj", "{1B7D221B-BD4E-4884-BA66-DE99798B1883}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolsV3.ConfigurationManager", "src\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj", "{8758EE56-E77D-428B-B5B7-04022A555FEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{1B7D221B-BD4E-4884-BA66-DE99798B1883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B7D221B-BD4E-4884-BA66-DE99798B1883}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B7D221B-BD4E-4884-BA66-DE99798B1883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8758EE56-E77D-428B-B5B7-04022A555FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8758EE56-E77D-428B-B5B7-04022A555FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8758EE56-E77D-428B-B5B7-04022A555FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8758EE56-E77D-428B-B5B7-04022A555FEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{C4C1A6D0-96F8-4C6B-BB91-789D79BDBFFD} = {0888B86C-31CF-4288-BAE6-27515593310F}
 		{1CC5775C-7B79-41E7-8A87-2D550D0D9F92} = {0888B86C-31CF-4288-BAE6-27515593310F}
 		{1B7D221B-BD4E-4884-BA66-DE99798B1883} = {0888B86C-31CF-4288-BAE6-27515593310F}
+		{8758EE56-E77D-428B-B5B7-04022A555FEE} = {0888B86C-31CF-4288-BAE6-27515593310F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}
