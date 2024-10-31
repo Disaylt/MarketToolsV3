@@ -10,7 +10,7 @@ namespace Identity.Application
 {
     public static class RegisterServicesExtension
     {
-        public static void AddApplicationLayer(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddApplicationLayer(this IServiceCollection serviceCollection)
         {
             var assembly = Assembly.GetExecutingAssembly();
             var allTypes = assembly.GetTypes();
@@ -21,6 +21,8 @@ namespace Identity.Application
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             });
+
+            return serviceCollection;
         }
     }
 }

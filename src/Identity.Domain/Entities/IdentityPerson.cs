@@ -10,5 +10,8 @@ namespace Identity.Domain.Entities
     public class IdentityPerson : IdentityUser
     {
         public DateTime CreateDate { get; } = DateTime.UtcNow;
+
+        private readonly List<Session> _sessions = new List<Session>();
+        public IReadOnlyCollection<Session> Sessions => _sessions.AsReadOnly();
     }
 }
