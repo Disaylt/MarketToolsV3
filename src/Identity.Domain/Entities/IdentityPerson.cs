@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Domain.Entities
 {
-    public class Identity : IdentityUser
+    public class IdentityPerson : IdentityUser
     {
         public DateTime CreateDate { get; } = DateTime.UtcNow;
     }
