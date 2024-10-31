@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Mock\" />
+    <Folder Include="Tests\Infrastructure\Database\" />
   </ItemGroup>
 
   <ItemGroup>
