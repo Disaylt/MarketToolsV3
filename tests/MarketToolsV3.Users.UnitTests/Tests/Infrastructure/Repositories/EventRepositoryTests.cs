@@ -12,12 +12,20 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
 {
     public class EventRepositoryTests
     {
+        private IMediator _mediator;
+
+        [SetUp]
+        public void Setup()
+        {
+            _mediator = new Mock<IMediator>().Object;
+        }
+
         [TestCase(1)]
         [TestCase(10)]
         [TestCase(5)]
         public void ClearNotifications_AddNotifications_Expected0(int quantity)
         {
-            IEventRepository eventRepository = new EventRepository();
+            IEventRepository eventRepository = new EventRepository(_mediator);
 
             for (int i = 0; i < quantity; i++)
             {
@@ -35,7 +43,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(5)]
         public void AddNotifications_AddQuantity_ExpectedQuantityFromCase(int quantity)
         {
-            IEventRepository eventRepository = new EventRepository();
+            IEventRepository eventRepository = new EventRepository(_mediator);
 
             for (int i = 0; i < quantity; i++)
             {
@@ -49,7 +57,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCaseSource(nameof(CreateNotificationForRemoveNotification))]
         public void RemoveNotification_AddNotification_ExpectedNotContainsCase(INotification notification)
         {
-            IEventRepository eventRepository = new EventRepository();
+            IEventRepository eventRepository = new EventRepository(_mediator);
             eventRepository.AddNotification(notification);
             eventRepository.RemoveNotification(notification);
 
