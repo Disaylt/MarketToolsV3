@@ -17,24 +17,24 @@ namespace Identity.Infrastructure
     {
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection collection, IConfiguration configuration)
         {
-            IConfigurationSection connectionSection = configuration.GetSection("ConnectionStrings");
-            string dbConnection = connectionSection.GetValue<string>("Identities") ?? string.Empty;
+            IConfigurationSection connectionSection = configuration.GetSection("Identity");
+            string dbConnection = connectionSection.GetValue<string>("Database") ?? string.Empty;
 
             collection.AddScoped<IEventRepository, EventRepository>();
-            collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
-            collection.AddNpgsql<IdentityDbContext>(dbConnection);
+            //collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
+            //collection.AddNpgsql<IdentityDbContext>(dbConnection);
 
-            collection.AddIdentityCore<IdentityPerson>(options =>
-                {
-                    options.User.RequireUniqueEmail = true;
-                    options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 6;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireLowercase = false;
-                })
-                .AddEntityFrameworkStores<IdentityDbContext>()
-                .AddDefaultTokenProviders();
+            //collection.AddIdentityCore<IdentityPerson>(options =>
+            //    {
+            //        options.User.RequireUniqueEmail = true;
+            //        options.Password.RequireDigit = false;
+            //        options.Password.RequiredLength = 6;
+            //        options.Password.RequireNonAlphanumeric = false;
+            //        options.Password.RequireUppercase = false;
+            //        options.Password.RequireLowercase = false;
+            //    })
+            //    .AddEntityFrameworkStores<IdentityDbContext>()
+            //    .AddDefaultTokenProviders();
 
             return collection;
         }

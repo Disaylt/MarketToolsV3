@@ -1,6 +1,8 @@
 using Identity.Infrastructure;
+using MarketToolsV3.ConfigurationManager;
 
 var builder = WebApplication.CreateBuilder(args);
+await builder.Configuration.LoadConfigurationAsync();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

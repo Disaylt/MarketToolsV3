@@ -10,18 +10,19 @@ namespace MarketToolsV3.ConfigurationManager
 {
     public static class ConfigurationManagerExtension
     {
-        public static Task LoadConfigurationAsync(this IConfigurationManager configuration)
+        public static async Task LoadConfigurationAsync(this IConfigurationManager configuration)
         {
             string? type = configuration.GetValue<string>("MarketToolsV3ConfigLoadType");
 
             if (string.IsNullOrEmpty(type))
             {
-                return Task.CompletedTask;
+                return;
             }
 
+            ConfigurationManagersFactory configurationManagersFactory =
+                new ConfigurationManagersFactory(configuration);
 
-
-            return Task.CompletedTask;
+            await configurationManagersFactory.Create(type).Upload();
         }
     }
 }
