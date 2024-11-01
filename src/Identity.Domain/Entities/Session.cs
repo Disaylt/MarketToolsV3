@@ -14,8 +14,8 @@ namespace Identity.Domain.Entities
         public DateTime Created { get; private set; } = DateTime.UtcNow;
         public DateTime Updated { get; set; } = DateTime.UtcNow;
         public IdentityPerson Identity { get; private set; } = null!;
-        public string IdentityId { get; private set; }
-        public string UserAgent { get; set; }
+        public string IdentityId { get; private set; } = string.Empty;
+        public string UserAgent { get; set; } = string.Empty;
 
         protected Session()
         {
