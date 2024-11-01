@@ -25,7 +25,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(5)]
         public void ClearNotifications_AddNotifications_Expected0(int quantity)
         {
-            IEventRepository eventRepository = new EventRepository(_mediator.Object);
+            EventRepository eventRepository = new(_mediator.Object);
 
             for (int i = 0; i < quantity; i++)
             {
@@ -35,7 +35,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
 
             eventRepository.ClearNotifications();
 
-            Assert.That(eventRepository.Notifications.Count, Is.EqualTo(0));
+            Assert.That(eventRepository.Notifications, Has.Count.EqualTo(quantity));
         }
 
         [TestCase(1)]
@@ -43,7 +43,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(5)]
         public void AddNotifications_AddQuantity_ExpectedQuantityFromCase(int quantity)
         {
-            IEventRepository eventRepository = new EventRepository(_mediator.Object);
+            EventRepository eventRepository = new(_mediator.Object);
 
             for (int i = 0; i < quantity; i++)
             {
@@ -51,17 +51,17 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
                 eventRepository.AddNotification(notification);
             }
 
-            Assert.That(eventRepository.Notifications.Count, Is.EqualTo(quantity));
+            Assert.That(eventRepository.Notifications, Has.Count.EqualTo(quantity));
         }
 
         [TestCaseSource(nameof(CreateNotificationForRemoveNotification))]
         public void RemoveNotification_AddNotification_ExpectedNotContainsCase(INotification notification)
         {
-            IEventRepository eventRepository = new EventRepository(_mediator.Object);
+            EventRepository eventRepository = new(_mediator.Object);
             eventRepository.AddNotification(notification);
             eventRepository.RemoveNotification(notification);
 
-            Assert.IsFalse(eventRepository.Notifications.Contains(notification));
+            Assert.That(eventRepository.Notifications, Does.Not.Contain(notification));
         }
 
         [TestCase(4)]
@@ -69,7 +69,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(10)]
         public async Task PublishAllAsync_AddQuantityNotifications_ExpectedCallPublishCaseCount(int quantity)
         {
-            IEventRepository eventRepository = new EventRepository(_mediator.Object);
+            EventRepository eventRepository = new(_mediator.Object);
 
             for (int i = 0; i < quantity; i++)
             {
@@ -87,7 +87,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(10)]
         public async Task PublishAllAsync_AddQuantityNotifications_ExpectedClearNotifications(int quantity)
         {
-            IEventRepository eventRepository = new EventRepository(_mediator.Object);
+            EventRepository eventRepository = new(_mediator.Object);
 
             for (int i = 0; i < quantity; i++)
             {
@@ -97,7 +97,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
 
             await eventRepository.PublishAllAsync();
 
-            Assert.That(eventRepository.Notifications.Count, Is.EqualTo(0));
+            Assert.That(eventRepository.Notifications, Has.Count.EqualTo(quantity));
         }
 
         private static IEnumerable<TestCaseData> CreateNotificationForRemoveNotification()
