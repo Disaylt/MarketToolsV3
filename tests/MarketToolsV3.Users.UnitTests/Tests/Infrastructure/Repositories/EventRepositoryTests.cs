@@ -35,7 +35,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
 
             eventRepository.ClearNotifications();
 
-            Assert.That(eventRepository.Notifications, Has.Count.EqualTo(quantity));
+            Assert.That(eventRepository.Notifications, Has.Count.EqualTo(0));
         }
 
         [TestCase(1)]
@@ -97,7 +97,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
 
             await eventRepository.PublishAllAsync();
 
-            Assert.That(eventRepository.Notifications, Has.Count.EqualTo(quantity));
+            Assert.That(eventRepository.Notifications, Has.Count.EqualTo(0));
         }
 
         private static IEnumerable<TestCaseData> CreateNotificationForRemoveNotification()
