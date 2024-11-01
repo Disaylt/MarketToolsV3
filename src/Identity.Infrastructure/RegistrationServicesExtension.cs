@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Models;
+using Identity.Application.Services;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
@@ -45,6 +46,7 @@ namespace Identity.Infrastructure
             collection.AddSingleton<IRolesClaimServices, RolesClaimServices>();
             collection.AddSingleton<IClaimsService<JwtAccessTokenDto>, JwtAccessClaimsService>();
             collection.AddSingleton<IClaimsService<JwtRefreshTokenDto>, JwtRefreshClaimsService>();
+            collection.AddSingleton<ITokenService<JwtAccessTokenDto>, JwtAccessTokenService>();
 
             return collection;
         }
