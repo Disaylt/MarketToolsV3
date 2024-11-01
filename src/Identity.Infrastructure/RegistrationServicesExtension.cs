@@ -25,7 +25,9 @@ namespace Identity.Infrastructure
             ServiceConfiguration config = serviceSection.Get<ServiceConfiguration>()
                                           ?? throw new NullReferenceException("Users config is empty");
 
+            collection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             collection.AddScoped<IEventRepository, EventRepository>();
+            collection.AddScoped<ISessionService, SessionService>();
             collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
             collection.AddNpgsql<IdentityDbContext>(config.Database);
 

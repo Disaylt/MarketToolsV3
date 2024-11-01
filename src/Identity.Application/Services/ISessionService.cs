@@ -13,7 +13,7 @@ namespace Identity.Application.Services
 
         Task UpdateAsync(Session session, string token, string userAgent = "Unknown",
             CancellationToken cancellationToken = default);
-        Task<IEnumerable<Session>> GetActiveSessionsAsync(string userId, CancellationToken cancellationToken);
+        Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken);
         Task DeleteAsync(string id, CancellationToken cancellationToken);
     }
 }
