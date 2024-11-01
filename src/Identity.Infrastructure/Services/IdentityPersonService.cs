@@ -42,12 +42,16 @@ namespace Identity.Infrastructure.Services
 
         public async Task<bool> CheckPassword(IdentityPerson identity, string password)
         {
+            logger.LogInformation("Check password for {name}", identity.UserName);
+
             return await userManager.CheckPasswordAsync(identity, password);
         }
 
-        public Task<IdentityPerson?> FindByEmailAsync(string email)
+        public async Task<IdentityPerson?> FindByEmailAsync(string email)
         {
-            return userManager.FindByEmailAsync(email);
+            logger.LogInformation("Find identity by email - {email}", email);
+
+            return await userManager.FindByEmailAsync(email);
         }
     }
 }
