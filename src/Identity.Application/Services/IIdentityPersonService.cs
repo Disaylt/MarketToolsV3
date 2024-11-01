@@ -9,8 +9,8 @@ namespace Identity.Application.Services
 {
     public interface IIdentityPersonService
     {
-        Task<IdentityPerson> AddAsync(IdentityPerson user, string password);
+        Task<IdentityPerson> AddAsync(IdentityPerson identity, string password);
         Task<IdentityPerson?> FindByEmailAsync(string email);
-        Task<bool> CheckPassword(IdentityPerson user, string password);
+        Task<bool> CheckPassword(IdentityPerson identity, string password);
     }
 }
