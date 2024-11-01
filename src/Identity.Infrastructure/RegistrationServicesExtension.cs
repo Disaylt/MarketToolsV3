@@ -7,6 +7,7 @@ using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
 using Identity.Infrastructure.Repositories;
+using Identity.Infrastructure.Services.Tokens;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +36,8 @@ namespace Identity.Infrastructure
                 })
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
+
+            collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
 
             return collection;
         }
