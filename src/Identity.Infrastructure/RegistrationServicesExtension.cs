@@ -38,6 +38,7 @@ namespace Identity.Infrastructure
                 .AddDefaultTokenProviders();
 
             collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
+            collection.AddSingleton<IJwtTokenService, JwtTokenService>();
 
             return collection;
         }
