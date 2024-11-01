@@ -44,6 +44,7 @@ namespace Identity.Infrastructure
             collection.AddSingleton<IJwtTokenService, JwtTokenService>();
             collection.AddSingleton<IRolesClaimServices, RolesClaimServices>();
             collection.AddSingleton<IClaimsService<JwtAccessTokenDto>, JwtAccessClaimsService>();
+            collection.AddSingleton<IClaimsService<JwtRefreshTokenDto>, JwtRefreshClaimsService>();
 
             return collection;
         }
