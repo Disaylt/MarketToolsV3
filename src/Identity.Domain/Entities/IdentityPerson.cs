@@ -11,7 +11,7 @@ namespace Identity.Domain.Entities
     {
         public DateTime CreateDate { get; } = DateTime.UtcNow;
 
-        private readonly List<Session> _sessions = new List<Session>();
+        private List<Session> _sessions = new();
         public IReadOnlyCollection<Session> Sessions => _sessions.AsReadOnly();
     }
 }
