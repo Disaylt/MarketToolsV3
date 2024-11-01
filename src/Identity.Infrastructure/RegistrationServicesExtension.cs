@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Identity.Application.Models;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
 using Identity.Infrastructure.Repositories;
 using Identity.Infrastructure.Services;
+using Identity.Infrastructure.Services.Claims;
 using Identity.Infrastructure.Services.Tokens;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,7 @@ namespace Identity.Infrastructure
             collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
             collection.AddSingleton<IJwtTokenService, JwtTokenService>();
             collection.AddSingleton<IRolesClaimServices, RolesClaimServices>();
+            collection.AddSingleton<IClaimsService<JwtAccessTokenDto>, JwtAccessClaimsService>();
 
             return collection;
         }
