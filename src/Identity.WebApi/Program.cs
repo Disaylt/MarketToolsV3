@@ -2,6 +2,7 @@ using Identity.Application;
 using Identity.Domain.Seed;
 using Identity.Infrastructure;
 using Identity.WebApi;
+using Identity.WebApi.Services;
 using MarketToolsV3.ConfigurationManager;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ builder.Services.AddServiceAuth(serviceSection);
 builder.Services
     .AddInfrastructureLayer(serviceSection)
     .AddApplicationLayer();
+
+builder.Services.AddScoped<IAuthContext, AuthContext>();
 
 var app = builder.Build();
 
