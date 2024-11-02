@@ -1,7 +1,9 @@
+using Asp.Versioning;
 using Identity.Application;
 using Identity.Domain.Seed;
 using Identity.Infrastructure;
 using Identity.WebApi;
+using Identity.WebApi.Middlewares;
 using Identity.WebApi.Services;
 using MarketToolsV3.ConfigurationManager;
 
@@ -21,6 +23,13 @@ builder.Services
     .AddInfrastructureLayer(serviceSection)
     .AddApplicationLayer();
 
+builder.Services.AddApiVersioning(opt =>
+{
+    opt.ReportApiVersions = true;
+    opt.AssumeDefaultVersionWhenUnspecified = true;
+    opt.DefaultApiVersion = new ApiVersion(1, 0);
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -29,9 +38,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<CookieTokenAdapterMiddleware>();
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<AuthDetailsMiddleware>();
 
 app.MapControllers();
 
