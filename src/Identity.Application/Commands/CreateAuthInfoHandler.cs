@@ -21,8 +21,6 @@ namespace Identity.Application.Commands
     {
         public async Task<AuthInfoDto> Handle(CreateAuthInfo request, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Request new auth info.");
-
             if (await accessTokenService.IsValid(request.Details.AuthToken))
             {
                 logger.LogWarning("Access token isn't valid");
@@ -54,7 +52,7 @@ namespace Identity.Application.Commands
 
             JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId);
 
-            logger.LogInformation("Return new auth info.");
+            logger.LogInformation("Build auth info result.");
 
             return new AuthInfoDto
             {
