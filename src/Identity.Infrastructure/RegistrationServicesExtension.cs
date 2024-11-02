@@ -50,6 +50,7 @@ namespace Identity.Infrastructure
             collection.AddSingleton<IClaimsService<JwtRefreshTokenDto>, JwtRefreshClaimsService>();
             collection.AddSingleton<ITokenService<JwtAccessTokenDto>, JwtAccessTokenService>();
             collection.AddSingleton<ITokenService<JwtRefreshTokenDto>, JwtRefreshTokenService>();
+            collection.AddSingleton(typeof(ICacheRepository<>), typeof(DefaultCacheRepository<>));
 
             return collection;
         }
