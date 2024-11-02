@@ -26,13 +26,12 @@ namespace Identity.Infrastructure.Services
 
             if (result.Succeeded == false)
             {
-                logger.LogWarning("Bad create identity {identity}. Error - {error}",
-                    JsonSerializer.Serialize(identity),
+                logger.LogWarning("Bad create identity. Errors - {error}",
                     string.Join(',', result.Errors.Select((er => er.Description))));
                 throw new RootServiceException(HttpStatusCode.BadRequest, "Не удалось создать пользователя.");
             }
 
-            logger.LogInformation("Create new identity - {identity}", JsonSerializer.Serialize(identity));
+            logger.LogInformation("Create new identity - {id}", identity.Id);
 
             IdentityCreated registerEvent = new IdentityCreated(identity);
             eventRepository.AddNotification(registerEvent);

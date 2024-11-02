@@ -6,6 +6,8 @@ using Identity.WebApi;
 using Identity.WebApi.Middlewares;
 using Identity.WebApi.Services;
 using MarketToolsV3.ConfigurationManager;
+using Serilog;
+using Serilog.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 await builder.Configuration.LoadConfigurationAsync();
@@ -29,6 +31,19 @@ builder.Services.AddApiVersioning(opt =>
     opt.AssumeDefaultVersionWhenUnspecified = true;
     opt.DefaultApiVersion = new ApiVersion(1, 0);
 });
+
+LoggerConfiguration logConfig = new LoggerConfiguration();
+
+logConfig = builder.Environment.IsDevelopment() 
+    ? logConfig.MinimumLevel.Debug() 
+    : logConfig.MinimumLevel.Information();
+
+Log.Logger = logConfig
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
