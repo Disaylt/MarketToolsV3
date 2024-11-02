@@ -29,6 +29,7 @@ namespace Identity.Infrastructure
             collection.AddScoped<IEventRepository, EventRepository>();
             collection.AddScoped<ISessionService, SessionService>();
             collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
+            collection.AddScoped<IIdentityPersonService, IdentityPersonService>();
             collection.AddNpgsql<IdentityDbContext>(config.Database);
 
             collection.AddStackExchangeRedisCache(opt =>
