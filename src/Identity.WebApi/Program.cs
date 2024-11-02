@@ -32,18 +32,7 @@ builder.Services.AddApiVersioning(opt =>
     opt.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
-LoggerConfiguration logConfig = new LoggerConfiguration();
-
-logConfig = builder.Environment.IsDevelopment() 
-    ? logConfig.MinimumLevel.Debug() 
-    : logConfig.MinimumLevel.Information();
-
-Log.Logger = logConfig
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .CreateLogger();
-
-builder.Host.UseSerilog();
+builder.AddLogging(serviceSection);
 
 var app = builder.Build();
 
