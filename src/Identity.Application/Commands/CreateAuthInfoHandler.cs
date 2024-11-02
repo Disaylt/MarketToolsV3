@@ -3,6 +3,7 @@ using Identity.Application.Services;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace Identity.Application.Commands
 {
     public class CreateAuthInfoHandler(IRepository<Session> sessionRepository,
+        ILogger<CreateAuthInfoHandler> logger,
         ITokenService<JwtAccessTokenDto> accessTokenService,
         ITokenService<JwtRefreshTokenDto> refreshTokenService,
         ISessionService sessionService)
@@ -19,13 +21,19 @@ namespace Identity.Application.Commands
     {
         public async Task<AuthInfoDto> Handle(CreateAuthInfo request, CancellationToken cancellationToken)
         {
+            logger.LogInformation("Request new auth info.");
+
             if (await accessTokenService.IsValid(request.Details.AuthToken))
             {
+                logger.LogWarning("Access token isn't valid");
+
                 return new AuthInfoDto { IsValid = true };
             }
 
             if (await refreshTokenService.IsValid(request.Details.SessionToken) == false)
             {
+                logger.LogWarning("Refresh token isn't valid");
+
                 return new AuthInfoDto { IsValid = false };
             }
 
@@ -35,6 +43,8 @@ namespace Identity.Application.Commands
 
             if (session.IsActive == false || session.Token != request.Details.SessionToken)
             {
+                logger.LogWarning("Session status {status} or current refresh token does not match session refresh token.", session.IsActive);
+
                 return new AuthInfoDto { IsValid = false };
             }
 
@@ -43,6 +53,8 @@ namespace Identity.Application.Commands
             await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
 
             JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId);
+
+            logger.LogInformation("Return new auth info.");
 
             return new AuthInfoDto
             {
