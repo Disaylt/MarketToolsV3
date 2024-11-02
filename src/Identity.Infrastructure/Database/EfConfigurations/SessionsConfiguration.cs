@@ -25,6 +25,12 @@ namespace Identity.Infrastructure.Database.EfConfigurations
             builder.Property(e => e.UserAgent)
                 .HasMaxLength(1000);
 
+            builder.Property(e => e.IdentityId)
+                .HasMaxLength(100);
+
+            builder.Property(e => e.Id)
+                .HasMaxLength(100);
+
             builder.HasOne(x => x.Identity)
                 .WithMany(x => x.Sessions)
                 .HasForeignKey(e => e.IdentityId)
