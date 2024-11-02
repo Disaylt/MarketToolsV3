@@ -15,5 +15,6 @@ namespace Identity.Domain.Seed
         public string SecretRefreshToken { get; set; } = string.Empty;
         public string SecretAccessToken { get; set; } = string.Empty;
         public string Database { get; set; } = string.Empty;
+        public string Redis { get; set; } = string.Empty;
     }
 }

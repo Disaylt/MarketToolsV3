@@ -31,6 +31,11 @@ namespace Identity.Infrastructure
             collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
             collection.AddNpgsql<IdentityDbContext>(config.Database);
 
+            collection.AddStackExchangeRedisCache(opt =>
+            {
+                opt.Configuration = config.Redis;
+            });
+
             collection.AddIdentityCore<IdentityPerson>(options =>
                 {
                     options.User.RequireUniqueEmail = true;
