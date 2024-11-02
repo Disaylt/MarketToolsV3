@@ -15,13 +15,11 @@ builder.Services.AddOptions<ServiceConfiguration>()
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddServiceAuth(serviceSection);
+builder.Services.AddWebApiServices(serviceSection);
 
 builder.Services
     .AddInfrastructureLayer(serviceSection)
     .AddApplicationLayer();
-
-builder.Services.AddScoped<IAuthContext, AuthContext>();
 
 var app = builder.Build();
 
