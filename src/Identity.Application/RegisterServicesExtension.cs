@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Identity.Application.Behaviors;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,13 @@ namespace Identity.Application
     {
         public static IServiceCollection AddApplicationLayer(this IServiceCollection serviceCollection)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var allTypes = assembly.GetTypes();
-
             //serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             serviceCollection.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+
+                cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 
             return serviceCollection;
