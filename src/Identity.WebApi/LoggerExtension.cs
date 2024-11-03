@@ -26,8 +26,8 @@ namespace Identity.WebApi
                 .WriteTo.Console()
                 .WriteTo.Elasticsearch(new[] { new Uri(config.ElasticUrl) }, opts =>
                 {
-                    opts.MinimumLevel = LogEventLevel.Information;
-                    opts.DataStream = new DataStreamName("logs", "console-example", "demo");
+                    opts.MinimumLevel = builder.Environment.IsDevelopment() ? LogEventLevel.Debug : LogEventLevel.Information;
+                    opts.DataStream = new DataStreamName("logs", "generic", "identity-service");
                     opts.BootstrapMethod = BootstrapMethod.Failure;
                 }, transport =>
                 {

@@ -50,7 +50,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
 
             await identityPersonService.AddAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>());
 
-            _userManagerMock.Verify(o => o.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()), Times.Exactly(1));
+            _userManagerMock.Verify(o => o.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()), 
+                Times.Exactly(1));
         }
 
         [Test]

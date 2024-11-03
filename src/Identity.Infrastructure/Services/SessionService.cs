@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 
 namespace Identity.Infrastructure.Services
 {
-    internal class SessionService(IRepository<Session> sessionsRepository,
+    public class SessionService(IRepository<Session> sessionsRepository,
         IdentityDbContext dbContext,
         IOptions<ServiceConfiguration> options,
         IEventRepository eventsRepository)
