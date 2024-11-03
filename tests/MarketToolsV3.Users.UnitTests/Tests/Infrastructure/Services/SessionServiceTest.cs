@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Services;
@@ -17,7 +18,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
     internal class SessionServiceTest
     {
         private Mock<IRepository<Session>> _sessionRepositoryMock;
-        private Mock<IdentityDbContext> _contextMock;
         private Mock<IOptions<ServiceConfiguration>> _serviceConfigurationMock;
         private Mock<IEventRepository> _eventRepositoryMock;
 
@@ -27,7 +27,15 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
             _sessionRepositoryMock = new();
             _eventRepositoryMock = new();
             _serviceConfigurationMock = new();
-            _contextMock = new(new DbContextOptions<IdentityDbContext>());
+        }
+
+        private IdentityDbContext CreateContext()
+        {
+            var options = new DbContextOptionsBuilder<IdentityDbContext>()
+                .UseInMemoryDatabase(databaseName: "identity")
+                .Options;
+
+            return new(options);
         }
 
         [TestCase("token-2", "user-agent-2")]
@@ -38,9 +46,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
 
             _sessionRepositoryMock.Setup(x => x.UnitOfWork.SaveChangesAsync(default));
 
+            await using IdentityDbContext context = CreateContext();
+
             SessionService sessionService = new SessionService(
                 _sessionRepositoryMock.Object,
-                _contextMock.Object,
+                context,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
 
@@ -51,7 +61,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
 
             _sessionRepositoryMock.Verify(x => x.UnitOfWork.SaveEntitiesAsync(default), Times.Once());
         }
-
 
     }
 }

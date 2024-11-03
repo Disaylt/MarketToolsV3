@@ -48,7 +48,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
             IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
                 _loggerMock.Object, _eventRepositoryMock.Object);
 
-            await identityPersonService.AddAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>());
+            await identityPersonService.AddAsync(new IdentityPerson(), It.IsAny<string>());
 
             _userManagerMock.Verify(o => o.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()), 
                 Times.Exactly(1));
@@ -78,7 +78,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
             IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
                 _loggerMock.Object, _eventRepositoryMock.Object);
 
-            await identityPersonService.AddAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>());
+            await identityPersonService.AddAsync(new IdentityPerson(), It.IsAny<string>());
 
             _eventRepositoryMock.Verify(o=>
                 o.AddNotification(It.Is<INotification>(
