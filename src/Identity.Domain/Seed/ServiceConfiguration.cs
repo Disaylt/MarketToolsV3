@@ -8,16 +8,16 @@ namespace Identity.Domain.Seed
 {
     public class ServiceConfiguration
     {
-        public int ExpireAccessTokenMinutes { get; set; } = 15;
-        public int ExpireRefreshTokenHours { get; set; } = 240;
-        public string ValidAudience { get; set; } = string.Empty;
-        public string ValidIssuer { get; set; } = string.Empty;
-        public string SecretRefreshToken { get; set; } = string.Empty;
-        public string SecretAccessToken { get; set; } = string.Empty;
-        public string Database { get; set; } = string.Empty;
-        public string Redis { get; set; } = string.Empty;
-        public string ElasticUrl { get; set; } = string.Empty;
-        public string ElasticUser { get; set; } = string.Empty;
-        public string ElasticPassword { get; set; } = string.Empty;
+        public virtual int ExpireAccessTokenMinutes { get; set; } = 15;
+        public virtual int ExpireRefreshTokenHours { get; set; } = 240;
+        public virtual string ValidAudience { get; set; } = string.Empty;
+        public virtual string ValidIssuer { get; set; } = string.Empty;
+        public virtual string SecretRefreshToken { get; set; } = string.Empty;
+        public virtual string SecretAccessToken { get; set; } = string.Empty;
+        public virtual string Database { get; set; } = string.Empty;
+        public virtual string Redis { get; set; } = string.Empty;
+        public virtual string ElasticUrl { get; set; } = string.Empty;
+        public virtual string ElasticUser { get; set; } = string.Empty;
+        public virtual string ElasticPassword { get; set; } = string.Empty;
     }
 }

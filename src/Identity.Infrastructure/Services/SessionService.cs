@@ -41,10 +41,10 @@ namespace Identity.Infrastructure.Services
             await sessionsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken = default)
         {
             return await dbContext.Sessions
-                .Where(e => DateTime.UtcNow - e.Updated < TimeSpan.FromMinutes(_configuration.ExpireRefreshTokenHours)
+                .Where(e => DateTime.UtcNow - e.Updated < TimeSpan.FromHours(_configuration.ExpireRefreshTokenHours)
                             && e.IsActive
                             && e.IdentityId == identityId)
                 .ToListAsync(cancellationToken);
