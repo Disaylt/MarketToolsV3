@@ -24,6 +24,10 @@ namespace Identity.Infrastructure.Repositories
             return entity;
         }
 
+        public IQueryable<T> AsQueryable()
+        {
+            return _dbSet.AsQueryable();
+        }
 
         public Task DeleteAsync(T entity, CancellationToken cancellationToken)
         {
