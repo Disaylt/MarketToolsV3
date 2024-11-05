@@ -36,7 +36,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task AddAsync_ExpectedCallAddRepositoryMethod()
+        public async Task AddAsync_CallAddAsync()
         {
             Session session = new Session(It.IsNotNull<string>(), It.IsNotNull<string>());
 
@@ -53,7 +53,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task AddAsync_ExpectedCallSaveEntitiesAsync()
+        public async Task AddAsync_CallSaveEntitiesAsync()
         {
             Session session = new Session(It.IsNotNull<string>(), It.IsNotNull<string>());
 
@@ -71,7 +71,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task AddAsync_ExpectedCallEventRepositoryAddNotification()
+        public async Task AddAsync_CallAddNotification()
         {
             Session session = new Session(It.IsNotNull<string>(), It.IsNotNull<string>());
 
@@ -88,7 +88,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [TestCase("1")]
         [TestCase("2")]
         [TestCase("3")]
-        public async Task UpdateAsync_ExpectedNewToken(string token)
+        public async Task UpdateAsync_SetNewToken(string token)
         {
             Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
 
@@ -105,7 +105,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [TestCase("1")]
         [TestCase("2")]
         [TestCase("3")]
-        public async Task UpdateAsync_ExpectedNewAgent(string agent)
+        public async Task UpdateAsync_SetNewAgent(string agent)
         {
             Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
 
@@ -120,7 +120,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task UpdateAsync_ExpectedNewUpdateDate()
+        public async Task UpdateAsync_SetNewUpdateDate()
         {
             DateTime firstUpdated = DateTime.UtcNow;
             Session session = new Session(It.IsAny<string>(), It.IsAny<string>())
@@ -139,7 +139,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task UpdateAsync_ExpectedCallSaveChangesAsync()
+        public async Task UpdateAsync_CallSaveChangesAsync()
         {
             Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
 
@@ -157,7 +157,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task DeleteAsync_ExpectedCallSaveChangesAsync()
+        public async Task DeleteAsync_CallSaveChangesAsync()
         {
             Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
 
@@ -175,7 +175,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task DeleteAsync_ExpectedCallRepositoryDeleteAsync()
+        public async Task DeleteAsync_CallRepositoryDeleteAsync()
         {
             Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
 
