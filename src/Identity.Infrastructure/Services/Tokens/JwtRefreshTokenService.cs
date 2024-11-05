@@ -19,17 +19,16 @@ namespace Identity.Infrastructure.Services.Tokens
         IOptions<ServiceConfiguration> options)
         : ITokenService<JwtRefreshTokenDto>
     {
-        private readonly ServiceConfiguration _configuration = options.Value;
 
         public string Create(JwtRefreshTokenDto value)
         {
-            DateTime expires = DateTime.UtcNow.AddMinutes(_configuration.ExpireRefreshTokenHours);
+            DateTime expires = DateTime.UtcNow.AddMinutes(options.Value.ExpireRefreshTokenHours);
             IEnumerable<Claim> claims = claimsService.Create(value);
-            SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(_configuration.SecretRefreshToken);
+            SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(options.Value.SecretRefreshToken);
 
             JwtSecurityToken jwtSecurityToken = new(
-                _configuration.ValidIssuer,
-                _configuration.ValidAudience,
+                options.Value.ValidIssuer,
+                options.Value.ValidAudience,
                 claims,
                 expires: expires,
                 signingCredentials: signingCredentials);
@@ -42,7 +41,7 @@ namespace Identity.Infrastructure.Services.Tokens
         {
             TokenValidationResult result = await jwtTokenService
                 .GetValidationResultAsync(token,
-                    _configuration.SecretRefreshToken);
+                    options.Value.SecretRefreshToken);
 
             return result.IsValid;
         }

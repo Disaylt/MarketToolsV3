@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
 {
@@ -44,6 +45,35 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             JwtRefreshTokenDto jwtRefreshToken = jwtAccessTokenService.Read(It.IsAny<string>());
 
             Assert.That(jwtRefreshToken.Id, Is.EqualTo(sessionId));
+        }
+
+        [TestCaseSource(nameof(CreateTokenAndSecret))]
+        public async Task IsValid_CallValidationResultWithTestParameters(string token, string secret)
+        {
+            JwtRefreshTokenService jwtAccessTokenService = new JwtRefreshTokenService(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _optionsMock.Object);
+
+            _optionsMock.SetupGet(x => x.Value.SecretRefreshToken)
+                .Returns(secret);
+
+            _jwtTokenServiceMock.Setup(x => x.GetValidationResultAsync(It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>()))
+                .ReturnsAsync(new TokenValidationResult());
+
+            await jwtAccessTokenService.IsValid(token);
+
+            _jwtTokenServiceMock.Verify(x => x.GetValidationResultAsync(It.Is<string>(v => v == token),
+                    It.Is<string>(v => v == secret),
+                    It.Is<bool>(v => v == true),
+                    It.Is<bool>(v => v == true),
+                    It.Is<bool>(v => v == true),
+                    It.Is<bool>(v => v == true)),
+                Times.Once);
         }
 
         private static IEnumerable<TestCaseData> CreateTokenAndSecret()
