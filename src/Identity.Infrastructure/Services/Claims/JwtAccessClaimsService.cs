@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Services.Claims
 {
-    internal class JwtAccessClaimsService(IRolesClaimServices rolesClaimServices)
+    internal class JwtAccessClaimsService(IRolesClaimService rolesClaimService)
         : IClaimsService<JwtAccessTokenDto>
     {
         public IEnumerable<Claim> Create(JwtAccessTokenDto details)
@@ -29,7 +29,7 @@ namespace Identity.Infrastructure.Services.Claims
                 id
             ];
 
-            IEnumerable<Claim> roles = rolesClaimServices.Create(details.Roles);
+            IEnumerable<Claim> roles = rolesClaimService.Create(details.Roles);
             claims.AddRange(roles);
 
             return claims;

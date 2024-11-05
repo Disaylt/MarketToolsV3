@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Services
 {
-    internal class RolesClaimServices : IRolesClaimServices
+    internal class RolesClaimService : IRolesClaimService
     {
         public virtual IEnumerable<Claim> Create(IEnumerable<string> roles)
         {

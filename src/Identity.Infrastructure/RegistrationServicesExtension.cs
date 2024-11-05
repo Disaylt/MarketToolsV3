@@ -51,7 +51,7 @@ namespace Identity.Infrastructure
 
             collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
             collection.AddSingleton<IJwtTokenService, JwtTokenService>();
-            collection.AddSingleton<IRolesClaimServices, RolesClaimServices>();
+            collection.AddSingleton<IRolesClaimService, RolesClaimService>();
             collection.AddSingleton<IClaimsService<JwtAccessTokenDto>, JwtAccessClaimsService>();
             collection.AddSingleton<IClaimsService<JwtRefreshTokenDto>, JwtRefreshClaimsService>();
             collection.AddSingleton<ITokenService<JwtAccessTokenDto>, JwtAccessTokenService>();
