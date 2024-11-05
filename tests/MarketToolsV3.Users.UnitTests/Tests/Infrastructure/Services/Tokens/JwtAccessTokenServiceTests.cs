@@ -47,5 +47,25 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
 
             Assert.That(jwtAccessToken.UserId, Is.EqualTo(userId));
         }
+
+        [TestCase("1")]
+        [TestCase("2")]
+        [TestCase("3")]
+        public void Read_ContainsRole(string role)
+        {
+            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _optionsMock.Object);
+
+            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
+                claims: new List<Claim> { new Claim(ClaimTypes.Role, role) });
+
+            _jwtTokenServiceMock.Setup(x => x.ReadJwtToken(It.IsAny<string>()))
+                .Returns(jwtSecurityToken);
+
+            JwtAccessTokenDto jwtAccessToken = jwtAccessTokenService.Read(It.IsAny<string>());
+
+            Assert.Contains(role, jwtAccessToken.Roles);
+        }
     }
 }
