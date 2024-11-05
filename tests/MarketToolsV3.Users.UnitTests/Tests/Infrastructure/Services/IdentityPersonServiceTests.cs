@@ -113,5 +113,20 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
                     x.UnitOfWork.SaveEntitiesAsync(It.IsAny<CancellationToken>()),
                 Times.Once);
         }
+
+        [Test]
+        public async Task CheckPassword_ExpectedCheckPasswordAsync()
+        {
+            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+                _repositoryMock.Object,
+                _loggerMock.Object,
+                _eventRepositoryMock.Object);
+
+            await identityPersonService.CheckPassword(new IdentityPerson(), It.IsAny<string>());
+
+            _userManagerMock.Verify(x => 
+                    x.CheckPasswordAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()),
+                Times.Once);
+        }
     }
 }
