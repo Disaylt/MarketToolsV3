@@ -24,7 +24,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             _optionsMock = new Mock<IOptions<ServiceConfiguration>>();
         }
 
-        [TestCaseSource(nameof(CreateRandomStrings))]
+        [TestCaseSource(nameof(CreateTestStrings))]
         public void Read_ReturnUserIdInToken(string userId)
         {
             JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
@@ -42,7 +42,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             Assert.That(jwtAccessToken.UserId, Is.EqualTo(userId));
         }
 
-        [TestCaseSource(nameof(CreateRandomStrings))]
+        [TestCaseSource(nameof(CreateTestStrings))]
         public void Read_ContainsRole(string role)
         {
             JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
@@ -60,7 +60,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             Assert.Contains(role, jwtAccessToken.Roles);
         }
 
-        [TestCaseSource(nameof(CreateRandomTokenAndSecret))]
+        [Test]
+        [TestCaseSource(nameof(CreateTokenAndSecret))]
         public async Task IsValid_CallValidationResultWithTestParameters(string token, string secret)
         {
             JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
@@ -68,7 +69,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                 _optionsMock.Object);
 
             _optionsMock.SetupGet(x => x.Value.SecretAccessToken)
-                .Returns(It.IsAny<string>());
+                .Returns(secret);
 
             _jwtTokenServiceMock.Setup(x => x.GetValidationResultAsync(It.IsAny<string>(),
                     It.IsAny<string>(),
@@ -78,34 +79,31 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                     It.IsAny<bool>()))
                 .ReturnsAsync(new TokenValidationResult());
 
-            await jwtAccessTokenService.IsValid(It.IsAny<string>());
+            await jwtAccessTokenService.IsValid(token);
 
-            _jwtTokenServiceMock.Verify(x=> x.GetValidationResultAsync(It.IsAny<string>(),
-                It.IsAny<string>(),
+            _jwtTokenServiceMock.Verify(x=> x.GetValidationResultAsync(It.Is<string>(v=> v == token),
+                It.Is<string>(v=> v == secret),
                 It.Is<bool>(v=> v == true),
                 It.Is<bool>(v => v == true),
                 It.Is<bool>(v => v == true),
                 It.Is<bool>(v => v == true)),
-                Times.Exactly(32));
+                Times.Once);
         }
-        private static IEnumerable<TestCaseData> CreateRandomTokenAndSecret()
+        private static IEnumerable<TestCaseData> CreateTokenAndSecret()
         {
-            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            yield return new TestCaseData("token-1","secret-1");
+            yield return new TestCaseData("token-2","secret-2");
+            yield return new TestCaseData("token-3","secret-3");
+            yield return new TestCaseData("token-4","secret-4");
         }
 
-        private static IEnumerable<TestCaseData> CreateRandomStrings()
+        private static IEnumerable<TestCaseData> CreateTestStrings()
         {
-            yield return new TestCaseData(Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString());
-            yield return new TestCaseData(Guid.NewGuid().ToString());
+            yield return new TestCaseData("yield-1");
+            yield return new TestCaseData("yield-2");
+            yield return new TestCaseData("yield-3");
+            yield return new TestCaseData("yield-4");
+            yield return new TestCaseData("yield-5");
         }
     }
 }
