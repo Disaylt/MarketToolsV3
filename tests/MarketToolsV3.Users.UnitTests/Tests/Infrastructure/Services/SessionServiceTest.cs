@@ -93,8 +93,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         {
             Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
 
-            _sessionRepositoryMock.Setup(x => x.UnitOfWork.SaveChangesAsync(default));
-
             SessionService sessionService = new SessionService(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
@@ -111,8 +109,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         public async Task UpdateAsync_ExpectedNewAgent(string agent)
         {
             Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
-
-            _sessionRepositoryMock.Setup(x => x.UnitOfWork.SaveChangesAsync(default));
 
             SessionService sessionService = new SessionService(
                 _sessionRepositoryMock.Object,
@@ -133,8 +129,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
                 Updated = firstUpdated
             };
 
-            _sessionRepositoryMock.Setup(x => x.UnitOfWork.SaveChangesAsync(default));
-
             SessionService sessionService = new SessionService(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
@@ -144,5 +138,60 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
 
             Assert.That(session.Updated, Is.GreaterThan(firstUpdated));
         }
+
+        [Test]
+        public async Task UpdateAsync_ExpectedCallSaveChangesAsync()
+        {
+            Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
+
+            SessionService sessionService = new SessionService(
+                _sessionRepositoryMock.Object,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            await sessionService.UpdateAsync(session, It.IsAny<string>(), It.IsAny<string>());
+
+            _sessionRepositoryMock.Verify(x =>
+                    x.UnitOfWork.SaveChangesAsync(
+                        It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task DeleteAsync_ExpectedCallSaveChangesAsync()
+        {
+            Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
+
+            SessionService sessionService = new SessionService(
+                _sessionRepositoryMock.Object,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            await sessionService.DeleteAsync(It.IsAny<string>());
+
+            _sessionRepositoryMock.Verify(x =>
+                    x.UnitOfWork.SaveChangesAsync(
+                        It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task DeleteAsync_ExpectedCallRepositoryDeleteAsync()
+        {
+            Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
+
+            SessionService sessionService = new SessionService(
+                _sessionRepositoryMock.Object,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            await sessionService.DeleteAsync(It.IsAny<string>());
+
+            _sessionRepositoryMock.Verify(x =>
+                    x.DeleteAsync(It.IsAny<Session>(),
+                        It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
     }
 }
