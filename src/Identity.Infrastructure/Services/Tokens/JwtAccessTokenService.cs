@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Services.Tokens
 {
-    internal class JwtAccessTokenService(IClaimsService<JwtAccessTokenDto> claimsService,
+    public class JwtAccessTokenService(IClaimsService<JwtAccessTokenDto> claimsService,
         IJwtTokenService jwtTokenService,
         IOptions<ServiceConfiguration> options)
         : ITokenService<JwtAccessTokenDto>

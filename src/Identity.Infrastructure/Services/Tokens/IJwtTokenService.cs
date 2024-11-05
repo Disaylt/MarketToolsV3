@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Services.Tokens
 {
-    internal interface IJwtTokenService
+    public interface IJwtTokenService
     {
         public SigningCredentials CreateSigningCredentials(string secret);
         public JwtSecurityToken ReadJwtToken(string token);
