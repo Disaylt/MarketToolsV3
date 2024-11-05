@@ -43,7 +43,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task AddAsync_ExpectedCallUserManagerCreateAsync()
+        public async Task AddAsync_CallCreateAsync()
         {
             IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
                 _repositoryMock.Object,
@@ -60,7 +60,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public void AddAsync_ExpectedException()
+        public void AddAsync_ReturnExeptionWithBadRequestStatusCode()
         {
             IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
                 _repositoryMock.Object,
@@ -77,7 +77,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task AddAsync_ExpectedCallAddNotification()
+        public async Task AddAsync_CallAddNotification()
         {
             IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
                 _repositoryMock.Object,
@@ -96,7 +96,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task AddAsync_ExpectedCallSaveEntitiesAsync()
+        public async Task AddAsync_CallSaveEntitiesAsync()
         {
             IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
                 _repositoryMock.Object,
@@ -115,7 +115,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task CheckPassword_ExpectedCheckPasswordAsync()
+        public async Task CheckPassword_CallCheckPasswordAsync()
         {
             IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
                 _repositoryMock.Object,
@@ -130,7 +130,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         }
 
         [Test]
-        public async Task FindByEmailAsync_ExpectedCallFindEmailAsync()
+        public async Task FindByEmailAsync_CallFindEmailAsync()
         {
             IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
                 _repositoryMock.Object,
