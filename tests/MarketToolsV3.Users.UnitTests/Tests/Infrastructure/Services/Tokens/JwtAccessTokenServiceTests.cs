@@ -3,11 +3,6 @@ using Identity.Domain.Seed;
 using Identity.Infrastructure.Services.Claims;
 using Identity.Infrastructure.Services.Tokens;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -29,9 +24,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             _optionsMock = new Mock<IOptions<ServiceConfiguration>>();
         }
 
-        [TestCase("1")]
-        [TestCase("2")]
-        [TestCase("3")]
+        [TestCaseSource(nameof(CreateRandomStrings))]
         public void Read_ReturnUserIdInToken(string userId)
         {
             JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
@@ -49,9 +42,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             Assert.That(jwtAccessToken.UserId, Is.EqualTo(userId));
         }
 
-        [TestCase("1")]
-        [TestCase("2")]
-        [TestCase("3")]
+        [TestCaseSource(nameof(CreateRandomStrings))]
         public void Read_ContainsRole(string role)
         {
             JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
@@ -69,8 +60,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             Assert.Contains(role, jwtAccessToken.Roles);
         }
 
-        [Test]
-        public async Task IsValid_CallValidationResultWithTrueParameters()
+        [TestCaseSource(nameof(CreateRandomTokenAndSecret))]
+        public async Task IsValid_CallValidationResultWithTestParameters(string token, string secret)
         {
             JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
@@ -95,38 +86,26 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                 It.Is<bool>(v => v == true),
                 It.Is<bool>(v => v == true),
                 It.Is<bool>(v => v == true)),
-                Times.Once);
+                Times.Exactly(32));
+        }
+        private static IEnumerable<TestCaseData> CreateRandomTokenAndSecret()
+        {
+            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
         }
 
-        [TestCase("1")]
-        [TestCase("2")]
-        [TestCase("3")]
-        public async Task IsValid_CallValidationResultWithSecretParameter(string secret)
+        private static IEnumerable<TestCaseData> CreateRandomStrings()
         {
-            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
-                _jwtTokenServiceMock.Object,
-                _optionsMock.Object);
-
-            _optionsMock.SetupGet(x => x.Value.SecretAccessToken)
-                .Returns(secret);
-
-            _jwtTokenServiceMock.Setup(x => x.GetValidationResultAsync(It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>()))
-                .ReturnsAsync(new TokenValidationResult());
-
-            await jwtAccessTokenService.IsValid(It.IsAny<string>());
-
-            _jwtTokenServiceMock.Verify(x => x.GetValidationResultAsync(It.IsAny<string>(),
-                    It.Is<string>(v=> v == secret),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>(),
-                    It.IsAny<bool>()),
-                Times.Once);
+            yield return new TestCaseData(Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString());
+            yield return new TestCaseData(Guid.NewGuid().ToString());
         }
     }
 }
