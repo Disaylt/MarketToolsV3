@@ -128,5 +128,20 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
                     x.CheckPasswordAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()),
                 Times.Once);
         }
+
+        [Test]
+        public async Task FindByEmailAsync_ExpectedCallFindEmailAsync()
+        {
+            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+                _repositoryMock.Object,
+                _loggerMock.Object,
+                _eventRepositoryMock.Object);
+
+            await identityPersonService.FindByEmailAsync(string.Empty);
+
+            _userManagerMock.Verify(x =>
+                    x.FindByEmailAsync(It.IsAny<string>()),
+                Times.Once);
+        }
     }
 }
