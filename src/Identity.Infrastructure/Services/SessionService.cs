@@ -14,7 +14,6 @@ using Microsoft.Extensions.Options;
 namespace Identity.Infrastructure.Services
 {
     public class SessionService(IRepository<Session> sessionsRepository,
-        IdentityDbContext dbContext,
         IOptions<ServiceConfiguration> options,
         IEventRepository eventsRepository)
         : ISessionService
@@ -43,7 +42,8 @@ namespace Identity.Infrastructure.Services
 
         public async Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken = default)
         {
-            return await dbContext.Sessions
+            return await sessionsRepository
+                .AsQueryable()
                 .Where(e => DateTime.UtcNow - e.Updated < TimeSpan.FromHours(_configuration.ExpireRefreshTokenHours)
                             && e.IsActive
                             && e.IdentityId == identityId)
