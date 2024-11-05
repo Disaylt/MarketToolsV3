@@ -23,7 +23,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(1)]
         [TestCase(10)]
         [TestCase(5)]
-        public void ClearNotifications_AddNotifications_Expected0(int quantity)
+        public void ClearNotifications_AddNotifications_Return0Notifications(int quantity)
         {
             EventRepository eventRepository = new(_mediator.Object);
 
@@ -41,7 +41,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(1)]
         [TestCase(10)]
         [TestCase(5)]
-        public void AddNotifications_AddQuantity_ExpectedQuantityFromCase(int quantity)
+        public void AddNotifications_AddQuantity_ReturnQuantityNotifications(int quantity)
         {
             EventRepository eventRepository = new(_mediator.Object);
 
@@ -55,7 +55,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         }
 
         [TestCaseSource(nameof(CreateNotificationForRemoveNotification))]
-        public void RemoveNotification_AddNotification_ExpectedNotContainsCase(INotification notification)
+        public void RemoveNotification_AddNotification_ExpectNotContains(INotification notification)
         {
             EventRepository eventRepository = new(_mediator.Object);
             eventRepository.AddNotification(notification);
@@ -67,7 +67,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(4)]
         [TestCase(8)]
         [TestCase(10)]
-        public async Task PublishAllAsync_AddQuantityNotifications_ExpectedCallPublishCaseCount(int quantity)
+        public async Task PublishAllAsync_AddQuantityNotifications_CallPublishQuantityTimes(int quantity)
         {
             EventRepository eventRepository = new(_mediator.Object);
 
@@ -85,7 +85,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
         [TestCase(4)]
         [TestCase(8)]
         [TestCase(10)]
-        public async Task PublishAllAsync_AddQuantityNotifications_ExpectedClearNotifications(int quantity)
+        public async Task PublishAllAsync_AddQuantityNotifications_Expect0Notifications(int quantity)
         {
             EventRepository eventRepository = new(_mediator.Object);
 
