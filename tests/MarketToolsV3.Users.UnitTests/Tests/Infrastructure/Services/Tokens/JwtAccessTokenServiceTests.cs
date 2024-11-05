@@ -27,12 +27,12 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         [TestCaseSource(nameof(CreateTestStrings))]
         public void Read_ReturnUserIdInToken(string userId)
         {
-            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
+            JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
                 _optionsMock.Object);
 
-            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
-                claims: new List<Claim> { new Claim(ClaimTypes.NameIdentifier, userId) });
+            JwtSecurityToken jwtSecurityToken = new(
+                claims: [new(ClaimTypes.NameIdentifier, userId)]);
 
             _jwtTokenServiceMock.Setup(x => x.ReadJwtToken(It.IsAny<string>()))
                 .Returns(jwtSecurityToken);
@@ -45,25 +45,25 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         [TestCaseSource(nameof(CreateTestStrings))]
         public void Read_ContainsRole(string role)
         {
-            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
+            JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
                 _optionsMock.Object);
 
-            JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
-                claims: new List<Claim> { new Claim(ClaimTypes.Role, role) });
+            JwtSecurityToken jwtSecurityToken = new(
+                claims: [new(ClaimTypes.Role, role)]);
 
             _jwtTokenServiceMock.Setup(x => x.ReadJwtToken(It.IsAny<string>()))
                 .Returns(jwtSecurityToken);
 
             JwtAccessTokenDto jwtAccessToken = jwtAccessTokenService.Read(It.IsAny<string>());
 
-            Assert.Contains(role, jwtAccessToken.Roles);
+            Assert.That(jwtAccessToken.Roles, Does.Contain(role));
         }
 
         [TestCaseSource(nameof(CreateTokenAndSecret))]
         public async Task IsValid_CallValidationResultWithTestParameters(string token, string secret)
         {
-            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
+            JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
                 _optionsMock.Object);
 
@@ -92,7 +92,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         [TestCaseSource(nameof(CreateTestStrings))]
         public void Create_UseSecretAccessToken(string secret)
         {
-            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
+            JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
                 _optionsMock.Object);
 
@@ -118,7 +118,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         [TestCaseSource(nameof(CreateTestNum))]
         public void Create_UseExpireAccessTokenMinutes(int expire)
         {
-            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
+            JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
                 _optionsMock.Object);
 

@@ -24,7 +24,7 @@ namespace Identity.Infrastructure.Services
         {
             await sessionsRepository.AddAsync(session, cancellationToken);
             
-            SessionCreated newSessionEvent = new SessionCreated(session);
+            SessionCreated newSessionEvent = new(session);
             eventsRepository.AddNotification(newSessionEvent);
 
             await sessionsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);

@@ -40,7 +40,7 @@ namespace Identity.Infrastructure.Repositories
 
         }
 
-        private string BuildKey<TKey>(string key)
+        private static string BuildKey<TKey>(string key)
         {
             return $"{typeof(TKey).FullName}-{key}";
         }

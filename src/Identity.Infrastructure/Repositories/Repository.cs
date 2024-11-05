@@ -38,7 +38,7 @@ namespace Identity.Infrastructure.Repositories
 
         public async Task<T> FindByIdRequiredAsync(object id, CancellationToken cancellationToken)
         {
-            T? entity = await _dbSet.FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
+            T? entity = await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
 
             return entity ?? throw new RootServiceException(HttpStatusCode.NotFound, "Not found");
         }

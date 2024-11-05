@@ -9,6 +9,6 @@ namespace Identity.Application.Models
     public record JwtAccessTokenDto : IToken
     {
         public required string UserId { get; init; }
-        public List<string> Roles { get; } = new List<string>();
+        public List<string> Roles { get; } = [];
     }
 }

@@ -51,7 +51,7 @@ namespace Identity.Infrastructure.Database
 
         public virtual async Task CommitAsync(CancellationToken cancellationToken = default)
         {
-            if (_transaction == null) throw new ArgumentNullException(nameof(_transaction));
+            if (_transaction == null) throw new NullReferenceException(nameof(_transaction));
 
             try
             {
@@ -87,21 +87,22 @@ namespace Identity.Infrastructure.Database
         public virtual void Dispose()
         {
             DisposeTransaction();
+            GC.SuppressFinalize(this);
         }
 
         public virtual ValueTask DisposeAsync()
         {
             DisposeTransaction();
+            GC.SuppressFinalize(this);
+
             return ValueTask.CompletedTask;
         }
 
         private void DisposeTransaction()
         {
-            if (_transaction != null)
-            {
-                _transaction.Dispose();
-                _transaction = null;
-            }
+            if (_transaction == null) return;
+            _transaction.Dispose();
+            _transaction = null;
         }
 
         public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

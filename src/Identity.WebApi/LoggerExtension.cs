@@ -15,7 +15,7 @@ namespace Identity.WebApi
             ServiceConfiguration config = serviceSection.Get<ServiceConfiguration>()
                                           ?? throw new NullReferenceException("Users config is empty");
 
-            LoggerConfiguration logConfig = new LoggerConfiguration();
+            LoggerConfiguration logConfig = new();
 
             logConfig = builder.Environment.IsDevelopment()
                 ? logConfig.MinimumLevel.Debug()
@@ -24,7 +24,7 @@ namespace Identity.WebApi
             Log.Logger = logConfig
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.Elasticsearch(new[] { new Uri(config.ElasticUrl) }, opts =>
+                .WriteTo.Elasticsearch([new Uri(config.ElasticUrl)], opts =>
                 {
                     opts.MinimumLevel = builder.Environment.IsDevelopment() ? LogEventLevel.Debug : LogEventLevel.Information;
                     opts.DataStream = new DataStreamName("logs", "generic", "identity-service");

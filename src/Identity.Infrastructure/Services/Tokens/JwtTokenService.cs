@@ -22,7 +22,7 @@ namespace Identity.Infrastructure.Services.Tokens
         public virtual SigningCredentials CreateSigningCredentials(string secret)
         {
             byte[] secretBytes = Encoding.UTF8.GetBytes(secret);
-            SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(secretBytes);
+            SymmetricSecurityKey authSigningKey = new(secretBytes);
 
             return new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256);
         }
@@ -48,9 +48,9 @@ namespace Identity.Infrastructure.Services.Tokens
             bool checkValidateAudience = true,
             bool checkValidateLifetime = true)
         {
-            HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secret));
+            HMACSHA256 hmac = new(Encoding.UTF8.GetBytes(secret));
 
-            TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
+            TokenValidationParameters tokenValidationParameters = new()
             {
                 ValidateIssuerSigningKey = checkIssuerSigningKey,
                 IssuerSigningKey = new SymmetricSecurityKey(hmac.Key),

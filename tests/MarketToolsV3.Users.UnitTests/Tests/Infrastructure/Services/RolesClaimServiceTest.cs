@@ -16,21 +16,21 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [TestCase("3")] 
         public void Create_RoleName_ContainsValue(string value)
         {
-            RolesClaimService serviceTest = new RolesClaimService();
+            RolesClaimService serviceTest = new();
 
-            IEnumerable<string> values = new List<string> { value };
+            IEnumerable<string> values = [value];
 
             IEnumerable<Claim> claims = serviceTest.Create(values);
 
-            Assert.Contains(value, claims.Select(x=> x.Value).ToList());
+            Assert.That(claims.Select(x => x.Value).ToList(), Does.Contain(value));
         }
 
         [Test]
         public void Create_ReturnAllTypesAsRole()
         {
-            RolesClaimService serviceTest = new RolesClaimService();
+            RolesClaimService serviceTest = new();
 
-            IEnumerable<string> values = new List<string> { "", "", "" };
+            IEnumerable<string> values = ["", "", ""];
 
             bool isAllRoleType = serviceTest.Create(values)
                 .Select(x=> x.Type)

@@ -38,9 +38,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task AddAsync_CallAddAsync()
         {
-            Session session = new Session(It.IsNotNull<string>(), It.IsNotNull<string>());
+            Session session = new(It.IsNotNull<string>(), It.IsNotNull<string>());
 
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
@@ -55,9 +55,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task AddAsync_CallSaveEntitiesAsync()
         {
-            Session session = new Session(It.IsNotNull<string>(), It.IsNotNull<string>());
+            Session session = new(It.IsNotNull<string>(), It.IsNotNull<string>());
 
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
@@ -73,9 +73,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task AddAsync_CallAddNotification()
         {
-            Session session = new Session(It.IsNotNull<string>(), It.IsNotNull<string>());
+            Session session = new(It.IsNotNull<string>(), It.IsNotNull<string>());
 
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
@@ -90,9 +90,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [TestCase("3")]
         public async Task UpdateAsync_SetNewToken(string token)
         {
-            Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
+            Session session = new(It.IsAny<string>(), It.IsAny<string>());
 
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
@@ -107,9 +107,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [TestCase("3")]
         public async Task UpdateAsync_SetNewAgent(string agent)
         {
-            Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
+            Session session = new(It.IsAny<string>(), It.IsAny<string>());
 
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
@@ -123,12 +123,12 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         public async Task UpdateAsync_SetNewUpdateDate()
         {
             DateTime firstUpdated = DateTime.UtcNow;
-            Session session = new Session(It.IsAny<string>(), It.IsAny<string>())
+            Session session = new(It.IsAny<string>(), It.IsAny<string>())
             {
                 Updated = firstUpdated
             };
 
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
@@ -141,9 +141,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task UpdateAsync_CallSaveChangesAsync()
         {
-            Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
+            Session session = new(It.IsAny<string>(), It.IsAny<string>());
 
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
@@ -159,9 +159,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task DeleteAsync_CallSaveChangesAsync()
         {
-            Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
-
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
@@ -177,9 +175,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task DeleteAsync_CallRepositoryDeleteAsync()
         {
-            Session session = new Session(It.IsAny<string>(), It.IsAny<string>());
-
-            SessionService sessionService = new SessionService(
+            SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);

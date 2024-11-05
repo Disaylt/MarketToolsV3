@@ -47,7 +47,7 @@ namespace Identity.Infrastructure.Services.Tokens
         {
             JwtSecurityToken jwtSecurityToken = jwtTokenService.ReadJwtToken(token);
 
-            JwtAccessTokenDto jwtAccessTokenDto = new JwtAccessTokenDto
+            JwtAccessTokenDto jwtAccessTokenDto = new()
             {
                 UserId = jwtSecurityToken.Claims.FindByType(ClaimTypes.NameIdentifier) ?? ""
             };

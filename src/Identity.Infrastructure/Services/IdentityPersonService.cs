@@ -34,7 +34,7 @@ namespace Identity.Infrastructure.Services
 
             logger.LogInformation("Create new identity - {id}", identity.Id);
 
-            IdentityCreated registerEvent = new IdentityCreated(identity);
+            IdentityCreated registerEvent = new(identity);
             eventRepository.AddNotification(registerEvent);
 
             await identityRepository.UnitOfWork.SaveEntitiesAsync();

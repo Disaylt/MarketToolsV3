@@ -45,7 +45,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task AddAsync_CallCreateAsync()
         {
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+            IdentityPersonService identityPersonService = new(_userManagerMock.Object,
                 _repositoryMock.Object,
                 _loggerMock.Object,
                 _eventRepositoryMock.Object);
@@ -62,7 +62,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public void AddAsync_ReturnExeptionWithBadRequestStatusCode()
         {
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+            IdentityPersonService identityPersonService = new(_userManagerMock.Object,
                 _repositoryMock.Object,
                 _loggerMock.Object,
                 _eventRepositoryMock.Object);
@@ -79,7 +79,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task AddAsync_CallAddNotification()
         {
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+            IdentityPersonService identityPersonService = new(_userManagerMock.Object,
                 _repositoryMock.Object,
                 _loggerMock.Object,
                 _eventRepositoryMock.Object);
@@ -88,7 +88,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
                     x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
 
-            await identityPersonService.AddAsync(new IdentityPerson(), "");
+            await identityPersonService.AddAsync(new(), "");
 
             _eventRepositoryMock.Verify(x=>
                     x.AddNotification(It.IsAny<IdentityCreated>()),
@@ -98,7 +98,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task AddAsync_CallSaveEntitiesAsync()
         {
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+            IdentityPersonService identityPersonService = new(_userManagerMock.Object,
                 _repositoryMock.Object,
                 _loggerMock.Object,
                 _eventRepositoryMock.Object);
@@ -117,7 +117,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task CheckPassword_CallCheckPasswordAsync()
         {
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+            IdentityPersonService identityPersonService = new(_userManagerMock.Object,
                 _repositoryMock.Object,
                 _loggerMock.Object,
                 _eventRepositoryMock.Object);
@@ -132,7 +132,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         [Test]
         public async Task FindByEmailAsync_CallFindEmailAsync()
         {
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+            IdentityPersonService identityPersonService = new(_userManagerMock.Object,
                 _repositoryMock.Object,
                 _loggerMock.Object,
                 _eventRepositoryMock.Object);
