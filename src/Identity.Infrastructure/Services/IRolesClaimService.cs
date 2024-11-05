@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Services
 {
-    internal interface IRolesClaimService
+    public interface IRolesClaimService
     {
         IEnumerable<Claim> Create(IEnumerable<string> roles);
     }

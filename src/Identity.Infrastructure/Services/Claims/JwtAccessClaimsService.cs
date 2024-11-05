@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Services.Claims
 {
-    internal class JwtAccessClaimsService(IRolesClaimService rolesClaimService)
+    public class JwtAccessClaimsService(IRolesClaimService rolesClaimService)
         : IClaimsService<JwtAccessTokenDto>
     {
         public IEnumerable<Claim> Create(JwtAccessTokenDto details)
         {
-            Claim jti = new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
-            Claim iat = new Claim(JwtRegisteredClaimNames.Iat,
+            Claim jti = new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
+            Claim iat = new(JwtRegisteredClaimNames.Iat,
                 EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture),
                 ClaimValueTypes.Integer64);
-            Claim id = new Claim(ClaimTypes.NameIdentifier, details.UserId);
+            Claim id = new(ClaimTypes.NameIdentifier, details.UserId);
 
             List<Claim> claims =
             [
