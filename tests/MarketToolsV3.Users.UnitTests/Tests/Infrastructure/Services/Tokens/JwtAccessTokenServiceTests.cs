@@ -97,5 +97,36 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                 It.Is<bool>(v => v == true)),
                 Times.Once);
         }
+
+        [TestCase("1")]
+        [TestCase("2")]
+        [TestCase("3")]
+        public async Task IsValid_CallValidationResultWithSecretParameter(string secret)
+        {
+            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _optionsMock.Object);
+
+            _optionsMock.SetupGet(x => x.Value.SecretAccessToken)
+                .Returns(secret);
+
+            _jwtTokenServiceMock.Setup(x => x.GetValidationResultAsync(It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>()))
+                .ReturnsAsync(new TokenValidationResult());
+
+            await jwtAccessTokenService.IsValid(It.IsAny<string>());
+
+            _jwtTokenServiceMock.Verify(x => x.GetValidationResultAsync(It.IsAny<string>(),
+                    It.Is<string>(v=> v == secret),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>()),
+                Times.Once);
+        }
     }
 }
