@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Moq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
 {
@@ -66,6 +67,35 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             JwtAccessTokenDto jwtAccessToken = jwtAccessTokenService.Read(It.IsAny<string>());
 
             Assert.Contains(role, jwtAccessToken.Roles);
+        }
+
+        [Test]
+        public async Task IsValid_CallValidationResultWithTrueParameters()
+        {
+            JwtAccessTokenService jwtAccessTokenService = new JwtAccessTokenService(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _optionsMock.Object);
+
+            _optionsMock.SetupGet(x => x.Value.SecretAccessToken)
+                .Returns(It.IsAny<string>());
+
+            _jwtTokenServiceMock.Setup(x => x.GetValidationResultAsync(It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>()))
+                .ReturnsAsync(new TokenValidationResult());
+
+            await jwtAccessTokenService.IsValid(It.IsAny<string>());
+
+            _jwtTokenServiceMock.Verify(x=> x.GetValidationResultAsync(It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.Is<bool>(v=> v == true),
+                It.Is<bool>(v => v == true),
+                It.Is<bool>(v => v == true),
+                It.Is<bool>(v => v == true)),
+                Times.Once);
         }
     }
 }
