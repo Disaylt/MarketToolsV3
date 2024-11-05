@@ -12,7 +12,6 @@ using Identity.Domain.Events;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
 using Identity.Infrastructure.Services;
-using MarketToolsV3.Users.UnitTests.Mock;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;

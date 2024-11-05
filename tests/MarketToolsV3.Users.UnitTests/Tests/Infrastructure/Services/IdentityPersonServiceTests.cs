@@ -39,53 +39,79 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
             _eventRepositoryMock = new Mock<IEventRepository>();
             _loggerMock = new Mock<ILogger<IdentityPersonService>>();
             _repositoryMock = new Mock<IRepository<IdentityPerson>>();
+            _repositoryMock.Setup(x => x.UnitOfWork).Returns(new Mock<IUnitOfWork>().Object);
         }
 
         [Test]
         public async Task AddAsync_ExpectedCallUserManagerCreateAsync()
         {
-            _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
+            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+                _repositoryMock.Object,
+                _loggerMock.Object,
+                _eventRepositoryMock.Object);
+
+            _userManagerMock.Setup(x => 
+                    x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
 
-            IdentityPersonService identityPersonService = new IdentityPersonService(
-                _userManagerMock.Object, _repositoryMock.Object, _loggerMock.Object, _eventRepositoryMock.Object);
+            await identityPersonService.AddAsync(new IdentityPerson(), "");
 
-            await identityPersonService.AddAsync(new IdentityPerson(), It.IsAny<string>());
-
-            _userManagerMock.Verify(o => o.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()), 
-                Times.Exactly(1));
+            _userManagerMock.Verify(x=> x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()), Times.Once);
         }
 
         [Test]
-        public void AddAsync_ExpectedBadRequest()
+        public void AddAsync_ExpectedException()
         {
-            _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
+            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+                _repositoryMock.Object,
+                _loggerMock.Object,
+                _eventRepositoryMock.Object);
+
+            _userManagerMock.Setup(x =>
+                    x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Failed());
 
-            IdentityPersonService identityPersonService = new IdentityPersonService(
-                _userManagerMock.Object, _repositoryMock.Object, _loggerMock.Object, _eventRepositoryMock.Object);
+            RootServiceException ex = Assert.CatchAsync<RootServiceException>(() => identityPersonService.AddAsync(new IdentityPerson(), ""));
 
-            RootServiceException exception = Assert.ThrowsAsync<RootServiceException>(async () =>
-                await identityPersonService.AddAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()));
-
-            Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(ex.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         }
 
         [Test]
-        public async Task AddAsync_ExpectedCallEventRepositoryAddNotification()
+        public async Task AddAsync_ExpectedCallAddNotification()
         {
-            _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
+            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+                _repositoryMock.Object,
+                _loggerMock.Object,
+                _eventRepositoryMock.Object);
+
+            _userManagerMock.Setup(x =>
+                    x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
 
-            IdentityPersonService identityPersonService = new IdentityPersonService(
-                _userManagerMock.Object, _repositoryMock.Object, _loggerMock.Object, _eventRepositoryMock.Object);
+            await identityPersonService.AddAsync(new IdentityPerson(), "");
 
-            await identityPersonService.AddAsync(new IdentityPerson(), It.IsAny<string>());
+            _eventRepositoryMock.Verify(x=>
+                    x.AddNotification(It.IsAny<IdentityCreated>()),
+                Times.Once);
+        }
 
-            _eventRepositoryMock.Verify(o=>
-                o.AddNotification(It.Is<INotification>(
-                    x=> x.GetType() == typeof(IdentityCreated))), 
-                Times.Exactly(1));
+        [Test]
+        public async Task AddAsync_ExpectedCallSaveEntitiesAsync()
+        {
+            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
+                _repositoryMock.Object,
+                _loggerMock.Object,
+                _eventRepositoryMock.Object);
+
+            _userManagerMock.Setup(x =>
+                    x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Success);
+
+            await identityPersonService.AddAsync(new IdentityPerson(), "");
+
+            _repositoryMock.Verify(x=> 
+                    x.UnitOfWork.SaveEntitiesAsync(It.IsAny<CancellationToken>()),
+                Times.Once);
         }
     }
 }
