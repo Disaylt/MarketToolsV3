@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -63,7 +64,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
         public async Task GetActiveSessionsAsync_ExpectedQuantity(string identityId, int expireRefreshToken, int expectedResult)
         {
             await using IdentityDbContext context = MemoryDbContext.Create(Guid.NewGuid().ToString());
-            await FillSession(context);
+            await FillSessionFor_GetActiveSessionsAsync_ExpectedQuantity(context);
 
             _serviceConfigurationMock.SetupGet(x => x.Value.ExpireRefreshTokenHours).Returns(expireRefreshToken);
 
@@ -78,7 +79,84 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
             Assert.That(sessions.Count(), Is.EqualTo(expectedResult));
         }
 
-        private async Task FillSession(IdentityDbContext dbContext)
+        [Test]
+        public async Task AddAsync_Expected1Quantity()
+        {
+            await using IdentityDbContext context = MemoryDbContext.Create(Guid.NewGuid().ToString());
+
+            _sessionRepositoryMock.Setup(x => x.UnitOfWork.SaveChangesAsync(CancellationToken.None))
+                .Returns(context.SaveChangesAsync());
+
+            SessionService sessionService = new SessionService(
+                _sessionRepositoryMock.Object,
+                context,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            await sessionService.AddAsync(new Session("", ""));
+
+            Assert.That(context.Sessions.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public async Task DeleteAsync_Expected0Quantity()
+        {
+            await using IdentityDbContext context = MemoryDbContext.Create(Guid.NewGuid().ToString());
+
+            await FillSessionFor_DeleteAsync(context);
+
+            _sessionRepositoryMock.Setup(x => x.DeleteAsync(It.IsAny<Session>(), It.IsAny<CancellationToken>()))
+                .Returns(context.Sessions.AddAsync(It.IsAny<Session>(), It.IsAny<CancellationToken>()));
+            _sessionRepositoryMock.Setup(x => x.UnitOfWork.SaveChangesAsync(It.IsAny<CancellationToken>()))
+                .Returns(context.SaveChangesAsync(It.IsAny<CancellationToken>()));
+
+            SessionService sessionService = new SessionService(
+                _sessionRepositoryMock.Object,
+                context,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            await sessionService.DeleteAsync("0");
+
+            Assert.That(context.Sessions.Count(), Is.EqualTo(0));
+        }
+
+        [Test]
+        public async Task DeleteAsync_ExpectedNotFoundException()
+        {
+            await using IdentityDbContext context = MemoryDbContext.Create(Guid.NewGuid().ToString());
+
+            await FillSessionFor_DeleteAsync(context);
+
+            _sessionRepositoryMock.Setup(x => x.UnitOfWork.SaveChangesAsync(CancellationToken.None))
+                .Returns(context.SaveChangesAsync());
+
+            SessionService sessionService = new SessionService(
+                _sessionRepositoryMock.Object,
+                context,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            RootServiceException exception = Assert.ThrowsAsync<RootServiceException>(async () =>
+                await sessionService.DeleteAsync("1"));
+
+            Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        }
+
+        private async Task FillSessionFor_DeleteAsync(IdentityDbContext dbContext)
+        {
+            await dbContext.Sessions.AddAsync(new Session("0", "")
+            {
+                IsActive = false,
+                Updated = DateTime.UtcNow
+            });
+
+
+            await dbContext.SaveChangesAsync();
+        }
+
+
+        private async Task FillSessionFor_GetActiveSessionsAsync_ExpectedQuantity(IdentityDbContext dbContext)
         {
             await dbContext.Sessions.AddAsync(new Session("1", "1")
             {

@@ -21,7 +21,7 @@ namespace Identity.Infrastructure.Services
     {
         private readonly ServiceConfiguration _configuration = options.Value;
 
-        public async Task<Session> AddAsync(Session session, CancellationToken cancellationToken)
+        public async Task<Session> AddAsync(Session session, CancellationToken cancellationToken = default)
         {
             await sessionsRepository.AddAsync(session, cancellationToken);
             await sessionsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
@@ -50,7 +50,7 @@ namespace Identity.Infrastructure.Services
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(string id, CancellationToken cancellationToken)
+        public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
             Session session = await sessionsRepository.FindByIdRequiredAsync(id, cancellationToken);
             await sessionsRepository.DeleteAsync(session, cancellationToken);
