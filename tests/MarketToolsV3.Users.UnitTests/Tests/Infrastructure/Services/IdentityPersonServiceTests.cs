@@ -20,7 +20,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
     {
         private Mock<UserManager<IdentityPerson>> _userManagerMock;
         private Mock<IEventRepository> _eventRepositoryMock;
-        private Mock<ILogger<IdentityPersonService>> _loggerMock; 
+        private Mock<ILogger<IdentityPersonService>> _loggerMock;
+        private Mock<IRepository<IdentityPerson>> _repositoryMock;
 
         [SetUp]
         public void SetUp()
@@ -37,6 +38,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
                 null!);
             _eventRepositoryMock = new Mock<IEventRepository>();
             _loggerMock = new Mock<ILogger<IdentityPersonService>>();
+            _repositoryMock = new Mock<IRepository<IdentityPerson>>();
         }
 
         [Test]
@@ -45,8 +47,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
 
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
-                _loggerMock.Object, _eventRepositoryMock.Object);
+            IdentityPersonService identityPersonService = new IdentityPersonService(
+                _userManagerMock.Object, _repositoryMock.Object, _loggerMock.Object, _eventRepositoryMock.Object);
 
             await identityPersonService.AddAsync(new IdentityPerson(), It.IsAny<string>());
 
@@ -60,8 +62,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Failed());
 
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
-                _loggerMock.Object, _eventRepositoryMock.Object);
+            IdentityPersonService identityPersonService = new IdentityPersonService(
+                _userManagerMock.Object, _repositoryMock.Object, _loggerMock.Object, _eventRepositoryMock.Object);
 
             RootServiceException exception = Assert.ThrowsAsync<RootServiceException>(async () =>
                 await identityPersonService.AddAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()));
@@ -75,8 +77,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
             _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
 
-            IdentityPersonService identityPersonService = new IdentityPersonService(_userManagerMock.Object,
-                _loggerMock.Object, _eventRepositoryMock.Object);
+            IdentityPersonService identityPersonService = new IdentityPersonService(
+                _userManagerMock.Object, _repositoryMock.Object, _loggerMock.Object, _eventRepositoryMock.Object);
 
             await identityPersonService.AddAsync(new IdentityPerson(), It.IsAny<string>());
 

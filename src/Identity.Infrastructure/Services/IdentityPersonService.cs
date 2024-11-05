@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 namespace Identity.Infrastructure.Services
 {
     public class IdentityPersonService(UserManager<IdentityPerson> userManager,
+        IRepository<IdentityPerson> identityRepository,
         ILogger<IdentityPersonService> logger,
         IEventRepository eventRepository)
         : IIdentityPersonService
@@ -35,6 +36,8 @@ namespace Identity.Infrastructure.Services
 
             IdentityCreated registerEvent = new IdentityCreated(identity);
             eventRepository.AddNotification(registerEvent);
+
+            await identityRepository.UnitOfWork.SaveEntitiesAsync();
 
             return identity;
         }

@@ -23,10 +23,11 @@ namespace Identity.Infrastructure.Services
         public async Task<Session> AddAsync(Session session, CancellationToken cancellationToken = default)
         {
             await sessionsRepository.AddAsync(session, cancellationToken);
-            await sessionsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-
+            
             SessionCreated newSessionEvent = new SessionCreated(session);
             eventsRepository.AddNotification(newSessionEvent);
+
+            await sessionsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             return session;
         }
@@ -37,7 +38,7 @@ namespace Identity.Infrastructure.Services
             session.UserAgent = userAgent;
             session.Updated = DateTime.UtcNow;
 
-            await sessionsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            await sessionsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken = default)
@@ -54,7 +55,7 @@ namespace Identity.Infrastructure.Services
         {
             Session session = await sessionsRepository.FindByIdRequiredAsync(id, cancellationToken);
             await sessionsRepository.DeleteAsync(session, cancellationToken);
-            await sessionsRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+            await sessionsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }
