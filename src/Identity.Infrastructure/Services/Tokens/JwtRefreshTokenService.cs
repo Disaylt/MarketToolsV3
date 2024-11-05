@@ -22,7 +22,7 @@ namespace Identity.Infrastructure.Services.Tokens
 
         public string Create(JwtRefreshTokenDto value)
         {
-            DateTime expires = DateTime.UtcNow.AddMinutes(options.Value.ExpireRefreshTokenHours);
+            DateTime expires = DateTime.UtcNow.AddHours(options.Value.ExpireRefreshTokenHours);
             IEnumerable<Claim> claims = claimsService.Create(value);
             SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(options.Value.SecretRefreshToken);
 

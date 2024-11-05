@@ -76,6 +76,56 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                 Times.Once);
         }
 
+        [TestCaseSource(nameof(CreateTestStrings))]
+        public void Create_UseSecretRefreshToken(string secret)
+        {
+            JwtRefreshTokenService jwtAccessTokenService = new JwtRefreshTokenService(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _optionsMock.Object);
+
+            _optionsMock.SetupGet(x => x.Value.ExpireRefreshTokenHours)
+                .Returns(It.IsAny<int>());
+
+            _optionsMock.SetupGet(x => x.Value.SecretRefreshToken)
+                .Returns(secret);
+
+            _optionsMock.SetupGet(x => x.Value.ValidIssuer)
+                .Returns(It.IsAny<string>());
+
+            _optionsMock.SetupGet(x => x.Value.ValidAudience)
+                .Returns(It.IsAny<string>());
+
+            jwtAccessTokenService.Create(It.IsAny<JwtRefreshTokenDto>());
+
+            _jwtTokenServiceMock.Verify(x =>
+                    x.CreateSigningCredentials(It.Is<string>(v => v == secret)),
+                Times.Once);
+        }
+
+        [TestCaseSource(nameof(CreateTestNum))]
+        public void Create_UseExpireRefreshTokenHours(int expire)
+        {
+            JwtRefreshTokenService jwtAccessTokenService = new JwtRefreshTokenService(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _optionsMock.Object);
+
+            _optionsMock.SetupGet(x => x.Value.ExpireRefreshTokenHours)
+                .Returns(expire);
+
+            _optionsMock.SetupGet(x => x.Value.SecretAccessToken)
+                .Returns(It.IsAny<string>());
+
+            _optionsMock.SetupGet(x => x.Value.ValidIssuer)
+                .Returns(It.IsAny<string>());
+
+            _optionsMock.SetupGet(x => x.Value.ValidAudience)
+                .Returns(It.IsAny<string>());
+
+            jwtAccessTokenService.Create(It.IsAny<JwtRefreshTokenDto>());
+
+            _optionsMock.VerifyGet(x => x.Value.ExpireRefreshTokenHours, Times.Once);
+        }
+
         private static IEnumerable<TestCaseData> CreateTokenAndSecret()
         {
             yield return new TestCaseData("token-1", "secret-1");
