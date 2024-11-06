@@ -42,7 +42,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handle_CallAddUser()
         {
-            CreateNewUserCommandHandler commandHandler = new CreateNewUserCommandHandler(
+            CreateNewUserCommandHandler commandHandler = new(
                 _identityPersonServiceMock.Object,
                 _logger,
                 _sessionServiceMock.Object,
@@ -59,7 +59,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handle_CallAddSession()
         {
-            CreateNewUserCommandHandler commandHandler = new CreateNewUserCommandHandler(
+            CreateNewUserCommandHandler commandHandler = new(
                 _identityPersonServiceMock.Object,
                 _logger,
                 _sessionServiceMock.Object,
@@ -79,7 +79,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             string accessTokenValue = "access-token-1";
             string refreshTokenValue = "refresh-token-1";
 
-            CreateNewUserCommandHandler commandHandler = new CreateNewUserCommandHandler(
+            CreateNewUserCommandHandler commandHandler = new(
                 _identityPersonServiceMock.Object,
                 _logger,
                 _sessionServiceMock.Object,
@@ -93,8 +93,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 
             AuthDetailsDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
-            Assert.That(result.AuthToken, Is.EqualTo(accessTokenValue));
-            Assert.That(result.SessionToken, Is.EqualTo(refreshTokenValue));
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.AuthToken, Is.EqualTo(accessTokenValue));
+                Assert.That(result.SessionToken, Is.EqualTo(refreshTokenValue));
+            });
         }
     }
 }

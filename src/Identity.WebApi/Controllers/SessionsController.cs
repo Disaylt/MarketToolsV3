@@ -18,7 +18,7 @@ namespace Identity.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            GetActiveSessionsQuery query = new GetActiveSessionsQuery
+            GetActiveSessionsQuery query = new()
             {
                 CurrentSessionId = authContext.SessionId,
                 UserId = authContext.GetUserIdRequired()

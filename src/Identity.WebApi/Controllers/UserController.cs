@@ -16,13 +16,13 @@ namespace Identity.WebApi.Controllers
     {
         private readonly WebApiConfiguration _configuration = options.Value;
 
-        private static CookieOptions _cookieOptions = new CookieOptions
+        private static readonly CookieOptions _cookieOptions = new()
             { HttpOnly = true, Expires = DateTimeOffset.UtcNow.AddYears(1) };
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] NewUserModel user, CancellationToken cancellationToken)
         {
-            CreateNewUserCommand command = new CreateNewUserCommand
+            CreateNewUserCommand command = new()
             {
                 Email = user.Email,
                 Login = user.Login,
@@ -40,7 +40,7 @@ namespace Identity.WebApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginModel body, CancellationToken cancellationToken)
         {
-            LoginCommand command = new LoginCommand
+            LoginCommand command = new()
             {
                 Email = body.Email,
                 Password = body.Password,

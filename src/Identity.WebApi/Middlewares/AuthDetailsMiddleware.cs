@@ -12,7 +12,6 @@ namespace Identity.WebApi.Middlewares
         public async Task Invoke(HttpContext httpContext,
             IAuthContext authContext,
             ITokenService<JwtRefreshTokenDto> refreshTokenService,
-            ITokenService<JwtAccessTokenDto> accessTokenService,
             IOptions<WebApiConfiguration> options)
         {
             if (httpContext.Request.Cookies.TryGetValue(options.Value.RefreshTokenName, out string? token)

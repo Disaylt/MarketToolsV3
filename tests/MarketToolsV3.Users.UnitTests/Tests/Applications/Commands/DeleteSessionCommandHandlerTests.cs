@@ -31,7 +31,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handle_CallDeleteFromCache()
         {
-            DeactivateSessionCommandHandler commandHandler = new DeactivateSessionCommandHandler(
+            DeactivateSessionCommandHandler commandHandler = new(
                 _cacheRepositoryMock.Object,
                 _sessionServiceMock.Object);
 

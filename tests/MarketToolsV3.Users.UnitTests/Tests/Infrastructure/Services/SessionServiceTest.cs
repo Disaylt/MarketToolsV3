@@ -215,7 +215,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
                 _serviceConfigurationMock.Object,
                 _eventRepositoryMock.Object);
 
-            Session session = new Session("", "")
+            Session session = new("", "")
             {
                 IsActive = true
             };

@@ -55,8 +55,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 
             AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
-            Assert.That(result.IsValid, Is.True);
-            Assert.That(result.Refreshed, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.IsValid, Is.True);
+                Assert.That(result.Refreshed, Is.False);
+            });
         }
 
         [Test]
@@ -75,8 +78,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 
             AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
-            Assert.That(result.IsValid, Is.False);
-            Assert.That(result.Refreshed, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.IsValid, Is.False);
+                Assert.That(result.Refreshed, Is.False);
+            });
         }
 
         [Test]
@@ -100,8 +106,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 
             AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
-            Assert.That(result.IsValid, Is.False);
-            Assert.That(result.Refreshed, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.IsValid, Is.False);
+                Assert.That(result.Refreshed, Is.False);
+            });
         }
 
         [Test]
@@ -125,8 +134,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 
             AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
-            Assert.That(result.IsValid, Is.False);
-            Assert.That(result.Refreshed, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.IsValid, Is.False);
+                Assert.That(result.Refreshed, Is.False);
+            });
         }
 
         [Test]
@@ -154,10 +166,13 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 
             AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
-            Assert.That(result.IsValid, Is.True);
-            Assert.That(result.Refreshed, Is.True);
-            Assert.That(result.Details?.AuthToken, Is.EqualTo("access-token-2"));
-            Assert.That(result.Details?.SessionToken, Is.EqualTo("refresh-token-2"));
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.IsValid, Is.True);
+                Assert.That(result.Refreshed, Is.True);
+                Assert.That(result.Details?.AuthToken, Is.EqualTo("access-token-2"));
+                Assert.That(result.Details?.SessionToken, Is.EqualTo("refresh-token-2"));
+            });
         }
     }
 }

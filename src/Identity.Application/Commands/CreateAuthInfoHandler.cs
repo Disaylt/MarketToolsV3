@@ -66,12 +66,9 @@ namespace Identity.Application.Commands
             };
         }
 
-        private JwtAccessTokenDto CreateAccessTokenData(string userId)
+        private static JwtAccessTokenDto CreateAccessTokenData(string userId) => new()
         {
-            return new JwtAccessTokenDto
-            {
-                UserId = userId
-            };
-        }
+            UserId = userId
+        };
     }
 }

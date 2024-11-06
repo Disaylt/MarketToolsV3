@@ -32,7 +32,7 @@ namespace Identity.Application.Queries
             if (sessionStatus != null) return sessionStatus.IsActive;
 
             Session entity = await sessionRepository.FindByIdRequiredAsync(refreshTokenData.Id, cancellationToken);
-            SessionStatusDto newSessionStatus = new SessionStatusDto { Id = entity.Id, IsActive = entity.IsActive };
+            SessionStatusDto newSessionStatus = new() { Id = entity.Id, IsActive = entity.IsActive };
 
             await sessionCacheRepository.SetAsync(newSessionStatus.Id, 
                 newSessionStatus, 

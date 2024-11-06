@@ -22,13 +22,13 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Queries
         public void Setup()
         {
             _sessionServiceMock = new Mock<ISessionService>();
-            _testSessions = new List<Session>
-            {
+            _testSessions =
+            [
                 new("1", "1"),
                 new("2", "2"),
                 new("3", "3"),
-                new("4", "4"),
-            };
+                new("4", "4")
+            ];
         }
 
         [Test]
@@ -38,13 +38,13 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Queries
                     x.GetActiveSessionsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(_testSessions);
 
-            GetActiveSessionsQuery query = new GetActiveSessionsQuery
+            GetActiveSessionsQuery query = new()
             {
                 CurrentSessionId = _testSessions.First().Id,
                 UserId = string.Empty
             };
 
-            GetActiveSessionsQueryHandler queryHandler = new GetActiveSessionsQueryHandler(_sessionServiceMock.Object);
+            GetActiveSessionsQueryHandler queryHandler = new(_sessionServiceMock.Object);
 
             IEnumerable<SessionDto> sessions = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
@@ -58,12 +58,12 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Queries
                     x.GetActiveSessionsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(_testSessions);
 
-            GetActiveSessionsQuery query = new GetActiveSessionsQuery
+            GetActiveSessionsQuery query = new()
             {
                 UserId = string.Empty
             };
 
-            GetActiveSessionsQueryHandler queryHandler = new GetActiveSessionsQueryHandler(_sessionServiceMock.Object);
+            GetActiveSessionsQueryHandler queryHandler = new(_sessionServiceMock.Object);
 
             IEnumerable<SessionDto> sessions = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
@@ -79,13 +79,13 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Queries
                     x.GetActiveSessionsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(_testSessions);
 
-            GetActiveSessionsQuery query = new GetActiveSessionsQuery
+            GetActiveSessionsQuery query = new()
             {
                 CurrentSessionId = _testSessions.First(x=> x.IdentityId == identityId).Id,
                 UserId = string.Empty
             };
 
-            GetActiveSessionsQueryHandler queryHandler = new GetActiveSessionsQueryHandler(_sessionServiceMock.Object);
+            GetActiveSessionsQueryHandler queryHandler = new(_sessionServiceMock.Object);
 
             IEnumerable<SessionDto> sessions = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
@@ -95,25 +95,28 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Queries
         [Test]
         public async Task Handle_CheckMapping()
         {
-            Session session = new Session("test-identity-1", "test-agent-1");
+            Session session = new("test-identity-1", "test-agent-1");
             _sessionServiceMock.Setup(x =>
                     x.GetActiveSessionsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync([session]);
 
-            GetActiveSessionsQuery query = new GetActiveSessionsQuery
+            GetActiveSessionsQuery query = new()
             {
                 UserId = string.Empty
             };
 
-            GetActiveSessionsQueryHandler queryHandler = new GetActiveSessionsQueryHandler(_sessionServiceMock.Object);
+            GetActiveSessionsQueryHandler queryHandler = new(_sessionServiceMock.Object);
 
             IEnumerable<SessionDto> sessions = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
             SessionDto result = sessions.First();
 
-            Assert.That(result.CreateDate, Is.EqualTo(session.Created));
-            Assert.That(result.Id, Is.EqualTo(session.Id));
-            Assert.That(result.Updated, Is.EqualTo(session.Updated));
-            Assert.That(result.UserAgent, Is.EqualTo(session.UserAgent));
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.CreateDate, Is.EqualTo(session.Created));
+                Assert.That(result.Id, Is.EqualTo(session.Id));
+                Assert.That(result.Updated, Is.EqualTo(session.Updated));
+                Assert.That(result.UserAgent, Is.EqualTo(session.UserAgent));
+            });
         }
     }
 }

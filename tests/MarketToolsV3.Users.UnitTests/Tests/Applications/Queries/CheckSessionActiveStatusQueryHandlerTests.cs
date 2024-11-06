@@ -38,7 +38,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Queries
         [Test]
         public async Task Handle_WhenTokenNotValid_ReturnFalse()
         {
-            CheckSessionActiveStatusQueryHandler queryHandler = new CheckSessionActiveStatusQueryHandler(
+            CheckSessionActiveStatusQueryHandler queryHandler = new(
                 _tokenServiceMock.Object,
                 _sessionCacheRepositoryMock.Object,
                 _sessionRepositoryMock.Object,
@@ -56,7 +56,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Queries
         [TestCase(false)]
         public async Task Handle_WhenSessionGetFromCache_ReturnSessionResult(bool expectResult)
         {
-            CheckSessionActiveStatusQueryHandler queryHandler = new CheckSessionActiveStatusQueryHandler(
+            CheckSessionActiveStatusQueryHandler queryHandler = new(
                 _tokenServiceMock.Object,
                 _sessionCacheRepositoryMock.Object,
                 _sessionRepositoryMock.Object,
@@ -81,7 +81,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Queries
         [TestCase(false)]
         public async Task Handle_WhenCacheSessionNull_ReturnSessionResult(bool expectResult)
         {
-            CheckSessionActiveStatusQueryHandler queryHandler = new CheckSessionActiveStatusQueryHandler(
+            CheckSessionActiveStatusQueryHandler queryHandler = new(
                 _tokenServiceMock.Object,
                 _sessionCacheRepositoryMock.Object,
                 _sessionRepositoryMock.Object,

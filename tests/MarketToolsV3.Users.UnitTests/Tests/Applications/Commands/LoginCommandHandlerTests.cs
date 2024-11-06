@@ -44,7 +44,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public void Handle_WhenUserNull_ReturnException()
         {
-            LoginCommandHandler commandHandler = new LoginCommandHandler(
+            LoginCommandHandler commandHandler = new(
                 _identityPersonServiceMock.Object,
                 _sessionServiceMock.Object,
                 _logger,
@@ -65,7 +65,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public void Handle_WhenBadCheckPassword_ReturnException()
         {
-            LoginCommandHandler commandHandler = new LoginCommandHandler(
+            LoginCommandHandler commandHandler = new(
                 _identityPersonServiceMock.Object,
                 _sessionServiceMock.Object,
                 _logger,
@@ -93,7 +93,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             string accessTokenValue = "access-token-1";
             string refreshTokenValue = "refresh-token-1";
 
-            LoginCommandHandler commandHandler = new LoginCommandHandler(
+            LoginCommandHandler commandHandler = new(
                 _identityPersonServiceMock.Object,
                 _sessionServiceMock.Object,
                 _logger,
@@ -115,8 +115,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 
             AuthDetailsDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
-            Assert.That(result.AuthToken, Is.EqualTo(accessTokenValue));
-            Assert.That(result.SessionToken, Is.EqualTo(refreshTokenValue));
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.AuthToken, Is.EqualTo(accessTokenValue));
+                Assert.That(result.SessionToken, Is.EqualTo(refreshTokenValue));
+            });
         }
     }
 }
