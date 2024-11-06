@@ -8,7 +8,6 @@ using Identity.Application.Models;
 using Identity.Application.Services;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
-using MarketToolsV3.Users.UnitTests.Source;
 using Microsoft.Extensions.Logging;
 using Moq;
 
