@@ -26,7 +26,8 @@ namespace Identity.WebApi.Controllers
             {
                 Email = user.Email,
                 Login = user.Login,
-                Password = user.Password
+                Password = user.Password,
+                UserAgent = Request.Headers.UserAgent.FirstOrDefault() ?? "Неизвестное устройство"
             };
 
             AuthDetailsDto result = await mediator.Send(command, cancellationToken);
