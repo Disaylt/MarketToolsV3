@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MarketToolsV3.Users.UnitTests.Source
 {
-    internal class Logging
+    internal class TestLogging
     {
         public static ILogger<T> Create<T>()
         {

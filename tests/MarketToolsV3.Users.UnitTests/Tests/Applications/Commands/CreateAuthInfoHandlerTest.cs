@@ -26,7 +26,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [SetUp]
         public void Setup()
         {
-            _logger = Logging.Create<CreateAuthInfoHandler>();
+            _logger = TestLogging.Create<CreateAuthInfoHandler>();
             _sessionRepositoryMock = new Mock<IRepository<Session>>();
             _accessTokenServiceMock = new Mock<ITokenService<JwtAccessTokenDto>>();
             _refreshTokenServiceMock = new Mock<ITokenService<JwtRefreshTokenDto>>();
