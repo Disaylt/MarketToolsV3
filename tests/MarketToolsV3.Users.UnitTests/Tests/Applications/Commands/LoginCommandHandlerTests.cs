@@ -42,7 +42,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         }
 
         [Test]
-        public async Task Handle_WhenUserNull_ReturnException()
+        public void Handle_WhenUserNull_ReturnException()
         {
             LoginCommandHandler commandHandler = new LoginCommandHandler(
                 _identityPersonServiceMock.Object,
@@ -63,7 +63,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         }
 
         [Test]
-        public async Task Handle_WhenBadCheckPassword_ReturnException()
+        public void Handle_WhenBadCheckPassword_ReturnException()
         {
             LoginCommandHandler commandHandler = new LoginCommandHandler(
                 _identityPersonServiceMock.Object,

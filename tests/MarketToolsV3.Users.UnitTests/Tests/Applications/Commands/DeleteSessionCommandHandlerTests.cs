@@ -15,14 +15,14 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
     {
         private Mock<ICacheRepository<SessionStatusDto>> _cacheRepositoryMock;
         private Mock<ISessionService> _sessionServiceMock;
-        private DeleteSessionCommand _command;
+        private DeactivateSessionCommand _command;
 
         [SetUp]
         public void Setup()
         {
             _cacheRepositoryMock = new Mock<ICacheRepository<SessionStatusDto>>();
             _sessionServiceMock = new Mock<ISessionService>();
-            _command = new DeleteSessionCommand
+            _command = new DeactivateSessionCommand
             {
                 Id = "0"
             };
@@ -31,7 +31,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handle_CallDeleteFromCache()
         {
-            DeleteSessionCommandHandler commandHandler = new DeleteSessionCommandHandler(
+            DeactivateSessionCommandHandler commandHandler = new DeactivateSessionCommandHandler(
                 _cacheRepositoryMock.Object,
                 _sessionServiceMock.Object);
 

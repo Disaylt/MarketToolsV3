@@ -15,5 +15,6 @@ namespace Identity.Application.Services
             CancellationToken cancellationToken = default);
         Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken);
         Task DeleteAsync(string id, CancellationToken cancellationToken);
+        Task DeactivateAsync(string id, CancellationToken cancellationToken);
     }
 }

@@ -5,18 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Models;
 using Identity.Application.Services;
+using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using MediatR;
 
 namespace Identity.Application.Commands
 {
-    public class DeleteSessionCommandHandler(ICacheRepository<SessionStatusDto> sessionCacheRepository,
+    public class DeactivateSessionCommandHandler(ICacheRepository<SessionStatusDto> sessionCacheRepository,
         ISessionService sessionService)
-        : IRequestHandler<DeleteSessionCommand, Unit>
+        : IRequestHandler<DeactivateSessionCommand, Unit>
     {
-        public async Task<Unit> Handle(DeleteSessionCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeactivateSessionCommand request, CancellationToken cancellationToken)
         {
-            await sessionService.DeleteAsync(request.Id, cancellationToken);
             await sessionCacheRepository.DeleteAsync(request.Id, cancellationToken);
 
             return Unit.Value;

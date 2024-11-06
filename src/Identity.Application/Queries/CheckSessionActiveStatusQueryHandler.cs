@@ -18,8 +18,6 @@ namespace Identity.Application.Queries
         IOptions<ServiceConfiguration> options)
         : IRequestHandler<CheckSessionActiveStatusQuery, bool>
     {
-        private readonly ServiceConfiguration _configuration = options.Value;
-
         public async Task<bool> Handle(CheckSessionActiveStatusQuery request, CancellationToken cancellationToken)
         {
             if (await refreshTokenService.IsValid(request.RefreshToken) == false)
@@ -31,19 +29,17 @@ namespace Identity.Application.Queries
 
             SessionStatusDto? sessionStatus = await sessionCacheRepository.GetAsync(refreshTokenData.Id);
 
-            if (sessionStatus == null)
-            {
-                Session entity = await sessionRepository.FindByIdRequiredAsync(refreshTokenData.Id, cancellationToken);
-                SessionStatusDto newSessionStatus = new SessionStatusDto { Id = entity.Id, IsActive = entity.IsActive };
+            if (sessionStatus != null) return sessionStatus.IsActive;
 
-                await sessionCacheRepository.SetAsync(newSessionStatus.Id, 
-                    newSessionStatus, 
-                    TimeSpan.FromHours(_configuration.ExpireRefreshTokenHours));
+            Session entity = await sessionRepository.FindByIdRequiredAsync(refreshTokenData.Id, cancellationToken);
+            SessionStatusDto newSessionStatus = new SessionStatusDto { Id = entity.Id, IsActive = entity.IsActive };
 
-                return entity.IsActive;
-            }
+            await sessionCacheRepository.SetAsync(newSessionStatus.Id, 
+                newSessionStatus, 
+                TimeSpan.FromHours(options.Value.ExpireRefreshTokenHours));
 
-            return sessionStatus.IsActive;
+            return entity.IsActive;
+
         }
     }
 }
