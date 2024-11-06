@@ -21,6 +21,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         private Mock<ITokenService<JwtAccessTokenDto>> _accessTokenServiceMock;
         private Mock<ITokenService<JwtRefreshTokenDto>> _refreshTokenServiceMock;
         private Mock<ISessionService> _sessionServiceMock;
+        private CreateAuthInfo _command;
 
         [SetUp]
         public void Setup()
@@ -30,13 +31,19 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             _accessTokenServiceMock = new Mock<ITokenService<JwtAccessTokenDto>>();
             _refreshTokenServiceMock = new Mock<ITokenService<JwtRefreshTokenDto>>();
             _sessionServiceMock = new Mock<ISessionService>();
+            _command = new CreateAuthInfo
+            {
+                Details = new AuthDetailsDto
+                {
+                    AuthToken = "access-token-1",
+                    SessionToken = "refresh-token-1"
+                }
+            };
         }
 
         [Test]
         public async Task Handler_WhenAccessTokenValid_ReturnValid()
         {
-            CreateAuthInfo command = CreateCommand();
-
             CreateAuthInfoHandler commandHandler = new(_sessionRepositoryMock.Object,
                 _logger,
                 _accessTokenServiceMock.Object,
@@ -46,7 +53,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             _accessTokenServiceMock.Setup(x => x.IsValid(It.IsAny<string>()))
                 .ReturnsAsync(true);
 
-            AuthInfoDto result = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+            AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
             Assert.That(result.IsValid, Is.True);
             Assert.That(result.Refreshed, Is.False);
@@ -55,8 +62,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handler_WhenRefreshTokenNotValid_ReturnNotValid()
         {
-            CreateAuthInfo command = CreateCommand();
-
             CreateAuthInfoHandler commandHandler = new(_sessionRepositoryMock.Object,
                 _logger,
                 _accessTokenServiceMock.Object,
@@ -68,7 +73,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             _refreshTokenServiceMock.Setup(x=> x.IsValid(It.IsAny<string>()))
                 .ReturnsAsync(false);
 
-            AuthInfoDto result = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+            AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
             Assert.That(result.IsValid, Is.False);
             Assert.That(result.Refreshed, Is.False);
@@ -77,8 +82,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handler_WhenSessionNotActive_ReturnNotValid()
         {
-            CreateAuthInfo command = CreateCommand();
-
             CreateAuthInfoHandler commandHandler = new(_sessionRepositoryMock.Object,
                 _logger,
                 _accessTokenServiceMock.Object,
@@ -95,7 +98,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
                 .Setup(x => x.FindByIdRequiredAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Session(It.IsAny<string>(), It.IsAny<string>()) { IsActive = false });
 
-            AuthInfoDto result = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+            AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
             Assert.That(result.IsValid, Is.False);
             Assert.That(result.Refreshed, Is.False);
@@ -104,8 +107,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handler_WhenRefreshTokenNotEqualsSessionRefreshToken_ReturnNotValid()
         {
-            CreateAuthInfo command = CreateCommand();
-
             CreateAuthInfoHandler commandHandler = new(_sessionRepositoryMock.Object,
                 _logger,
                 _accessTokenServiceMock.Object,
@@ -122,7 +123,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
                 .Setup(x => x.FindByIdRequiredAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Session(It.IsAny<string>(), It.IsAny<string>()) { IsActive = true, Token = "refresh-token-2" });
 
-            AuthInfoDto result = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+            AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
             Assert.That(result.IsValid, Is.False);
             Assert.That(result.Refreshed, Is.False);
@@ -131,8 +132,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handler_ReturnNewAuthInfo()
         {
-            CreateAuthInfo command = CreateCommand();
-
             CreateAuthInfoHandler commandHandler = new(_sessionRepositoryMock.Object,
                 _logger,
                 _accessTokenServiceMock.Object,
@@ -153,24 +152,12 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             _accessTokenServiceMock.Setup(x => x.Create(It.IsAny<JwtAccessTokenDto>()))
                 .Returns("access-token-2");
 
-            AuthInfoDto result = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+            AuthInfoDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
             Assert.That(result.IsValid, Is.True);
             Assert.That(result.Refreshed, Is.True);
             Assert.That(result.Details?.AuthToken, Is.EqualTo("access-token-2"));
             Assert.That(result.Details?.SessionToken, Is.EqualTo("refresh-token-2"));
-        }
-
-        private static CreateAuthInfo CreateCommand()
-        {
-            return new CreateAuthInfo
-            {
-                Details = new AuthDetailsDto
-                {
-                    AuthToken = "access-token-1",
-                    SessionToken = "refresh-token-1"
-                }
-            };
         }
     }
 }
