@@ -5,10 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Domain.Seed;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Identity.Infrastructure.Repositories
 {
-    public class EventRepository(IMediator mediator) : IEventRepository
+    public class EventRepository(IMediator mediator) 
+        : IEventRepository
     {
         private readonly List<INotification> _notifications = new();
         public IReadOnlyCollection<INotification> Notifications => _notifications.AsReadOnly();

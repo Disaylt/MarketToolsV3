@@ -19,8 +19,7 @@ namespace MarketToolsV3.ConfigurationManager
                 return;
             }
 
-            ConfigurationManagersFactory configurationManagersFactory =
-                new ConfigurationManagersFactory(configuration);
+            ConfigurationManagersFactory configurationManagersFactory = new(configuration);
 
             await configurationManagersFactory.Create(type).Upload();
         }
