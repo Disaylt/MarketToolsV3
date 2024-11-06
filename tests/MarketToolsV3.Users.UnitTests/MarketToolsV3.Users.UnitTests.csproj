@@ -33,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Identity.Domain\Identity.Domain.csproj" />
     <ProjectReference Include="..\..\src\Identity.Infrastructure\Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Identity.WebApi\Identity.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

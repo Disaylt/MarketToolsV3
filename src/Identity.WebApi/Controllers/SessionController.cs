@@ -14,14 +14,14 @@ namespace Identity.WebApi.Controllers
     public class SessionController(IMediator mediator) : ControllerBase
     {
         [HttpPost("deactivate")]
-        public async Task<IActionResult> DeactivateAsync(string id)
+        public async Task<IActionResult> DeactivateAsync(string id, CancellationToken cancellationToken)
         {
             DeactivateSessionCommand command = new()
             {
                 Id = id
             };
 
-            await mediator.Send(command);
+            await mediator.Send(command, cancellationToken);
 
             return Ok();
         }
