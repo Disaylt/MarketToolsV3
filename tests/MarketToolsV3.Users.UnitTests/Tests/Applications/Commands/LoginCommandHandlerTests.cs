@@ -86,5 +86,37 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             Assert.That(ex.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
 
         }
+
+        [Test]
+        public async Task Handle_ReturnAuthDetails()
+        {
+            string accessTokenValue = "access-token-1";
+            string refreshTokenValue = "refresh-token-1";
+
+            LoginCommandHandler commandHandler = new LoginCommandHandler(
+                _identityPersonServiceMock.Object,
+                _sessionServiceMock.Object,
+                _logger,
+                _accessTokenServiceMock.Object,
+                _refreshTokenServiceMock.Object);
+
+            _identityPersonServiceMock
+                .Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(new IdentityPerson());
+
+            _identityPersonServiceMock
+                .Setup(x => x.CheckPassword(It.IsAny<IdentityPerson>(), It.IsAny<string>()))
+                .ReturnsAsync(true);
+
+            _accessTokenServiceMock.Setup(x => x.Create(It.IsAny<JwtAccessTokenDto>()))
+                .Returns(accessTokenValue);
+            _refreshTokenServiceMock.Setup(x => x.Create(It.IsAny<JwtRefreshTokenDto>()))
+                .Returns(refreshTokenValue);
+
+            AuthDetailsDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
+
+            Assert.That(result.AuthToken, Is.EqualTo(accessTokenValue));
+            Assert.That(result.SessionToken, Is.EqualTo(refreshTokenValue));
+        }
     }
 }
