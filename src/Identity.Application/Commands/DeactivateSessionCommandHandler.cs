@@ -17,6 +17,7 @@ namespace Identity.Application.Commands
     {
         public async Task<Unit> Handle(DeactivateSessionCommand request, CancellationToken cancellationToken)
         {
+            await sessionService.DeactivateAsync(request.Id, cancellationToken);
             await sessionCacheRepository.DeleteAsync(request.Id, cancellationToken);
 
             return Unit.Value;

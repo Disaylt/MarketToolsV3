@@ -58,7 +58,7 @@ namespace Identity.Infrastructure.Services
             await sessionsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeactivateAsync(string id, CancellationToken cancellationToken)
+        public async Task DeactivateAsync(string id, CancellationToken cancellationToken = default)
         {
             Session session = await sessionsRepository.FindByIdRequiredAsync(id, cancellationToken);
 

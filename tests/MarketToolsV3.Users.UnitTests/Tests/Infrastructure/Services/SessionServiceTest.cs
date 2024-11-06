@@ -188,5 +188,21 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
                 Times.Once);
         }
 
+        [Test]
+        public async Task DeactivateAsync_CallSaveChangesAsync()
+        {
+            SessionService sessionService = new(
+                _sessionRepositoryMock.Object,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            await sessionService.DeactivateAsync(It.IsAny<string>());
+
+            _sessionRepositoryMock.Verify(x =>
+                    x.UnitOfWork.SaveChangesAsync(
+                        It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
     }
 }
