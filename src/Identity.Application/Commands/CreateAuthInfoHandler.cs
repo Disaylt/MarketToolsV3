@@ -41,7 +41,7 @@ namespace Identity.Application.Commands
 
             if (session.IsActive == false || session.Token != request.Details.SessionToken)
             {
-                logger.LogWarning("Session status {status} or current refresh token does not match session refresh token.", session.IsActive);
+                logger.LogWarning("Session status not active ({status}) or current refresh token does not match session refresh token.", session.IsActive);
 
                 return new AuthInfoDto { IsValid = false };
             }
