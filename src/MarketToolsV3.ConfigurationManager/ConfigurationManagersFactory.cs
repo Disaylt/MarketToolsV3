@@ -11,7 +11,7 @@ namespace MarketToolsV3.ConfigurationManager
 {
     public class ConfigurationManagersFactory(IConfigurationManager configurationManager)
     {
-        private readonly Dictionary<string, IConfigurationUploader> _typeAndUploaderPair = new Dictionary<string, IConfigurationUploader>
+        private readonly Dictionary<string, IConfigurationUploader> _typeAndUploaderPair = new()
         {
             {"JsonFile", new JsonFileConfigurationUploader(configurationManager)}
         };
