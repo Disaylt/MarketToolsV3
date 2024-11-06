@@ -16,7 +16,7 @@ namespace Identity.WebApi.Controllers
         : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync(CancellationToken cancellationToken)
         {
             GetActiveSessionsQuery query = new()
             {
@@ -24,7 +24,7 @@ namespace Identity.WebApi.Controllers
                 UserId = authContext.GetUserIdRequired()
             };
 
-            IEnumerable<SessionDto> sessions = await mediator.Send(query);
+            IEnumerable<SessionDto> sessions = await mediator.Send(query, cancellationToken);
 
             return Ok(sessions);
         }

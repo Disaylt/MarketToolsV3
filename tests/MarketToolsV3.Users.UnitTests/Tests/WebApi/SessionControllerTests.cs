@@ -28,7 +28,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             IActionResult result = await sessionController
                 .DeactivateAsync(It.IsAny<string>(), It.IsAny<CancellationToken>());
 
-            Assert.NotNull(result as OkResult);
+            Assert.That(result as OkResult, Is.Not.Null);
         }
     }
 }
