@@ -55,5 +55,46 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
                 x.AddAsync(It.IsAny<IdentityPerson>(), It.IsAny<string>()), 
                 Times.Once);
         }
+
+        [Test]
+        public async Task Handle_CallAddSession()
+        {
+            CreateNewUserCommandHandler commandHandler = new CreateNewUserCommandHandler(
+                _identityPersonServiceMock.Object,
+                _logger,
+                _sessionServiceMock.Object,
+                _jwtAccessTokenServiceMock.Object,
+                _jwtRefreshTokenServiceMock.Object);
+
+            AuthDetailsDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
+
+            _sessionServiceMock.Verify(x=>
+                x.AddAsync(It.IsAny<Session>(), It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task Handle_ReturnNewAuthDetails()
+        {
+            string accessTokenValue = "access-token-1";
+            string refreshTokenValue = "refresh-token-1";
+
+            CreateNewUserCommandHandler commandHandler = new CreateNewUserCommandHandler(
+                _identityPersonServiceMock.Object,
+                _logger,
+                _sessionServiceMock.Object,
+                _jwtAccessTokenServiceMock.Object,
+                _jwtRefreshTokenServiceMock.Object);
+
+            _jwtAccessTokenServiceMock.Setup(x => x.Create(It.IsAny<JwtAccessTokenDto>()))
+                .Returns(accessTokenValue);
+            _jwtRefreshTokenServiceMock.Setup(x => x.Create(It.IsAny<JwtRefreshTokenDto>()))
+                .Returns(refreshTokenValue);
+
+            AuthDetailsDto result = await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
+
+            Assert.That(result.AuthToken, Is.EqualTo(accessTokenValue));
+            Assert.That(result.SessionToken, Is.EqualTo(refreshTokenValue));
+        }
     }
 }
