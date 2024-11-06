@@ -29,7 +29,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             _sessionServiceMock = new Mock<ISessionService>();
             _jwtAccessTokenServiceMock = new Mock<ITokenService<JwtAccessTokenDto>>();
             _jwtRefreshTokenServiceMock = new Mock<ITokenService<JwtRefreshTokenDto>>();
-            _logger = TestLogging.Create<CreateNewUserCommandHandler>();
+            _logger = new Mock<ILogger<CreateNewUserCommandHandler>>().Object;
             _command = new CreateNewUserCommand
             {
                 Email = "new-email",

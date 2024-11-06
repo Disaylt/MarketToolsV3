@@ -13,6 +13,7 @@ using Identity.Domain.Seed;
 using MarketToolsV3.Users.UnitTests.Source;
 using Microsoft.Extensions.Logging;
 using Moq;
+using ILogger = Castle.Core.Logging.ILogger;
 
 namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 {
@@ -32,7 +33,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             _sessionServiceMock = new Mock<ISessionService>();
             _accessTokenServiceMock = new Mock<ITokenService<JwtAccessTokenDto>>();
             _refreshTokenServiceMock = new Mock<ITokenService<JwtRefreshTokenDto>>();
-            _logger = TestLogging.Create<LoginCommandHandler>();
+            _logger = new Mock<ILogger<LoginCommandHandler>>().Object;
             _command = new LoginCommand
             {
                 Email = "email-1",
