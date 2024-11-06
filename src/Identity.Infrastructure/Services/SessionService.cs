@@ -57,5 +57,15 @@ namespace Identity.Infrastructure.Services
             await sessionsRepository.DeleteAsync(session, cancellationToken);
             await sessionsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task DeactivateAsync(string id, CancellationToken cancellationToken)
+        {
+            Session session = await sessionsRepository.FindByIdRequiredAsync(id, cancellationToken);
+
+            session.IsActive = false;
+
+            await sessionsRepository.UpdateAsync(session, cancellationToken);
+            await sessionsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+        }
     }
 }
