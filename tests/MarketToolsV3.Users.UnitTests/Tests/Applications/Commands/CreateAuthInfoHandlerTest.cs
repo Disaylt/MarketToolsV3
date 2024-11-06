@@ -34,7 +34,22 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         [Test]
         public async Task Handler_ReturnAccessTokenNotValid()
         {
-            CreateAuthInfo command = new CreateAuthInfo
+            CreateAuthInfo command = CreateCommand();
+
+            CreateAuthInfoHandler commandHandler = new(_sessionRepositoryMock.Object,
+                _loggerMock.Object,
+                _accessTokenServiceMock.Object,
+                _refreshTokenServiceMock.Object,
+                _sessionServiceMock.Object);
+
+            AuthInfoDto result = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+
+            Assert.That(result.IsValid, Is.False);
+        }
+
+        private static CreateAuthInfo CreateCommand()
+        {
+            return new CreateAuthInfo
             {
                 Details = new AuthDetailsDto
                 {
@@ -42,8 +57,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
                     SessionToken = ""
                 }
             };
-
-
         }
     }
 }
