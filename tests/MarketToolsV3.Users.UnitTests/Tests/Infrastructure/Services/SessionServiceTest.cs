@@ -188,5 +188,45 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services
                 Times.Once);
         }
 
+        [Test]
+        public async Task DeactivateAsync_CallSaveChangesAsync()
+        {
+            SessionService sessionService = new(
+                _sessionRepositoryMock.Object,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            _sessionRepositoryMock
+                .Setup(x => x.FindByIdRequiredAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new Session("", ""));
+
+            await sessionService.DeactivateAsync(It.IsAny<string>());
+
+            _sessionRepositoryMock.Verify(x =>
+                    x.UnitOfWork.SaveChangesAsync(
+                        It.IsAny<CancellationToken>()),
+                Times.Once);
+        }
+        [Test]
+        public async Task DeactivateAsync_SetInactiveStatus()
+        {
+            SessionService sessionService = new(
+                _sessionRepositoryMock.Object,
+                _serviceConfigurationMock.Object,
+                _eventRepositoryMock.Object);
+
+            Session session = new("", "")
+            {
+                IsActive = true
+            };
+
+            _sessionRepositoryMock
+                .Setup(x => x.FindByIdRequiredAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(session);
+
+            await sessionService.DeactivateAsync(It.IsAny<string>());
+
+            Assert.That(session.IsActive, Is.False);
+        }
     }
 }
