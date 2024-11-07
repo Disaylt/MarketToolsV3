@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Commands
 {
-    public class DeleteSessionCommand : ICommand<Unit>
+    public class DeactivateSessionCommand : ICommand<Unit>
     {
         public required string Id { get; set; }
     }

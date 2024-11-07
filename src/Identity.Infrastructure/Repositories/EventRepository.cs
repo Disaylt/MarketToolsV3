@@ -12,7 +12,7 @@ namespace Identity.Infrastructure.Repositories
     public class EventRepository(IMediator mediator) 
         : IEventRepository
     {
-        private readonly List<INotification> _notifications = new();
+        private readonly List<INotification> _notifications = [];
         public IReadOnlyCollection<INotification> Notifications => _notifications.AsReadOnly();
 
         public void AddNotification(INotification notification)
