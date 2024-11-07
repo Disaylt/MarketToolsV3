@@ -27,7 +27,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task GetAsync_ReturnOkResult()
         {
-            SessionsController sessionsController = new SessionsController(
+            SessionsController sessionsController = new(
                 _mediatorMock.Object,
                 _authContextMock.Object);
 
@@ -39,7 +39,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task GetAsync_ReturnSessionsType()
         {
-            SessionsController sessionsController = new SessionsController(
+            SessionsController sessionsController = new(
                 _mediatorMock.Object,
                 _authContextMock.Object);
 

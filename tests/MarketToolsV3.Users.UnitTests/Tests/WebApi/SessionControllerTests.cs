@@ -23,7 +23,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task DeactivateAsync_ReturnOkResult()
         {
-            SessionController sessionController = new SessionController(_mediatorMock.Object);
+            SessionController sessionController = new(_mediatorMock.Object);
 
             IActionResult result = await sessionController
                 .DeactivateAsync(It.IsAny<string>(), It.IsAny<CancellationToken>());

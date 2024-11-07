@@ -17,6 +17,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
 {
     internal class UserControllerTests
     {
+        //to do - add tests to check if cookies were added
+
         private Mock<IMediator> _mediatorMock;
         private Mock<IOptions<WebApiConfiguration>> _optionsMock;
 
@@ -32,7 +34,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task RegisterAsync_ReturnOkAuthDetails()
         {
-            NewUserModel body = new NewUserModel
+            NewUserModel body = new()
             {
                 Email = "email",
                 Login = "login",
@@ -67,7 +69,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [TestCase("token-a-4", "token-r-4")]
         public async Task RegisterAsync_CheckAuthDetailProperties(string accessToken, string refreshToken)
         {
-            NewUserModel body = new NewUserModel
+            NewUserModel body = new()
             {
                 Email = "email",
                 Login = "login",
@@ -104,7 +106,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task LoginAsync_ReturnOkAuthDetails()
         {
-            LoginModel body = new LoginModel
+            LoginModel body = new ()
             {
                 Email = "email",
                 Password = "password"
@@ -138,7 +140,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [TestCase("token-a-4", "token-r-4")]
         public async Task LoginAsync_CheckAuthDetailProperties(string accessToken, string refreshToken)
         {
-            LoginModel body = new LoginModel
+            LoginModel body = new()
             {
                 Email = "email",
                 Password = "password"
