@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace UserNotifications.Domain.Entities
 {
-    public class Notification
+    public class Notification : Entity
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
         public required string UserId { get; set; }
         public required string Message { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;
