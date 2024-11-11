@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserNotifications.Domain", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserNotifications.Infrastructure", "src\UserNotifications.Infrastructure\UserNotifications.Infrastructure.csproj", "{CE832266-0D94-4D07-B893-72A854C70072}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserNotifications.Applications", "src\UserNotifications.Applications\UserNotifications.Applications.csproj", "{9127F10F-AC9E-48BF-8BC5-A5793A8FF196}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{CE832266-0D94-4D07-B893-72A854C70072}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE832266-0D94-4D07-B893-72A854C70072}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE832266-0D94-4D07-B893-72A854C70072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9127F10F-AC9E-48BF-8BC5-A5793A8FF196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9127F10F-AC9E-48BF-8BC5-A5793A8FF196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9127F10F-AC9E-48BF-8BC5-A5793A8FF196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9127F10F-AC9E-48BF-8BC5-A5793A8FF196}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{C897AB32-5B70-446D-A048-8970A826706E} = {882D889B-1326-40EF-8FC2-6CB09F27A9D8}
 		{837CBB4D-2A74-4C15-968A-F6BA2EB84E26} = {0888B86C-31CF-4288-BAE6-27515593310F}
 		{CE832266-0D94-4D07-B893-72A854C70072} = {0888B86C-31CF-4288-BAE6-27515593310F}
+		{9127F10F-AC9E-48BF-8BC5-A5793A8FF196} = {0888B86C-31CF-4288-BAE6-27515593310F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}
