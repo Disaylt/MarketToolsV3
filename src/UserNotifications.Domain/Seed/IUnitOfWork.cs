@@ -12,6 +12,5 @@ namespace UserNotifications.Domain.Seed
         Task<string> BeginTransactionAsync();
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
-        Task SaveEntitiesAsync();
     }
 }

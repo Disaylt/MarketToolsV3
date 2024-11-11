@@ -34,10 +34,5 @@ namespace UserNotifications.Infrastructure.Database
         {
             await _sessionHandle.AbortTransactionAsync();
         }
-
-        public Task SaveEntitiesAsync()
-        {
-            return Task.CompletedTask;
-        }
     }
 }
