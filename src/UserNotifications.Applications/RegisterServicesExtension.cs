@@ -8,5 +8,6 @@ namespace UserNotifications.Applications
 {
     public static class RegisterServicesExtension
     {
+
     }
 }
