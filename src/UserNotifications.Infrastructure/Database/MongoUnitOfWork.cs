@@ -15,14 +15,14 @@ namespace UserNotifications.Infrastructure.Database
 
         public bool HasTransaction => _sessionHandle.IsInTransaction;
 
-        public Task BeginTransactionAsync()
+        public Task<string> BeginTransactionAsync()
         {
             if (HasTransaction == false)
             {
                 _sessionHandle.StartTransaction();
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(_sessionHandle.ServerSession.Id.AsString);
         }
 
         public async Task CommitTransactionAsync()
