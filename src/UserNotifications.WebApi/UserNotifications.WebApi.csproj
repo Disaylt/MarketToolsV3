@@ -18,4 +18,11 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
+    <ProjectReference Include="..\UserNotifications.Applications\UserNotifications.Applications.csproj" />
+    <ProjectReference Include="..\UserNotifications.Domain\UserNotifications.Domain.csproj" />
+    <ProjectReference Include="..\UserNotifications.Infrastructure\UserNotifications.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
