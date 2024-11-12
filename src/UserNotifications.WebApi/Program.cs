@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using MarketToolsV3.ConfigurationManager;
 using UserNotifications.Applications;
 using UserNotifications.Domain.Seed;
@@ -16,6 +17,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationLayer()
     .AddInfrastructureServices(serviceSection);
+
+builder.Services.AddApiVersioning(opt =>
+{
+    opt.ReportApiVersions = true;
+    opt.AssumeDefaultVersionWhenUnspecified = true;
+    opt.DefaultApiVersion = new ApiVersion(1, 0);
+});
 
 var app = builder.Build();
 
