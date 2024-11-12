@@ -15,7 +15,7 @@ namespace UserNotifications.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            services.AddSingleton<IDatabaseClient<IMongoClient>, DatabaseClient>();
+            
 
             services.AddScoped<IUnitOfWork, MongoUnitOfWork>();
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
