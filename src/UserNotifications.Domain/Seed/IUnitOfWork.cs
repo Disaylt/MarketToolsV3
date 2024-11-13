@@ -9,7 +9,7 @@ namespace UserNotifications.Domain.Seed
     public interface IUnitOfWork
     {
         bool HasTransaction { get; }
-        Task<string> BeginTransactionAsync();
+        Task BeginTransactionAsync();
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
     }

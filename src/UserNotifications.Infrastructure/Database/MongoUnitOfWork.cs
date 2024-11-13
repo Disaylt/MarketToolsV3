@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using UserNotifications.Domain.Seed;
 
 namespace UserNotifications.Infrastructure.Database
@@ -15,14 +16,14 @@ namespace UserNotifications.Infrastructure.Database
 
         public bool HasTransaction => _sessionHandle.IsInTransaction;
 
-        public Task<string> BeginTransactionAsync()
+        public Task BeginTransactionAsync()
         {
             if (HasTransaction == false)
             {
                 _sessionHandle.StartTransaction();
             }
 
-            return Task.FromResult(_sessionHandle.ServerSession.Id.AsString);
+            return Task.CompletedTask;
         }
 
         public async Task CommitTransactionAsync()

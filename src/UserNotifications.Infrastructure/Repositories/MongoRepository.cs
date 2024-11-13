@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
@@ -22,7 +23,7 @@ namespace UserNotifications.Infrastructure.Repositories
         public async Task<T> FindByIdAsync(string id, CancellationToken cancellationToken)
         {
             var filter = Builders<T>.Filter
-                .Eq(restaurant => restaurant.Id, id);
+                .Eq(restaurant => restaurant.Id, new ObjectId(id));
 
             return await collection.Find(filter).FirstAsync(cancellationToken);
             ;
