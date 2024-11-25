@@ -16,7 +16,7 @@ namespace UserNotifications.Applications.Behaviors
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            string? transactionId = null;
+            string transactionId = "";
 
             try
             {
@@ -25,7 +25,7 @@ namespace UserNotifications.Applications.Behaviors
                     return await next();
                 }
 
-                transactionId = await unitOfWork.BeginTransactionAsync();
+                await unitOfWork.BeginTransactionAsync();
 
                 logger.LogInformation("Create transaction id - {transactionId}.", transactionId);
 
@@ -39,7 +39,7 @@ namespace UserNotifications.Applications.Behaviors
             }
             catch (Exception ex)
             {
-                if (transactionId != null)
+                if (unitOfWork.HasTransaction)
                 {
                     await unitOfWork.RollbackTransactionAsync();
                     logger.LogError(ex, "Error handling transaction id - {transactionId}", transactionId);

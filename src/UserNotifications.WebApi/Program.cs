@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApplicationLayer()
+builder.Services.AddApplicationLayer(serviceSection)
     .AddInfrastructureServices(serviceSection);
 
 builder.Services.AddApiVersioning(opt =>

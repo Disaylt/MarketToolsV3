@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,15 @@ namespace UserNotifications.Applications
 {
     public static class RegisterServicesExtension
     {
-        public static IServiceCollection AddApplicationLayer(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddApplicationLayer(this IServiceCollection serviceCollection, IConfigurationSection serviceSection)
         {
             serviceCollection.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+
+                
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 
