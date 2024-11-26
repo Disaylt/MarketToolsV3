@@ -14,9 +14,4 @@
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Events\Domain\" />
-    <Folder Include="Events\Integrations\" />
-  </ItemGroup>
-
 </Project>
