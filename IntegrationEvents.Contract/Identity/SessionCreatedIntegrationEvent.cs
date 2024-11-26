@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace IntegrationEvents.Contract.Identity
 {
-    public record UserCreatedIntegrationEvent : BaseIntegrationEvent
+    public record SessionCreatedIntegrationEvent : BaseIntegrationEvent
     {
-        public required string UserId { get; init; }
+        public required string SessionId { get; init; }
     }
 }

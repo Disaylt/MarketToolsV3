@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Events\Domain\" />
+    <Folder Include="Events\Integrations\" />
   </ItemGroup>
 
 </Project>
