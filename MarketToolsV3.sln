@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserNotifications.Applicati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserNotifications.WebApi", "src\UserNotifications.WebApi\UserNotifications.WebApi.csproj", "{EAE13A8E-18F2-4FD6-94A1-2EA5E61869CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEvents.Contract", "src\IntegrationEvents.Contract\IntegrationEvents.Contract.csproj", "{E6082BA0-4F9A-45BF-A209-2DC72D637277}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{EAE13A8E-18F2-4FD6-94A1-2EA5E61869CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAE13A8E-18F2-4FD6-94A1-2EA5E61869CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE13A8E-18F2-4FD6-94A1-2EA5E61869CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6082BA0-4F9A-45BF-A209-2DC72D637277}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6082BA0-4F9A-45BF-A209-2DC72D637277}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6082BA0-4F9A-45BF-A209-2DC72D637277}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6082BA0-4F9A-45BF-A209-2DC72D637277}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{CE832266-0D94-4D07-B893-72A854C70072} = {0888B86C-31CF-4288-BAE6-27515593310F}
 		{9127F10F-AC9E-48BF-8BC5-A5793A8FF196} = {0888B86C-31CF-4288-BAE6-27515593310F}
 		{EAE13A8E-18F2-4FD6-94A1-2EA5E61869CE} = {0888B86C-31CF-4288-BAE6-27515593310F}
+		{E6082BA0-4F9A-45BF-A209-2DC72D637277} = {0888B86C-31CF-4288-BAE6-27515593310F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}
