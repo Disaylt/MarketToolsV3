@@ -12,6 +12,7 @@ using Identity.Infrastructure.Repositories;
 using Identity.Infrastructure.Services;
 using Identity.Infrastructure.Services.Claims;
 using Identity.Infrastructure.Services.Tokens;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
