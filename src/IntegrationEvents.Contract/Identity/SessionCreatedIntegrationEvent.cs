@@ -9,6 +9,7 @@ namespace IntegrationEvents.Contract.Identity
     public record SessionCreatedIntegrationEvent : BaseIntegrationEvent
     {
         public required string SessionId { get; init; }
+        public required string UserId { get; init; }
         public string? UserAgent { get; init; }
     }
 }
