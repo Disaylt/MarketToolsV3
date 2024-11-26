@@ -17,7 +17,9 @@ namespace Identity.Application.EventHandlers.Domain
         {
             SessionCreatedIntegrationEvent integrationMessage = new SessionCreatedIntegrationEvent
             {
-                SessionId = notification.Session.Id
+                SessionId = notification.Session.Id,
+                UserId = notification.Session.IdentityId,
+                UserAgent = notification.Session.UserAgent
             };
 
             await bus.Publish(integrationMessage, cancellationToken);
