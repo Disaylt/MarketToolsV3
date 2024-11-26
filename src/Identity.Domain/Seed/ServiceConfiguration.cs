@@ -16,8 +16,5 @@ namespace Identity.Domain.Seed
         public virtual string SecretAccessToken { get; set; } = string.Empty;
         public virtual string Database { get; set; } = string.Empty;
         public virtual string Redis { get; set; } = string.Empty;
-        public virtual string ElasticUrl { get; set; } = string.Empty;
-        public virtual string ElasticUser { get; set; } = string.Empty;
-        public virtual string ElasticPassword { get; set; } = string.Empty;
     }
 }

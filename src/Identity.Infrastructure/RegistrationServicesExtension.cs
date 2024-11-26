@@ -38,6 +38,14 @@ namespace Identity.Infrastructure
                 opt.Configuration = config.Redis;
             });
 
+            collection.AddMassTransit(mt =>
+            {
+                mt.UsingRabbitMq(rmq =>
+                {
+                    rmq.
+                });
+            });
+
             collection.AddIdentityCore<IdentityPerson>(options =>
                 {
                     options.User.RequireUniqueEmail = true;
