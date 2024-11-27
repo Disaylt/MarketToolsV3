@@ -1,5 +1,6 @@
 ﻿using Identity.Domain.Seed;
 using Identity.WebApi.Services;
+using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -8,14 +9,11 @@ namespace Identity.WebApi
 {
     public static class ServiceRegistrationExtension
     {
-        public static void AddWebApiServices(this IServiceCollection collection, IConfigurationSection serviceSection)
+        public static void AddWebApiServices(this IServiceCollection collection, GlobalConfiguration<ServiceConfiguration> configuration)
         {
-            ServiceConfiguration config = serviceSection.Get<ServiceConfiguration>()
-                                          ?? throw new NullReferenceException("Users config is empty");
-
             collection.AddScoped<IAuthContext, AuthContext>();
 
-            byte[] secretBytes = Encoding.UTF8.GetBytes(config.SecretAccessToken);
+            byte[] secretBytes = Encoding.UTF8.GetBytes(configuration.General.AuthSecret);
 
             collection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -30,8 +28,8 @@ namespace Identity.WebApi
                             ValidateAudience = false,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidAudience = config.ValidAudience,
-                            ValidIssuer = config.ValidIssuer,
+                            ValidAudience = configuration.Service.ValidAudience,
+                            ValidIssuer = configuration.Service.ValidIssuer,
                             IssuerSigningKey = new SymmetricSecurityKey(secretBytes)
                         };
                     }

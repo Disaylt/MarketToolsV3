@@ -13,7 +13,6 @@ namespace Identity.Domain.Seed
         public virtual string ValidAudience { get; set; } = string.Empty;
         public virtual string ValidIssuer { get; set; } = string.Empty;
         public virtual string SecretRefreshToken { get; set; } = string.Empty;
-        public virtual string SecretAccessToken { get; set; } = string.Empty;
         public virtual string Database { get; set; } = string.Empty;
         public virtual string Redis { get; set; } = string.Empty;
     }

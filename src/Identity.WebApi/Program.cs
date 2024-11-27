@@ -18,8 +18,6 @@ IConfigurationSection serviceSection = builder.Configuration.GetSection(serviceN
 builder.Services.AddOptions<ServiceConfiguration>()
     .Bind(serviceSection);
 
-builder.Services.ConfigureOptions<ServiceConfiguration>();
-
 GlobalConfiguration<ServiceConfiguration> globalConfig = builder
     .Configuration
     .GetGlobalConfig<ServiceConfiguration>(serviceName);
@@ -27,7 +25,7 @@ GlobalConfiguration<ServiceConfiguration> globalConfig = builder
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddWebApiServices(serviceSection);
+builder.Services.AddWebApiServices(globalConfig);
 
 builder.Services
     .AddInfrastructureLayer(globalConfig)
