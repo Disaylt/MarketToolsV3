@@ -16,6 +16,8 @@ IConfigurationSection serviceSection = builder.Configuration.GetSection("Identit
 builder.Services.AddOptions<ServiceConfiguration>()
     .Bind(serviceSection);
 
+builder.Services.ConfigureOptions<ServiceConfiguration>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

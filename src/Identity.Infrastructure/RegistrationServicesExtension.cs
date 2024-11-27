@@ -12,6 +12,7 @@ using Identity.Infrastructure.Repositories;
 using Identity.Infrastructure.Services;
 using Identity.Infrastructure.Services.Claims;
 using Identity.Infrastructure.Services.Tokens;
+using MarketToolsV3.ConfigurationManager.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -21,21 +22,19 @@ namespace Identity.Infrastructure
 {
     public static class RegistrationServicesExtension
     {
-        public static IServiceCollection AddInfrastructureLayer(this IServiceCollection collection, IConfigurationSection serviceSection)
+        public static IServiceCollection AddInfrastructureLayer(this IServiceCollection collection, GlobalConfiguration<ServiceConfiguration> configuration)
         {
-            ServiceConfiguration config = serviceSection.Get<ServiceConfiguration>()
-                                          ?? throw new NullReferenceException("Users config is empty");
 
             collection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             collection.AddScoped<IEventRepository, EventRepository>();
             collection.AddScoped<ISessionService, SessionService>();
             collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
             collection.AddScoped<IIdentityPersonService, IdentityPersonService>();
-            collection.AddNpgsql<IdentityDbContext>(config.Database);
+            collection.AddNpgsql<IdentityDbContext>(configuration.Service.Database);
 
             collection.AddStackExchangeRedisCache(opt =>
             {
-                opt.Configuration = config.Redis;
+                opt.Configuration = configuration.Service.Redis;
             });
 
 
