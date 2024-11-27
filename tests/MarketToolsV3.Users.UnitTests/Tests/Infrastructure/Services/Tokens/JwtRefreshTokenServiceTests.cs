@@ -112,9 +112,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
             _optionsMock.SetupGet(x => x.Value.ExpireRefreshTokenHours)
                 .Returns(expire);
 
-            _optionsMock.SetupGet(x => x.Value.SecretAccessToken)
-                .Returns(It.IsAny<string>());
-
             _optionsMock.SetupGet(x => x.Value.ValidIssuer)
                 .Returns(It.IsAny<string>());
 
