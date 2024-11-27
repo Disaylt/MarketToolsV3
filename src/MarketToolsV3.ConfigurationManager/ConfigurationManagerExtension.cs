@@ -24,15 +24,5 @@ namespace MarketToolsV3.ConfigurationManager
 
             await configurationManagersFactory.Create(type).Upload();
         }
-
-        public static GlobalConfiguration<T> GetGlobalConfig<T>(this IConfigurationManager configuration, string serviceName)
-            where T : class, new()
-        {
-            return new GlobalConfiguration<T>
-            {
-                General = configuration.GetSection("General").Get<GeneralConfiguration>() ?? new GeneralConfiguration(),
-                Service = configuration.GetSection(serviceName).Get<T>() ?? new T(),
-            };
-        }
     }
 }

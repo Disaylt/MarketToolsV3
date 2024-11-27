@@ -14,22 +14,22 @@ var builder = WebApplication.CreateBuilder(args);
 await builder.Configuration.LoadConfigurationAsync();
 string serviceName = "Identity";
 
-IConfigurationSection serviceSection = builder.Configuration.GetSection(serviceName);
-builder.Services.AddOptions<ServiceConfiguration>()
-    .Bind(serviceSection);
+//IConfigurationSection serviceSection = builder.Configuration.GetSection(serviceName);
+//builder.Services.AddOptions<ServiceConfiguration>()
+//    .Bind(serviceSection);
 
-GlobalConfiguration<ServiceConfiguration> globalConfig = builder
-    .Configuration
-    .GetGlobalConfig<ServiceConfiguration>(serviceName);
+//GlobalConfiguration<ServiceConfiguration> globalConfig = builder
+//    .Configuration
+//    .GetGlobalConfig<ServiceConfiguration>(serviceName);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddWebApiServices(globalConfig);
+//builder.Services.AddControllers();
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
+//builder.Services.AddWebApiServices(globalConfig);
 
-builder.Services
-    .AddInfrastructureLayer(globalConfig)
-    .AddApplicationLayer();
+//builder.Services
+//    .AddInfrastructureLayer(globalConfig)
+//    .AddApplicationLayer();
 
 builder.Services.AddApiVersioning(opt =>
 {
@@ -38,7 +38,7 @@ builder.Services.AddApiVersioning(opt =>
     opt.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
-builder.AddLogging(globalConfig);
+//builder.AddLogging(globalConfig);
 
 var app = builder.Build();
 
