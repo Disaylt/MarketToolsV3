@@ -6,17 +6,23 @@ using Identity.WebApi;
 using Identity.WebApi.Middlewares;
 using Identity.WebApi.Services;
 using MarketToolsV3.ConfigurationManager;
+using MarketToolsV3.ConfigurationManager.Models;
 using Serilog;
 using Serilog.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 await builder.Configuration.LoadConfigurationAsync();
+string serviceName = "Identity";
 
-IConfigurationSection serviceSection = builder.Configuration.GetSection("Identity");
+IConfigurationSection serviceSection = builder.Configuration.GetSection(serviceName);
 builder.Services.AddOptions<ServiceConfiguration>()
     .Bind(serviceSection);
 
 builder.Services.ConfigureOptions<ServiceConfiguration>();
+
+GlobalConfiguration<ServiceConfiguration> globalConfig = builder
+    .Configuration
+    .GetGlobalConfig<ServiceConfiguration>(serviceName);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -24,7 +30,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddWebApiServices(serviceSection);
 
 builder.Services
-    .AddInfrastructureLayer(serviceSection)
+    .AddInfrastructureLayer(globalConfig)
     .AddApplicationLayer();
 
 builder.Services.AddApiVersioning(opt =>
@@ -34,7 +40,7 @@ builder.Services.AddApiVersioning(opt =>
     opt.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
-builder.AddLogging(serviceSection);
+builder.AddLogging(globalConfig);
 
 var app = builder.Build();
 

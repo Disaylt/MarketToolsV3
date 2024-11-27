@@ -37,6 +37,21 @@ namespace Identity.Infrastructure
                 opt.Configuration = configuration.Service.Redis;
             });
 
+            collection.AddMassTransit(mt =>
+            {
+                mt.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(configuration.General.MessageBrokerRabbitMqConnection,
+                        "/", 
+                        h =>
+                        {
+                            h.Username(configuration.General.MessageBrokerRabbitMqLogin);
+                            h.Password(configuration.General.MessageBrokerRabbitMqPassword);
+                        });
+
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
 
             collection.AddIdentityCore<IdentityPerson>(options =>
                 {
