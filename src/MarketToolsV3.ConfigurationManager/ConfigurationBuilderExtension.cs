@@ -9,11 +9,11 @@ using MarketToolsV3.ConfigurationManager.Models;
 
 namespace MarketToolsV3.ConfigurationManager
 {
-    public static class ConfigurationManagerExtension
+    public static class ConfigurationBuilderExtension
     {
         public static async Task LoadConfigurationAsync(this IConfigurationManager configuration)
         {
-            string? type = configuration.GetValue<string>("MarketToolsV3ConfigLoadType");
+            string? type = configuration.GetValue<string>("MarketToolsV3ConfigType");
 
             if (string.IsNullOrEmpty(type))
             {

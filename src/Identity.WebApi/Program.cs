@@ -14,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 await builder.Configuration.LoadConfigurationAsync();
 string serviceName = "Identity";
 
+
+
 //IConfigurationSection serviceSection = builder.Configuration.GetSection(serviceName);
 //builder.Services.AddOptions<ServiceConfiguration>()
 //    .Bind(serviceSection);
