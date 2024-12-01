@@ -30,5 +30,7 @@ namespace MarketToolsV3.ConfigurationManager
 
             return builder.Build();
         }
+
+        public 
     }
 }
