@@ -1,4 +1,5 @@
 ﻿using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager.Utilities;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,23 @@ using System.Threading.Tasks;
 
 namespace MarketToolsV3.ConfigurationManager.Implementations.Uploader
 {
-    internal class JsonFileConfigurationUploader(IConfigurationManager configuration) : IConfigurationUploader
+    internal class JsonFileConfigurationUploader(IConfigurationManager configuration) 
+        : IConfigurationUploader
     {
-        public Task Upload()
+        public Task UploadAsync(IConfigurationBuilder builder, string serviceName)
         {
-            string? filePath = configuration.GetValue<string>("MarketToolsV3ConfigFilePath");
+            string? filePath = configuration.GetValue<string>($"{serviceName}JsonBasePath")
+                ?? configuration.GetValue<string>("JsonBasePath");
 
             if (string.IsNullOrEmpty(filePath))
             {
                 return Task.CompletedTask;
             }
 
-            configuration.AddJsonFile(filePath);
+            builder.SetBasePath(filePath);
+
+            string fileName = ConfigNameConverter.ConvertByConfigPattern(serviceName);
+            builder.AddJsonFile($"{fileName}.json");
 
             return Task.CompletedTask;
         }

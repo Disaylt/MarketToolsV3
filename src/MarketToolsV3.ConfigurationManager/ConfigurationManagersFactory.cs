@@ -11,14 +11,13 @@ namespace MarketToolsV3.ConfigurationManager
 {
     public class ConfigurationManagersFactory(IConfigurationManager configurationManager)
     {
-        private readonly Dictionary<string, IConfigurationUploader> _typeAndUploaderPair = new()
-        {
-            {"JsonFile", new JsonFileConfigurationUploader(configurationManager)}
-        };
-
         public IConfigurationUploader Create(string type)
         {
-            return _typeAndUploaderPair[type];
+            return type switch
+            {
+                "Json" => new JsonFileConfigurationUploader(configurationManager),
+                _ => throw new NullReferenceException($"Configuration manager for type:{type} not exists")
+            };
         }
     }
 }
