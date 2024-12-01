@@ -9,7 +9,7 @@ namespace MarketToolsV3.ConfigurationManager.Abstraction
 {
     public interface ITypingConfigManager<out T> where T : class
     {
-        public T Value { get; }
+        public T? Value { get; }
         public void AddAsOptions(IServiceCollection services);
     }
 }

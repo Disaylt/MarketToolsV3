@@ -17,8 +17,8 @@ string serviceName = "Identity";
 
 
 //IConfigurationSection serviceSection = builder.Configuration.GetSection(serviceName);
-//builder.Services.AddOptions<ServiceConfiguration>()
-//    .Bind(serviceSection);
+builder.Services.AddOptions<ServiceConfiguration>()
+    .Bind(serviceSection);
 
 //GlobalConfiguration<ServiceConfiguration> globalConfig = builder
 //    .Configuration
