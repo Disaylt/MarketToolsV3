@@ -9,11 +9,11 @@ namespace Identity.WebApi
 {
     public static class ServiceRegistrationExtension
     {
-        public static void AddWebApiServices(this IServiceCollection collection, GlobalConfiguration<ServiceConfiguration> configuration)
+        public static void AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig)
         {
             collection.AddScoped<IAuthContext, AuthContext>();
 
-            byte[] secretBytes = Encoding.UTF8.GetBytes(configuration.General.AuthSecret);
+            byte[] secretBytes = Encoding.UTF8.GetBytes(authConfig.AuthSecret);
 
             collection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -24,12 +24,12 @@ namespace Identity.WebApi
                         opt.RequireHttpsMetadata = false;
                         opt.TokenValidationParameters = new TokenValidationParameters
                         {
-                            ValidateIssuer = false,
-                            ValidateAudience = false,
+                            ValidateIssuer = authConfig.IsCheckValidIssuer,
+                            ValidateAudience = authConfig.IsCheckValidAudience,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidAudience = configuration.Service.ValidAudience,
-                            ValidIssuer = configuration.Service.ValidIssuer,
+                            ValidAudience = authConfig.ValidAudience,
+                            ValidIssuer = authConfig.ValidIssuer,
                             IssuerSigningKey = new SymmetricSecurityKey(secretBytes)
                         };
                     }
