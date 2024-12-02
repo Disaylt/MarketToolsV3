@@ -15,16 +15,14 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
     {
         private Mock<IClaimsService<JwtAccessTokenDto>> _claimsServiceMock;
         private Mock<IJwtTokenService> _jwtTokenServiceMock;
-        private Mock<IOptions<ServiceConfiguration>> _serviceOptionsMock;
-        private Mock<IOptions<GeneralConfiguration>> _generalOptionsMock;
+        private Mock<IOptions<AuthConfig>> _authConfigOptionsMock;
 
         [SetUp]
         public void Setup()
         {
             _claimsServiceMock = new Mock<IClaimsService<JwtAccessTokenDto>>();
             _jwtTokenServiceMock = new Mock<IJwtTokenService>();
-            _serviceOptionsMock = new Mock<IOptions<ServiceConfiguration>>();
-            _generalOptionsMock = new Mock<IOptions<GeneralConfiguration>>();
+            _authConfigOptionsMock = new Mock<IOptions<AuthConfig>>();
         }
 
         [TestCaseSource(nameof(CreateTestStrings))]
@@ -32,8 +30,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         {
             JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
-                _serviceOptionsMock.Object,
-                _generalOptionsMock.Object);
+                _authConfigOptionsMock.Object);
 
             JwtSecurityToken jwtSecurityToken = new(
                 claims: [new(ClaimTypes.NameIdentifier, userId)]);
@@ -51,8 +48,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         {
             JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
-                _serviceOptionsMock.Object,
-                _generalOptionsMock.Object);
+                _authConfigOptionsMock.Object);
 
             JwtSecurityToken jwtSecurityToken = new(
                 claims: [new(ClaimTypes.Role, role)]);
@@ -70,8 +66,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         {
             JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
-                _serviceOptionsMock.Object,
-                _generalOptionsMock.Object);
+                _authConfigOptionsMock.Object);
 
             _generalOptionsMock.SetupGet(x => x.Value.AuthSecret)
                 .Returns(secret);
@@ -100,8 +95,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         {
             JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
-                _serviceOptionsMock.Object,
-                _generalOptionsMock.Object);
+                _authConfigOptionsMock.Object);
 
             _serviceOptionsMock.SetupGet(x => x.Value.ExpireAccessTokenMinutes)
                 .Returns(It.IsAny<int>());
@@ -127,8 +121,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         {
             JwtAccessTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
-                _serviceOptionsMock.Object,
-                _generalOptionsMock.Object);
+                _authConfigOptionsMock.Object);
 
             _serviceOptionsMock.SetupGet(x => x.Value.ExpireAccessTokenMinutes)
                 .Returns(expire);
