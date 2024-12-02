@@ -2,6 +2,7 @@
 using Identity.Application.Services;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Services.Claims;
+using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -16,19 +17,22 @@ namespace Identity.Infrastructure.Services.Tokens
 {
     public class JwtRefreshTokenService(IClaimsService<JwtRefreshTokenDto> claimsService,
         IJwtTokenService jwtTokenService,
-        IOptions<ServiceConfiguration> options)
+        IOptions<ServiceConfiguration> serviceConfigurationOptions,
+        IOptions<AuthConfig> authOptions)
         : ITokenService<JwtRefreshTokenDto>
     {
+        private readonly ServiceConfiguration _serviceConfiguration = serviceConfigurationOptions.Value;
+        private readonly AuthConfig _authConfig = authOptions.Value;
 
         public string Create(JwtRefreshTokenDto value)
         {
-            DateTime expires = DateTime.UtcNow.AddHours(options.Value.ExpireRefreshTokenHours);
+            DateTime expires = DateTime.UtcNow.AddHours(serviceConfigurationOptions.Value.ExpireRefreshTokenHours);
             IEnumerable<Claim> claims = claimsService.Create(value);
-            SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(options.Value.SecretRefreshToken);
+            SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(serviceConfigurationOptions.Value.SecretRefreshToken);
 
             JwtSecurityToken jwtSecurityToken = new(
-                options.Value.ValidIssuer,
-                options.Value.ValidAudience,
+                _authConfig.ValidIssuer,
+                _authConfig.ValidAudience,
                 claims,
                 expires: expires,
                 signingCredentials: signingCredentials);
@@ -41,7 +45,7 @@ namespace Identity.Infrastructure.Services.Tokens
         {
             TokenValidationResult result = await jwtTokenService
                 .GetValidationResultAsync(token,
-                    options.Value.SecretRefreshToken);
+                    _serviceConfiguration.SecretRefreshToken);
 
             return result.IsValid;
         }
