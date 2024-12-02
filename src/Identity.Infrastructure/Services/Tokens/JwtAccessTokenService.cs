@@ -17,19 +17,20 @@ namespace Identity.Infrastructure.Services.Tokens
 {
     public class JwtAccessTokenService(IClaimsService<JwtAccessTokenDto> claimsService,
         IJwtTokenService jwtTokenService,
-        IOptions<ServiceConfiguration> serviceOptions,
-        IOptions<GeneralConfiguration> generalOptions)
+        IOptions<AuthConfig> authOptions)
         : ITokenService<JwtAccessTokenDto>
     {
+        private readonly AuthConfig _authConfig = authOptions.Value;
+
         public string Create(JwtAccessTokenDto value)
         {
-            DateTime expires = DateTime.UtcNow.AddMinutes(serviceOptions.Value.ExpireAccessTokenMinutes);
+            DateTime expires = DateTime.UtcNow.AddMinutes(_authConfig.ExpireAccessTokenMinutes);
             IEnumerable<Claim> claims = claimsService.Create(value);
-            SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(generalOptions.Value.AuthSecret);
+            SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(_authConfig.AuthSecret);
 
             JwtSecurityToken jwtSecurityToken = new(
-                serviceOptions.Value.ValidIssuer,
-                serviceOptions.Value.ValidAudience,
+                _authConfig.ValidIssuer,
+                _authConfig.ValidAudience,
                 claims,
                 expires: expires,
                 signingCredentials: signingCredentials);
@@ -40,7 +41,7 @@ namespace Identity.Infrastructure.Services.Tokens
 
         public async Task<bool> IsValid(string token)
         {
-            TokenValidationResult result = await jwtTokenService.GetValidationResultAsync(token, generalOptions.Value.AuthSecret);
+            TokenValidationResult result = await jwtTokenService.GetValidationResultAsync(token, _authConfig.AuthSecret);
 
             return result.IsValid;
         }

@@ -9,7 +9,7 @@ namespace MarketToolsV3.ConfigurationManager.Models
     public record AuthConfig
     {
         public string AuthSecret { get; init; } = string.Empty;
-        public string ExpireAccessTokenMinutes { get; init; } = string.Empty;
+        public int ExpireAccessTokenMinutes { get; init; } = 15;
         public string? ValidAudience { get; init; }
         public string? ValidIssuer { get; init; }
         public bool IsCheckValidAudience { get; init; } = true;
