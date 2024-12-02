@@ -12,7 +12,8 @@ namespace MarketToolsV3.ConfigurationManager.Implementations
     internal class TypingConfigManage<T>(IConfigurationRoot configurationRoot)
         : ITypingConfigManager<T> where T : class
     {
-        public T? Value => configurationRoot.Get<T>();
+        public T Value => configurationRoot.Get<T>() 
+                          ?? throw new NullReferenceException($"Configuration type:{nameof(T)} not found.");
 
         public void AddAsOptions(IServiceCollection services)
         {

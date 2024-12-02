@@ -18,15 +18,19 @@ ConfigurationServiceFactory configurationServiceFactory = new(builder.Configurat
 
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
 serviceConfigManager.AddAsOptions(builder.Services);
+ITypingConfigManager<AuthConfig> authConfigManager = configurationServiceFactory.CreateFromAuth();
+authConfigManager.AddAsOptions(builder.Services);
+ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
+    configurationServiceFactory.CreateFromMessageBroker();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddWebApiServices(globalConfig);
-
-//builder.Services
-//    .AddInfrastructureLayer(globalConfig)
-//    .AddApplicationLayer();
+builder.Services.AddServiceAuthentication(authConfigManager.Value);
+builder.Services
+    .AddMessageBroker(messageBrokerConfigManager.Value)
+    .AddInfrastructureLayer(serviceConfigManager.Value)
+    .AddApplicationLayer();
 
 builder.Services.AddApiVersioning(opt =>
 {
