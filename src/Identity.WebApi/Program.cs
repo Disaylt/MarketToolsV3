@@ -11,8 +11,11 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Serilog;
 using Serilog.Core;
 
-var builder = WebApplication.CreateBuilder(args);
 string serviceName = "Identity";
+
+var builder = WebApplication.CreateBuilder(args);
+builder.AddServiceDefaults();
+builder.AddDefaultHealthChecks();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
