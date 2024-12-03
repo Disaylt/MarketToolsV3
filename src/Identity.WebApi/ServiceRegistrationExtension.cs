@@ -1,6 +1,7 @@
 ﻿using Identity.Domain.Seed;
 using Identity.WebApi.Services;
 using MarketToolsV3.ConfigurationManager.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -9,6 +10,27 @@ namespace Identity.WebApi
 {
     public static class ServiceRegistrationExtension
     {
+        public static IServiceCollection AddMessageBroker(this IServiceCollection collection, MessageBrokerConfig messageBrokerConfig)
+        {
+            collection.AddMassTransit(mt =>
+            {
+                mt.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(messageBrokerConfig.RabbitMqConnection,
+                        "/",
+                        h =>
+                        {
+                            h.Username(messageBrokerConfig.RabbitMqLogin);
+                            h.Password(messageBrokerConfig.RabbitMqPassword);
+                        });
+
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
+
+            return collection;
+        }
+
         public static void AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig)
         {
             collection.AddScoped<IAuthContext, AuthContext>();

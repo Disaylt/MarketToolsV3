@@ -23,30 +23,8 @@ namespace Identity.Infrastructure
 {
     public static class RegistrationServicesExtension
     {
-        public static IServiceCollection AddMessageBroker(this IServiceCollection collection, MessageBrokerConfig messageBrokerConfig)
-        {
-            collection.AddMassTransit(mt =>
-            {
-                mt.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host(messageBrokerConfig.RabbitMqConnection,
-                        "/",
-                        h =>
-                        {
-                            h.Username(messageBrokerConfig.RabbitMqLogin);
-                            h.Password(messageBrokerConfig.RabbitMqPassword);
-                        });
-
-                    cfg.ConfigureEndpoints(context);
-                });
-            });
-
-            return collection;
-        }
-
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection collection, ServiceConfiguration serviceConfiguration)
         {
-
             collection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             collection.AddScoped<IEventRepository, EventRepository>();
             collection.AddScoped<ISessionService, SessionService>();
