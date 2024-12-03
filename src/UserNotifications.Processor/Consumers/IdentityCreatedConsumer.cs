@@ -10,7 +10,7 @@ using UserNotifications.Applications.Commands;
 
 namespace UserNotifications.Processor.Consumers
 {
-    internal class IdentityCreatedConsumer(IMediator mediator) : IConsumer<IdentityCreatedIntegrationEvent>
+    public class IdentityCreatedConsumer(IMediator mediator) : IConsumer<IdentityCreatedIntegrationEvent>
     {
         public async Task Consume(ConsumeContext<IdentityCreatedIntegrationEvent> context)
         {
