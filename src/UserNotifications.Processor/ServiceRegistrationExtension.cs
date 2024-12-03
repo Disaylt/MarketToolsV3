@@ -4,6 +4,7 @@ using MassTransit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Processor.Consumers;
@@ -18,6 +19,9 @@ namespace UserNotifications.Processor
         {
             collection.AddMassTransit(mt =>
             {
+                mt.AddConsumer<IdentityCreatedConsumer>();
+                mt.AddConsumer<SessionCreatedConsumer>();
+
                 mt.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(messageBrokerConfig.RabbitMqConnection,
@@ -30,12 +34,12 @@ namespace UserNotifications.Processor
 
                     cfg.ReceiveEndpoint($"{serviceName}.IdentityCreatedQueue", re =>
                     {
-                        re.Consumer<IdentityCreatedConsumer>(context);
+                        re.ConfigureConsumer<IdentityCreatedConsumer>(context);
                     });
 
                     cfg.ReceiveEndpoint($"{serviceName}.SessionCreatedQueue", re =>
                     {
-                        re.Consumer<SessionCreatedConsumer>(context);
+                        re.ConfigureConsumer<SessionCreatedConsumer>(context);
                     });
 
                     cfg.ConfigureEndpoints(context);

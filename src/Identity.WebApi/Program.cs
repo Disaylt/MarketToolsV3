@@ -15,7 +15,6 @@ string serviceName = "Identity";
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
-builder.AddDefaultHealthChecks();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 

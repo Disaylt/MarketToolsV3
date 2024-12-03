@@ -19,8 +19,6 @@ namespace UserNotifications.Applications
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
-
-                
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 

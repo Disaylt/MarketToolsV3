@@ -9,7 +9,6 @@ using UserNotifications.Processor;
 string serviceName = "user-notifications";
 var builder = Host.CreateApplicationBuilder(args);
 builder.AddServiceDefaults();
-builder.AddDefaultHealthChecks();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
