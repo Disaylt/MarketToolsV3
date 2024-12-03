@@ -13,9 +13,9 @@ namespace MarketToolsV3.ConfigurationManager
     {
         public IConfigurationUploader Create(string type)
         {
-            return type switch
+            return type.ToLower() switch
             {
-                "Json" => new JsonFileConfigurationUploader(configurationManager),
+                "json" => new JsonFileConfigurationUploader(configurationManager),
                 _ => throw new NullReferenceException($"Configuration manager for type:{type} not exists")
             };
         }
