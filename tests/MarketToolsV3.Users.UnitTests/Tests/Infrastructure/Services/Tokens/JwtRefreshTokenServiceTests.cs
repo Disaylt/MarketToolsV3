@@ -55,16 +55,17 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         [TestCaseSource(nameof(CreateTokenAndSecret))]
         public async Task IsValid_CallValidationResultWithTestParameters(string token, string secret)
         {
-            JwtRefreshTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
-                _jwtTokenServiceMock.Object,
-                _serviceConfigurationOptionsMock.Object,
-                _authConfigOptionsMock.Object);
 
             _serviceConfigurationOptionsMock.SetupGet(x => x.Value)
                 .Returns(new ServiceConfiguration
                 {
                     SecretRefreshToken = secret
                 });
+
+            JwtRefreshTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _serviceConfigurationOptionsMock.Object,
+                _authConfigOptionsMock.Object);
 
             _jwtTokenServiceMock.Setup(x => x.GetValidationResultAsync(It.IsAny<string>(),
                     It.IsAny<string>(),
@@ -88,11 +89,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         [TestCaseSource(nameof(CreateTestStrings))]
         public void Create_UseSecretRefreshToken(string secret)
         {
-            JwtRefreshTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
-                _jwtTokenServiceMock.Object,
-                _serviceConfigurationOptionsMock.Object,
-                _authConfigOptionsMock.Object);
-
             _serviceConfigurationOptionsMock.SetupGet(x => x.Value)
                 .Returns(new ServiceConfiguration
                 {
@@ -107,6 +103,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                     ValidIssuer = It.IsAny<string>()
                 });
 
+            JwtRefreshTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _serviceConfigurationOptionsMock.Object,
+                _authConfigOptionsMock.Object);
+
             jwtAccessTokenService.Create(It.IsAny<JwtRefreshTokenDto>());
 
             _jwtTokenServiceMock.Verify(x =>
@@ -117,11 +118,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
         [TestCaseSource(nameof(CreateTestNum))]
         public void Create_UseExpireRefreshTokenHours(int expire)
         {
-            JwtRefreshTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
-                _jwtTokenServiceMock.Object,
-                _serviceConfigurationOptionsMock.Object,
-                _authConfigOptionsMock.Object);
-
             _serviceConfigurationOptionsMock.SetupGet(x => x.Value)
                 .Returns(new ServiceConfiguration
                 {
@@ -135,6 +131,11 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                     ValidAudience = It.IsAny<string>(),
                     ValidIssuer = It.IsAny<string>()
                 });
+
+            JwtRefreshTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
+                _jwtTokenServiceMock.Object,
+                _serviceConfigurationOptionsMock.Object,
+                _authConfigOptionsMock.Object);
 
             _serviceConfigurationOptionsMock.SetupGet(x => x.Value.ExpireRefreshTokenHours)
                 .Returns(expire);
