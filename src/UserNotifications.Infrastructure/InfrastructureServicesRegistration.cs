@@ -15,10 +15,8 @@ namespace UserNotifications.Infrastructure
 {
     public static class InfrastructureServicesRegistration
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfigurationSection serviceSection)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, ServiceConfiguration config)
         {
-            ServiceConfiguration config = serviceSection.Get<ServiceConfiguration>()
-                                          ?? throw new NullReferenceException("Users config is empty");
             services.AddSingleton<IMongoClient>(new MongoClient(config.DatabaseConnection));
             services.AddSingleton<IMongoDatabase>(x =>
                 x.GetRequiredService<IMongoClient>().GetDatabase(config.DatabaseName));

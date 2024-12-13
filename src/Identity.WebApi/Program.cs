@@ -6,23 +6,32 @@ using Identity.WebApi;
 using Identity.WebApi.Middlewares;
 using Identity.WebApi.Services;
 using MarketToolsV3.ConfigurationManager;
+using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager.Models;
 using Serilog;
 using Serilog.Core;
 
-var builder = WebApplication.CreateBuilder(args);
-await builder.Configuration.LoadConfigurationAsync();
+string serviceName = "Identity";
 
-IConfigurationSection serviceSection = builder.Configuration.GetSection("Identity");
-builder.Services.AddOptions<ServiceConfiguration>()
-    .Bind(serviceSection);
+var builder = WebApplication.CreateBuilder(args);
+builder.AddServiceDefaults();
+
+ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
+
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
+serviceConfigManager.AddAsOptions(builder.Services);
+ITypingConfigManager<AuthConfig> authConfigManager = configurationServiceFactory.CreateFromAuth();
+authConfigManager.AddAsOptions(builder.Services);
+ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
+    configurationServiceFactory.CreateFromMessageBroker();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddWebApiServices(serviceSection);
-
+builder.Services.AddServiceAuthentication(authConfigManager.Value);
 builder.Services
-    .AddInfrastructureLayer(serviceSection)
+    .AddMessageBroker(messageBrokerConfigManager.Value)
+    .AddInfrastructureLayer(serviceConfigManager.Value)
     .AddApplicationLayer();
 
 builder.Services.AddApiVersioning(opt =>
@@ -32,7 +41,7 @@ builder.Services.AddApiVersioning(opt =>
     opt.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
-builder.AddLogging(serviceSection);
+//builder.AddLogging(globalConfig);
 
 var app = builder.Build();
 

@@ -9,6 +9,6 @@ namespace MarketToolsV3.ConfigurationManager.Abstraction
 {
     public interface IConfigurationUploader
     {
-        Task Upload();
+        Task UploadAsync(IConfigurationBuilder builder, string serviceName);
     }
 }

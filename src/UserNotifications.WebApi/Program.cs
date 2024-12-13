@@ -1,22 +1,23 @@
 using Asp.Versioning;
 using MarketToolsV3.ConfigurationManager;
+using MarketToolsV3.ConfigurationManager.Abstraction;
 using UserNotifications.Applications;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure;
 
+string serviceName = "user-notifications";
 var builder = WebApplication.CreateBuilder(args);
-await builder.Configuration.LoadConfigurationAsync();
 
-IConfigurationSection serviceSection = builder.Configuration.GetSection("UserNotifications");
-builder.Services.AddOptions<ServiceConfiguration>()
-    .Bind(serviceSection);
+
+ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApplicationLayer(serviceSection)
-    .AddInfrastructureServices(serviceSection);
+builder.Services.AddApplicationLayer()
+    .AddInfrastructureServices(serviceConfigManager.Value);
 
 builder.Services.AddApiVersioning(opt =>
 {

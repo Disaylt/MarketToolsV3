@@ -12,15 +12,13 @@ namespace UserNotifications.Applications
 {
     public static class RegisterServicesExtension
     {
-        public static IServiceCollection AddApplicationLayer(this IServiceCollection serviceCollection, IConfigurationSection serviceSection)
+        public static IServiceCollection AddApplicationLayer(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
-
-                
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 
