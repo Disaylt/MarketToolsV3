@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserNotifications.Processor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppHost", "AppHost\AppHost.csproj", "{6B038607-6E07-4B8D-91F4-A928541C32C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolsV3.Host.ServiceDefaults", "src\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj", "{6E280F1F-6099-47CA-9A7C-CAB9E0BF3FCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketToolsV3.Host.ServiceDefaults", "src\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj", "{6E280F1F-6099-47CA-9A7C-CAB9E0BF3FCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
