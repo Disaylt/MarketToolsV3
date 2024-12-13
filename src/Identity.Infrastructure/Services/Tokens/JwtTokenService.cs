@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Seed;
+using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -14,11 +15,11 @@ using System.Threading.Tasks;
 namespace Identity.Infrastructure.Services.Tokens
 {
     internal class JwtTokenService(IJwtSecurityTokenHandler jwtSecurityTokenHandler,
-        IOptions<ServiceConfiguration> options,
+        IOptions<AuthConfig> authOptions,
         ILogger<JwtTokenService> logger)
         : IJwtTokenService
     {
-        private readonly ServiceConfiguration _serviceConfiguration = options.Value;
+        private readonly AuthConfig _authConfig = authOptions.Value;
         public virtual SigningCredentials CreateSigningCredentials(string secret)
         {
             byte[] secretBytes = Encoding.UTF8.GetBytes(secret);
@@ -57,8 +58,8 @@ namespace Identity.Infrastructure.Services.Tokens
                 ValidateIssuer = checkValidateIssuer,
                 ValidateAudience = checkValidateAudience,
                 ValidateLifetime = checkValidateLifetime,
-                ValidAudience = _serviceConfiguration.ValidAudience,
-                ValidIssuer = _serviceConfiguration.ValidIssuer,
+                ValidAudience = _authConfig.ValidAudience,
+                ValidIssuer = _authConfig.ValidIssuer,
                 ClockSkew = TimeSpan.Zero,
             };
             return await jwtSecurityTokenHandler.ValidateTokenAsync(token, tokenValidationParameters);

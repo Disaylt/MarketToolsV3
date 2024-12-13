@@ -35,7 +35,7 @@ namespace MarketToolsV3.Users.IntegrationTests.Tests.Infrastructure.Services
         [TestCase("2", 5, 3)]
         [TestCase("2", 3, 2)]
         [TestCase("2", 1, 1)]
-        public async Task GetActiveSessionsAsync_InputUserIdAndEpireHours_ExpectQuantitySessions(string userId, int expireHours, int expectedQuantity)
+        public async Task GetActiveSessionsAsync_InputUserIdAndExpireHours_ExpectQuantitySessions(string userId, int expireHours, int expectedQuantity)
         {
             _optionsMock.SetupGet(x => x.Value)
                 .Returns(new ServiceConfiguration

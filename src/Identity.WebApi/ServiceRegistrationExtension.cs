@@ -1,5 +1,7 @@
 ﻿using Identity.Domain.Seed;
 using Identity.WebApi.Services;
+using MarketToolsV3.ConfigurationManager.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -8,14 +10,32 @@ namespace Identity.WebApi
 {
     public static class ServiceRegistrationExtension
     {
-        public static void AddWebApiServices(this IServiceCollection collection, IConfigurationSection serviceSection)
+        public static IServiceCollection AddMessageBroker(this IServiceCollection collection, MessageBrokerConfig messageBrokerConfig)
         {
-            ServiceConfiguration config = serviceSection.Get<ServiceConfiguration>()
-                                          ?? throw new NullReferenceException("Users config is empty");
+            collection.AddMassTransit(mt =>
+            {
+                mt.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(messageBrokerConfig.RabbitMqConnection,
+                        "/",
+                        h =>
+                        {
+                            h.Username(messageBrokerConfig.RabbitMqLogin);
+                            h.Password(messageBrokerConfig.RabbitMqPassword);
+                        });
 
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
+
+            return collection;
+        }
+
+        public static void AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig)
+        {
             collection.AddScoped<IAuthContext, AuthContext>();
 
-            byte[] secretBytes = Encoding.UTF8.GetBytes(config.SecretAccessToken);
+            byte[] secretBytes = Encoding.UTF8.GetBytes(authConfig.AuthSecret);
 
             collection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
@@ -26,12 +46,12 @@ namespace Identity.WebApi
                         opt.RequireHttpsMetadata = false;
                         opt.TokenValidationParameters = new TokenValidationParameters
                         {
-                            ValidateIssuer = false,
-                            ValidateAudience = false,
+                            ValidateIssuer = authConfig.IsCheckValidIssuer,
+                            ValidateAudience = authConfig.IsCheckValidAudience,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidAudience = config.ValidAudience,
-                            ValidIssuer = config.ValidIssuer,
+                            ValidAudience = authConfig.ValidAudience,
+                            ValidIssuer = authConfig.ValidIssuer,
                             IssuerSigningKey = new SymmetricSecurityKey(secretBytes)
                         };
                     }

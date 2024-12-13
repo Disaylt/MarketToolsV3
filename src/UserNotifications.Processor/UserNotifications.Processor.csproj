@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-UserNotifications.Processor-a8620252-7c10-48d1-9495-6f0246a0f2de</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.3.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IntegrationEvents.Contract\IntegrationEvents.Contract.csproj" />
+    <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
+    <ProjectReference Include="..\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\UserNotifications.Applications\UserNotifications.Applications.csproj" />
+    <ProjectReference Include="..\UserNotifications.Domain\UserNotifications.Domain.csproj" />
+    <ProjectReference Include="..\UserNotifications.Infrastructure\UserNotifications.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>d8c57b7f-a640-4be6-aea4-9af9530f49d8</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
+    <ProjectReference Include="..\UserNotifications.Applications\UserNotifications.Applications.csproj" />
+    <ProjectReference Include="..\UserNotifications.Domain\UserNotifications.Domain.csproj" />
+    <ProjectReference Include="..\UserNotifications.Infrastructure\UserNotifications.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -14,12 +14,13 @@ namespace Identity.Application.Behaviors
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Run request - {requestType}, await response - {responseType}", typeof(TRequest), typeof(TResponse));
+            logger.LogInformation("Handling {request}", typeof(TRequest).Name);
             logger.LogDebug("Request body {@body}", request);
             
             var response = await next();
 
             logger.LogDebug("Response body {@body}", response);
+            logger.LogInformation("Handled {request}", typeof(TResponse).Name);
 
             return response;
         }
