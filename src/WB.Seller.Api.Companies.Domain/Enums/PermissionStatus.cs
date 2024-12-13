@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WB.Seller.Api.Companies.Domain.Enums
 {
-    public enum Permissions
+    public enum PermissionStatus
     {
         [Description("Недоступно")]
         None,
