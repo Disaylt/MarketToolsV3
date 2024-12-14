@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WB.Seller.Api.Companies.Domain.Seed;
 
 namespace WB.Seller.Api.Companies.Domain.Entities
 {
-    public class Subscriber
+    public class Subscriber : Entity
     {
         public string Id { get; private set; }
         public string Email { get; private set; }
