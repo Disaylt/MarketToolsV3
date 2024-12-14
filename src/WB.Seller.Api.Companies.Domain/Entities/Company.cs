@@ -12,15 +12,24 @@ namespace WB.Seller.Api.Companies.Domain.Entities
         public string Name { get; private set; }
         public string? Token { get; private set; }
 
+        public string OwnerId { get; private set; }
+        public Owner Owner { get; private set; }
+
+        private readonly List<Subscriber> _subscribers = new();
+        public IReadOnlyCollection<Subscriber> Subscribers => _subscribers;
+
         protected Company()
         {
             Name = null!;
+            OwnerId = null!;
+            Owner = null!;
         }
 
-        public Company(string name, string? token) : this()
+        public Company(string name, string? token, string ownerId) : this()
         {
             Name = name;
             Token = token;
+            OwnerId = ownerId;
         }
     }
 }

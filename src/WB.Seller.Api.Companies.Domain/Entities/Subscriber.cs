@@ -9,19 +9,20 @@ namespace WB.Seller.Api.Companies.Domain.Entities
 {
     public class Subscriber : Entity
     {
-        public string Id { get; private set; }
+        public string SubId { get; private set; }
         public string Email { get; private set; }
         public string? Note {get; private set; }
 
+
         protected Subscriber()
         {
-            Id = null!;
+            SubId = null!;
             Email = null!;
         }
 
         public Subscriber(string id, string email, string? note) : this()
         {
-            Id = id;
+            SubId = id;
             Email = email;
             Note = note;
         }
