@@ -14,15 +14,19 @@ namespace WB.Seller.Api.Companies.Domain.Entities
         public PermissionStatus Status { get; private set; }
         public PermissionType Type { get; private set; }
 
+        public int SubscriptionId { get; private set; }
+        public Subscription Subscription { get; private set; }
+
         protected Permission()
         {
-
+            Subscription = null!;
         }
 
-        public Permission(PermissionStatus status, PermissionType type) : this()
+        public Permission(PermissionStatus status, PermissionType type, int subscriptionId) : this()
         {
             Status = status;
             Type = type;
+            SubscriptionId = subscriptionId;
         }
     }
 }

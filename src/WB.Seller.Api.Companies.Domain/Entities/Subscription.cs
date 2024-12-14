@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WB.Seller.Api.Companies.Domain.Seed;
 
 namespace WB.Seller.Api.Companies.Domain.Entities
 {
-    public class Subscription
+    public class Subscription : Entity
     {
         public string SubscriberId { get; private set; }
         public Subscriber Subscriber { get; private set; }
 
         public int CompanyId { get; private set; }
         public Company Company { get; private set; }
+
+        private readonly List<Permission> _permissions = new();
+        public IReadOnlyCollection<Permission> Permissions => _permissions.AsReadOnly();
 
         protected Subscription()
         {

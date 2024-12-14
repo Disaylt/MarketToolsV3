@@ -13,6 +13,8 @@ namespace WB.Seller.Api.Companies.Domain.Entities
         public string Email { get; private set; }
         public string? Note {get; private set; }
 
+        private readonly List<Subscription> _subscriptions = new();
+        public IReadOnlyCollection<Subscription> Subscriptions => _subscriptions;
 
         protected Subscriber()
         {
