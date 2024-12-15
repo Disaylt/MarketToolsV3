@@ -15,4 +15,6 @@ builder
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
+builder.AddProject<Projects.WB_Seller_Api_Companies_WebApi>("wb-seller-api-companies-webapi");
+
 builder.Build().Run();
