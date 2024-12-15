@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MarketToolsV3.MigrationsManager": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
