@@ -30,21 +30,17 @@ namespace WB.Seller.Api.Companies.Infrastructure.Database.EfConfigurations
                 .HasForeignKey(e => e.OwnerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //builder.HasMany(c => c.Subscribers)
-            //    .WithMany(s => s.Companies)
-            //    .UsingEntity<Subscription>(
-            //        j => j
-            //            .HasOne(s => s.Subscriber)
-            //            .WithMany(s => s.Subscriptions)
-            //            .HasForeignKey(s => s.SubscriberId),
-            //        j => j
-            //            .HasOne(x => x.Company)
-            //            .WithMany(x => x.Subscriptions)
-            //            .HasForeignKey(x => x.CompanyId),
-            //        j =>
-            //        {
-
-            //        });
+            builder.HasMany(c => c.Subscribers)
+                .WithMany(s => s.Companies)
+                .UsingEntity<Subscription>(
+                    j => j
+                        .HasOne(s => s.Subscriber)
+                        .WithMany(s => s.Subscriptions)
+                        .HasForeignKey(s => s.SubscriberId),
+                    j => j
+                        .HasOne(x => x.Company)
+                        .WithMany(x => x.Subscriptions)
+                        .HasForeignKey(x => x.CompanyId));
         }
     }
 }
