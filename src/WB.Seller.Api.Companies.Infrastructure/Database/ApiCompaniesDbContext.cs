@@ -22,6 +22,8 @@ namespace WB.Seller.Api.Companies.Infrastructure.Database
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration(new OwnerConfiguration());
             modelBuilder.ApplyConfiguration(new SubscriberConfiguration());
+            modelBuilder.ApplyConfiguration(new SubscriptionConfiguration());
+            modelBuilder.ApplyConfiguration(new PermissionConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
