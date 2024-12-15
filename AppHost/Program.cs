@@ -20,4 +20,6 @@ builder
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
+builder.AddProject<Projects.MarketToolsV3_MigrationService>("markettoolsv3-migrationservice");
+
 builder.Build().Run();
