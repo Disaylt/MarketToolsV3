@@ -3,6 +3,7 @@ using Identity.Application;
 using Identity.Domain.Constant;
 using Identity.Domain.Seed;
 using Identity.Infrastructure;
+using Identity.Infrastructure.Database;
 using Identity.WebApi;
 using Identity.WebApi.Middlewares;
 using Identity.WebApi.Services;
