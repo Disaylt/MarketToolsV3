@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MarketToolsV3.MigrationService.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace MarketToolsV3.MigrationService
+namespace MarketToolsV3.MigrationService.Hosts
 {
-    internal class EfMigrationWorkerService<T>(IServiceProvider serviceProvider,
-        ILogger logger) 
+    internal class EfMigrationBackgroundService<T>(IServiceProvider serviceProvider,
+        ILogger<EfMigrationBackgroundService<T>> logger,
+        HostFinishService hostFinishService)
         : BackgroundService where T : DbContext
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            logger.LogInformation("Run migration for {type}", nameof(T));
+            logger.LogInformation("Run migration for {type}", typeof(T).FullName);
 
             try
             {
@@ -23,8 +25,15 @@ namespace MarketToolsV3.MigrationService
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Migration {type} failed", nameof(T));
+                logger.LogError(ex, "Migration {type} failed", typeof(T).FullName);
             }
+            finally
+            {
+                hostFinishService.MarkAsComplete();
+            }
+
+            logger.LogInformation("Migration completed for {type}", typeof(T).FullName);
+
         }
     }
 }
