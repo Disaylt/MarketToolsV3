@@ -1,6 +1,7 @@
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using WB.Seller.Api.Companies.Domain.Seed;
+using WB.Seller.Api.Companies.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.AddServiceDefaults();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
+
+builder.Services.AddInfrastructureLayer(serviceConfigManager.Value);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

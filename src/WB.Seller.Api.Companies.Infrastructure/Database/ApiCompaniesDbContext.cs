@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WB.Seller.Api.Companies.Domain.Entities;
+using WB.Seller.Api.Companies.Infrastructure.Database.EfConfigurations;
 
 namespace WB.Seller.Api.Companies.Infrastructure.Database
 {
@@ -15,5 +16,13 @@ namespace WB.Seller.Api.Companies.Infrastructure.Database
         //public DbSet<Permission> Permissions { get; set; } = null!;
         //public DbSet<Subscriber> Subscribers { get; set; } = null!;
         //public DbSet<Subscription> Subscriptions { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+            modelBuilder.ApplyConfiguration(new OwnerConfiguration());
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
