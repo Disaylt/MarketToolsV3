@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Identity.Application;
+using Identity.Domain.Constant;
 using Identity.Domain.Seed;
 using Identity.Infrastructure;
 using Identity.WebApi;
@@ -11,14 +12,13 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Serilog;
 using Serilog.Core;
 
-string serviceName = "identity";
-
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory
+    .CreateFromService<ServiceConfiguration>(ServiceInformation.Name);
 serviceConfigManager.AddAsOptions(builder.Services);
 ITypingConfigManager<AuthConfig> authConfigManager = configurationServiceFactory.CreateFromAuth();
 authConfigManager.AddAsOptions(builder.Services);

@@ -2,15 +2,15 @@ using Asp.Versioning;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using UserNotifications.Applications;
+using UserNotifications.Domain.Constant;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure;
 
-string serviceName = "user-notifications";
 var builder = WebApplication.CreateBuilder(args);
 
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(ServiceInformation.Name);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
