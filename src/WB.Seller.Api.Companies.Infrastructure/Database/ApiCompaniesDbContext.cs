@@ -12,8 +12,8 @@ namespace WB.Seller.Api.Companies.Infrastructure.Database
     {
         public DbSet<Company> Companies { get; set; } = null!;
         public DbSet<Owner> Owners { get; set; } = null!;
-        public DbSet<Permission> Permissions { get; set; } = null!;
-        public DbSet<Subscriber> Subscribers { get; set; } = null!;
-        public DbSet<Subscription> Subscriptions { get; set; } = null!;
+        //public DbSet<Permission> Permissions { get; set; } = null!;
+        //public DbSet<Subscriber> Subscribers { get; set; } = null!;
+        //public DbSet<Subscription> Subscriptions { get; set; } = null!;
     }
 }

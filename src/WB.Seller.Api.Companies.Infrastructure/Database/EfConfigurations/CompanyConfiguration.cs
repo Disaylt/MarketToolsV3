@@ -15,15 +15,36 @@ namespace WB.Seller.Api.Companies.Infrastructure.Database.EfConfigurations
         {
             builder.ToTable("companies");
 
-            builder.HasKey(c => c.Id);
+            builder.HasKey(e => e.Id);
 
-            builder.HasIndex(c => c.OwnerId);
+            builder.HasIndex(e => e.OwnerId);
 
-            builder.Property(c => c.Token)
+            builder.Property(e => e.Token)
                 .HasMaxLength(2000);
 
-            builder.Property(c => c.Name)
+            builder.Property(e => e.Name)
                 .HasMaxLength(100);
+
+            builder.HasOne(e => e.Owner)
+                .WithMany(e => e.Companies)
+                .HasForeignKey(e => e.OwnerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(c => c.Subscribers)
+                .WithMany(s => s.Companies)
+                .UsingEntity<Subscription>(
+                    j => j
+                        .HasOne(s => s.Subscriber)
+                        .WithMany(s => s.Subscriptions)
+                        .HasForeignKey(s => s.SubscriberId),
+                    j => j
+                        .HasOne(x => x.Company)
+                        .WithMany(x => x.Subscriptions)
+                        .HasForeignKey(x => x.CompanyId),
+                    j =>
+                    {
+
+                    });
         }
     }
 }
