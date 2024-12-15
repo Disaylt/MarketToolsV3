@@ -11,7 +11,7 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Serilog;
 using Serilog.Core;
 
-string serviceName = "Identity";
+string serviceName = "identity";
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();

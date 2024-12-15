@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\src\Identity.WebApi\Identity.WebApi.csproj" />
     <ProjectReference Include="..\src\UserNotifications.Processor\UserNotifications.Processor.csproj" />
+    <ProjectReference Include="..\src\WB.Seller.Api.Companies.WebApi\WB.Seller.Api.Companies.WebApi.csproj" />
   </ItemGroup>
 
 </Project>
