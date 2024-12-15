@@ -6,7 +6,7 @@ var configTypeParameter = builder.AddParameter("ConfigType");
 var jsonBasePathParameter = builder.AddParameter("JsonBasePath");
 
 builder
-    .AddProject<Identity_WebApi>("IdentityService")
+    .AddProject<Identity_WebApi>("IdentityWebApiService")
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
