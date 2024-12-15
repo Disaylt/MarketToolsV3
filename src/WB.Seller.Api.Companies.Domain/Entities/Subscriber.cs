@@ -16,6 +16,9 @@ namespace WB.Seller.Api.Companies.Domain.Entities
         private readonly List<Subscription> _subscriptions = new();
         public IReadOnlyCollection<Subscription> Subscriptions => _subscriptions;
 
+        private readonly List<Company> _companies = new();
+        public IReadOnlyCollection<Company> Companies => _companies;
+
         protected Subscriber()
         {
             SubId = null!;

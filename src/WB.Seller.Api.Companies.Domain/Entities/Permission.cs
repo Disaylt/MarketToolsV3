@@ -17,6 +17,7 @@ namespace WB.Seller.Api.Companies.Domain.Entities
         public int SubscriptionId { get; private set; }
         public Subscription Subscription { get; private set; }
 
+
         protected Permission()
         {
             Subscription = null!;
