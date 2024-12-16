@@ -7,11 +7,12 @@ using Microsoft.Extensions.Options;
 
 namespace MarketToolsV3.MigrationService.Services
 {
-    internal class HostFinishService(IOptions<HostCounterConfig> options,
-        IHostApplicationLifetime hostApplicationLifetime)
+    internal class MigrationTaskService(IOptions<HostCounterConfig> options) : IMigrationTaskService
     {
         private readonly HostCounterConfig _config = options.Value;
         private readonly object _lock = new ();
+
+        public event Action? CompletedAllTask;
 
         public void MarkAsComplete()
         {
@@ -19,7 +20,7 @@ namespace MarketToolsV3.MigrationService.Services
             {
                 if (_config.Quantity == 1)
                 {
-                    hostApplicationLifetime.StopApplication();
+                    CompletedAllTask?.Invoke();
                 }
                 else
                 {

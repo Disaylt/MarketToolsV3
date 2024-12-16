@@ -10,7 +10,7 @@ namespace MarketToolsV3.MigrationService.Hosts
 {
     internal class EfMigrationBackgroundService<T>(IServiceProvider serviceProvider,
         ILogger<EfMigrationBackgroundService<T>> logger,
-        HostFinishService hostFinishService)
+        IMigrationTaskService migrationTaskService)
         : BackgroundService where T : DbContext
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -29,11 +29,9 @@ namespace MarketToolsV3.MigrationService.Hosts
             }
             finally
             {
-                hostFinishService.MarkAsComplete();
+                logger.LogInformation("Migration completed for {type}", typeof(T).FullName);
+                migrationTaskService.MarkAsComplete();
             }
-
-            logger.LogInformation("Migration completed for {type}", typeof(T).FullName);
-
         }
     }
 }
