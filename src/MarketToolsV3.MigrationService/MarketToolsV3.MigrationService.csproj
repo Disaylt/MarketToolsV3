@@ -18,5 +18,7 @@
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
     <ProjectReference Include="..\Identity.Infrastructure\Identity.Infrastructure.csproj" />
     <ProjectReference Include="..\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\WB.Seller.Api.Companies.Domain\WB.Seller.Api.Companies.Domain.csproj" />
+    <ProjectReference Include="..\WB.Seller.Api.Companies.Infrastructure\WB.Seller.Api.Companies.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

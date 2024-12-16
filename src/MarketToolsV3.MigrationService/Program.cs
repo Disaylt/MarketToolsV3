@@ -9,15 +9,20 @@ using MarketToolsV3.MigrationService.Hosts;
 using Microsoft.Extensions.Options;
 using MarketToolsV3.MigrationService;
 using MarketToolsV3.MigrationService.Services;
+using MarketToolsV3.MigrationService.ContextRegistration;
+using WB.Seller.Api.Companies.Infrastructure.Database;
 
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Services.AddSingleton<IMigrationTaskService, MigrationTaskService>();
 
 builder.AddServiceDefaults();
+
 builder.AddIdentityContext();
+builder.AddWbSellerApiCompaniesContext();
 
 builder.AddMigrationHostService<EfMigrationBackgroundService<IdentityDbContext>>();
+builder.AddMigrationHostService<EfMigrationBackgroundService<ApiCompaniesDbContext>>();
 
 builder.Services.AddHostedService<HostLifeBackgroundService>();
 
