@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WB.Seller.Api.Companies.Infrastructure.Database;
@@ -11,9 +12,11 @@ using WB.Seller.Api.Companies.Infrastructure.Database;
 namespace WB.Seller.Api.Companies.Infrastructure.Migrations
 {
     [DbContext(typeof(ApiCompaniesDbContext))]
-    partial class ApiCompaniesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241216185426_ChangePermissionIndexTypeSubscription")]
+    partial class ChangePermissionIndexTypeSubscription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
