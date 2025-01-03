@@ -11,6 +11,8 @@ namespace Identity.Application.Services
     {
         Task<IdentityPerson> AddAsync(IdentityPerson identity, string password);
         Task<IdentityPerson?> FindByEmailAsync(string email);
+        Task<IdentityPerson?> FindByIdAsync(string id);
+        Task<IdentityPerson> FindByIdRequiredAsync(string id);
         Task<bool> CheckPassword(IdentityPerson identity, string password);
     }
 }

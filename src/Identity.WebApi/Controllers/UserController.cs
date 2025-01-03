@@ -3,6 +3,7 @@ using Identity.Application.Commands;
 using Identity.Application.Models;
 using Identity.WebApi.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -19,6 +20,13 @@ namespace Identity.WebApi.Controllers
 
         private static readonly CookieOptions _cookieOptions = new()
             { HttpOnly = true, Expires = DateTimeOffset.UtcNow.AddYears(1) };
+
+        [Authorize]
+        [HttpGet("details")]
+        public async Task<IActionResult> GetDetailsAsync()
+        {
+            return Ok();
+        }
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] NewUserModel user, CancellationToken cancellationToken)
