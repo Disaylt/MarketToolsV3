@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning;
 using Identity.Application.Commands;
 using Identity.Application.Models;
+using Identity.Application.Queries;
 using Identity.WebApi.Models;
+using Identity.WebApi.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,19 +15,27 @@ namespace Identity.WebApi.Controllers
     [ApiController]
     [ApiVersion("1")]
     public class UserController(IMediator mediator, 
-        IOptions<WebApiConfiguration> options)
+        IOptions<WebApiConfiguration> options,
+        IAuthContext authContext)
         : ControllerBase
     {
         private readonly WebApiConfiguration _configuration = options.Value;
 
-        private static readonly CookieOptions _cookieOptions = new()
+        private static readonly CookieOptions CookieOptions = new()
             { HttpOnly = true, Expires = DateTimeOffset.UtcNow.AddYears(1) };
 
         [Authorize]
         [HttpGet("details")]
-        public async Task<IActionResult> GetDetailsAsync()
+        public async Task<IActionResult> GetDetailsAsync(CancellationToken cancellationToken)
         {
-            return Ok();
+            GetIdentityDetailsQuery query = new GetIdentityDetailsQuery
+            {
+                UserId = authContext.GetUserIdRequired()
+            };
+
+            IdentityDetailsDto result = await mediator.Send(query, cancellationToken);
+
+            return Ok(result);
         }
 
         [HttpPost("register")]
@@ -41,8 +51,8 @@ namespace Identity.WebApi.Controllers
 
             AuthDetailsDto result = await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthToken, _cookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.SessionToken, _cookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.SessionToken, CookieOptions);
 
             return Ok(result);
         }
@@ -59,8 +69,8 @@ namespace Identity.WebApi.Controllers
 
             AuthDetailsDto result = await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthToken, _cookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.SessionToken, _cookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.SessionToken, CookieOptions);
 
             return Ok(result);
         }
