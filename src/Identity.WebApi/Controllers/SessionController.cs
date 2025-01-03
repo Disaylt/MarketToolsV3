@@ -2,6 +2,7 @@
 using Identity.Application.Commands;
 using Identity.Application.Queries;
 using Identity.WebApi.Models;
+using Identity.WebApi.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +18,8 @@ namespace Identity.WebApi.Controllers
     [ApiVersion("1")]
     [Authorize]
     public class SessionController(IMediator mediator,
-        IOptions<WebApiConfiguration> options) 
+        IOptions<WebApiConfiguration> options,
+        ISessionStateService sessionStateService) 
         : ControllerBase
     {
         private readonly WebApiConfiguration _configuration = options.Value;
@@ -38,21 +40,8 @@ namespace Identity.WebApi.Controllers
         [HttpGet("status")]
         public async Task<IActionResult> GetStateAsync(CancellationToken cancellationToken)
         {
-            SessionStateViewModel result = new();
-
-            string? refreshTokenValue = HttpContext.Request.Cookies[_configuration.RefreshTokenName];
-
-            if (refreshTokenValue is null)
-            {
-                return Ok(result);
-            }
-
-            CheckSessionActiveStatusQuery query = new CheckSessionActiveStatusQuery
-            {
-                RefreshToken = refreshTokenValue
-            };
-
-            result.IsValid = await mediator.Send(query, cancellationToken);
+            string? refreshToken = HttpContext.Request.Cookies[_configuration.RefreshTokenName];
+            SessionValidStatusDto result = await sessionStateService.GetSessionValidStatus(refreshToken, cancellationToken);
 
             return Ok(result);
         }

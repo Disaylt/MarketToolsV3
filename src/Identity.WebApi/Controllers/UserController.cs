@@ -11,7 +11,8 @@ namespace Identity.WebApi.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1")]
-    public class UserController(IMediator mediator, IOptions<WebApiConfiguration> options)
+    public class UserController(IMediator mediator, 
+        IOptions<WebApiConfiguration> options)
         : ControllerBase
     {
         private readonly WebApiConfiguration _configuration = options.Value;

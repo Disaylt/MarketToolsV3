@@ -4,6 +4,6 @@ namespace Identity.WebApi.Services
 {
     public interface ISessionStateService
     {
-        Task<SessionValidStatusDto> GetSessionValidStatus(string refreshToken, CancellationToken cancellationToken = default);
+        Task<SessionValidStatusDto> GetSessionValidStatus(string? refreshToken, CancellationToken cancellationToken = default);
     }
 }
