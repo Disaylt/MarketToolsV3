@@ -29,6 +29,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddServiceAuthentication(authConfigManager.Value);
+builder.Services.AddWebApiServices();
 builder.Services
     .AddMessageBroker(messageBrokerConfigManager.Value)
     .AddInfrastructureLayer(serviceConfigManager.Value)
