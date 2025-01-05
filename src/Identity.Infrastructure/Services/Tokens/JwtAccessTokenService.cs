@@ -41,7 +41,10 @@ namespace Identity.Infrastructure.Services.Tokens
 
         public async Task<bool> IsValid(string token)
         {
-            TokenValidationResult result = await jwtTokenService.GetValidationResultAsync(token, _authConfig.AuthSecret);
+            TokenValidationResult result = await jwtTokenService
+                .GetValidationResultAsync(token, _authConfig.AuthSecret,
+                    checkValidateAudience: _authConfig.IsCheckValidAudience,
+                    checkValidateIssuer: _authConfig.IsCheckValidIssuer);
 
             return result.IsValid;
         }

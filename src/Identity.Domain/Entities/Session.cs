@@ -12,7 +12,7 @@ namespace Identity.Domain.Entities
         public string? Token { get; set; }
         public bool IsActive { get; set; }
         public DateTime Created { get; private set; } = DateTime.UtcNow;
-        public DateTime Updated { get; set; }
+        public DateTime Updated { get; set; } = DateTime.UtcNow;
         public IdentityPerson Identity { get; private set; } = null!;
         public string IdentityId { get; private set; } = null!;
         public string UserAgent { get; set; } = null!;
