@@ -7,6 +7,7 @@ using Identity.Application.Commands;
 using Identity.Application.Models;
 using Identity.WebApi.Controllers;
 using Identity.WebApi.Models;
+using Identity.WebApi.Services;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
 
         private Mock<IMediator> _mediatorMock;
         private Mock<IOptions<WebApiConfiguration>> _optionsMock;
+        private Mock<IAuthContext> _authContextMock;
 
         [SetUp]
         public void Setup()
@@ -29,6 +31,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             _optionsMock = new Mock<IOptions<WebApiConfiguration>>();
             _optionsMock.SetupGet(x => x.Value)
                 .Returns(new WebApiConfiguration());
+            _authContextMock = new Mock<IAuthContext>();
         }
 
         [Test]
@@ -48,7 +51,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     SessionToken = ""
                 });
 
-            UserController userController = new(_mediatorMock.Object, _optionsMock.Object)
+            UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -83,7 +86,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     SessionToken = refreshToken
                 });
 
-            UserController userController = new(_mediatorMock.Object, _optionsMock.Object)
+            UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -119,7 +122,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     SessionToken = ""
                 });
 
-            UserController userController = new(_mediatorMock.Object, _optionsMock.Object)
+            UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -153,7 +156,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     SessionToken = refreshToken
                 });
 
-            UserController userController = new(_mediatorMock.Object, _optionsMock.Object)
+            UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
