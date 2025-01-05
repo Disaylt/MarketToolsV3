@@ -16,6 +16,24 @@ namespace MarketToolsV3.ConfigurationManager
         private readonly ConfigurationManagersFactory _configurationManagersFactory =
         new(applicationConfig);
 
+        public IConfigManager CreateFromService(string serviceName)
+        {
+            IConfigurationBuilder builder = new ConfigurationBuilder();
+
+            string? type = applicationConfig.GetValue<string>($"{serviceName}ConfigType")
+                           ?? applicationConfig.GetValue<string>("ConfigType");
+
+            if (string.IsNullOrEmpty(type) == false)
+            {
+                IConfigurationUploader configurationUploader = _configurationManagersFactory.Create(type);
+                configurationUploader.UploadAsync(builder, serviceName);
+            }
+
+            IConfigurationRoot configurationRoot = builder.Build();
+
+            return new ConfigManager(configurationRoot);
+        }
+
         public ITypingConfigManager<T> CreateFromService<T>(string serviceName) where T : class
         {
             IConfigurationBuilder builder = new ConfigurationBuilder();
@@ -30,7 +48,7 @@ namespace MarketToolsV3.ConfigurationManager
             }
 
             IConfigurationRoot configurationRoot = builder.Build();
-
+            
             return new TypingConfigManage<T>(configurationRoot);
         }
 
