@@ -11,7 +11,7 @@ var builder = Host.CreateApplicationBuilder(args);
 builder.AddServiceDefaults();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
 ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
     configurationServiceFactory.CreateFromMessageBroker();
 

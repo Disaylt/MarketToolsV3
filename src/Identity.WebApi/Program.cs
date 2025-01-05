@@ -18,9 +18,9 @@ builder.AddServiceDefaults();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
 serviceConfigManager.AddAsOptions(builder.Services);
-ITypingConfigManager<AuthConfig> authConfigManager = configurationServiceFactory.CreateFromAuth();
+ITypingConfigManager<AuthConfig> authConfigManager = configurationServiceFactory.CreateFromAuthAsync();
 authConfigManager.AddAsOptions(builder.Services);
 ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
     configurationServiceFactory.CreateFromMessageBroker();
