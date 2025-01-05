@@ -1,5 +1,6 @@
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
+using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -12,6 +13,7 @@ ConfigurationServiceFactory configurationServiceFactory = new(builder.Configurat
 
 IConfigManager serviceConfigManager = await configurationServiceFactory.CreateFromServiceAsync(serviceName);
 serviceConfigManager.JoinTo(builder.Configuration);
+
 
 builder.Services.AddOcelot(builder.Configuration);
 

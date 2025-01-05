@@ -9,6 +9,6 @@ internal class ConfigManager(IConfigurationRoot configurationRoot) : IConfigMana
 
     public void JoinTo(IConfigurationManager applicationConfig)
     {
-        applicationConfig.AddConfiguration(configurationRoot);
+        applicationConfig.AddConfiguration(ConfigurationRoot);
     }
 }
