@@ -17,4 +17,6 @@ builder
 
 builder.AddProject<WB_Seller_Api_Companies_WebApi>("wb-seller-api-companies-webapi");
 
+builder.AddProject<Projects.MarketToolsV3_ApiGateway>("markettoolsv3-apigateway");
+
 builder.Build().Run();

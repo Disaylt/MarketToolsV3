@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WB.Seller.Api.Companies.Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WB.Seller.Api.Companies.WebApi", "src\WB.Seller.Api.Companies.WebApi\WB.Seller.Api.Companies.WebApi.csproj", "{6492CA85-8C98-407B-9188-1705AD82CEC4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketToolsV3.ApiGateway", "src\MarketToolsV3.ApiGateway\MarketToolsV3.ApiGateway.csproj", "{AAF0C3AE-FD2F-4E7B-8DE7-3B84DB591358}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{6492CA85-8C98-407B-9188-1705AD82CEC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6492CA85-8C98-407B-9188-1705AD82CEC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6492CA85-8C98-407B-9188-1705AD82CEC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAF0C3AE-FD2F-4E7B-8DE7-3B84DB591358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAF0C3AE-FD2F-4E7B-8DE7-3B84DB591358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAF0C3AE-FD2F-4E7B-8DE7-3B84DB591358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAF0C3AE-FD2F-4E7B-8DE7-3B84DB591358}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,6 +149,7 @@ Global
 		{9E05CA37-E454-43F5-A08C-F34A221E0CD7} = {0888B86C-31CF-4288-BAE6-27515593310F}
 		{65A71773-A00D-4443-BE85-1F3BD0C2754E} = {0888B86C-31CF-4288-BAE6-27515593310F}
 		{6492CA85-8C98-407B-9188-1705AD82CEC4} = {0888B86C-31CF-4288-BAE6-27515593310F}
+		{AAF0C3AE-FD2F-4E7B-8DE7-3B84DB591358} = {0888B86C-31CF-4288-BAE6-27515593310F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}
