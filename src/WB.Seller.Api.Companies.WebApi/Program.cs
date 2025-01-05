@@ -10,7 +10,7 @@ string serviceName = "wb-seller-api-companies";
 builder.AddServiceDefaults();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
 
 builder.Services.AddInfrastructureLayer(serviceConfigManager.Value);
 

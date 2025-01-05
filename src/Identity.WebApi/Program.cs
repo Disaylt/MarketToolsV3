@@ -18,12 +18,14 @@ builder.AddServiceDefaults();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
 serviceConfigManager.AddAsOptions(builder.Services);
-ITypingConfigManager<AuthConfig> authConfigManager = configurationServiceFactory.CreateFromAuthAsync();
+ITypingConfigManager<AuthConfig> authConfigManager = 
+    await configurationServiceFactory.CreateFromAuthAsync();
 authConfigManager.AddAsOptions(builder.Services);
 ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
-    configurationServiceFactory.CreateFromMessageBroker();
+    await configurationServiceFactory.CreateFromMessageBrokerAsync();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
