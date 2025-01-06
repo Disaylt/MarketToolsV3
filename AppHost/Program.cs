@@ -23,4 +23,6 @@ builder.AddProject<MarketToolsV3_ApiGateway>("MarketToolsV3ApiGateway")
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
+builder.AddProject<Projects.Identity_GrpcService>("identity-grpcservice");
+
 builder.Build().Run();
