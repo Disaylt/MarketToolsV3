@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Proto.Contract.Identity";
+
+package authInfo;
+ 
+service Auth{
+	rpc GetAuthInfo(AuthInfoRequest) returns (AuthInfoReply);
+}
+
+message AuthInfoRequest{
+
+	string userAgent = 1;
+
+	message Details{
+
+		string sessionToken = 1;
+		string authToken = 2;
+	}
+
+	Details details = 2;
+}
+
+message AuthInfoReply{
+
+	bool isValid = 1;
+	bool refreshed = 2;
+}
