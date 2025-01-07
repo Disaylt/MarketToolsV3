@@ -11,6 +11,7 @@
 
 	<ItemGroup>
 		<Protobuf Include="..\Proto.Contract\Identity\auth.proto" GrpcServices="Server" />
+		<Protobuf Include="..\Proto.Contract\Identity\session.proto" GrpcServices="Server" />
 	</ItemGroup>
 
   <ItemGroup>
