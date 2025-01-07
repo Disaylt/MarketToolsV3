@@ -55,5 +55,16 @@ namespace Identity.Infrastructure.Services
 
             return await userManager.FindByEmailAsync(email);
         }
+
+        public async Task<IdentityPerson?> FindByIdAsync(string id)
+        {
+            return await userManager.FindByIdAsync(id);
+        }
+
+        public async Task<IdentityPerson> FindByIdRequiredAsync(string id)
+        {
+            return await userManager.FindByIdAsync(id)
+                   ?? throw new RootServiceException(HttpStatusCode.NotFound, "Пользователь не найден.");
+        }
     }
 }

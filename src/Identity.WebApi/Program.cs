@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Identity.Application;
+using Identity.Domain.Constants;
 using Identity.Domain.Seed;
 using Identity.Infrastructure;
 using Identity.WebApi;
@@ -11,24 +12,25 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Serilog;
 using Serilog.Core;
 
-string serviceName = "Identity";
-
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(IdentityConfig.ServiceName);
 serviceConfigManager.AddAsOptions(builder.Services);
-ITypingConfigManager<AuthConfig> authConfigManager = configurationServiceFactory.CreateFromAuth();
+ITypingConfigManager<AuthConfig> authConfigManager = 
+    await configurationServiceFactory.CreateFromAuthAsync();
 authConfigManager.AddAsOptions(builder.Services);
 ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
-    configurationServiceFactory.CreateFromMessageBroker();
+    await configurationServiceFactory.CreateFromMessageBrokerAsync();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddServiceAuthentication(authConfigManager.Value);
+builder.Services.AddWebApiServices();
 builder.Services
     .AddMessageBroker(messageBrokerConfigManager.Value)
     .AddInfrastructureLayer(serviceConfigManager.Value)
@@ -50,8 +52,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseMiddleware<CookieTokenAdapterMiddleware>();
 
 app.UseHttpsRedirection();
 

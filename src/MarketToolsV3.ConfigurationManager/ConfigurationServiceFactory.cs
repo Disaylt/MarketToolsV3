@@ -13,40 +13,46 @@ namespace MarketToolsV3.ConfigurationManager
 {
     public sealed class ConfigurationServiceFactory(IConfigurationManager applicationConfig)
     {
-        private readonly ConfigurationManagersFactory _configurationManagersFactory =
-        new(applicationConfig);
-
-        public ITypingConfigManager<T> CreateFromService<T>(string serviceName) where T : class
+        public async Task<IConfigManager> CreateFromServiceAsync(string serviceName)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder();
+            IConfigurationRoot configurationRoot = await CreateConfigurationRootAsync(serviceName);
 
-            string? type = applicationConfig.GetValue<string>($"{serviceName}ConfigType")
-                ?? applicationConfig.GetValue<string>("ConfigType");
+            return new ConfigManager(configurationRoot);
+        }
 
-            if (string.IsNullOrEmpty(type) == false)
-            {
-                IConfigurationUploader configurationUploader = _configurationManagersFactory.Create(type);
-                configurationUploader.UploadAsync(builder, serviceName);
-            }
-
-            IConfigurationRoot configurationRoot = builder.Build();
+        public async Task<ITypingConfigManager<T>> CreateFromServiceAsync<T>(string serviceName) where T : class
+        {
+            IConfigurationRoot configurationRoot = await CreateConfigurationRootAsync(serviceName);
 
             return new TypingConfigManage<T>(configurationRoot);
         }
 
-        public ITypingConfigManager<AuthConfig> CreateFromAuth()
+        public async Task<ITypingConfigManager<AuthConfig>> CreateFromAuthAsync()
         {
-            return CreateFromService<AuthConfig>(ConfigurationNames.Auth);
+            return await CreateFromServiceAsync<AuthConfig>(ConfigurationNames.Auth);
         }
 
-        public ITypingConfigManager<LoggingConfig> CreateFromLogging()
+        public async Task<ITypingConfigManager<LoggingConfig>> CreateFromLoggingAsync()
         {
-            return CreateFromService<LoggingConfig>(ConfigurationNames.Logging);
+            return await CreateFromServiceAsync<LoggingConfig>(ConfigurationNames.Logging);
         }
 
-        public ITypingConfigManager<MessageBrokerConfig> CreateFromMessageBroker()
+        public async Task<ITypingConfigManager<ServicesAddressesConfig>> CreateFromServicesAddressesAsync()
         {
-            return CreateFromService<MessageBrokerConfig>(ConfigurationNames.MessageBroker);
+            return await CreateFromServiceAsync<ServicesAddressesConfig>(ConfigurationNames.ServiceAddresses);
+        }
+
+        public async Task<ITypingConfigManager<MessageBrokerConfig>> CreateFromMessageBrokerAsync()
+        {
+            return await CreateFromServiceAsync<MessageBrokerConfig>(ConfigurationNames.MessageBroker);
+        }
+
+        private async Task<IConfigurationRoot> CreateConfigurationRootAsync(string serviceName)
+        {
+            MarketToolsConfigurationBuilder builder = new MarketToolsConfigurationBuilder(applicationConfig);
+            await builder.UploadAsync(serviceName);
+
+            return builder.Build();
         }
     }
 }

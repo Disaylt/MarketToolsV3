@@ -9,7 +9,7 @@ namespace Identity.Domain.Entities
 {
     public class IdentityPerson : IdentityUser
     {
-        public DateTime CreateDate { get; } = DateTime.UtcNow;
+        public DateTime CreateDate { get; private set; } = DateTime.UtcNow;
 
         private readonly List<Session> _sessions = [];
         public IReadOnlyCollection<Session> Sessions => _sessions.AsReadOnly();

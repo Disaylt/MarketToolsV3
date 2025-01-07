@@ -10,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager = configurationServiceFactory.CreateFromService<ServiceConfiguration>(serviceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

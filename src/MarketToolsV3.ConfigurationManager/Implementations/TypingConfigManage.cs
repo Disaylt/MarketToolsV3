@@ -10,14 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MarketToolsV3.ConfigurationManager.Implementations
 {
     internal class TypingConfigManage<T>(IConfigurationRoot configurationRoot)
-        : ITypingConfigManager<T> where T : class
+        : ConfigManager(configurationRoot), ITypingConfigManager<T> where T : class
     {
-        public T Value => configurationRoot.Get<T>() 
+        public T Value => ConfigurationRoot.Get<T>() 
                           ?? throw new NullReferenceException($"Configuration type:{nameof(T)} not found.");
 
         public void AddAsOptions(IServiceCollection services)
         {
-            services.AddOptions<T>().Bind(configurationRoot);
+            services.AddOptions<T>().Bind(ConfigurationRoot);
         }
     }
 }

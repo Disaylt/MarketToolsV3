@@ -45,7 +45,9 @@ namespace Identity.Infrastructure.Services.Tokens
         {
             TokenValidationResult result = await jwtTokenService
                 .GetValidationResultAsync(token,
-                    _serviceConfiguration.SecretRefreshToken);
+                    _serviceConfiguration.SecretRefreshToken,
+                    checkValidateAudience: _authConfig.IsCheckValidAudience,
+                    checkValidateIssuer: _authConfig.IsCheckValidIssuer);
 
             return result.IsValid;
         }

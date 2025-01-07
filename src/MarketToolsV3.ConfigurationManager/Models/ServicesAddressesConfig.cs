@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MarketToolsV3.ConfigurationManager.Models
+{
+    public class ServicesAddressesConfig
+    {
+        public AddressConfig Identity { get; set; } = new();
+    }
+
+    public class AddressConfig
+    {
+        public string? Grpc { get; set; }
+        public string? WebApi { get; set; }
+    }
+}

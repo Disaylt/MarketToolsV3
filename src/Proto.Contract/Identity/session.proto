@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Proto.Contract.Identity";
+
+package session;
+
+service Session{
+	rpc GetActiveStatus(SessionInfoRequest) returns (SessionActiveStatusReply);
+}
+
+message SessionInfoRequest{
+	string token = 1;
+}
+
+message SessionActiveStatusReply{
+	bool isActive = 1;
+}
