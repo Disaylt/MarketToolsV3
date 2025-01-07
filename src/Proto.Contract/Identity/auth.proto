@@ -3,6 +3,7 @@
 option csharp_namespace = "Proto.Contract.Identity";
 
 package authInfo;
+
 service Auth{
 	rpc GetAuthInfo(AuthInfoRequest) returns (AuthInfoReply);
 }
