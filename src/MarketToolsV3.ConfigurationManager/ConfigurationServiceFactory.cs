@@ -37,6 +37,11 @@ namespace MarketToolsV3.ConfigurationManager
             return await CreateFromServiceAsync<LoggingConfig>(ConfigurationNames.Logging);
         }
 
+        public async Task<ITypingConfigManager<ServicesAddressesConfig>> CreateFromServicesAddressesAsync()
+        {
+            return await CreateFromServiceAsync<ServicesAddressesConfig>(ConfigurationNames.ServiceAddresses);
+        }
+
         public async Task<ITypingConfigManager<MessageBrokerConfig>> CreateFromMessageBrokerAsync()
         {
             return await CreateFromServiceAsync<MessageBrokerConfig>(ConfigurationNames.MessageBroker);
