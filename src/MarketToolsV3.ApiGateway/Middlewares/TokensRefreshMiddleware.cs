@@ -44,6 +44,7 @@ namespace MarketToolsV3.ApiGateway.Middlewares
                 {
                     authContext.AccessToken = accessToken;
                     authContext.SessionToken = refreshToken;
+                    authContext.IsAuth = true;
                 }
 
                 if (response.Refreshed & response.HasDetails & response.IsValid)

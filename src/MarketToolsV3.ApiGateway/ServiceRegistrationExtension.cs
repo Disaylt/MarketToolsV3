@@ -16,6 +16,11 @@ public static class ServiceRegistrationExtension
             {
                 c.Address = new Uri(identityGrpcAddress);
             });
+
+            collection.AddGrpcClient<Session.SessionClient>(c =>
+            {
+                c.Address = new Uri(identityGrpcAddress);
+            });
         }
 
         return collection;

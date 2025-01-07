@@ -33,7 +33,8 @@ builder.AddServiceDefaults();
 var app = builder.Build();
 
 app.UseMiddleware<TokensRefreshMiddleware>();
-app.UseMiddleware<CookieTokenAdapterMiddleware>();
+app.UseMiddleware<SessionActiveStateMiddleware>();
+app.UseMiddleware<HeadersTokensAdapterMiddleware>();
 
 await app.UseOcelot();
 
