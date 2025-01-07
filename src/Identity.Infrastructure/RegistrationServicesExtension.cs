@@ -32,10 +32,17 @@ namespace Identity.Infrastructure
             collection.AddScoped<IIdentityPersonService, IdentityPersonService>();
             collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
 
-            collection.AddStackExchangeRedisCache(opt =>
+            if (string.IsNullOrEmpty(serviceConfiguration.RedisConnection))
             {
-                opt.Configuration = serviceConfiguration.RedisConnection;
-            });
+                collection.AddDistributedMemoryCache();
+            }
+            else
+            {
+                collection.AddStackExchangeRedisCache(opt =>
+                {
+                    opt.Configuration = serviceConfiguration.RedisConnection;
+                });
+            }
 
             collection.AddIdentityCore<IdentityPerson>(options =>
                 {

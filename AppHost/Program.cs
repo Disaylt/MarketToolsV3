@@ -15,8 +15,16 @@ builder
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
-builder.AddProject<WB_Seller_Api_Companies_WebApi>("wb-seller-api-companies-webapi");
+builder.AddProject<WB_Seller_Api_Companies_WebApi>("WbSellerApiCompaniesWebapi")
+    .WithEnvironment("ConfigType", configTypeParameter)
+    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
-builder.AddProject<Projects.MarketToolsV3_ApiGateway>("markettoolsv3-apigateway");
+builder.AddProject<MarketToolsV3_ApiGateway>("MarketToolsV3ApiGateway")
+    .WithEnvironment("ConfigType", configTypeParameter)
+    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
+
+builder.AddProject<Identity_GrpcService>("IdentityGrpcService")
+    .WithEnvironment("ConfigType", configTypeParameter)
+    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
 builder.Build().Run();

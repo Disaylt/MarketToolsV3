@@ -38,6 +38,7 @@ namespace Identity.WebApi.Controllers
         }
 
         [HttpGet("status")]
+        [Obsolete]
         public async Task<IActionResult> GetStateAsync(CancellationToken cancellationToken)
         {
             string? refreshToken = HttpContext.Request.Cookies[_configuration.RefreshTokenName];

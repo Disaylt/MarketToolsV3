@@ -1,6 +1,10 @@
-@Identity.WebApi_HostAddress = http://localhost:5085
+@Identity.WebApi_HostAddress = https://localhost:7256
 
 GET {{Identity.WebApi_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+POST {{Identity.WebApi_HostAddress}}/api/v{version:apiVersion}/session/deactivate?id=string
 
 ###

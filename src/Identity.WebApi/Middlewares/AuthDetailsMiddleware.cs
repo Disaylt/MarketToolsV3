@@ -4,6 +4,7 @@ using Identity.WebApi.Services;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using Identity.WebApi.Models;
+using Microsoft.Extensions.Primitives;
 
 namespace Identity.WebApi.Middlewares
 {
@@ -14,11 +15,15 @@ namespace Identity.WebApi.Middlewares
             ITokenService<JwtRefreshTokenDto> refreshTokenService,
             IOptions<WebApiConfiguration> options)
         {
-            if (httpContext.Request.Cookies.TryGetValue(options.Value.RefreshTokenName, out string? token)
-                && string.IsNullOrEmpty(token) == false
-                && await refreshTokenService.IsValid(token))
+            
+            bool isContainsSessionHeader = httpContext.Request.Headers.TryGetValue("Session", out StringValues sessionHeaderValue);
+            string? sessionToken = sessionHeaderValue.FirstOrDefault();
+
+            if (isContainsSessionHeader
+                && string.IsNullOrEmpty(sessionToken) == false
+                && await refreshTokenService.IsValid(sessionToken))
             {
-                JwtRefreshTokenDto tokenData = refreshTokenService.Read(token);
+                JwtRefreshTokenDto tokenData = refreshTokenService.Read(sessionToken);
                 authContext.SessionId = tokenData.Id;
             }
 

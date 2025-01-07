@@ -1,12 +1,10 @@
-﻿using Identity.Domain.Seed;
-using Identity.WebApi.Services;
-using MarketToolsV3.ConfigurationManager.Models;
+﻿using MarketToolsV3.ConfigurationManager.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Identity.WebApi
+namespace Identity.GrpcService
 {
     public static class ServiceRegistrationExtension
     {
@@ -31,15 +29,8 @@ namespace Identity.WebApi
             return collection;
         }
 
-        public static void AddWebApiServices(this IServiceCollection collection)
-        {
-            collection.AddScoped<ISessionStateService, SessionStateService>();
-        }
-
         public static void AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig)
         {
-            collection.AddScoped<IAuthContext, AuthContext>();
-
             byte[] secretBytes = Encoding.UTF8.GetBytes(authConfig.AuthSecret);
 
             collection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
