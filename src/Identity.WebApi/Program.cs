@@ -53,7 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<CookieTokenAdapterMiddleware>();
+//app.UseMiddleware<CookieTokenAdapterMiddleware>();
 
 app.UseHttpsRedirection();
 

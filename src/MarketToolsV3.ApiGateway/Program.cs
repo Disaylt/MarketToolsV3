@@ -1,5 +1,6 @@
 using MarketToolsV3.ApiGateway;
 using MarketToolsV3.ApiGateway.Domain.Constants;
+using MarketToolsV3.ApiGateway.Middlewares;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
@@ -28,6 +29,9 @@ builder.Services.AddOcelot(builder.Configuration);
 builder.AddServiceDefaults();
 
 var app = builder.Build();
+
+app.UseMiddleware<TokensRefreshMiddleware>();
+app.UseMiddleware<CookieTokenAdapterMiddleware>();
 
 await app.UseOcelot();
 

@@ -24,4 +24,12 @@ message AuthInfoReply{
 
 	bool isValid = 1;
 	bool refreshed = 2;
+
+	message AuthDetails{
+		string sessionToken = 1;
+		string authToken = 2;
+	}
+
+	AuthDetails details = 3;
+	bool hasDetails = 4;
 }
