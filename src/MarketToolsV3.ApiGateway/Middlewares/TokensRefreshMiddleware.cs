@@ -37,10 +37,9 @@ namespace MarketToolsV3.ApiGateway.Middlewares
 
                 AuthInfoReply response = await authClient.GetAuthInfoAsync(request);
 
-                if (response.IsValid == false)
+                if (response.IsValid)
                 {
-                    httpContext.Response.StatusCode = 401;
-                    return;
+                    
                 }
 
                 if (response.Refreshed & response.HasDetails)
