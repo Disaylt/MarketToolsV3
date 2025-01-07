@@ -33,8 +33,8 @@ namespace MarketToolsV3.ApiGateway.Middlewares
                     UserAgent = httpContext.Request.Headers.UserAgent.FirstOrDefault() ?? "Неизвестное устройство",
                     Details = new AuthInfoRequest.Types.Details
                     {
-                        AuthToken = accessToken,
-                        SessionToken = refreshToken
+                        AuthToken = accessToken ?? string.Empty,
+                        SessionToken = refreshToken ?? string.Empty
                     }
                 };
 
