@@ -20,11 +20,23 @@ namespace Identity.GrpcService.Services
 
         private AuthInfoReply CreateAuthInfoResponse(AuthInfoDto authInfo)
         {
-            return new AuthInfoReply
+            AuthInfoReply value = new AuthInfoReply
             {
                 IsValid = authInfo.IsValid,
                 Refreshed = authInfo.Refreshed
             };
+
+            if (authInfo.Details != null)
+            {
+                value.HasDetails = true;
+                value.Details = new AuthInfoReply.Types.AuthDetails
+                {
+                    AuthToken = authInfo.Details.AuthToken,
+                    SessionToken = authInfo.Details.SessionToken
+                };
+            }
+
+            return value;
         }
 
         private CreateAuthInfo CreateAuthInfoCommand(AuthInfoRequest request)

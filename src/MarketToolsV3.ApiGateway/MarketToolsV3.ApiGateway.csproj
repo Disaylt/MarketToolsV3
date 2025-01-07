@@ -30,9 +30,4 @@
     <ProjectReference Include="..\Proto.Contract\Proto.Contract.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Application\" />
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
-
 </Project>
