@@ -15,6 +15,11 @@ builder
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
+builder
+    .AddProject<UserNotifications_WebApi>("UserNotificationWebApi")
+    .WithEnvironment("ConfigType", configTypeParameter)
+    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
+
 builder.AddProject<WB_Seller_Api_Companies_WebApi>("WbSellerApiCompaniesWebapi")
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
