@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Commands
 {
-    public class LoginCommand : ICommand<AuthDetailsDto>
+    public class LoginCommand : ICommand<LoginResponseDto>
     {
         public required string Email { get; set; }
         public required string Password { get; set; }

@@ -18,9 +18,9 @@ namespace Identity.Application.Commands
         ILogger<LoginCommandHandler> logger,
         ITokenService<JwtAccessTokenDto> accessTokenService,
         ITokenService<JwtRefreshTokenDto> refreshTokenService)
-        : IRequestHandler<LoginCommand, AuthDetailsDto>
+        : IRequestHandler<LoginCommand, LoginResponseDto>
     {
-        public async Task<AuthDetailsDto> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<LoginResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             IdentityPerson? user = await userService.FindByEmailAsync(request.Email);
 
@@ -44,10 +44,19 @@ namespace Identity.Application.Commands
 
             JwtAccessTokenDto accessTokenData = CreateAccessTokenData(user.Id);
 
-            return new AuthDetailsDto
+            return new LoginResponseDto
             {
-                AuthToken = accessTokenService.Create(accessTokenData),
-                SessionToken = refreshToken
+                AuthDetails = new AuthDetailsDto
+                {
+                    AuthToken = accessTokenService.Create(accessTokenData),
+                    SessionToken = refreshToken,
+                },
+                IdentityDetails = new IdentityDetailsDto
+                {
+                    Id = user.Id,
+                    Email = user.Email ?? "Неизвестно",
+                    Name = user.UserName ?? "Неизвестно"
+                }
             };
         }
 
