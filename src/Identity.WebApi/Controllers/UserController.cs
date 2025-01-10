@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using static MassTransit.ValidationResultExtensions;
 
 namespace Identity.WebApi.Controllers
 {
@@ -23,6 +24,22 @@ namespace Identity.WebApi.Controllers
 
         private static readonly CookieOptions CookieOptions = new()
             { HttpOnly = true, Expires = DateTimeOffset.UtcNow.AddYears(1) };
+
+        [Authorize]
+        [HttpPut("logout")]
+        public async Task<IActionResult> LogOut(CancellationToken cancellationToken)
+        {
+            DeactivateSessionCommand command = new()
+            {
+                Id = authContext.GetSessionIdRequired()
+            };
+            await mediator.Send(command, cancellationToken);
+
+            HttpContext.Response.Cookies.Delete(_configuration.AccessTokenName);
+            HttpContext.Response.Cookies.Delete(_configuration.RefreshTokenName);
+
+            return Ok();
+        }
 
         [Authorize]
         [HttpGet("details")]
