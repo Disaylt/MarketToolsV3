@@ -5,6 +5,25 @@ namespace MarketToolsV3.ApiGateway;
 
 public static class ServiceRegistrationExtension
 {
+    public static string AddDevCorsServices(this IServiceCollection services)
+    {
+        string name = "devAllowSpecificOrigins";
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: name,
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+        });
+
+        return name;
+    }
+
     public static IServiceCollection AddAuthGrpcClient(this IServiceCollection collection,
         ServicesAddressesConfig servicesAddressesConfig)
     {

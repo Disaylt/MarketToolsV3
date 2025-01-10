@@ -25,12 +25,16 @@ ITypingConfigManager<ServicesAddressesConfig> servicesAddressesConfigManager
 builder.Services
     .AddAuthGrpcClient(servicesAddressesConfigManager.Value);
 
-
 builder.Services.AddOcelot(builder.Configuration);
 
 builder.AddServiceDefaults();
 
+string corsName = builder.Services
+    .AddDevCorsServices();
+
 var app = builder.Build();
+
+app.UseCors(corsName);
 
 app.UseMiddleware<TokensRefreshMiddleware>();
 app.UseMiddleware<SessionActiveStateMiddleware>();
