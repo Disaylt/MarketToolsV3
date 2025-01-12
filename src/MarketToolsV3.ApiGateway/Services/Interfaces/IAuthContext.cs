@@ -8,6 +8,7 @@ namespace MarketToolsV3.ApiGateway.Services.Interfaces
         bool Refreshed { get; set; }
         string? SessionToken { get; set; }
         string? AccessToken { get; set; }
+        string? SessionId { get; set; }
         AuthState State { get; set; }
     }
 }

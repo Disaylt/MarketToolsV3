@@ -20,15 +20,7 @@ namespace MarketToolsV3.ApiGateway.Middlewares
             Auth.AuthClient authClient,
             IAuthContext authContext)
         {
-            bool isContainsAccessToken = 
-                httpContext.Request.Cookies.TryGetValue(options.Value.AccessTokenName, out string? accessToken);
-            bool isContainsRefreshToken =
-                httpContext.Request.Cookies.TryGetValue(options.Value.RefreshTokenName, out string? refreshToken);
-
-            if (
-                (isContainsAccessToken && string.IsNullOrEmpty(accessToken) == false)
-                || 
-                (isContainsRefreshToken && string.IsNullOrEmpty(refreshToken) == false))
+            if (string.IsNullOrEmpty(authContext.SessionToken) == false)
             {
                 AuthInfoRequest request = new AuthInfoRequest
                 {
@@ -59,19 +51,6 @@ namespace MarketToolsV3.ApiGateway.Middlewares
             }
 
             await next(httpContext);
-
-            if (authContext.Refreshed & authContext.IsAuth)
-            {
-                if (authContext.AccessToken != null)
-                {
-                    httpContext.Response.Cookies.Append(options.Value.AccessTokenName, authContext.AccessToken, CookieOptions);
-                }
-
-                if (authContext.SessionToken != null)
-                {
-                    httpContext.Response.Cookies.Append(options.Value.RefreshTokenName, authContext.SessionToken, CookieOptions);
-                }
-            }
         }
     }
 }
