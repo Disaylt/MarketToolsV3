@@ -22,8 +22,7 @@ namespace Identity.GrpcService.Services
         {
             AuthInfoReply value = new AuthInfoReply
             {
-                IsValid = authInfo.IsValid,
-                Refreshed = authInfo.Refreshed
+                IsValid = authInfo.IsValid
             };
 
             if (authInfo.Details != null)
@@ -44,11 +43,7 @@ namespace Identity.GrpcService.Services
             return new CreateAuthInfo
             {
                 UserAgent = request.UserAgent,
-                Details = new AuthDetailsDto
-                {
-                    AuthToken = request.Details.AuthToken,
-                    SessionToken = request.Details.SessionToken
-                }
+                RefreshToken = request.SessionToken
             };
         }
     }

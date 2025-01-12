@@ -5,6 +5,6 @@
         None,
         AccessTokenValid,
         TokensRefreshed,
-        SessionTokenActive
+        SessionActive
     }
 }

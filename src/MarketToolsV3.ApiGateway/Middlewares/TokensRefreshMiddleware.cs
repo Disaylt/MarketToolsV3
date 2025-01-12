@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Google.Protobuf.WellKnownTypes;
+using MarketToolsV3.ApiGateway.Constant;
 using MarketToolsV3.ApiGateway.Models;
 using MarketToolsV3.ApiGateway.Services.Interfaces;
 using Microsoft.AspNetCore.Http.Features;
@@ -20,34 +21,23 @@ namespace MarketToolsV3.ApiGateway.Middlewares
             Auth.AuthClient authClient,
             IAuthContext authContext)
         {
-            if (string.IsNullOrEmpty(authContext.SessionToken) == false)
+            if (string.IsNullOrEmpty(authContext.SessionToken) == false && authContext.State == AuthState.None)
             {
                 AuthInfoRequest request = new AuthInfoRequest
                 {
                     UserAgent = httpContext.Request.Headers.UserAgent.FirstOrDefault() ?? "Неизвестное устройство",
-                    Details = new AuthInfoRequest.Types.Details
-                    {
-                        AuthToken = accessToken ?? string.Empty,
-                        SessionToken = refreshToken ?? string.Empty
-                    }
+                    SessionToken = authContext.SessionToken
                 };
 
                 AuthInfoReply response = await authClient.GetAuthInfoAsync(request);
 
-                if (response.IsValid)
-                {
-                    authContext.AccessToken = accessToken;
-                    authContext.SessionToken = refreshToken;
-                }
-
-                if (response.Refreshed & response.HasDetails & response.IsValid)
+                if (response.HasDetails & response.IsValid)
                 {
                     authContext.AccessToken = response.Details.AuthToken;
                     authContext.SessionToken = response.Details.SessionToken;
-                }
 
-                authContext.IsAuth = response.IsValid;
-                authContext.Refreshed = response.Refreshed;
+                    authContext.State = AuthState.TokensRefreshed;
+                }
             }
 
             await next(httpContext);
