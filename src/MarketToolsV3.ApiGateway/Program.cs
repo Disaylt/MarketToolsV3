@@ -40,6 +40,8 @@ var app = builder.Build();
 
 app.UseCors(corsName);
 
+app.UseMiddleware<AuthContextMiddleware>();
+app.UseMiddleware<AccessTokenMiddleware>();
 app.UseMiddleware<TokensRefreshMiddleware>();
 app.UseMiddleware<SessionActiveStateMiddleware>();
 app.UseMiddleware<HeadersTokensAdapterMiddleware>();

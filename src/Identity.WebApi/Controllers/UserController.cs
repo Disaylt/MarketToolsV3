@@ -37,6 +37,7 @@ namespace Identity.WebApi.Controllers
 
             HttpContext.Response.Cookies.Delete(_configuration.AccessTokenName);
             HttpContext.Response.Cookies.Delete(_configuration.RefreshTokenName);
+            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
 
             return Ok();
         }
@@ -70,6 +71,7 @@ namespace Identity.WebApi.Controllers
 
             HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
             HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
+            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
 
             return Ok(result);
         }
@@ -88,6 +90,7 @@ namespace Identity.WebApi.Controllers
 
             HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
             HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
+            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
 
             return Ok(result);
         }

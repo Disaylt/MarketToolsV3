@@ -6,6 +6,7 @@ using MarketToolsV3.ApiGateway.Services.Interfaces;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Ocelot.Responses;
 using Proto.Contract.Identity;
 
@@ -41,6 +42,16 @@ namespace MarketToolsV3.ApiGateway.Middlewares
             }
 
             await next(httpContext);
+
+            StringValues newAuthDetails = httpContext.Response.Headers["auth-details"];
+            if (authContext.State == AuthState.TokensRefreshed 
+                && newAuthDetails.Contains("new") == false
+                && string.IsNullOrEmpty(authContext.AccessToken) == false
+                && string.IsNullOrEmpty(authContext.SessionToken) == false)
+            {
+                httpContext.Response.Cookies.Append(options.Value.AccessTokenName, authContext.AccessToken, CookieOptions);
+                httpContext.Response.Cookies.Append(options.Value.RefreshTokenName, authContext.SessionToken, CookieOptions);
+            }
         }
     }
 }
