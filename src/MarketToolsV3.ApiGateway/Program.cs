@@ -21,6 +21,9 @@ ConfigurationServiceFactory configurationServiceFactory = new(builder.Configurat
 IConfigManager serviceConfigManager = await configurationServiceFactory.CreateFromServiceAsync(ApiGatewayConfig.ServiceName);
 serviceConfigManager.JoinTo(builder.Configuration);
 
+var authConfigManager = await configurationServiceFactory.CreateFromAuthAsync();
+authConfigManager.AddAsOptions(builder.Services);
+
 ITypingConfigManager<ServicesAddressesConfig> servicesAddressesConfigManager 
     = await configurationServiceFactory.CreateFromServicesAddressesAsync();
 

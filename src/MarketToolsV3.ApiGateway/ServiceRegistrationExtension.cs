@@ -32,6 +32,7 @@ public static class ServiceRegistrationExtension
         collection.AddSingleton<ITokenReader<AccessToken>, AccessTokenReader>();
         collection.AddSingleton<ITokenReader<SessionToken>, SessionTokenReader>();
         collection.AddSingleton<IAccessTokenService, AccessTokenService>();
+        collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
 
         return collection;
     }

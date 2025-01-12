@@ -15,14 +15,10 @@ namespace Identity.WebApi.Middlewares
             ITokenService<JwtAccessTokenDto> accessTokenService,
             IOptions<WebApiConfiguration> options)
         {
-            IRequestCookieCollection requestCookieCollection =  httpContext.Request.Cookies;
-
-            if (requestCookieCollection.TryGetValue(options.Value.AccessTokenName, out var accessToken)
-                && string.IsNullOrEmpty(accessToken) == false
-                && await accessTokenService.IsValid(accessToken))
+            Claim? sessionIdClaim = httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
+            if (sessionIdClaim != null)
             {
-                JwtAccessTokenDto tokenData = accessTokenService.Read(accessToken);
-                authContext.SessionId = tokenData.SessionId;
+                authContext.SessionId = sessionIdClaim.Value;
             }
 
             authContext.UserId = httpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
