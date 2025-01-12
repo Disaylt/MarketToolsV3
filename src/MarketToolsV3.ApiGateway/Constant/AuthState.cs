@@ -3,9 +3,8 @@
     public enum AuthState
     {
         None,
-        AccessTokenContainsCorrectSessionId,
         AccessTokenValid,
         TokensRefreshed,
-        SessionTokenValid
+        SessionTokenActive
     }
 }
