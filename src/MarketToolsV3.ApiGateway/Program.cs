@@ -25,9 +25,11 @@ ITypingConfigManager<ServicesAddressesConfig> servicesAddressesConfigManager
     = await configurationServiceFactory.CreateFromServicesAddressesAsync();
 
 builder.Services
-    .AddAuthGrpcClient(servicesAddressesConfigManager.Value);
+    .AddAuthGrpcClient(servicesAddressesConfigManager.Value)
+    .AddApiGatewayServices();
 
-builder.Services.AddOcelot(builder.Configuration);
+builder.Services
+    .AddOcelot(builder.Configuration);
 
 builder.AddServiceDefaults();
 

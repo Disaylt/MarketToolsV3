@@ -1,4 +1,7 @@
-﻿using MarketToolsV3.ConfigurationManager.Models;
+﻿using MarketToolsV3.ApiGateway.Models.Tokens;
+using MarketToolsV3.ApiGateway.Services.Implementation;
+using MarketToolsV3.ApiGateway.Services.Interfaces;
+using MarketToolsV3.ConfigurationManager.Models;
 using Proto.Contract.Identity;
 
 namespace MarketToolsV3.ApiGateway;
@@ -22,6 +25,15 @@ public static class ServiceRegistrationExtension
         });
 
         return name;
+    }
+
+    public static IServiceCollection AddApiGatewayServices(this IServiceCollection collection)
+    {
+        collection.AddSingleton<ITokenReader<AccessToken>, AccessTokenReader>();
+        collection.AddSingleton<ITokenReader<SessionToken>, SessionTokenReader>();
+        collection.AddSingleton<IAccessTokenService, AccessTokenService>();
+
+        return collection;
     }
 
     public static IServiceCollection AddAuthGrpcClient(this IServiceCollection collection,
