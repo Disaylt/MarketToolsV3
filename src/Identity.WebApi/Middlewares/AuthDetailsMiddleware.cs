@@ -12,19 +12,17 @@ namespace Identity.WebApi.Middlewares
     {
         public async Task Invoke(HttpContext httpContext,
             IAuthContext authContext,
-            ITokenService<JwtRefreshTokenDto> refreshTokenService,
+            ITokenService<JwtAccessTokenDto> accessTokenService,
             IOptions<WebApiConfiguration> options)
         {
-            
-            bool isContainsSessionHeader = httpContext.Request.Headers.TryGetValue("Session", out StringValues sessionHeaderValue);
-            string? sessionToken = sessionHeaderValue.FirstOrDefault();
+            IRequestCookieCollection requestCookieCollection =  httpContext.Request.Cookies;
 
-            if (isContainsSessionHeader
-                && string.IsNullOrEmpty(sessionToken) == false
-                && await refreshTokenService.IsValid(sessionToken))
+            if (requestCookieCollection.TryGetValue("", out var accessToken)
+                && string.IsNullOrEmpty(accessToken) == false
+                && await accessTokenService.IsValid(accessToken))
             {
-                JwtRefreshTokenDto tokenData = refreshTokenService.Read(sessionToken);
-                authContext.SessionId = tokenData.Id;
+                JwtAccessTokenDto tokenData = accessTokenService.Read(accessToken);
+                authContext.SessionId = tokenData.SessionId;
             }
 
             authContext.UserId = httpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);
