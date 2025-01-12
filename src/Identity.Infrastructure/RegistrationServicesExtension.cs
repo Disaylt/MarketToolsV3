@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace Identity.Infrastructure
 {
@@ -32,10 +33,7 @@ namespace Identity.Infrastructure
             collection.AddScoped<IIdentityPersonService, IdentityPersonService>();
             collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
 
-            collection.AddStackExchangeRedisCache(opt =>
-            {
-                opt.Configuration = serviceConfiguration.RedisConnection;
-            });
+            AddRedisCache(collection, serviceConfiguration.RedisConfig);
 
             collection.AddIdentityCore<IdentityPerson>(options =>
                 {
@@ -59,6 +57,28 @@ namespace Identity.Infrastructure
             collection.AddSingleton(typeof(ICacheRepository<>), typeof(DefaultCacheRepository<>));
 
             return collection;
+        }
+
+        private static void AddRedisCache(IServiceCollection collection, RedisConfig redisConfig)
+        {
+            if (string.IsNullOrEmpty(redisConfig.Host))
+            {
+                throw new NullReferenceException("Redis host is null.");
+            }
+
+            collection.AddStackExchangeRedisCache(opt =>
+            {
+                opt.ConfigurationOptions = new ConfigurationOptions
+                {
+                    EndPoints =
+                    {
+                        { redisConfig.Host, redisConfig.Port }
+                    },
+                    User = redisConfig.User,
+                    Password = redisConfig.Password,
+                    DefaultDatabase = redisConfig.Database
+                };
+            });
         }
     }
 }
