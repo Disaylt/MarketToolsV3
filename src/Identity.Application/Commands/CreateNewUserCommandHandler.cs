@@ -36,7 +36,7 @@ namespace Identity.Application.Commands
 
             logger.LogInformation("Add new session - {id}", session.Id);
 
-            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(user.Id);
+            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(user.Id, session.Id);
 
             return new AuthResultDto
             {
@@ -54,11 +54,12 @@ namespace Identity.Application.Commands
             };
         }
 
-        private JwtAccessTokenDto CreateAccessTokenData(string userId)
+        private JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId)
         {
             return new JwtAccessTokenDto
             {
-                UserId = userId
+                UserId = userId,
+                SessionId = sessionId
             };
         }
 

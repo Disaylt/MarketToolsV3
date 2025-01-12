@@ -2,8 +2,10 @@
 using Google.Protobuf.WellKnownTypes;
 using MarketToolsV3.ApiGateway.Models;
 using MarketToolsV3.ApiGateway.Services;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Ocelot.Responses;
 using Proto.Contract.Identity;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
@@ -44,21 +46,32 @@ namespace MarketToolsV3.ApiGateway.Middlewares
                 {
                     authContext.AccessToken = accessToken;
                     authContext.SessionToken = refreshToken;
-                    authContext.IsAuth = true;
                 }
 
                 if (response.Refreshed & response.HasDetails & response.IsValid)
                 {
-                    httpContext.Response.Cookies.Append(options.Value.AccessTokenName, response.Details.AuthToken, CookieOptions);
-                    httpContext.Response.Cookies.Append(options.Value.RefreshTokenName, response.Details.SessionToken, CookieOptions);
-
                     authContext.AccessToken = response.Details.AuthToken;
                     authContext.SessionToken = response.Details.SessionToken;
                 }
 
+                authContext.IsAuth = response.IsValid;
+                authContext.Refreshed = response.Refreshed;
             }
 
             await next(httpContext);
+
+            if (authContext.Refreshed & authContext.IsAuth)
+            {
+                if (authContext.AccessToken != null)
+                {
+                    httpContext.Response.Cookies.Append(options.Value.AccessTokenName, authContext.AccessToken, CookieOptions);
+                }
+
+                if (authContext.SessionToken != null)
+                {
+                    httpContext.Response.Cookies.Append(options.Value.RefreshTokenName, authContext.SessionToken, CookieOptions);
+                }
+            }
         }
     }
 }

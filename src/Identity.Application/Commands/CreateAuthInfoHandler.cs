@@ -50,7 +50,7 @@ namespace Identity.Application.Commands
 
             await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
 
-            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId);
+            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
 
             logger.LogInformation("Build auth info result.");
 
@@ -66,9 +66,10 @@ namespace Identity.Application.Commands
             };
         }
 
-        private static JwtAccessTokenDto CreateAccessTokenData(string userId) => new()
+        private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId) => new()
         {
-            UserId = userId
+            UserId = userId,
+            SessionId = sessionId
         };
     }
 }

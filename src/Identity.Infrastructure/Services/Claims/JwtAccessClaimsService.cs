@@ -21,12 +21,14 @@ namespace Identity.Infrastructure.Services.Claims
                 EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture),
                 ClaimValueTypes.Integer64);
             Claim id = new(ClaimTypes.NameIdentifier, details.UserId);
+            Claim sessionId = new(ClaimTypes.Sid, details.SessionId);
 
             List<Claim> claims =
             [
                 jti,
                 iat,
-                id
+                id,
+                sessionId
             ];
 
             IEnumerable<Claim> roles = rolesClaimService.Create(details.Roles);
