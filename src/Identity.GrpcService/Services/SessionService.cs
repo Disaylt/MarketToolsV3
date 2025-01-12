@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Identity.Application.Models;
 using Identity.Application.Queries;
 using MediatR;
 using Proto.Contract.Identity;
@@ -10,16 +11,16 @@ public class SessionService(IMediator mediator)
 {
     public override async Task<SessionActiveStatusReply> GetActiveStatus(SessionInfoRequest request, ServerCallContext context)
     {
-        CheckSessionActiveStatusQuery command = new CheckSessionActiveStatusQuery
+        GetSessionDetailsQuery query = new GetSessionDetailsQuery
         {
-            RefreshToken = request.Token
+            Id = request.Id
         };
 
-        bool isActive = await mediator.Send(command);
+        SessionStatusDto sessionStatus = await mediator.Send(query);
 
         return new SessionActiveStatusReply
         {
-            IsActive = isActive
+            IsActive = sessionStatus.IsActive
         };
     }
 }
