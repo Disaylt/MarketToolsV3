@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Commands
 {
-    public class CreateNewUserCommand : ICommand<AuthDetailsDto>
+    public class CreateNewUserCommand : ICommand<AuthResultDto>
     {
         public required string Email { get; set; }
         public required string Login { get; set; }

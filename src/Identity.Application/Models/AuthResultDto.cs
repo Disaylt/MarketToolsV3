@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Models
 {
-    public record LoginResponseDto
+    public record AuthResultDto
     {
         public required AuthDetailsDto AuthDetails { get; init; }
         public required IdentityDetailsDto IdentityDetails { get; init; }

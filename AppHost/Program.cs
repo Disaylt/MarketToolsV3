@@ -5,6 +5,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 var configTypeParameter = builder.AddParameter("ConfigType");
 var jsonBasePathParameter = builder.AddParameter("JsonBasePath");
 
+
 builder
     .AddProject<Identity_WebApi>("IdentityWebApiService")
     .WithEnvironment("ConfigType", configTypeParameter)

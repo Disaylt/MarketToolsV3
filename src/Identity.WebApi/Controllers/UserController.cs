@@ -66,10 +66,10 @@ namespace Identity.WebApi.Controllers
                 UserAgent = Request.Headers.UserAgent.FirstOrDefault() ?? "Неизвестное устройство"
             };
 
-            AuthDetailsDto result = await mediator.Send(command, cancellationToken);
+            AuthResultDto result = await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthToken, CookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.SessionToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
 
             return Ok(result);
         }
@@ -84,10 +84,10 @@ namespace Identity.WebApi.Controllers
                 UserAgent = Request.Headers.UserAgent.FirstOrDefault() ?? "Неизвестное устройство"
             };
 
-            AuthDetailsDto result = await mediator.Send(command, cancellationToken);
+            AuthResultDto result = await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthToken, CookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.SessionToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
 
             return Ok(result);
         }
