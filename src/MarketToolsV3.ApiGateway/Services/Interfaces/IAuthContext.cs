@@ -1,4 +1,6 @@
-﻿namespace MarketToolsV3.ApiGateway.Services
+﻿using MarketToolsV3.ApiGateway.Constant;
+
+namespace MarketToolsV3.ApiGateway.Services.Interfaces
 {
     public interface IAuthContext
     {
@@ -6,5 +8,6 @@
         bool Refreshed { get; set; }
         string? SessionToken { get; set; }
         string? AccessToken { get; set; }
+        AuthState State { get; set; }
     }
 }

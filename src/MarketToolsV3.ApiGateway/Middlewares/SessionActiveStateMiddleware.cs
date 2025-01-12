@@ -1,5 +1,5 @@
 ﻿using MarketToolsV3.ApiGateway.Models;
-using MarketToolsV3.ApiGateway.Services;
+using MarketToolsV3.ApiGateway.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Proto.Contract.Identity;
 

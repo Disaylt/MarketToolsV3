@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Google.Protobuf.WellKnownTypes;
 using MarketToolsV3.ApiGateway.Models;
-using MarketToolsV3.ApiGateway.Services;
+using MarketToolsV3.ApiGateway.Services.Interfaces;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;

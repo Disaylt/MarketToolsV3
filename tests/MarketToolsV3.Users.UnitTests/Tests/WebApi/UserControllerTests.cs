@@ -45,10 +45,19 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             };
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateNewUserCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AuthDetailsDto
+                .ReturnsAsync(new AuthResultDto()
                 {
-                    AuthToken = "",
-                    SessionToken = ""
+                    AuthDetails = new()
+                    {
+                        AuthToken = "",
+                        SessionToken = ""
+                    },
+                    IdentityDetails = new IdentityDetailsDto()
+                    {
+                        Email = "",
+                        Id = "",
+                        Name = ""
+                    }
                 });
 
             UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
@@ -80,10 +89,19 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             };
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateNewUserCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AuthDetailsDto
+                .ReturnsAsync(new AuthResultDto()
                 {
-                    AuthToken = accessToken,
-                    SessionToken = refreshToken
+                    AuthDetails = new()
+                    {
+                        AuthToken = "",
+                        SessionToken = ""
+                    },
+                    IdentityDetails = new IdentityDetailsDto()
+                    {
+                        Email = "",
+                        Id = "",
+                        Name = ""
+                    }
                 });
 
             UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
@@ -116,10 +134,19 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             };
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AuthDetailsDto
+                .ReturnsAsync(new AuthResultDto()
                 {
-                    AuthToken = "",
-                    SessionToken = ""
+                    AuthDetails = new()
+                    {
+                        AuthToken = "",
+                        SessionToken = ""
+                    },
+                    IdentityDetails = new IdentityDetailsDto()
+                    {
+                        Email = "",
+                        Id = "",
+                        Name = ""
+                    }
                 });
 
             UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
@@ -150,10 +177,19 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             };
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AuthDetailsDto
+                .ReturnsAsync(new AuthResultDto()
                 {
-                    AuthToken = accessToken,
-                    SessionToken = refreshToken
+                    AuthDetails = new()
+                    {
+                        AuthToken = "",
+                        SessionToken = ""
+                    },
+                    IdentityDetails = new IdentityDetailsDto()
+                    {
+                        Email = "",
+                        Id = "",
+                        Name = ""
+                    }
                 });
 
             UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)

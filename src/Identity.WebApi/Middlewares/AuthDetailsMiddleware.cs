@@ -17,7 +17,7 @@ namespace Identity.WebApi.Middlewares
         {
             IRequestCookieCollection requestCookieCollection =  httpContext.Request.Cookies;
 
-            if (requestCookieCollection.TryGetValue("", out var accessToken)
+            if (requestCookieCollection.TryGetValue(options.Value.AccessTokenName, out var accessToken)
                 && string.IsNullOrEmpty(accessToken) == false
                 && await accessTokenService.IsValid(accessToken))
             {
