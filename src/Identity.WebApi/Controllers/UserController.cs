@@ -35,11 +35,8 @@ namespace Identity.WebApi.Controllers
             };
             await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, "suka", CookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, "loh", CookieOptions);
-
-            //HttpContext.Response.Cookies.Delete(_configuration.AccessTokenName);
-            //HttpContext.Response.Cookies.Delete(_configuration.RefreshTokenName);
+            HttpContext.Response.Cookies.Delete(_configuration.AccessTokenName);
+            HttpContext.Response.Cookies.Delete(_configuration.RefreshTokenName);
 
             return Ok();
         }

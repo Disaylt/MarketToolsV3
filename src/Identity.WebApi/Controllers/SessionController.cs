@@ -18,8 +18,7 @@ namespace Identity.WebApi.Controllers
     [ApiVersion("1")]
     [Authorize]
     public class SessionController(IMediator mediator,
-        IOptions<WebApiConfiguration> options,
-        ISessionStateService sessionStateService) 
+        IOptions<WebApiConfiguration> options) 
         : ControllerBase
     {
         private readonly WebApiConfiguration _configuration = options.Value;
@@ -35,16 +34,6 @@ namespace Identity.WebApi.Controllers
             await mediator.Send(command, cancellationToken);
 
             return Ok();
-        }
-
-        [HttpGet("status")]
-        [Obsolete]
-        public async Task<IActionResult> GetStateAsync(CancellationToken cancellationToken)
-        {
-            string? refreshToken = HttpContext.Request.Cookies[_configuration.RefreshTokenName];
-            SessionValidStatusDto result = await sessionStateService.GetSessionValidStatus(refreshToken, cancellationToken);
-
-            return Ok(result);
         }
     }
 }
