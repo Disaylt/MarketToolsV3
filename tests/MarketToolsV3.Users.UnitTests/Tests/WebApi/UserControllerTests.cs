@@ -72,7 +72,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
 
             OkObjectResult? objectResult = result as OkObjectResult;
 
-            Assert.That(objectResult!.Value, Is.AssignableTo<AuthDetailsDto>());
+            Assert.That(objectResult!.Value, Is.AssignableTo<AuthResultDto>());
         }
 
         [TestCase("token-a-1", "token-r-1")]
@@ -93,9 +93,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                 {
                     AuthDetails = new()
                     {
-                        AuthToken = "",
-                        SessionToken = ""
-                    },
+                        AuthToken = accessToken,
+                        SessionToken = refreshToken
+					},
                     IdentityDetails = new IdentityDetailsDto()
                     {
                         Email = "",
@@ -115,12 +115,12 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             IActionResult result = await userController.RegisterAsync(body, It.IsAny<CancellationToken>());
 
             OkObjectResult? objectResult = result as OkObjectResult;
-            AuthDetailsDto? authDetails = objectResult?.Value as AuthDetailsDto;
+			AuthResultDto? authDetails = objectResult?.Value as AuthResultDto;
 
             Assert.Multiple(() =>
             {
-                Assert.That(authDetails!.AuthToken, Is.EqualTo(accessToken));
-                Assert.That(authDetails!.SessionToken, Is.EqualTo(refreshToken));
+                Assert.That(authDetails!.AuthDetails.AuthToken, Is.EqualTo(accessToken));
+                Assert.That(authDetails!.AuthDetails.SessionToken, Is.EqualTo(refreshToken));
             });
         }
 
@@ -161,7 +161,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
 
             OkObjectResult? objectResult = result as OkObjectResult;
 
-            Assert.That(objectResult!.Value, Is.AssignableTo<AuthDetailsDto>());
+            Assert.That(objectResult!.Value, Is.AssignableTo<AuthResultDto>());
         }
 
         [TestCase("token-a-1", "token-r-1")]
@@ -181,9 +181,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                 {
                     AuthDetails = new()
                     {
-                        AuthToken = "",
-                        SessionToken = ""
-                    },
+                        AuthToken = accessToken,
+                        SessionToken = refreshToken
+					},
                     IdentityDetails = new IdentityDetailsDto()
                     {
                         Email = "",
@@ -203,12 +203,12 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             IActionResult result = await userController.LoginAsync(body, It.IsAny<CancellationToken>());
 
             OkObjectResult? objectResult = result as OkObjectResult;
-            AuthDetailsDto? authDetails = objectResult?.Value as AuthDetailsDto;
+			AuthResultDto? authDetails = objectResult?.Value as AuthResultDto;
 
             Assert.Multiple(() =>
             {
-                Assert.That(authDetails!.AuthToken, Is.EqualTo(accessToken));
-                Assert.That(authDetails!.SessionToken, Is.EqualTo(refreshToken));
+                Assert.That(authDetails!.AuthDetails.AuthToken, Is.EqualTo(accessToken));
+                Assert.That(authDetails!.AuthDetails.SessionToken, Is.EqualTo(refreshToken));
             });
         }
     }
