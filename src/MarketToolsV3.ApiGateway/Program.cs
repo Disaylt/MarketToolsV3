@@ -1,7 +1,8 @@
 using MarketToolsV3.ApiGateway;
 using MarketToolsV3.ApiGateway.Domain.Constants;
 using MarketToolsV3.ApiGateway.Middlewares;
-using MarketToolsV3.ApiGateway.Services;
+using MarketToolsV3.ApiGateway.Services.Implementation;
+using MarketToolsV3.ApiGateway.Services.Interfaces;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
@@ -9,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Proto.Contract.Identity;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,19 +21,30 @@ ConfigurationServiceFactory configurationServiceFactory = new(builder.Configurat
 IConfigManager serviceConfigManager = await configurationServiceFactory.CreateFromServiceAsync(ApiGatewayConfig.ServiceName);
 serviceConfigManager.JoinTo(builder.Configuration);
 
+var authConfigManager = await configurationServiceFactory.CreateFromAuthAsync();
+authConfigManager.AddAsOptions(builder.Services);
+
 ITypingConfigManager<ServicesAddressesConfig> servicesAddressesConfigManager 
     = await configurationServiceFactory.CreateFromServicesAddressesAsync();
 
 builder.Services
-    .AddAuthGrpcClient(servicesAddressesConfigManager.Value);
+    .AddAuthGrpcClient(servicesAddressesConfigManager.Value)
+    .AddApiGatewayServices();
 
-
-builder.Services.AddOcelot(builder.Configuration);
+builder.Services
+    .AddOcelot(builder.Configuration);
 
 builder.AddServiceDefaults();
 
+string corsName = builder.Services
+    .AddDevCorsServices();
+
 var app = builder.Build();
 
+app.UseCors(corsName);
+
+app.UseMiddleware<AuthContextMiddleware>();
+app.UseMiddleware<AccessTokenMiddleware>();
 app.UseMiddleware<TokensRefreshMiddleware>();
 app.UseMiddleware<SessionActiveStateMiddleware>();
 app.UseMiddleware<HeadersTokensAdapterMiddleware>();

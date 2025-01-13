@@ -17,7 +17,7 @@ namespace UserNotifications.Processor.Consumers
             CreateNotificationCommand command = new()
             {
                 UserId = context.Message.IdentityId,
-                Message = "Вы успешно зарегистрированы в сервисе автоматизации и управлению маркетплейсов."
+                Message = "Доброе пожаловать! Рады видеть вас на нашей платформе. Здесь вы сможете эффективно управлять своими компаниями на маркетплейсах."
             };
 
             await mediator.Send(command);

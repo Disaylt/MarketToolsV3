@@ -29,7 +29,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             JwtAccessTokenDto accessToken = new()
             {
-                UserId = ""
+                UserId = "",
+                SessionId = ""
             };
 
             IEnumerable<string> claimTypes = service
@@ -47,7 +48,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             JwtAccessTokenDto accessToken = new()
             {
-                UserId = ""
+                UserId = "",
+                SessionId = ""
             };
 
             IEnumerable<string> claimTypes = service
@@ -65,7 +67,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             JwtAccessTokenDto accessToken = new()
             {
-                UserId = ""
+                UserId = "",
+                SessionId = ""
             };
 
             IEnumerable<string> claimTypes = service

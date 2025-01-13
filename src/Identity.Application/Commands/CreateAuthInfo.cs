@@ -9,7 +9,7 @@ namespace Identity.Application.Commands
 {
     public class CreateAuthInfo : ICommand<AuthInfoDto>
     {
-        public required AuthDetailsDto Details { get; set; }
         public string UserAgent { get; set; } = "Unknown";
+        public required string RefreshToken { get; set; }
     }
 }

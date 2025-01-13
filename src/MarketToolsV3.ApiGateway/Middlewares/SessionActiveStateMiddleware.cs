@@ -1,5 +1,6 @@
-﻿using MarketToolsV3.ApiGateway.Models;
-using MarketToolsV3.ApiGateway.Services;
+﻿using MarketToolsV3.ApiGateway.Constant;
+using MarketToolsV3.ApiGateway.Models;
+using MarketToolsV3.ApiGateway.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Proto.Contract.Identity;
 
@@ -12,16 +13,19 @@ public class SessionActiveStateMiddleware(RequestDelegate next)
         IOptions<AuthConfiguration> options,
         IAuthContext authContext)
     {
-        if (authContext.IsAuth && string.IsNullOrEmpty(authContext.SessionToken) == false)
+        if (authContext.State == AuthState.AccessTokenValid & authContext.SessionId != null)
         {
             SessionInfoRequest sessionInfoRequest = new SessionInfoRequest
             {
-                Token = authContext.SessionToken
+                Id = authContext.SessionId
             };
 
             SessionActiveStatusReply response = await sessionClient.GetActiveStatusAsync(sessionInfoRequest);
 
-            authContext.IsAuth = response.IsActive;
+            if (response.IsActive)
+            {
+                authContext.State = AuthState.SessionActive;
+            }
         }
 
         await next(httpContext);
