@@ -1,0 +1,4 @@
+{
+	"DatabaseConnection":"Host=localhost;Port=5430;Username=postgres;Password=easypassword;Database=WbSellerApiCompanies",
+	"RedisConnection":"",
+}
