@@ -1,9 +1,30 @@
-using MarketToolsV3.DbMigrations.Service;
+using Google.Protobuf.WellKnownTypes;
+using MarketToolsV3.DbMigrations.Service.Attributes;
+using MarketToolsV3.DbMigrations.Service.Extensions;
+using MarketToolsV3.DbMigrations.Service.Models;
+using MarketToolsV3.DbMigrations.Service.Services.Implementation;
+using MarketToolsV3.DbMigrations.Service.Services.Interfaces;
+using MarketToolsV3.DbMigrations.Service.Workers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-builder.AddServiceDefaults();
-builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<TestWorketService<int>>();
+builder.Services.AddHostedService<TestWorketService<string>>();
+builder.Services.AddHostedService<TestWorketService<bool>>();
+builder.Services.AddHostedService<TestWorketService<bool>>();
+builder.Services.AddHostedService<TestWorketService<bool>>();
 
+builder.Services.AddSingleton<IWorkNotificationServiceService, WorkNotificationServiceService>();
+builder.Services.AddSingleton<IWorkControlService, WorkControlService>();
+
+builder.AddServiceDefaults();
+
+builder.DetermineTotalMigrationServices();
 var host = builder.Build();
+
+host.Services.GetRequiredService<IWorkControlService>();
+
+
 host.Run();
