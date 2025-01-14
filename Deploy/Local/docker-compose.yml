@@ -1,0 +1,120 @@
+version: '3.9'
+
+services:
+    postgres:
+        image: postgres:latest
+        container_name: postgres_container
+        environment:
+          POSTGRES_PASSWORD: ${password}
+          PGDATA: /var/lib/postgresql/data/pgdata
+        ports:
+          - "5430:5432"
+        volumes:
+          - ./pgdata:/var/lib/postgresql/data/pgdata
+        deploy:
+          resources:
+            limits:
+              cpus: '0.50'
+              memory: 512M
+            reservations:
+              cpus: '0.25'
+              memory: 256M
+        command: >
+          postgres -c max_connections=1000
+                   -c shared_buffers=256MB
+                   -c effective_cache_size=768MB
+                   -c maintenance_work_mem=64MB
+                   -c checkpoint_completion_target=0.7
+                   -c wal_buffers=16MB
+                   -c default_statistics_target=100
+        healthcheck:
+          test: [ "CMD-SHELL", "pg_isready -U ${user} -d postgres_db" ]
+          interval: 30s
+          timeout: 10s
+          retries: 5
+        restart: unless-stopped
+        tty: true
+        stdin_open: true
+        
+    redis:
+        image: redis:latest
+        container_name: redis_container
+        ports:
+            - "6380:6379"
+        volumes:
+            - ./redisdata:/data
+        environment:
+            REDIS_PASSWORD: ${password}
+            REDIS_MAXMEMORY: 0
+        restart: unless-stopped
+        tty: true
+        stdin_open: true
+        
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.15.3
+        ports:
+            - 9200:9200
+        environment:
+            ELASTIC_PASSWORD: ${password}
+        restart: unless-stopped
+        
+    kibana:
+        image: docker.elastic.co/kibana/kibana:8.15.3
+        environment:
+            KIBANA_PASSWORD: ${password}
+        ports:
+            - 5601:5601
+        restart: unless-stopped
+        
+    mongo1:
+        image: mongo:latest
+        container_name: mongo1
+        command: mongod --replSet rs0 --bind_ip localhost,mongo1
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./mongo1data:/data/db
+        networks:
+            - mongo-net
+
+    mongo2:
+        image: mongo:latest
+        container_name: mongo2
+        ports:
+            - "27018:27017"
+        command: mongod --replSet rs0 --bind_ip localhost,mongo2
+        volumes:
+            - ./mongo2data:/data/db
+        networks:
+            - mongo-net
+
+    mongo3:
+        image: mongo:latest
+        container_name: mongo3
+        ports:
+            - "27019:27017"
+        command: mongod --replSet rs0 --bind_ip localhost,mongo3
+        volumes:
+            - ./mongo3data:/data/db
+        networks:
+            - mongo-net
+    rabbitmq:
+        image: rabbitmq:4-management
+        container_name: rabbitmq
+        hostname: rabbitmq
+        environment:
+            - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit disk_free_limit 2147483648
+        ports:
+            - 5672:5672
+            - 15672:15672
+            - 15692:15692
+volumes:
+    pgdata:
+    redisdata:
+    mongo1data:
+    mongo2data:
+    mongo3data:
+    rabbitmqdata:
+
+networks:
+    mongo-net:

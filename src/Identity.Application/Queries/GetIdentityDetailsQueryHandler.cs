@@ -24,7 +24,8 @@ namespace Identity.Application.Queries
             return new IdentityDetailsDto
             {
                 Email = identity.Email ?? DefaultValue,
-                Name = identity.UserName ?? DefaultValue
+                Name = identity.UserName ?? DefaultValue,
+                Id = identity.Id
             };
         }
     }

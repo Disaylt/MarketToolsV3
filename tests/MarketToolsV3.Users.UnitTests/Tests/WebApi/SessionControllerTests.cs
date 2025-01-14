@@ -16,21 +16,19 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
     internal class SessionControllerTests
     {
         private Mock<IMediator> _mediatorMock;
-        private Mock<ISessionStateService> _sessionStateServiceMock;
         private Mock<IOptions<WebApiConfiguration>> _webApiConfigurationMock;
 
         [SetUp]
         public void Setup()
         {
             _mediatorMock = new Mock<IMediator>();
-            _sessionStateServiceMock = new Mock<ISessionStateService>();
             _webApiConfigurationMock = new Mock<IOptions<WebApiConfiguration>>();
         }
 
         [Test]
         public async Task DeactivateAsync_ReturnOkResult()
         {
-            SessionController sessionController = new(_mediatorMock.Object, _webApiConfigurationMock.Object, _sessionStateServiceMock.Object);
+            SessionController sessionController = new(_mediatorMock.Object, _webApiConfigurationMock.Object);
 
             IActionResult result = await sessionController
                 .DeactivateAsync(It.IsAny<string>(), It.IsAny<CancellationToken>());

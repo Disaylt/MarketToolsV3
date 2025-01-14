@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using static MassTransit.ValidationResultExtensions;
 
 namespace Identity.WebApi.Controllers
 {
@@ -23,6 +24,23 @@ namespace Identity.WebApi.Controllers
 
         private static readonly CookieOptions CookieOptions = new()
             { HttpOnly = true, Expires = DateTimeOffset.UtcNow.AddYears(1) };
+
+        [Authorize]
+        [HttpPut("logout")]
+        public async Task<IActionResult> LogOut(CancellationToken cancellationToken)
+        {
+            DeactivateSessionCommand command = new()
+            {
+                Id = authContext.GetSessionIdRequired()
+            };
+            await mediator.Send(command, cancellationToken);
+
+            HttpContext.Response.Cookies.Delete(_configuration.AccessTokenName);
+            HttpContext.Response.Cookies.Delete(_configuration.RefreshTokenName);
+            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
+
+            return Ok();
+        }
 
         [Authorize]
         [HttpGet("details")]
@@ -49,10 +67,11 @@ namespace Identity.WebApi.Controllers
                 UserAgent = Request.Headers.UserAgent.FirstOrDefault() ?? "Неизвестное устройство"
             };
 
-            AuthDetailsDto result = await mediator.Send(command, cancellationToken);
+            AuthResultDto result = await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthToken, CookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.SessionToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
+            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
 
             return Ok(result);
         }
@@ -67,10 +86,11 @@ namespace Identity.WebApi.Controllers
                 UserAgent = Request.Headers.UserAgent.FirstOrDefault() ?? "Неизвестное устройство"
             };
 
-            AuthDetailsDto result = await mediator.Send(command, cancellationToken);
+            AuthResultDto result = await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthToken, CookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.SessionToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
+            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
+            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
 
             return Ok(result);
         }

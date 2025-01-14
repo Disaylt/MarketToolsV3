@@ -55,7 +55,8 @@ namespace Identity.Infrastructure.Services.Tokens
 
             JwtAccessTokenDto jwtAccessTokenDto = new()
             {
-                UserId = jwtSecurityToken.Claims.FindByType(ClaimTypes.NameIdentifier) ?? ""
+                UserId = jwtSecurityToken.Claims.FindByType(ClaimTypes.NameIdentifier) ?? "",
+                SessionId = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? ""
             };
 
             IEnumerable<string> roles = jwtSecurityToken.Claims

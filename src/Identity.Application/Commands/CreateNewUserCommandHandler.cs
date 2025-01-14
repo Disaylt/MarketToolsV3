@@ -16,9 +16,9 @@ namespace Identity.Application.Commands
         ISessionService sessionService,
         ITokenService<JwtAccessTokenDto> accessTokenService,
         ITokenService<JwtRefreshTokenDto> refreshTokenService)
-        : IRequestHandler<CreateNewUserCommand, AuthDetailsDto>
+        : IRequestHandler<CreateNewUserCommand, AuthResultDto>
     {
-        public async Task<AuthDetailsDto> Handle(CreateNewUserCommand request, CancellationToken cancellationToken)
+        public async Task<AuthResultDto> Handle(CreateNewUserCommand request, CancellationToken cancellationToken)
         {
             IdentityPerson user = CreateUser(request.Email, request.Login);
             await identityPersonService.AddAsync(user, request.Password);
@@ -36,20 +36,30 @@ namespace Identity.Application.Commands
 
             logger.LogInformation("Add new session - {id}", session.Id);
 
-            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(user.Id);
+            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(user.Id, session.Id);
 
-            return new AuthDetailsDto
+            return new AuthResultDto
             {
-                AuthToken = accessTokenService.Create(accessTokenData),
-                SessionToken = refreshToken
+                AuthDetails = new AuthDetailsDto
+                {
+                    AuthToken = accessTokenService.Create(accessTokenData),
+                    SessionToken = refreshToken
+                },
+                IdentityDetails = new IdentityDetailsDto
+                {
+                    Id = user.Id,
+                    Email = user.Email ?? "Неизвестно",
+                    Name = user.UserName ?? "Неизвестно"
+                }
             };
         }
 
-        private JwtAccessTokenDto CreateAccessTokenData(string userId)
+        private JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId)
         {
             return new JwtAccessTokenDto
             {
-                UserId = userId
+                UserId = userId,
+                SessionId = sessionId
             };
         }
 

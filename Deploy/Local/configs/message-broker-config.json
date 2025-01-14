@@ -1,0 +1,5 @@
+{
+	"RabbitMqConnection":"localhost",
+	"RabbitMqLogin":"guest",
+	"RabbitMqPassword":"guest"
+}

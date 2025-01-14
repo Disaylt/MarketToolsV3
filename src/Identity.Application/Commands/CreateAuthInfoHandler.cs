@@ -21,25 +21,18 @@ namespace Identity.Application.Commands
     {
         public async Task<AuthInfoDto> Handle(CreateAuthInfo request, CancellationToken cancellationToken)
         {
-            if (await accessTokenService.IsValid(request.Details.AuthToken))
-            {
-                logger.LogWarning("Access token isn't valid");
-
-                return new AuthInfoDto { IsValid = true };
-            }
-
-            if (await refreshTokenService.IsValid(request.Details.SessionToken) == false)
+            if (await refreshTokenService.IsValid(request.RefreshToken) == false)
             {
                 logger.LogWarning("Refresh token isn't valid");
 
                 return new AuthInfoDto { IsValid = false };
             }
 
-            JwtRefreshTokenDto refreshTokenData = refreshTokenService.Read(request.Details.SessionToken);
+            JwtRefreshTokenDto refreshTokenData = refreshTokenService.Read(request.RefreshToken);
 
             Session session = await sessionRepository.FindByIdRequiredAsync(refreshTokenData.Id, cancellationToken);
 
-            if (session.IsActive == false || session.Token != request.Details.SessionToken)
+            if (session.IsActive == false || session.Token != request.RefreshToken)
             {
                 logger.LogWarning("Session status not active ({status}) or current refresh token does not match session refresh token.", session.IsActive);
 
@@ -50,14 +43,13 @@ namespace Identity.Application.Commands
 
             await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
 
-            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId);
+            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
 
             logger.LogInformation("Build auth info result.");
 
             return new AuthInfoDto
             {
                 IsValid = true,
-                Refreshed = true,
                 Details = new AuthDetailsDto
                 {
                     AuthToken = accessTokenService.Create(accessTokenData),
@@ -66,9 +58,10 @@ namespace Identity.Application.Commands
             };
         }
 
-        private static JwtAccessTokenDto CreateAccessTokenData(string userId) => new()
+        private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId) => new()
         {
-            UserId = userId
+            UserId = userId,
+            SessionId = sessionId
         };
     }
 }

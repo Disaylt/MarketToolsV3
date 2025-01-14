@@ -62,6 +62,15 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                     SecretRefreshToken = secret
                 });
 
+            _authConfigOptionsMock.SetupGet(x => x.Value)
+                .Returns(new AuthConfig
+                {
+                    ValidAudience = It.IsAny<string>(),
+                    ValidIssuer = It.IsAny<string>(),
+                    IsCheckValidAudience = true,
+                    IsCheckValidIssuer = true
+                });
+
             JwtRefreshTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,
                 _jwtTokenServiceMock.Object,
                 _serviceConfigurationOptionsMock.Object,
@@ -100,7 +109,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
                 .Returns(new AuthConfig
                 {
                     ValidAudience = It.IsAny<string>(),
-                    ValidIssuer = It.IsAny<string>()
+                    ValidIssuer = It.IsAny<string>(),
+                    IsCheckValidAudience = It.IsAny<bool>(),
+                    IsCheckValidIssuer = It.IsAny<bool>()
                 });
 
             JwtRefreshTokenService jwtAccessTokenService = new(_claimsServiceMock.Object,

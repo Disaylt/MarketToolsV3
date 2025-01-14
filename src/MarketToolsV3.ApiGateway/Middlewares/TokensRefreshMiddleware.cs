@@ -1,9 +1,13 @@
 ﻿using System.Text.Json;
 using Google.Protobuf.WellKnownTypes;
+using MarketToolsV3.ApiGateway.Constant;
 using MarketToolsV3.ApiGateway.Models;
-using MarketToolsV3.ApiGateway.Services;
+using MarketToolsV3.ApiGateway.Services.Interfaces;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
+using Ocelot.Responses;
 using Proto.Contract.Identity;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
@@ -18,47 +22,36 @@ namespace MarketToolsV3.ApiGateway.Middlewares
             Auth.AuthClient authClient,
             IAuthContext authContext)
         {
-            bool isContainsAccessToken = 
-                httpContext.Request.Cookies.TryGetValue(options.Value.AccessTokenName, out string? accessToken);
-            bool isContainsRefreshToken =
-                httpContext.Request.Cookies.TryGetValue(options.Value.RefreshTokenName, out string? refreshToken);
-
-            if (
-                (isContainsAccessToken && string.IsNullOrEmpty(accessToken) == false)
-                || 
-                (isContainsRefreshToken && string.IsNullOrEmpty(refreshToken) == false))
+            if (string.IsNullOrEmpty(authContext.SessionToken) == false && authContext.State == AuthState.None)
             {
                 AuthInfoRequest request = new AuthInfoRequest
                 {
                     UserAgent = httpContext.Request.Headers.UserAgent.FirstOrDefault() ?? "Неизвестное устройство",
-                    Details = new AuthInfoRequest.Types.Details
-                    {
-                        AuthToken = accessToken ?? string.Empty,
-                        SessionToken = refreshToken ?? string.Empty
-                    }
+                    SessionToken = authContext.SessionToken
                 };
 
                 AuthInfoReply response = await authClient.GetAuthInfoAsync(request);
 
-                if (response.IsValid)
+                if (response.HasDetails & response.IsValid)
                 {
-                    authContext.AccessToken = accessToken;
-                    authContext.SessionToken = refreshToken;
-                    authContext.IsAuth = true;
-                }
-
-                if (response.Refreshed & response.HasDetails & response.IsValid)
-                {
-                    httpContext.Response.Cookies.Append(options.Value.AccessTokenName, response.Details.AuthToken, CookieOptions);
-                    httpContext.Response.Cookies.Append(options.Value.RefreshTokenName, response.Details.SessionToken, CookieOptions);
-
                     authContext.AccessToken = response.Details.AuthToken;
                     authContext.SessionToken = response.Details.SessionToken;
-                }
 
+                    authContext.State = AuthState.TokensRefreshed;
+                }
             }
 
             await next(httpContext);
+
+            StringValues newAuthDetails = httpContext.Response.Headers["auth-details"];
+            if (authContext.State == AuthState.TokensRefreshed 
+                && newAuthDetails.Contains("new") == false
+                && string.IsNullOrEmpty(authContext.AccessToken) == false
+                && string.IsNullOrEmpty(authContext.SessionToken) == false)
+            {
+                httpContext.Response.Cookies.Append(options.Value.AccessTokenName, authContext.AccessToken, CookieOptions);
+                httpContext.Response.Cookies.Append(options.Value.RefreshTokenName, authContext.SessionToken, CookieOptions);
+            }
         }
     }
 }

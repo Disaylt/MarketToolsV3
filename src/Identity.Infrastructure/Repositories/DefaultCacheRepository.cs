@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Identity.Infrastructure.Repositories
 {
@@ -14,12 +15,16 @@ namespace Identity.Infrastructure.Repositories
     {
         public async Task DeleteAsync(string key, CancellationToken cancellationToken)
         {
-            await distributedCache.RemoveAsync(key, cancellationToken);
+            string typeKey = BuildKey<T>(key);
+
+            await distributedCache.RemoveAsync(typeKey, cancellationToken);
         }
 
         public async Task<T?> GetAsync(string key)
         {
-            string? value = await distributedCache.GetStringAsync(BuildKey<T>(key));
+            string typeKey = BuildKey<T>(key);
+
+            string? value = await distributedCache.GetStringAsync(typeKey);
 
             if (value == null)
             {
@@ -32,8 +37,9 @@ namespace Identity.Infrastructure.Repositories
         public async Task SetAsync(string key, T value, TimeSpan expire)
         {
             string strValue = JsonSerializer.Serialize(value);
+            string typeKey = BuildKey<T>(key);
 
-            await distributedCache.SetStringAsync(BuildKey<T>(key), strValue, new DistributedCacheEntryOptions
+            await distributedCache.SetStringAsync(typeKey, strValue, new DistributedCacheEntryOptions
             {
                 AbsoluteExpirationRelativeToNow = expire,
             });
