@@ -15,18 +15,21 @@ public class SessionActiveStateMiddleware(RequestDelegate next)
         ICacheRepository<SessionActiveStatusReply> sessionCacheRepository,
         IAuthContext authContext)
     {
-        if (authContext.State == AuthState.AccessTokenValid & authContext.SessionId != null)
+        if (authContext is { State: AuthState.AccessTokenValid, SessionId: not null })
         {
             SessionInfoRequest sessionInfoRequest = new SessionInfoRequest
             {
                 Id = authContext.SessionId
             };
 
+            SessionActiveStatusReply? sessionState = await sessionCacheRepository.GetAsync(authContext.SessionId);
 
+            if (sessionState is null)
+            {
+                sessionState = await sessionClient.GetActiveStatusAsync(sessionInfoRequest);
+            }
 
-            SessionActiveStatusReply response = await sessionClient.GetActiveStatusAsync(sessionInfoRequest);
-
-            if (response.IsActive)
+            if (sessionState.IsActive)
             {
                 authContext.State = AuthState.SessionActive;
             }
