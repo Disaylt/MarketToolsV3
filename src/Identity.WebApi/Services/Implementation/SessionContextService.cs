@@ -10,14 +10,9 @@ namespace Identity.WebApi.Services.Implementation
     {
         public void MarkAsDelete()
         {
-            if (httpContextAccessor.HttpContext == null)
-            {
-                return;
-            }
-
             SessionActionHeader sessionActionHeader = authConfigOptions.Value.Headers.SessionAction;
 
-            httpContextAccessor.HttpContext.Response.Headers.Append(
+            httpContextAccessor.HttpContext?.Response.Headers.Append(
                 sessionActionHeader.Name,
                 sessionActionHeader.Values.Delete);
         }
