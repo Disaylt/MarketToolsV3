@@ -17,7 +17,7 @@ namespace Identity.WebApi.Services.Implementation
 
             SessionActionHeader sessionActionHeader = authConfigOptions.Value.Headers.SessionAction;
 
-            httpContextAccessor.HttpContext.Request.Headers.Append(
+            httpContextAccessor.HttpContext.Response.Headers.Append(
                 sessionActionHeader.Name,
                 sessionActionHeader.Values.Delete);
         }

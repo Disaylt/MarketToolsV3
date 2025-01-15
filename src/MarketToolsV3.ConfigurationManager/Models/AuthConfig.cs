@@ -15,6 +15,8 @@ namespace MarketToolsV3.ConfigurationManager.Models
         public bool IsCheckValidAudience { get; init; } = true;
         public bool IsCheckValidIssuer { get; init; } = true;
         public bool IsCheckExpireDate { get; init; } = true;
+        public string AccessTokenName { get; init; } = "access-token";
+        public string RefreshTokenName { get; init; } = "refresh-token";
         public Headers Headers { get; init; } = new();
     }
 
@@ -34,7 +36,6 @@ namespace MarketToolsV3.ConfigurationManager.Models
     public record CookieActionHeaderValues
     {
         public string New { get; set; } = "new";
-        public SessionActionHeader Values { get; init; } = new();
     }
 
     public record SessionActionHeader
