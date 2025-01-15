@@ -34,6 +34,8 @@ public static class ServiceRegistrationExtension
         collection.AddSingleton<IAccessTokenService, AccessTokenService>();
         collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
 
+        collection.AddSingleton(typeof(ICacheRepository<>), typeof(DefaultCacheRepository<>));
+
         return collection;
     }
 
