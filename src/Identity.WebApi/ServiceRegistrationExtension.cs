@@ -35,6 +35,7 @@ namespace Identity.WebApi
 
         public static void AddWebApiServices(this IServiceCollection collection)
         {
+            collection.AddScoped<ISessionContextService, SessionContextService>();
         }
 
         public static void AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig)

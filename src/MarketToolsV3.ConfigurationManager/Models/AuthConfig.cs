@@ -40,6 +40,7 @@ namespace MarketToolsV3.ConfigurationManager.Models
     public record SessionActionHeader
     {
         public string Name { get; init; } = "mp-session-action";
+        public SessionActionHeaderValues Values { get; init; } = new();
     }
 
     public record SessionActionHeaderValues
