@@ -1,17 +1,18 @@
 ﻿using MarketToolsV3.ApiGateway.Constant;
 using MarketToolsV3.ApiGateway.Models;
 using MarketToolsV3.ApiGateway.Services.Interfaces;
+using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Proto.Contract.Identity;
 
 namespace MarketToolsV3.ApiGateway.Middlewares;
 
-public class SessionActiveStateMiddleware(RequestDelegate next)
+public class SessionMiddleware(RequestDelegate next)
 {
     public async Task Invoke(HttpContext httpContext,
         Session.SessionClient sessionClient,
-        IOptions<AuthConfiguration> options,
+        IOptions<AuthConfig> options,
         ICacheRepository<SessionActiveStatusReply> sessionCacheRepository,
         IAuthContext authContext)
     {
@@ -27,6 +28,7 @@ public class SessionActiveStateMiddleware(RequestDelegate next)
             if (sessionState is null)
             {
                 sessionState = await sessionClient.GetActiveStatusAsync(sessionInfoRequest);
+                await sessionCacheRepository.SetAsync(authContext.SessionId, sessionState, TimeSpan.FromHours(1));
             }
 
             if (sessionState.IsActive)
@@ -36,5 +38,13 @@ public class SessionActiveStateMiddleware(RequestDelegate next)
         }
 
         await next(httpContext);
+
+        string sessionRemoveHeaderName = options.Value.Headers.SessionRemove.Name;
+        string? removeSessionId = httpContext.Response.Headers[sessionRemoveHeaderName].FirstOrDefault();
+
+        if (string.IsNullOrEmpty(removeSessionId) == false)
+        {
+            await sessionCacheRepository.DeleteAsync(removeSessionId, CancellationToken.None);
+        }
     }
 }
