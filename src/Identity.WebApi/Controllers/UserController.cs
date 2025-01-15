@@ -20,16 +20,10 @@ namespace Identity.WebApi.Controllers
     [ApiVersion("1")]
     public class UserController(IMediator mediator, 
         ICookiesContextService cookiesContextService,
-        IOptions<WebApiConfiguration> webApiConfigurationConfiguration,
-        IOptions<AuthConfig> authConfigOptions,
+        ICredentialsService credentialsService,
         IAuthContext authContext)
         : ControllerBase
     {
-        private readonly WebApiConfiguration _webApiConfigurationConfiguration = webApiConfigurationConfiguration.Value;
-
-        private static readonly CookieOptions CookieOptions = new()
-            { HttpOnly = true, Expires = DateTimeOffset.UtcNow.AddYears(1) };
-
         [Authorize]
         [HttpPut("logout")]
         public async Task<IActionResult> LogOut(CancellationToken cancellationToken)
@@ -74,7 +68,7 @@ namespace Identity.WebApi.Controllers
 
             AuthResultDto result = await mediator.Send(command, cancellationToken);
 
-            cookiesContextService.RefreshCredentials(result.AuthDetails.AuthToken, result.AuthDetails.SessionToken);
+            credentialsService.RefreshCredentials(result.AuthDetails.AuthToken, result.AuthDetails.SessionToken);
 
             return Ok(result);
         }
@@ -91,7 +85,7 @@ namespace Identity.WebApi.Controllers
 
             AuthResultDto result = await mediator.Send(command, cancellationToken);
 
-            cookiesContextService.RefreshCredentials(result.AuthDetails.AuthToken, result.AuthDetails.SessionToken);
+            credentialsService.RefreshCredentials(result.AuthDetails.AuthToken, result.AuthDetails.SessionToken);
 
             return Ok(result);
         }
