@@ -12,9 +12,7 @@ namespace Identity.WebApi.Middlewares
     public class AuthDetailsMiddleware(RequestDelegate next)
     {
         public async Task Invoke(HttpContext httpContext,
-            IAuthContext authContext,
-            ITokenService<JwtAccessTokenDto> accessTokenService,
-            IOptions<WebApiConfiguration> options)
+            IAuthContext authContext)
         {
             Claim? sessionIdClaim = httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
             if (sessionIdClaim != null)
