@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MarketToolsV3.DbMigrations.Service.Extensions
 {
-    internal static class RegisterMigrationServicesExtension
+    internal static class MigrationDiExtension
     {
         public static void DetermineTotalMigrationServices(this IHostApplicationBuilder hostApplicationBuilder)
         {

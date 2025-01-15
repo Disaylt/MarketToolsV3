@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using Identity.Domain.Seed;
+using Identity.WebApi.Services.Interfaces;
 
-namespace Identity.WebApi.Services
+namespace Identity.WebApi.Services.Implementation
 {
     public class AuthContext : IAuthContext
     {

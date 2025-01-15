@@ -1,4 +1,4 @@
-﻿namespace Identity.WebApi.Services
+﻿namespace Identity.WebApi.Services.Interfaces
 {
     public interface IAuthContext
     {

@@ -4,6 +4,9 @@ using Identity.Application.Models;
 using Identity.Application.Queries;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services;
+using Identity.WebApi.Services.Implementation;
+using Identity.WebApi.Services.Interfaces;
+using MarketToolsV3.ConfigurationManager.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +19,11 @@ namespace Identity.WebApi.Controllers
     [ApiController]
     [ApiVersion("1")]
     public class UserController(IMediator mediator, 
-        IOptions<WebApiConfiguration> options,
+        ICookiesContextService cookiesContextService,
+        ICredentialsService credentialsService,
         IAuthContext authContext)
         : ControllerBase
     {
-        private readonly WebApiConfiguration _configuration = options.Value;
-
-        private static readonly CookieOptions CookieOptions = new()
-            { HttpOnly = true, Expires = DateTimeOffset.UtcNow.AddYears(1) };
-
         [Authorize]
         [HttpPut("logout")]
         public async Task<IActionResult> LogOut(CancellationToken cancellationToken)
@@ -35,9 +34,9 @@ namespace Identity.WebApi.Controllers
             };
             await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Delete(_configuration.AccessTokenName);
-            HttpContext.Response.Cookies.Delete(_configuration.RefreshTokenName);
-            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
+            cookiesContextService.DeleteAccessToken();
+            cookiesContextService.DeleteSessionToken();
+            cookiesContextService.MarkAsNew();
 
             return Ok();
         }
@@ -69,9 +68,7 @@ namespace Identity.WebApi.Controllers
 
             AuthResultDto result = await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
-            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
+            credentialsService.RefreshCredentials(result.AuthDetails.AuthToken, result.AuthDetails.SessionToken);
 
             return Ok(result);
         }
@@ -88,9 +85,7 @@ namespace Identity.WebApi.Controllers
 
             AuthResultDto result = await mediator.Send(command, cancellationToken);
 
-            HttpContext.Response.Cookies.Append(_configuration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
-            HttpContext.Response.Cookies.Append(_configuration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
-            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
+            credentialsService.RefreshCredentials(result.AuthDetails.AuthToken, result.AuthDetails.SessionToken);
 
             return Ok(result);
         }

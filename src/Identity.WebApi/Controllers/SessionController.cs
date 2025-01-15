@@ -3,6 +3,8 @@ using Identity.Application.Commands;
 using Identity.Application.Queries;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services;
+using Identity.WebApi.Services.Interfaces;
+using MarketToolsV3.ConfigurationManager.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,12 +19,9 @@ namespace Identity.WebApi.Controllers
     [ApiController]
     [ApiVersion("1")]
     [Authorize]
-    public class SessionController(IMediator mediator,
-        IOptions<WebApiConfiguration> options) 
+    public class SessionController(IMediator mediator, ISessionContextService sessionContextService) 
         : ControllerBase
     {
-        private readonly WebApiConfiguration _configuration = options.Value;
-
         [HttpPost("deactivate")]
         public async Task<IActionResult> DeactivateAsync(string id, CancellationToken cancellationToken)
         {
@@ -32,6 +31,7 @@ namespace Identity.WebApi.Controllers
             };
 
             await mediator.Send(command, cancellationToken);
+            sessionContextService.MarkAsDelete();
 
             return Ok();
         }

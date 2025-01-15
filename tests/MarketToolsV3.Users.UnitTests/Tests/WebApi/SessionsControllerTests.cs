@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Identity.Application.Models;
 using Identity.WebApi.Controllers;
 using Identity.WebApi.Services;
+using Identity.WebApi.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
