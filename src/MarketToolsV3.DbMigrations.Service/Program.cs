@@ -10,12 +10,6 @@ using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-builder.Services.AddHostedService<TestWorketService<int>>();
-builder.Services.AddHostedService<TestWorketService<string>>();
-builder.Services.AddHostedService<TestWorketService<bool>>();
-builder.Services.AddHostedService<TestWorketService<bool>>();
-builder.Services.AddHostedService<TestWorketService<bool>>();
-
 builder.Services.AddSingleton<IWorkNotificationServiceService, WorkNotificationServiceService>();
 builder.Services.AddSingleton<IWorkControlService, WorkControlService>();
 
