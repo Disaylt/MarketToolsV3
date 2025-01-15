@@ -32,6 +32,7 @@ namespace Identity.WebApi.Controllers
             };
 
             await mediator.Send(command, cancellationToken);
+            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
 
             return Ok();
         }

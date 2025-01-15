@@ -15,5 +15,35 @@ namespace MarketToolsV3.ConfigurationManager.Models
         public bool IsCheckValidAudience { get; init; } = true;
         public bool IsCheckValidIssuer { get; init; } = true;
         public bool IsCheckExpireDate { get; init; } = true;
+        public Headers Headers { get; init; } = new();
+    }
+
+    public record Headers
+    {
+        public CookieActionHeader CookieAction { get; init; } = new();
+        public SessionActionHeader SessionAction { get; init; } = new();
+    }
+
+    public record CookieActionHeader
+    {
+        public string Name { get; init; } = "mp-cookie-action";
+        public CookieActionHeaderValues Values { get; init; } = new();
+
+    }
+
+    public record CookieActionHeaderValues
+    {
+        public string New { get; set; } = "new";
+        public SessionActionHeader Values { get; init; } = new();
+    }
+
+    public record SessionActionHeader
+    {
+        public string Name { get; init; } = "mp-session-action";
+    }
+
+    public record SessionActionHeaderValues
+    {
+        public string Delete { get; init; } = "delete";
     }
 }
