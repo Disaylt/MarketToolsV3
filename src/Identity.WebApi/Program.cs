@@ -14,6 +14,7 @@ using Serilog.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
+builder.Services.AddHttpContextAccessor();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 

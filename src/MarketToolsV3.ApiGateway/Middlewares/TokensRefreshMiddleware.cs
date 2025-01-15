@@ -40,6 +40,7 @@ namespace MarketToolsV3.ApiGateway.Middlewares
             await next(httpContext);
 
             bool containsNewCookie = ContainsNewCookie(options.Value, httpContext);
+            httpContext.Response.Cookies.Append(nameof(TokensRefreshMiddleware), nameof(TokensRefreshMiddleware));
 
             if (authContext.State == AuthState.TokensRefreshed 
                 && containsNewCookie == false

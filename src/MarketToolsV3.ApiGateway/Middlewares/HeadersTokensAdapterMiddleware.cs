@@ -8,7 +8,7 @@ namespace MarketToolsV3.ApiGateway.Middlewares
 {
     public class HeadersTokensAdapterMiddleware(RequestDelegate next)
     {
-        public Task Invoke(HttpContext httpContext, 
+        public async Task Invoke(HttpContext httpContext, 
             IAuthContext authContext)
         {
             if (authContext.State == AuthState.TokensRefreshed
@@ -17,7 +17,9 @@ namespace MarketToolsV3.ApiGateway.Middlewares
                 httpContext.Request.Headers.Authorization = $"Bearer {authContext.AccessToken ?? string.Empty}";
             }
 
-            return next(httpContext);
+            await next(httpContext);
+
+            httpContext.Response.Cookies.Append(nameof(HeadersTokensAdapterMiddleware), nameof(HeadersTokensAdapterMiddleware));
         }
     }
 }

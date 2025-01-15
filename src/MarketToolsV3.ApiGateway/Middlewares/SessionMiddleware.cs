@@ -5,6 +5,7 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Proto.Contract.Identity;
+using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace MarketToolsV3.ApiGateway.Middlewares;
 
@@ -38,13 +39,29 @@ public class SessionMiddleware(RequestDelegate next)
         }
 
         await next(httpContext);
+        httpContext.Response.Cookies.Append(nameof(SessionMiddleware), nameof(SessionMiddleware));
+        //await RemoveTokenFromHeaderAsync(options.Value, sessionCacheRepository, httpContext);
+        //await RemoveTokenFromContextAsync(authContext, sessionCacheRepository);
+    }
 
-        string sessionRemoveHeaderName = options.Value.Headers.SessionRemove.Name;
+    private async Task RemoveTokenFromHeaderAsync(AuthConfig authConfig, 
+        ICacheRepository<SessionActiveStatusReply> sessionCacheRepository, 
+        HttpContext httpContext)
+    {
+        string sessionRemoveHeaderName = authConfig.Headers.SessionRemove.Name;
         string? removeSessionId = httpContext.Response.Headers[sessionRemoveHeaderName].FirstOrDefault();
 
         if (string.IsNullOrEmpty(removeSessionId) == false)
         {
             await sessionCacheRepository.DeleteAsync(removeSessionId, CancellationToken.None);
+        }
+    }
+
+    private async Task RemoveTokenFromContextAsync(IAuthContext authContext, ICacheRepository<SessionActiveStatusReply> sessionCacheRepository)
+    {
+        if (authContext.State == AuthState.TokensRefreshed && string.IsNullOrEmpty(authContext.SessionToken) == false)
+        {
+            await sessionCacheRepository.DeleteAsync(authContext.SessionToken, CancellationToken.None);
         }
     }
 }
