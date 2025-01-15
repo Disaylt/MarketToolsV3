@@ -10,6 +10,8 @@ using Microsoft.Extensions.Options;
 
 var builder = Host.CreateApplicationBuilder(args);
 
+await builder.AddIdentityMigration();
+
 builder.Services.AddSingleton<IWorkNotificationServiceService, WorkNotificationServiceService>();
 builder.Services.AddSingleton<IWorkControlService, WorkControlService>();
 
