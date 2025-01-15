@@ -8,13 +8,12 @@ namespace Identity.WebApi.Services.Implementation
         IOptions<AuthConfig> authConfigOptions)
     : ISessionContextService
     {
-        public void MarkAsDelete()
+        public void MarkAsDelete(string id)
         {
-            SessionActionHeader sessionActionHeader = authConfigOptions.Value.Headers.SessionAction;
+            SessionRemoveHeader sessionActionHeader = authConfigOptions.Value.Headers.SessionRemove;
 
             httpContextAccessor.HttpContext?.Response.Headers.Append(
-                sessionActionHeader.Name,
-                sessionActionHeader.Values.Delete);
+                sessionActionHeader.Name, id);
         }
     }
 }

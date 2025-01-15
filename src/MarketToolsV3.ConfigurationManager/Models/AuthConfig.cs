@@ -23,13 +23,13 @@ namespace MarketToolsV3.ConfigurationManager.Models
     public record Headers
     {
         public CookieActionHeader CookieAction { get; init; } = new();
-        public SessionActionHeader SessionAction { get; init; } = new();
+        public SessionRemoveHeader SessionRemove { get; init; } = new();
     }
 
     public record CookieActionHeader
     {
         public string Name { get; init; } = "mp-cookie-action";
-        public CookieActionHeaderValues Values { get; init; } = new();
+        public CookieActionHeaderValues Properties { get; init; } = new();
 
     }
 
@@ -38,14 +38,8 @@ namespace MarketToolsV3.ConfigurationManager.Models
         public string New { get; set; } = "new";
     }
 
-    public record SessionActionHeader
+    public record SessionRemoveHeader
     {
-        public string Name { get; init; } = "mp-session-action";
-        public SessionActionHeaderValues Values { get; init; } = new();
-    }
-
-    public record SessionActionHeaderValues
-    {
-        public string Delete { get; init; } = "delete";
+        public string Name { get; init; } = "mp-session-remove";
     }
 }

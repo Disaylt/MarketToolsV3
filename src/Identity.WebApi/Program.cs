@@ -43,7 +43,7 @@ builder.Services.AddApiVersioning(opt =>
     opt.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
-//builder.AddLogging(globalConfig);
+builder.AddLogging(serviceConfigManager.Value);
 
 var app = builder.Build();
 

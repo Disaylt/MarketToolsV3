@@ -2,6 +2,6 @@
 {
     public interface ISessionContextService
     {
-        public void MarkAsDelete();
+        public void MarkAsDelete(string id);
     }
 }

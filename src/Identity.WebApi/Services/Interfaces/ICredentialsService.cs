@@ -2,6 +2,7 @@
 {
     public interface ICredentialsService
     {
-        public void RefreshCredentials(string accessToken, string refreshToken);
+        public void Refresh(string accessToken, string refreshToken);
+        public void Remove(string sessionId);
     }
 }

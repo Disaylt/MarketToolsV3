@@ -42,7 +42,7 @@ namespace Identity.WebApi.Services.Implementation
 
             httpContextAccessor.HttpContext?.Response.Headers.Append(
                 cookieActionHeader.Name,
-                cookieActionHeader.Values.New);
+                cookieActionHeader.Properties.New);
         }
     }
 }
