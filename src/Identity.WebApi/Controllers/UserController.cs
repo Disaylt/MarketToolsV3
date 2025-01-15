@@ -4,6 +4,7 @@ using Identity.Application.Models;
 using Identity.Application.Queries;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services;
+using Identity.WebApi.Services.Interfaces;
 using MarketToolsV3.ConfigurationManager.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -40,7 +41,6 @@ namespace Identity.WebApi.Controllers
 
             HttpContext.Response.Cookies.Delete(_webApiConfigurationConfiguration.AccessTokenName);
             HttpContext.Response.Cookies.Delete(_webApiConfigurationConfiguration.RefreshTokenName);
-            HttpContext.Response.Headers.Append(_authConfigOptions.Headers.CookieAction, "new");
 
             return Ok();
         }
@@ -74,7 +74,6 @@ namespace Identity.WebApi.Controllers
 
             HttpContext.Response.Cookies.Append(_webApiConfigurationConfiguration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
             HttpContext.Response.Cookies.Append(_webApiConfigurationConfiguration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
-            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
 
             return Ok(result);
         }
@@ -93,7 +92,6 @@ namespace Identity.WebApi.Controllers
 
             HttpContext.Response.Cookies.Append(_webApiConfigurationConfiguration.AccessTokenName, result.AuthDetails.AuthToken, CookieOptions);
             HttpContext.Response.Cookies.Append(_webApiConfigurationConfiguration.RefreshTokenName, result.AuthDetails.SessionToken, CookieOptions);
-            HttpContext.Response.Headers.Append(_configuration.AuthDetailsHeader, "new");
 
             return Ok(result);
         }

@@ -4,6 +4,7 @@ using Identity.WebApi.Services;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using Identity.WebApi.Models;
+using Identity.WebApi.Services.Interfaces;
 using Microsoft.Extensions.Primitives;
 
 namespace Identity.WebApi.Middlewares
