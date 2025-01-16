@@ -39,12 +39,12 @@ public class SessionMiddleware(RequestDelegate next)
         }
 
         await next(httpContext);
-        httpContext.Response.Cookies.Append(nameof(SessionMiddleware), nameof(SessionMiddleware));
-        //await RemoveTokenFromHeaderAsync(options.Value, sessionCacheRepository, httpContext);
-        //await RemoveTokenFromContextAsync(authContext, sessionCacheRepository);
+
+        await RemoveTokenByHeaderAsync(options.Value, sessionCacheRepository, httpContext);
+        await RemoveTokenByContextAsync(authContext, sessionCacheRepository);
     }
 
-    private async Task RemoveTokenFromHeaderAsync(AuthConfig authConfig, 
+    private async Task RemoveTokenByHeaderAsync(AuthConfig authConfig, 
         ICacheRepository<SessionActiveStatusReply> sessionCacheRepository, 
         HttpContext httpContext)
     {
@@ -57,7 +57,7 @@ public class SessionMiddleware(RequestDelegate next)
         }
     }
 
-    private async Task RemoveTokenFromContextAsync(IAuthContext authContext, ICacheRepository<SessionActiveStatusReply> sessionCacheRepository)
+    private async Task RemoveTokenByContextAsync(IAuthContext authContext, ICacheRepository<SessionActiveStatusReply> sessionCacheRepository)
     {
         if (authContext.State == AuthState.TokensRefreshed && string.IsNullOrEmpty(authContext.SessionToken) == false)
         {

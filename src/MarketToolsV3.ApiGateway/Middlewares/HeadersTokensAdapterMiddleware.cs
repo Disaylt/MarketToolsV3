@@ -18,8 +18,6 @@ namespace MarketToolsV3.ApiGateway.Middlewares
             }
 
             await next(httpContext);
-
-            httpContext.Response.Cookies.Append(nameof(HeadersTokensAdapterMiddleware), nameof(HeadersTokensAdapterMiddleware));
         }
     }
 }

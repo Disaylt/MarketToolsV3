@@ -16,7 +16,7 @@
 		  "DownstreamPathTemplate": "/api/{everything}",
 		  "DownstreamScheme": "https",
 		  "Metadata":{
-			"refresh-cookies":"false"  
+			"not-refresh-cookies":"true"  
 		  },
 		  "DownstreamHostAndPorts": [
 			{
