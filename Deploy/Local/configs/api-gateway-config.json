@@ -15,15 +15,15 @@
 		{
 		  "DownstreamPathTemplate": "/api/{everything}",
 		  "DownstreamScheme": "https",
-		  "Metadata":{
-			"not-refresh-cookies":"true"  
-		  },
 		  "DownstreamHostAndPorts": [
 			{
 			  "Host": "localhost",
 			  "Port": 7256
 			}
 		  ],
+		  "Metadata":{
+			"skip-refresh-cookies":"true"  
+		  },
 		  "UpstreamPathTemplate": "/auth/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		},

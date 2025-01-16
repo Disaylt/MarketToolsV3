@@ -38,25 +38,9 @@ namespace MarketToolsV3.ApiGateway.Middlewares
                 AuthInfoReply response = await authClient.GetAuthInfoAsync(request);
 
                 TryRefreshAuthContext(authContext, response);
-                TryRefreshCookies(httpContext, response, options);
             }
 
             await next(httpContext);
-        }
-
-        private void TryRefreshCookies(HttpContext httpContext, 
-            AuthInfoReply authInfoReply,
-            IOptions<AuthConfig> options)
-        {
-            if (authInfoReply.IsValid
-                && authInfoReply.HasDetails
-                && string.IsNullOrEmpty(authInfoReply.Details.SessionToken) == false
-                && string.IsNullOrEmpty(authInfoReply.Details.AuthToken) == false
-                && httpContext.Items.DownstreamRoute().GetMetadata<bool>("not-refresh-cookies") == false)
-            {
-                httpContext.Response.Cookies.Append(options.Value.AccessTokenName, authInfoReply.Details.AuthToken, CookieOptions);
-                httpContext.Response.Cookies.Append(options.Value.RefreshTokenName, authInfoReply.Details.SessionToken, CookieOptions);
-            }
         }
 
         private void TryRefreshAuthContext(IAuthContext authContext, AuthInfoReply authInfoReply)
