@@ -61,7 +61,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     }
                 });
 
-            UserController userController = new(_mediatorMock.Object, _cookiesContextServiceMock.Object, _credentialsServiceMock.Object,  _authContextMock.Object)
+            UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object,  _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -105,7 +105,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     }
                 });
 
-            UserController userController = new(_mediatorMock.Object, _cookiesContextServiceMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
+            UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -150,7 +150,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     }
                 });
 
-            UserController userController = new(_mediatorMock.Object, _cookiesContextServiceMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
+            UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -193,7 +193,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     }
                 });
 
-            UserController userController = new(_mediatorMock.Object, _cookiesContextServiceMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
+            UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
