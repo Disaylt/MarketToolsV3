@@ -2,6 +2,7 @@
 using Identity.Application.Models;
 using Identity.Application.Queries;
 using Identity.WebApi.Services;
+using Identity.WebApi.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

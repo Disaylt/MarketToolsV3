@@ -365,6 +365,6 @@ FodyWeavers.xsd
 # Deploy ignore
 Deploy/Local/*
 !Deploy/local/.env
-!Deploy/local/readme*.md
+!Deploy/local/readme.md
 !Deploy/local/docker-compose.yml
 !Deploy/local/configs/

@@ -1,4 +1,6 @@
 ﻿using Identity.Application.Behaviors;
+using Identity.Application.Commands;
+using Identity.Application.DeepValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,15 +15,16 @@ namespace Identity.Application
     {
         public static IServiceCollection AddApplicationLayer(this IServiceCollection serviceCollection)
         {
-            //serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
             serviceCollection.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 
+                cfg.AddOpenBehavior(typeof(DeepValidationBehavior<,>));
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
+
+            serviceCollection.AddTransient<IDeepValidator<DeactivateSessionCommand>, SessionDeepValidator>();
 
             return serviceCollection;
         }

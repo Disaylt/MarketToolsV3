@@ -33,4 +33,8 @@ builder.AddProject<Identity_GrpcService>("IdentityGrpcService")
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
+builder.AddProject<MarketToolsV3_DbMigrations_Service>("MarketToolsv3-DbMigrationsService")
+    .WithEnvironment("ConfigType", configTypeParameter)
+    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
+
 builder.Build().Run();
