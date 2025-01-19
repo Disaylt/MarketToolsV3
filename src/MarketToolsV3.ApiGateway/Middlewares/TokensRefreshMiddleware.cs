@@ -3,12 +3,17 @@ using Google.Protobuf.WellKnownTypes;
 using MarketToolsV3.ApiGateway.Constant;
 using MarketToolsV3.ApiGateway.Models;
 using MarketToolsV3.ApiGateway.Services.Interfaces;
+using MarketToolsV3.ConfigurationManager.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using Ocelot.Metadata;
+using Ocelot.Middleware;
 using Ocelot.Responses;
 using Proto.Contract.Identity;
+using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
 {
@@ -18,7 +23,7 @@ namespace MarketToolsV3.ApiGateway.Middlewares
             { HttpOnly = true, Expires = DateTimeOffset.UtcNow.AddYears(1) };
 
         public async Task Invoke(HttpContext httpContext, 
-            IOptions<AuthConfiguration> options,
+            IOptions<AuthConfig> options,
             Auth.AuthClient authClient,
             IAuthContext authContext)
         {
@@ -32,25 +37,20 @@ namespace MarketToolsV3.ApiGateway.Middlewares
 
                 AuthInfoReply response = await authClient.GetAuthInfoAsync(request);
 
-                if (response.HasDetails & response.IsValid)
-                {
-                    authContext.AccessToken = response.Details.AuthToken;
-                    authContext.SessionToken = response.Details.SessionToken;
-
-                    authContext.State = AuthState.TokensRefreshed;
-                }
+                TryRefreshAuthContext(authContext, response);
             }
 
             await next(httpContext);
+        }
 
-            StringValues newAuthDetails = httpContext.Response.Headers["auth-details"];
-            if (authContext.State == AuthState.TokensRefreshed 
-                && newAuthDetails.Contains("new") == false
-                && string.IsNullOrEmpty(authContext.AccessToken) == false
-                && string.IsNullOrEmpty(authContext.SessionToken) == false)
+        private void TryRefreshAuthContext(IAuthContext authContext, AuthInfoReply authInfoReply)
+        {
+            if (authInfoReply.HasDetails & authInfoReply.IsValid)
             {
-                httpContext.Response.Cookies.Append(options.Value.AccessTokenName, authContext.AccessToken, CookieOptions);
-                httpContext.Response.Cookies.Append(options.Value.RefreshTokenName, authContext.SessionToken, CookieOptions);
+                authContext.AccessToken = authInfoReply.Details.AuthToken;
+                authContext.SessionToken = authInfoReply.Details.SessionToken;
+
+                authContext.State = AuthState.TokensRefreshed;
             }
         }
     }

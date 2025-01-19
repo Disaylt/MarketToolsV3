@@ -1,6 +1,7 @@
 ﻿using MarketToolsV3.ApiGateway.Models;
 using MarketToolsV3.ApiGateway.Models.Tokens;
 using MarketToolsV3.ApiGateway.Services.Interfaces;
+using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Options;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
@@ -9,7 +10,7 @@ namespace MarketToolsV3.ApiGateway.Middlewares
     {
         public Task Invoke(HttpContext httpContext,
             IAuthContext authContext,
-            IOptions<AuthConfiguration> options,
+            IOptions<AuthConfig> options,
             ITokenReader<AccessToken> tokenReader)
         {
             httpContext.Request.Cookies.TryGetValue(options.Value.AccessTokenName, out string? accessToken);

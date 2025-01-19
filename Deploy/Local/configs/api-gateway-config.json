@@ -18,6 +18,21 @@
 		  "DownstreamHostAndPorts": [
 			{
 			  "Host": "localhost",
+			  "Port": 7256
+			}
+		  ],
+		  "Metadata":{
+			"skip-refresh-cookies":"true"  
+		  },
+		  "UpstreamPathTemplate": "/auth/{everything}",
+		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
+		},
+		{
+		  "DownstreamPathTemplate": "/api/{everything}",
+		  "DownstreamScheme": "https",
+		  "DownstreamHostAndPorts": [
+			{
+			  "Host": "localhost",
 			  "Port": 7295
 			}
 		  ],

@@ -4,6 +4,7 @@ using Identity.WebApi.Services;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using Identity.WebApi.Models;
+using Identity.WebApi.Services.Interfaces;
 using Microsoft.Extensions.Primitives;
 
 namespace Identity.WebApi.Middlewares
@@ -11,9 +12,7 @@ namespace Identity.WebApi.Middlewares
     public class AuthDetailsMiddleware(RequestDelegate next)
     {
         public async Task Invoke(HttpContext httpContext,
-            IAuthContext authContext,
-            ITokenService<JwtAccessTokenDto> accessTokenService,
-            IOptions<WebApiConfiguration> options)
+            IAuthContext authContext)
         {
             Claim? sessionIdClaim = httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
             if (sessionIdClaim != null)

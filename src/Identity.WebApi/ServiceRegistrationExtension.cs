@@ -1,10 +1,12 @@
 ﻿using Identity.Domain.Seed;
 using Identity.WebApi.Services;
+using Identity.WebApi.Services.Interfaces;
 using MarketToolsV3.ConfigurationManager.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Identity.WebApi.Services.Implementation;
 
 namespace Identity.WebApi
 {
@@ -33,6 +35,9 @@ namespace Identity.WebApi
 
         public static void AddWebApiServices(this IServiceCollection collection)
         {
+            collection.AddScoped<ISessionContextService, SessionContextService>();
+            collection.AddScoped<ICookiesContextService, CookiesContextService>();
+            collection.AddScoped<ICredentialsService, CredentialsService>();
         }
 
         public static void AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig)

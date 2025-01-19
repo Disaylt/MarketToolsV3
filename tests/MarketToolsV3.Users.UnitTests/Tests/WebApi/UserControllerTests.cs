@@ -8,6 +8,7 @@ using Identity.Application.Models;
 using Identity.WebApi.Controllers;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services;
+using Identity.WebApi.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,16 +22,16 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         //to do - add tests to check if cookies were added
 
         private Mock<IMediator> _mediatorMock;
-        private Mock<IOptions<WebApiConfiguration>> _optionsMock;
         private Mock<IAuthContext> _authContextMock;
+        private Mock<ICookiesContextService> _cookiesContextServiceMock;
+        private Mock<ICredentialsService> _credentialsServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _mediatorMock = new Mock<IMediator>();
-            _optionsMock = new Mock<IOptions<WebApiConfiguration>>();
-            _optionsMock.SetupGet(x => x.Value)
-                .Returns(new WebApiConfiguration());
+            _cookiesContextServiceMock = new Mock<ICookiesContextService>();
+            _credentialsServiceMock = new Mock<ICredentialsService>();
             _authContextMock = new Mock<IAuthContext>();
         }
 
@@ -60,7 +61,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     }
                 });
 
-            UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
+            UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object,  _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -104,7 +105,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     }
                 });
 
-            UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
+            UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -149,7 +150,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     }
                 });
 
-            UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
+            UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
@@ -192,7 +193,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                     }
                 });
 
-            UserController userController = new(_mediatorMock.Object, _optionsMock.Object, _authContextMock.Object)
+            UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
             {
                 ControllerContext =
                 {
