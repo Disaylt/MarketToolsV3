@@ -1,0 +1,6 @@
+@WB.Seller.Companies.WebApi_HostAddress = http://localhost:5132
+
+GET {{WB.Seller.Companies.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
