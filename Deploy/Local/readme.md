@@ -27,12 +27,22 @@ rs.initiate({
 *В проекте **MarketToolsV3.ConfigurationManager** можно подробнее ознакомиться с возможностями и настройкой конфигурации для каждого сервиса.*
 
 Для запуска любого из проектов(В том числе AppHost) необходимо в секреты добавить следующий **json**, секреты можно открыть через менеджер секретов **Visual studio**:
+
+- *AppHost*
 ```
 {
   "Parameters": {
     "ConfigType": "json",
     "JsonBasePath": "Путь до папки с файлами config.json"
   }
+}
+```
+
+- *Any services*
+```
+{
+    "ConfigType": "json",
+    "JsonBasePath": "Путь до папки с файлами config.json"
 }
 ```
 
