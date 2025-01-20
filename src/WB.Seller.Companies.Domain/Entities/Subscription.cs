@@ -10,7 +10,7 @@ namespace WB.Seller.Companies.Domain.Entities
     public class Subscription : Entity
     {
         public string SubscriberId { get; private set; }
-        public Owner Subscriber { get; private set; }
+        public Subscriber Subscriber { get; private set; }
 
         public int CompanyId { get; private set; }
         public Company Company { get; private set; }
