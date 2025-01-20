@@ -37,6 +37,8 @@ builder.AddProject<MarketToolsV3_DbMigrations_Service>("MarketToolsv3-DbMigratio
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
-builder.AddProject<Projects.WB_Seller_Companies_Processor>("wb-seller-companies-processor");
+builder.AddProject<WB_Seller_Companies_Processor>("WbSellerCompaniesProcessor")
+    .WithEnvironment("ConfigType", configTypeParameter)
+    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
 builder.Build().Run();
