@@ -39,7 +39,7 @@ namespace WB.Seller.Companies.Domain.Entities
             CompanyId = companyId;
         }
 
-        public Subscription(Owner subscriber, Company company, string? note) : this(note)
+        public Subscription(Subscriber subscriber, Company company, string? note) : this(note)
         {
             Subscriber = subscriber;
             Company = company;
