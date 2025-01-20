@@ -23,7 +23,8 @@
     <ProjectReference Include="..\src\MarketToolsV3.DbMigrations.Service\MarketToolsV3.DbMigrations.Service.csproj" />
     <ProjectReference Include="..\src\UserNotifications.Processor\UserNotifications.Processor.csproj" />
     <ProjectReference Include="..\src\UserNotifications.WebApi\UserNotifications.WebApi.csproj" />
-    <ProjectReference Include="..\src\WB.Seller.Api.Companies.WebApi\WB.Seller.Api.Companies.WebApi.csproj" />
+    <ProjectReference Include="..\src\WB.Seller.Companies.Processor\WB.Seller.Companies.Processor.csproj" />
+    <ProjectReference Include="..\src\WB.Seller.Companies.WebApi\WB.Seller.Companies.WebApi.csproj" />
   </ItemGroup>
 
 </Project>
