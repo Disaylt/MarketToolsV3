@@ -22,8 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
     <ProjectReference Include="..\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\WB.Seller.Api.Companies.Domain\WB.Seller.Api.Companies.Domain.csproj" />
-    <ProjectReference Include="..\WB.Seller.Api.Companies.Infrastructure\WB.Seller.Api.Companies.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
