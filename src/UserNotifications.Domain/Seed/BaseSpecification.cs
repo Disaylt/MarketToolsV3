@@ -11,4 +11,9 @@ namespace UserNotifications.Domain.Seed
         where TResult : Entity
     {
     }
+
+    public abstract class BaseSpecification
+    {
+
+    }
 }

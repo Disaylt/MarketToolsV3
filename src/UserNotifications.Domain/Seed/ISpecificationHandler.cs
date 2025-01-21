@@ -13,4 +13,10 @@ namespace UserNotifications.Domain.Seed
     {
         Task<TResult> HandleAsync(TSpecification specification);
     }
+
+    public interface ISpecificationHandler<TSpecification>
+        where TSpecification : BaseSpecification
+    {
+        Task HandleAsync(TSpecification specification);
+    }
 }

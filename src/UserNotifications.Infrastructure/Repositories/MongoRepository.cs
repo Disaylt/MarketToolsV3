@@ -8,6 +8,7 @@ using MongoDB.Bson;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
+using System.Linq.Expressions;
 
 namespace UserNotifications.Infrastructure.Repositories
 {
@@ -26,7 +27,6 @@ namespace UserNotifications.Infrastructure.Repositories
                 .Eq(restaurant => restaurant.Id, new ObjectId(id));
 
             return await collection.Find(filter).FirstAsync(cancellationToken);
-            ;
         }
 
         public async Task InsertAsync(T entity, CancellationToken cancellationToken)
