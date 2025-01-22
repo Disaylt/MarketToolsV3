@@ -10,12 +10,36 @@ using UserNotifications.Domain.Seed;
 
 namespace UserNotifications.Infrastructure.SpecificationHandlers
 {
-    internal class NotificationsSpecificationHandler(IMongoCollection<Notification> collection)
-        : ISpecificationHandler<GetRangeNotificationsSpecification, Notification>
+    internal class RangeNotificationsSpecificationHandler(IMongoCollection<Notification> collection)
+        : IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification>
     {
-        public Task<Notification> HandleAsync(GetRangeNotificationsSpecification specification)
+        public async Task<IEnumerable<Notification>> HandleAsync(GetRangeNotificationsSpecification specification)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Notification>.Filter;
+            List<FilterDefinition<Notification>> filters = new();
+
+            if (string.IsNullOrEmpty(specification.UserId) == false)
+            {
+                filters.Add(filter.Eq(x => x.UserId, specification.UserId));
+            }
+
+            if (specification.FromDate.HasValue)
+            {
+                filters.Add(filter.Gte(x => x.Created, specification.FromDate.Value));
+            }
+
+            if (specification.ToDate.HasValue)
+            {
+                filters.Add(filter.Lte(x => x.Created, specification.ToDate.Value));
+            }
+
+            var combineFilter = filters.Count > 0
+                ? filter.And(filters)
+                : filter.Empty;
+
+            var find = await collection.FindAsync(combineFilter);
+
+            return await find.ToListAsync();
         }
     }
 }

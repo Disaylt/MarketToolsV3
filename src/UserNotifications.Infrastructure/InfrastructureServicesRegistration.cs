@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserNotifications.Applications.Specifications;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
 using UserNotifications.Infrastructure.Repositories;
+using UserNotifications.Infrastructure.SpecificationHandlers;
 
 namespace UserNotifications.Infrastructure
 {
@@ -26,6 +28,9 @@ namespace UserNotifications.Infrastructure
             services.AddScoped<IUnitOfWork, MongoUnitOfWork>();
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+
+            services.AddScoped<ISpecificationHandler<UpdateNotificationSpecification>, UpdateNotificationSpecificationHandler>();
+            services.AddScoped<IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification>, RangeNotificationsSpecificationHandler>();
 
             return services;
         }

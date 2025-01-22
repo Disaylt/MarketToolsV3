@@ -8,7 +8,7 @@ using UserNotifications.Domain.Seed;
 
 namespace UserNotifications.Applications.Specifications
 {
-    public class GetRangeNotificationsSpecification : BaseSpecification<Notification>
+    public class GetRangeNotificationsSpecification : RangeBaseSpecification<Notification>
     {
         public string? UserId { get; set; }
         public DateTime? FromDate { get; set; }

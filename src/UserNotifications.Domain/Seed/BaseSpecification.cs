@@ -7,6 +7,11 @@ using UserNotifications.Domain.Entities;
 
 namespace UserNotifications.Domain.Seed
 {
+    public abstract class RangeBaseSpecification<TResult>
+        where TResult : Entity
+    {
+    }
+
     public abstract class BaseSpecification<TResult>
         where TResult : Entity
     {
