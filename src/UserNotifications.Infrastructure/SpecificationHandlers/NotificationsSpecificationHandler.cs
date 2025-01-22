@@ -37,9 +37,9 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers
                 ? filter.And(filters)
                 : filter.Empty;
 
-            var find = await collection.FindAsync(combineFilter);
-
-            return await find.ToListAsync();
+            return await collection
+                .Find(combineFilter)
+                .ToListAsync();
         }
     }
 }

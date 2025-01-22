@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Models;
+using UserNotifications.Domain.Entities;
 
 namespace UserNotifications.Applications.Mappers
 {
     internal class NotificationDtoMapper : INotificationMapper<NotificationDto>
     {
-        public NotificationDto Map(NotificationDto notification)
+        public NotificationDto Map(Notification notification)
         {
             return new NotificationDto
             {
