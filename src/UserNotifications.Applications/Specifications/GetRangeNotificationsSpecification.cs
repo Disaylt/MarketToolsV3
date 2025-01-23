@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Domain.Entities;
@@ -10,8 +11,6 @@ namespace UserNotifications.Applications.Specifications
 {
     public class GetRangeNotificationsSpecification : RangeBaseSpecification<Notification>
     {
-        public string? UserId { get; set; }
-        public DateTime? FromDate { get; set; }
-        public DateTime? ToDate { get; set; }
+        public Expression<Func<Notification, bool>>? Filter { get; set; }
     }
 }

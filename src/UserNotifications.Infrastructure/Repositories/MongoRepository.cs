@@ -9,6 +9,7 @@ using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
 using System.Linq.Expressions;
+using UserNotifications.Infrastructure.Utilities;
 
 namespace UserNotifications.Infrastructure.Repositories
 {
@@ -32,6 +33,15 @@ namespace UserNotifications.Infrastructure.Repositories
         public async Task InsertAsync(T entity, CancellationToken cancellationToken)
         {
             await collection.InsertOneAsync(_clientSessionHandle, entity, cancellationToken: cancellationToken);
+        }
+
+        public async Task<IReadOnlyCollection<T>> ToListAsync(Expression<Func<T, bool>>? expression = null, CancellationToken cancellationToken = default)
+        {
+            var mongoFilter = MongoFilterUtility.CreateOrEmpty(expression);
+            return await collection
+                .Find(mongoFilter)
+                .ToListAsync();
+
         }
     }
 }
