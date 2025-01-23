@@ -17,7 +17,7 @@ namespace UserNotifications.Applications.Commands
         public required DateTime ToDate { get; set; }
     }
 
-    public class MarkAsReadNotificationsRangeCommandHandler
+    public class MarkAsReadNotificationsRangeCommandHandler(ISpecificationHandler<UpdateNotificationSpecification> updateSpecificationHandler)
         : IRequestHandler<MarkAsReadNotificationsCommand, Unit>
     {
         public Task<Unit> Handle(MarkAsReadNotificationsCommand request, CancellationToken cancellationToken)

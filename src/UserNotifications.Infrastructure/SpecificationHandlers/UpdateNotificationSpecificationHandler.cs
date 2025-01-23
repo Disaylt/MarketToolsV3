@@ -34,7 +34,7 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers
 
             var mongoFilter = MongoFilterUtility.CreateOrEmpty(specification.Filter);
 
-            await collection.UpdateManyAsync(clientSessionHandleContext.Session, filterDefinition, update.Combine(updates));
+            await collection.UpdateManyAsync(clientSessionHandleContext.Session, mongoFilter, update.Combine(updates));
         }
     }
 }

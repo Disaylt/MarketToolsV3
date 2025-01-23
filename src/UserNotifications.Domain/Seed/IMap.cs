@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserNotifications.Applications.Models
+namespace UserNotifications.Domain.Seed
 {
     public interface IMap
     {
