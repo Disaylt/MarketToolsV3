@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Domain.UpdateDetails;
+using UserNotifications.Infrastructure.Services;
 
 namespace UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders
 {
-    internal class MongoUpdateDifinitionBuilder(INotificationUpdateDetails notificationUpdateDetails)
+    internal class NotificationMongoUpdateDifinitionBuilder(INotificationUpdateDetails notificationUpdateDetails)
     {
         private static readonly UpdateDefinitionBuilder<Notification> _updateBuilder = Builders<Notification>.Update;
         private readonly Dictionary<string, UpdateDefinition<Notification>> _propertyNameAndDefinitionPairs = new();
 
-        public MongoUpdateDifinitionBuilder UseIsRead()
+        public NotificationMongoUpdateDifinitionBuilder UseIsRead()
         {
             if (notificationUpdateDetails.IsRead.HasValue == false)
             {

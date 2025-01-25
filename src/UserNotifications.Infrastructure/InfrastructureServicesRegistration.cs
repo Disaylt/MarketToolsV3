@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 using UserNotifications.Applications.Specifications;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
+using UserNotifications.Domain.UpdateDetails;
 using UserNotifications.Infrastructure.Database;
 using UserNotifications.Infrastructure.Repositories;
+using UserNotifications.Infrastructure.Services;
 using UserNotifications.Infrastructure.SpecificationHandlers;
 
 namespace UserNotifications.Infrastructure
@@ -31,6 +33,8 @@ namespace UserNotifications.Infrastructure
 
             services.AddScoped<ISpecificationHandler<UpdateNotificationSpecification>, UpdateNotificationSpecificationHandler>();
             services.AddScoped<IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification>, RangeNotificationsSpecificationHandler>();
+
+            services.AddSingleton< IMongoUpdateDifinitionService < INotificationUpdateDetails, Notification >, NotificationMongoUpdateDifinitionService> ();
 
             return services;
         }

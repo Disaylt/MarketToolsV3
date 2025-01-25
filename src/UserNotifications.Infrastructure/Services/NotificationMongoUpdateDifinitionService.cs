@@ -15,11 +15,9 @@ namespace UserNotifications.Infrastructure.Services
     {
         public virtual UpdateDefinition<Notification> Create(INotificationUpdateDetails update)
         {
-            return new MongoUpdateDifinitionBuilder(update)
+            return new NotificationMongoUpdateDifinitionBuilder(update)
                 .UseIsRead()
                 .Build();
         }
-
-
     }
 }

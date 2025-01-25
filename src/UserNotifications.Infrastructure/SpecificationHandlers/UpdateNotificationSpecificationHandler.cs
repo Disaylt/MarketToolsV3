@@ -8,33 +8,25 @@ using System.Threading.Tasks;
 using UserNotifications.Applications.Specifications;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
+using UserNotifications.Domain.UpdateDetails;
 using UserNotifications.Infrastructure.Database;
+using UserNotifications.Infrastructure.Services;
 using UserNotifications.Infrastructure.Utilities;
 
 namespace UserNotifications.Infrastructure.SpecificationHandlers
 {
     internal class UpdateNotificationSpecificationHandler(IMongoCollection<Notification> collection,
-        IClientSessionHandleContext clientSessionHandleContext)
+        IClientSessionHandleContext clientSessionHandleContext,
+        IMongoUpdateDifinitionService<INotificationUpdateDetails, Notification> mongoUpdateDifinitionService)
         : ISpecificationHandler<UpdateNotificationSpecification>
     {
         public async Task HandleAsync(UpdateNotificationSpecification specification)
         {
-            var update = Builders<Notification>.Update;
-            List<UpdateDefinition<Notification>> updates = new();
-
-            if (specification.Data.IsRead.HasValue)
-            {
-                updates.Add(update.Set(n => n.IsRead, specification.Data.IsRead.Value));
-            }
-
-            if(updates.Count == 0)
-            {
-                return;
-            }
+            var update = mongoUpdateDifinitionService.Create(specification.Data);
 
             var mongoFilter = MongoFilterUtility.CreateOrEmpty(specification.Filter);
 
-            await collection.UpdateManyAsync(clientSessionHandleContext.Session, mongoFilter, update.Combine(updates));
+            await collection.UpdateManyAsync(clientSessionHandleContext.Session, mongoFilter, update);
         }
     }
 }
