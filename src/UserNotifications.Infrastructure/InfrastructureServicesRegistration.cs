@@ -20,9 +20,9 @@ namespace UserNotifications.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, ServiceConfiguration config)
         {
             services.AddSingleton<IMongoClient>(new MongoClient(config.DatabaseConnection));
-            services.AddSingleton<IMongoDatabase>(x =>
+            services.AddSingleton(x =>
                 x.GetRequiredService<IMongoClient>().GetDatabase(config.DatabaseName));
-            services.AddSingleton<IMongoCollection<Notification>>(x =>
+            services.AddSingleton(x =>
                 x.GetRequiredService<IMongoDatabase>().GetCollection<Notification>(config.NotificationsCollectionName));
 
             services.AddScoped<IUnitOfWork, MongoUnitOfWork>();

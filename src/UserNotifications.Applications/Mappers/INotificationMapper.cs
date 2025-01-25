@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Models;
 using UserNotifications.Domain.Entities;
+using UserNotifications.Domain.Seed;
 
 namespace UserNotifications.Applications.Mappers
 {
