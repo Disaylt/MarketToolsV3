@@ -9,17 +9,21 @@ using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Utilities;
 
-namespace UserNotifications.Infrastructure.SpecificationHandlers
+namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.GetRangeByDateUserAndLimit
 {
-    internal class GetRangeNotificationsSpecificationHandler(IMongoCollection<Notification> collection)
+    internal class GetRangeByDateUserAndLimitNotificationSpecificationHandler(IMongoCollection<Notification> collection)
         : IRangeSpecificationHandler<GetRangeByDateUserAndLimitNotificationSpecification, Notification>
     {
         public async Task<IEnumerable<Notification>> HandleAsync(GetRangeByDateUserAndLimitNotificationSpecification specification)
         {
-            var mongoFilter = MongoFilterUtility.CreateOrEmpty(specification.Filter);
-
             return await collection
-                .Find(mongoFilter)
+                .Find(n =>
+                    n.UserId == specification.Filter.UserId
+                    && n.Created >= specification.Filter.FromDate
+                    && n.Created >= specification.Filter.ToDate)
+                .SortByDescending(x => x.Created)
+                .Skip(specification.Options.Skip)
+                .Limit(specification.Options.Take)
                 .ToListAsync();
         }
     }

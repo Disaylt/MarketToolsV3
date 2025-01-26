@@ -17,6 +17,9 @@ namespace UserNotifications.Applications.Commands
         public required string UserId { get; set; }
         public required DateTime FromDate { get; set; }
         public required DateTime ToDate { get; set; }
+
+        public int Take { get; set; } = 20;
+        public int Skip { get; set; }
     }
 
     public class CreateNotificationsListAndMarkAsReadCommandHandler(

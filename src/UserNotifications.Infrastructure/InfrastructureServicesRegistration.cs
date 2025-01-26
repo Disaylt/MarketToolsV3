@@ -13,7 +13,8 @@ using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
 using UserNotifications.Infrastructure.Repositories;
 using UserNotifications.Infrastructure.Services;
-using UserNotifications.Infrastructure.SpecificationHandlers;
+using UserNotifications.Infrastructure.SpecificationHandlers.Notifications.GetRangeByDateUserAndLimit;
+using UserNotifications.Infrastructure.SpecificationHandlers.Notifications.UpdateIsReadByRange;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
@@ -34,11 +35,11 @@ namespace UserNotifications.Infrastructure
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 
-            services.AddScoped<ISpecificationHandler<UpdateIsReadByRangeFilterNotificationSpecififcation>, 
-                UpdateNotificationSpecificationHandler>();
+            services.AddScoped<ISpecificationHandler<UpdateIsReadByRangeFilterNotificationSpecififcation>,
+                UpdateIsReadByRangeFilterNotificationSpecififcationHandler>();
 
-            services.AddScoped<IRangeSpecificationHandler <GetRangeByDateUserAndLimitNotificationSpecification, Notification>, 
-                GetRangeNotificationsSpecificationHandler>();
+            services.AddScoped<IRangeSpecificationHandler <GetRangeByDateUserAndLimitNotificationSpecification, Notification>,
+                GetRangeByDateUserAndLimitNotificationSpecificationHandler>();
 
             services.AddSingleton<IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification>, NotificationMongoUpdateDifinitionService>();
 

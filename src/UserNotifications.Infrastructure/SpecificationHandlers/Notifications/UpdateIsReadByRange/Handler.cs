@@ -13,20 +13,32 @@ using UserNotifications.Infrastructure.Services;
 using UserNotifications.Infrastructure.Utilities;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
 
-namespace UserNotifications.Infrastructure.SpecificationHandlers
+namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.UpdateIsReadByRange
 {
-    internal class UpdateNotificationSpecificationHandler(IMongoCollection<Notification> collection,
+    internal class UpdateIsReadByRangeFilterNotificationSpecififcationHandler(IMongoCollection<Notification> collection,
         IClientSessionHandleContext clientSessionHandleContext,
         IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification> mongoUpdateDifinitionService)
         : ISpecificationHandler<UpdateIsReadByRangeFilterNotificationSpecififcation>
     {
         public async Task HandleAsync(UpdateIsReadByRangeFilterNotificationSpecififcation specification)
         {
-            var update = mongoUpdateDifinitionService.Create(specification.Data);
+            INotificationNewFieldsData newFieldsData = CreateNewFiledData(specification.Data);
+            var update = mongoUpdateDifinitionService.Create(newFieldsData);
 
-            var mongoFilter = MongoFilterUtility.CreateOrEmpty(specification.Filter);
+            var mongoFilter = Builders<Notification>.Filter
+                .Where(x => x.UserId == specification.Filter.UserId
+                    && x.Created >= specification.Filter.FromDate
+                    && x.Created <= specification.Filter.ToDate);
 
             await collection.UpdateManyAsync(clientSessionHandleContext.Session, mongoFilter, update);
+        }
+
+        private INotificationNewFieldsData CreateNewFiledData(EntityData data)
+        {
+            return new NotificationNewFieldsData
+            {
+                IsRead = data.IsRead
+            };
         }
     }
 }
