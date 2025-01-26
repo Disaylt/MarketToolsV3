@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Models;
-using UserNotifications.Applications.Models.UpdateDetails;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 

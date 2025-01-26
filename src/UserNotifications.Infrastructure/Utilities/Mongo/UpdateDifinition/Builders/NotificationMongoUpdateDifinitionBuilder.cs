@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
-using UserNotifications.Domain.UpdateDetails;
 using UserNotifications.Infrastructure.Services;
+using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
 
 namespace UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders
 {
-    internal class NotificationMongoUpdateDifinitionBuilder(INotificationUpdateDetails notificationUpdateDetails)
+    internal class NotificationMongoUpdateDifinitionBuilder(INotificationNewFieldsData notificationUpdateDetails)
         : INotificationMongoUpdateDifinitionBuilder
     {
         private static readonly UpdateDefinitionBuilder<Notification> _updateBuilder = Builders<Notification>.Update;

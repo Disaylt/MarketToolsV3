@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Domain.Entities;
-using UserNotifications.Domain.Seed;
 
-namespace UserNotifications.Domain.UpdateDetails
+namespace UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData
 {
-    public interface INotificationUpdateDetails : IUpdateDetails<Notification>
+    public interface INotificationNewFieldsData : INewFieldsData<Notification>
     {
         bool? IsRead { get; set; }
     }

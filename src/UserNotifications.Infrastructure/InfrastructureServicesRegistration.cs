@@ -6,16 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserNotifications.Applications.Specifications.Notification;
+using UserNotifications.Applications.Specifications.Notifications.GetRangeByDateUserAndLimit;
+using UserNotifications.Applications.Specifications.Notifications.UpdateIsReadByRange;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
-using UserNotifications.Domain.UpdateDetails;
 using UserNotifications.Infrastructure.Database;
 using UserNotifications.Infrastructure.Repositories;
 using UserNotifications.Infrastructure.Services;
 using UserNotifications.Infrastructure.SpecificationHandlers;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders;
+using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
 
 namespace UserNotifications.Infrastructure
 {
@@ -33,10 +34,13 @@ namespace UserNotifications.Infrastructure
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 
-            services.AddScoped<ISpecificationHandler<Updates>, UpdateNotificationSpecificationHandler>();
-            services.AddScoped<IRangeSpecificationHandler<GetRange, Notification>, GetRangeNotificationsSpecificationHandler>();
+            services.AddScoped<ISpecificationHandler<UpdateIsReadByRangeFilterNotificationSpecififcation>, 
+                UpdateNotificationSpecificationHandler>();
 
-            services.AddSingleton<IMongoUpdateDifinitionService<INotificationUpdateDetails, Notification>, NotificationMongoUpdateDifinitionService>();
+            services.AddScoped<IRangeSpecificationHandler <GetRangeByDateUserAndLimitNotificationSpecification, Notification>, 
+                GetRangeNotificationsSpecificationHandler>();
+
+            services.AddSingleton<IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification>, NotificationMongoUpdateDifinitionService>();
 
             services.AddSingleton<IUpdateDefinitionFactory>(new UpdateDefinitionFactory
             {

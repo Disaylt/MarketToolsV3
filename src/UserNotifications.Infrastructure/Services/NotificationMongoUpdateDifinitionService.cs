@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Domain.Entities;
-using UserNotifications.Domain.UpdateDetails;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders;
+using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
 
 namespace UserNotifications.Infrastructure.Services
 {
     internal class NotificationMongoUpdateDifinitionService(IUpdateDefinitionFactory updateDefinitionFactory)
-        : IMongoUpdateDifinitionService<INotificationUpdateDetails, Notification>
+        : IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification>
     {
-        public virtual UpdateDefinition<Notification> Create(INotificationUpdateDetails update)
+        public virtual UpdateDefinition<Notification> Create(INotificationNewFieldsData update)
         {
             return updateDefinitionFactory
                 .NotificationUpdateBuilder
