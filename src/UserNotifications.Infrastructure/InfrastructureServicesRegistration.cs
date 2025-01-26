@@ -14,6 +14,7 @@ using UserNotifications.Infrastructure.Database;
 using UserNotifications.Infrastructure.Repositories;
 using UserNotifications.Infrastructure.Services;
 using UserNotifications.Infrastructure.SpecificationHandlers;
+using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition;
 
 namespace UserNotifications.Infrastructure
 {
@@ -34,7 +35,9 @@ namespace UserNotifications.Infrastructure
             services.AddScoped<ISpecificationHandler<UpdateNotificationSpecification>, UpdateNotificationSpecificationHandler>();
             services.AddScoped<IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification>, RangeNotificationsSpecificationHandler>();
 
-            services.AddSingleton< IMongoUpdateDifinitionService < INotificationUpdateDetails, Notification >, NotificationMongoUpdateDifinitionService> ();
+            services.AddSingleton<IMongoUpdateDifinitionService<INotificationUpdateDetails, Notification>, NotificationMongoUpdateDifinitionService>();
+            services.AddSingleton<IUpdateDefinitionFactory, UpdateDefinitionFactory>();
+
 
             return services;
         }

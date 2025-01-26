@@ -12,11 +12,12 @@ using UserNotifications.Infrastructure.Services;
 namespace UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders
 {
     internal class NotificationMongoUpdateDifinitionBuilder(INotificationUpdateDetails notificationUpdateDetails)
+        : INotificationMongoUpdateDifinitionBuilder
     {
         private static readonly UpdateDefinitionBuilder<Notification> _updateBuilder = Builders<Notification>.Update;
         private readonly Dictionary<string, UpdateDefinition<Notification>> _propertyNameAndDefinitionPairs = new();
 
-        public NotificationMongoUpdateDifinitionBuilder UseIsRead()
+        public INotificationMongoUpdateDifinitionBuilder UseIsRead()
         {
             if (notificationUpdateDetails.IsRead.HasValue == false)
             {
@@ -24,7 +25,8 @@ namespace UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Buil
             }
 
             string key = nameof(notificationUpdateDetails.IsRead);
-            UpdateDefinition<Notification> value = _updateBuilder.Set(n => n.IsRead, notificationUpdateDetails.IsRead.Value);
+            UpdateDefinition<Notification> value = _updateBuilder
+                .Set(n => n.IsRead, notificationUpdateDetails.IsRead.Value);
 
             if (!_propertyNameAndDefinitionPairs.TryAdd(key, value))
             {
