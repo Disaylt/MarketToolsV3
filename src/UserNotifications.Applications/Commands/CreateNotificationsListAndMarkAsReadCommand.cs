@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Models.UpdateDetails;
-using UserNotifications.Applications.Specifications;
+using UserNotifications.Applications.Specifications.Notification;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 
@@ -18,12 +18,12 @@ namespace UserNotifications.Applications.Commands
         public required DateTime ToDate { get; set; }
     }
 
-    public class CreateNotificationsListAndMarkAsReadCommandHandler(ISpecificationHandler<UpdateReadStatusByFilterNotificationSpecification> updateSpecificationHandler)
+    public class CreateNotificationsListAndMarkAsReadCommandHandler(ISpecificationHandler<Updates> updateSpecificationHandler)
         : IRequestHandler<CreateNotificationsListAndMarkAsReadCommand, Unit>
     {
         public async Task<Unit> Handle(CreateNotificationsListAndMarkAsReadCommand request, CancellationToken cancellationToken)
         {
-            UpdateReadStatusByFilterNotificationSpecification specification = new UpdateReadStatusByFilterNotificationSpecification();
+            Updates specification = new UpdateReadStatusByFilterNotificationSpecification();
             specification.Data.IsRead = true;
             specification.Filter = (notification) 
                 => notification.UserId == request.UserId

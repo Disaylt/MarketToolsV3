@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserNotifications.Applications.Specifications;
+using UserNotifications.Applications.Specifications.Notification;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Domain.UpdateDetails;
@@ -18,9 +18,9 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers
     internal class UpdateNotificationSpecificationHandler(IMongoCollection<Notification> collection,
         IClientSessionHandleContext clientSessionHandleContext,
         IMongoUpdateDifinitionService<INotificationUpdateDetails, Notification> mongoUpdateDifinitionService)
-        : ISpecificationHandler<UpdateReadStatusByFilterNotificationSpecification>
+        : ISpecificationHandler<Updates>
     {
-        public async Task HandleAsync(UpdateReadStatusByFilterNotificationSpecification specification)
+        public async Task HandleAsync(Updates specification)
         {
             var update = mongoUpdateDifinitionService.Create(specification.Data);
 

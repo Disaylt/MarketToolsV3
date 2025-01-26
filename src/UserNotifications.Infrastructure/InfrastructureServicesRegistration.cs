@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserNotifications.Applications.Specifications;
+using UserNotifications.Applications.Specifications.Notification;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Domain.UpdateDetails;
@@ -33,8 +33,8 @@ namespace UserNotifications.Infrastructure
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 
-            services.AddScoped<ISpecificationHandler<UpdateReadStatusByFilterNotificationSpecification>, UpdateNotificationSpecificationHandler>();
-            services.AddScoped<IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification>, GetRangeNotificationsSpecificationHandler>();
+            services.AddScoped<ISpecificationHandler<Updates>, UpdateNotificationSpecificationHandler>();
+            services.AddScoped<IRangeSpecificationHandler<GetRange, Notification>, GetRangeNotificationsSpecificationHandler>();
 
             services.AddSingleton<IMongoUpdateDifinitionService<INotificationUpdateDetails, Notification>, NotificationMongoUpdateDifinitionService>();
 

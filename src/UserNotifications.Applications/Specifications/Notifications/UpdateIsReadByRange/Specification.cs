@@ -9,9 +9,9 @@ using UserNotifications.Applications.Models.UpdateDetails;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 
-namespace UserNotifications.Applications.Specifications
+namespace UserNotifications.Applications.Specifications.Notifications.UpdateIsReadByRange
 {
-    public class UpdateReadStatusByFilterNotificationSpecification(
+    public class UpdateIsReadByRangeFilterNotificationSpecififcation(
         FilterData filterData,
         EntityData entityData)
         : BaseSpecification

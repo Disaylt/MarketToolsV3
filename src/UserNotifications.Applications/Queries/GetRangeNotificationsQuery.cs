@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Mappers;
 using UserNotifications.Applications.Models;
-using UserNotifications.Applications.Specifications;
+using UserNotifications.Applications.Specifications.Notification;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 
@@ -14,11 +14,11 @@ namespace UserNotifications.Applications.Queries
 {
     public class GetRangeNotificationsQuery : IRequest<IReadOnlyCollection<NotificationDto>>
     {
-        public GetRangeNotificationsSpecification Data { get; set; } = new();
+        public GetRange Data { get; set; } = new();
     }
 
     public class GetRangeNotificationsQueryHandler(INotificationMapper<NotificationDto> notificationMapper,
-        IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification> rangeSpecificationHandler)
+        IRangeSpecificationHandler<GetRange, Notification> rangeSpecificationHandler)
         : IRequestHandler<GetRangeNotificationsQuery, IReadOnlyCollection<NotificationDto>>
     {
         public async Task<IReadOnlyCollection<NotificationDto>> Handle(GetRangeNotificationsQuery request, CancellationToken cancellationToken)
