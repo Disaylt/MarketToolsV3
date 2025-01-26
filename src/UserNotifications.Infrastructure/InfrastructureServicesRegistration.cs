@@ -15,6 +15,7 @@ using UserNotifications.Infrastructure.Repositories;
 using UserNotifications.Infrastructure.Services;
 using UserNotifications.Infrastructure.SpecificationHandlers;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition;
+using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders;
 
 namespace UserNotifications.Infrastructure
 {
@@ -32,12 +33,15 @@ namespace UserNotifications.Infrastructure
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 
-            services.AddScoped<ISpecificationHandler<UpdateNotificationSpecification>, UpdateNotificationSpecificationHandler>();
-            services.AddScoped<IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification>, RangeNotificationsSpecificationHandler>();
+            services.AddScoped<ISpecificationHandler<UpdateReadStatusByFilterNotificationSpecification>, UpdateNotificationSpecificationHandler>();
+            services.AddScoped<IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification>, GetRangeNotificationsSpecificationHandler>();
 
             services.AddSingleton<IMongoUpdateDifinitionService<INotificationUpdateDetails, Notification>, NotificationMongoUpdateDifinitionService>();
-            services.AddSingleton<IUpdateDefinitionFactory, UpdateDefinitionFactory>();
 
+            services.AddSingleton<IUpdateDefinitionFactory>(new UpdateDefinitionFactory
+            {
+                NotificationUpdateBuilder = (x) => new NotificationMongoUpdateDifinitionBuilder(x)
+            });
 
             return services;
         }

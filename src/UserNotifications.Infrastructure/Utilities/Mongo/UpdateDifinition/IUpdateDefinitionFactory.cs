@@ -10,6 +10,6 @@ namespace UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition
 {
     internal interface IUpdateDefinitionFactory
     {
-        INotificationMongoUpdateDifinitionBuilder CreateNotificationUpdateBuilder(INotificationUpdateDetails notificationUpdateDetails);
+        Func<INotificationUpdateDetails, INotificationMongoUpdateDifinitionBuilder> NotificationUpdateBuilder { get; }
     }
 }

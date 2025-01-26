@@ -11,7 +11,7 @@ using UserNotifications.Infrastructure.Utilities;
 
 namespace UserNotifications.Infrastructure.SpecificationHandlers
 {
-    internal class RangeNotificationsSpecificationHandler(IMongoCollection<Notification> collection)
+    internal class GetRangeNotificationsSpecificationHandler(IMongoCollection<Notification> collection)
         : IRangeSpecificationHandler<GetRangeNotificationsSpecification, Notification>
     {
         public async Task<IEnumerable<Notification>> HandleAsync(GetRangeNotificationsSpecification specification)

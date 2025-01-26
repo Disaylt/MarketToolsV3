@@ -18,9 +18,9 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers
     internal class UpdateNotificationSpecificationHandler(IMongoCollection<Notification> collection,
         IClientSessionHandleContext clientSessionHandleContext,
         IMongoUpdateDifinitionService<INotificationUpdateDetails, Notification> mongoUpdateDifinitionService)
-        : ISpecificationHandler<UpdateNotificationSpecification>
+        : ISpecificationHandler<UpdateReadStatusByFilterNotificationSpecification>
     {
-        public async Task HandleAsync(UpdateNotificationSpecification specification)
+        public async Task HandleAsync(UpdateReadStatusByFilterNotificationSpecification specification)
         {
             var update = mongoUpdateDifinitionService.Create(specification.Data);
 

@@ -10,9 +10,6 @@ namespace UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition
 {
     internal class UpdateDefinitionFactory : IUpdateDefinitionFactory
     {
-        public INotificationMongoUpdateDifinitionBuilder CreateNotificationUpdateBuilder(INotificationUpdateDetails notificationUpdateDetails)
-        {
-            return new NotificationMongoUpdateDifinitionBuilder(notificationUpdateDetails);
-        }
+        public required Func<INotificationUpdateDetails, INotificationMongoUpdateDifinitionBuilder> NotificationUpdateBuilder { get; set; }
     }
 }
