@@ -24,7 +24,5 @@ namespace UserNotifications.Applications.Specifications.Notifications.GetRangeBy
     public class FilterData
     {
         public required string UserId { get; set; }
-        public required DateTime FromDate { get; set; }
-        public required DateTime ToDate { get; set; }
     }
 }

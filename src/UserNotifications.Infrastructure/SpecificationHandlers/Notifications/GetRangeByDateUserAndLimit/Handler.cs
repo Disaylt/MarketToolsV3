@@ -18,9 +18,7 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.G
         {
             return await collection
                 .Find(n =>
-                    n.UserId == specification.Filter.UserId
-                    && n.Created >= specification.Filter.FromDate
-                    && n.Created >= specification.Filter.ToDate)
+                    n.UserId == specification.Filter.UserId)
                 .SortByDescending(x => x.Created)
                 .Skip(specification.Options.Skip)
                 .Limit(specification.Options.Take)

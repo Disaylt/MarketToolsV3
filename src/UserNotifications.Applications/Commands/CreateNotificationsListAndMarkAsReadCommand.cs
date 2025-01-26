@@ -15,9 +15,6 @@ namespace UserNotifications.Applications.Commands
     public class CreateNotificationsListAndMarkAsReadCommand : ICommand<IReadOnlyCollection<NotificationDto>>
     {
         public required string UserId { get; set; }
-        public required DateTime FromDate { get; set; }
-        public required DateTime ToDate { get; set; }
-
         public int Take { get; set; } = 20;
         public int Skip { get; set; }
     }
@@ -29,6 +26,7 @@ namespace UserNotifications.Applications.Commands
     {
         public async Task<IReadOnlyCollection<NotificationDto>> Handle(CreateNotificationsListAndMarkAsReadCommand request, CancellationToken cancellationToken)
         {
+
             throw new Exception();
         }
     }
