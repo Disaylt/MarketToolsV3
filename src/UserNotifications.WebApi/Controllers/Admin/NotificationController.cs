@@ -3,11 +3,11 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserNotifications.Applications.Commands;
-using UserNotifications.WebApi.Models.Notifications;
+using UserNotifications.WebApi.Models.Notifications.Admin;
 
-namespace UserNotifications.WebApi.Controllers
+namespace UserNotifications.WebApi.Controllers.Admin
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/admin/[controller]")]
     [ApiController]
     [ApiVersion("1")]
     public class NotificationController(IMediator mediator) : ControllerBase
