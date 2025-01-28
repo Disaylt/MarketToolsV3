@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UserNotifications.Domain.Seed;
+using UserNotifications.Domain.Entities;
+
+namespace UserNotifications.Applications.Specifications.Notifications.GetRangeByDateUserAndLimit
+{
+    public class GetRangeByDateUserAndLimitNotificationSpecification(FilterData filterData)
+        : RangeBaseSpecification<Notification>
+    {
+        public FilterData Filter { get; } = filterData;
+        public Options Options { get; } = new Options();
+    }
+
+    public class Options
+    {
+        public int? Take { get; set; }
+        public int? Skip { get; set; }
+    }
+
+    public class FilterData
+    {
+        public required string UserId { get; set; }
+    }
+}
