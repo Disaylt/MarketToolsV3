@@ -11,7 +11,7 @@ namespace UserNotifications.Domain.Seed
         where TResult : Entity
         where TSpecification : RangeBaseSpecification<TResult>
     {
-        Task<IEnumerable<TResult>> HandleAsync(TSpecification specification);
+        Task<IReadOnlyCollection<TResult>> HandleAsync(TSpecification specification);
     }
 
     public interface ISpecificationHandler<TSpecification, TResult>

@@ -14,7 +14,7 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.G
     internal class GetRangeByDateUserAndLimitNotificationSpecificationHandler(IMongoCollection<Notification> collection)
         : IRangeSpecificationHandler<GetRangeByDateUserAndLimitNotificationSpecification, Notification>
     {
-        public async Task<IEnumerable<Notification>> HandleAsync(GetRangeByDateUserAndLimitNotificationSpecification specification)
+        public async Task<IReadOnlyCollection<Notification>> HandleAsync(GetRangeByDateUserAndLimitNotificationSpecification specification)
         {
             return await collection
                 .Find(n =>

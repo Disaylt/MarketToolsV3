@@ -27,6 +27,7 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.U
 
             var mongoFilter = Builders<Notification>.Filter
                 .Where(x => x.UserId == specification.Filter.UserId
+                    && x.IsRead == false
                     && x.Created >= specification.Filter.FromDate
                     && x.Created <= specification.Filter.ToDate);
 

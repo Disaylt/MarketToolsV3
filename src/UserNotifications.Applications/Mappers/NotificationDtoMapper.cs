@@ -10,7 +10,7 @@ namespace UserNotifications.Applications.Mappers
 {
     internal class NotificationDtoMapper : INotificationMapper<NotificationDto>
     {
-        public NotificationDto From(Notification notification)
+        public NotificationDto Map(Notification notification)
         {
             return new NotificationDto
             {

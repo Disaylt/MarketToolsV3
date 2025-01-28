@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UserNotifications.Applications.Behaviors;
 using UserNotifications.Applications.Mappers;
 using UserNotifications.Applications.Models;
+using UserNotifications.Applications.Services;
 
 namespace UserNotifications.Applications
 {
@@ -25,6 +26,8 @@ namespace UserNotifications.Applications
             });
 
             serviceCollection.AddMappers();
+
+            serviceCollection.AddSingleton<INotificationFiltersService, NotificationFiltersService>();
 
             return serviceCollection;
         }
