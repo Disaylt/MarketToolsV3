@@ -25,7 +25,7 @@ namespace UserNotifications.Infrastructure.Repositories
         public async Task<T> FindByIdAsync(string id, CancellationToken cancellationToken)
         {
             var filter = Builders<T>.Filter
-                .Eq(restaurant => restaurant.Id, new ObjectId(id));
+                .Eq(restaurant => restaurant.Id, id);
 
             return await collection.Find(filter).FirstAsync(cancellationToken);
         }
