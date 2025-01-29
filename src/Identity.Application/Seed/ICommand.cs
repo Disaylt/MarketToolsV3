@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Application.DeepValidation
+namespace Identity.Application.Seed
 {
-    internal interface IDeepValidator<in TRequest>
+    public interface ICommand<out T> : IRequest<T>
     {
-        Task Handle(TRequest request);
+
     }
 }

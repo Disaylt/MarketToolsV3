@@ -1,4 +1,4 @@
-﻿using Identity.Application.DeepValidation;
+﻿using Identity.Application.Seed;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

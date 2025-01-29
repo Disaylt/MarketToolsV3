@@ -1,6 +1,7 @@
 ﻿using Identity.Application.Behaviors;
 using Identity.Application.Commands;
 using Identity.Application.DeepValidation;
+using Identity.Application.Seed;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
