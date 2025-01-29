@@ -15,7 +15,7 @@ namespace UserNotifications.WebApi.Controllers.Users
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] GetRangeNotificationsQuery query)
         {
-            CreateNotificationsListAndMarkAsReadCommand request = new()
+            CreateNotificationsListForUserCommand request = new()
             {
                 Take = query.Take,
                 Skip = query.Skip,

@@ -15,7 +15,7 @@ using UserNotifications.Applications.Services;
 
 namespace UserNotifications.Applications.Commands
 {
-    public class CreateNotificationsListAndMarkAsReadCommand : ICommand<IReadOnlyCollection<NotificationDto>>
+    public class CreateNotificationsListForUserCommand : ICommand<IReadOnlyCollection<NotificationDto>>
     {
         public required string UserId { get; set; }
         public int Take { get; set; } = 20;
@@ -27,9 +27,9 @@ namespace UserNotifications.Applications.Commands
         IRangeSpecificationHandler<GetRangeByDateUserAndLimitNotificationSpecification, Notification> getRangeSpecificationHandler,
         INotificationMapper<NotificationDto> notificationMapper,
         INotificationFiltersService notificationFiltersService)
-        : IRequestHandler<CreateNotificationsListAndMarkAsReadCommand, IReadOnlyCollection<NotificationDto>>
+        : IRequestHandler<CreateNotificationsListForUserCommand, IReadOnlyCollection<NotificationDto>>
     {
-        public async Task<IReadOnlyCollection<NotificationDto>> Handle(CreateNotificationsListAndMarkAsReadCommand request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<NotificationDto>> Handle(CreateNotificationsListForUserCommand request, CancellationToken cancellationToken)
         {
             GetRangeByDateUserAndLimitNotificationSpecification getRangeSpecification = CreateGetRangeSpecification(request);
             IReadOnlyCollection<Notification> notifications = await getRangeSpecificationHandler.HandleAsync(getRangeSpecification);
@@ -48,7 +48,7 @@ namespace UserNotifications.Applications.Commands
 
         private UpdateIsReadByRangeFilterNotificationSpecififcation CreateUpdateReadFieldSpecification(
             NotificationDateFilter notificationDateFilter,
-            CreateNotificationsListAndMarkAsReadCommand request)
+            CreateNotificationsListForUserCommand request)
         {
             Specifications.Notifications.UpdateIsReadByRange.FilterData filterData = new()
             {
@@ -66,7 +66,7 @@ namespace UserNotifications.Applications.Commands
         }
 
         private GetRangeByDateUserAndLimitNotificationSpecification CreateGetRangeSpecification
-            (CreateNotificationsListAndMarkAsReadCommand request)
+            (CreateNotificationsListForUserCommand request)
         {
             Specifications.Notifications.GetRangeByDateUserAndLimit.FilterData filterData = new()
             {
