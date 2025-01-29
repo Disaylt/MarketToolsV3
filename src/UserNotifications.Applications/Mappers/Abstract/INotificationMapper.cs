@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Models;
 using UserNotifications.Domain.Entities;
+using UserNotifications.Domain.Seed;
 
-namespace UserNotifications.Applications.Services
+namespace UserNotifications.Applications.Mappers.Abstract
 {
-    public interface INotificationFiltersService
+    public interface INotificationMapper<out TResult> where TResult : IMap
     {
-        NotificationDateFilter CreateDateFilterFromArray(IEnumerable<Notification> notifications, bool wasSorted = false);
+        TResult Map(Notification notification);
     }
 }

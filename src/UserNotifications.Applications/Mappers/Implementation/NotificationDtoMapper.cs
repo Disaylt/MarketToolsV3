@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserNotifications.Applications.Mappers.Abstract;
 using UserNotifications.Applications.Models;
 using UserNotifications.Domain.Entities;
 
-namespace UserNotifications.Applications.Mappers
+namespace UserNotifications.Applications.Mappers.Implementation
 {
     internal class NotificationDtoMapper : INotificationMapper<NotificationDto>
     {

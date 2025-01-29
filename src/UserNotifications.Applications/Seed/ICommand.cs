@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserNotifications.Applications.Commands
+namespace UserNotifications.Applications.Seed
 {
     public interface ICommand<out T> : IRequest<T>
     {
