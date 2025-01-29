@@ -9,7 +9,7 @@ using UserNotifications.Applications.Specifications.Notifications.UpdateIsReadBy
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
-using UserNotifications.Infrastructure.Services;
+using UserNotifications.Infrastructure.Services.Abstract;
 using UserNotifications.Infrastructure.Utilities;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
 

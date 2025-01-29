@@ -7,9 +7,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Behaviors;
-using UserNotifications.Applications.Mappers;
+using UserNotifications.Applications.Mappers.Abstract;
+using UserNotifications.Applications.Mappers.Implementation;
 using UserNotifications.Applications.Models;
-using UserNotifications.Applications.Services;
+using UserNotifications.Applications.Services.Abstract;
+using UserNotifications.Applications.Services.Implementation;
 
 namespace UserNotifications.Applications
 {
