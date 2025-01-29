@@ -11,7 +11,7 @@ public class SessionService(IMediator mediator)
 {
     public override async Task<SessionActiveStatusReply> GetActiveStatus(SessionInfoRequest request, ServerCallContext context)
     {
-        GetSessionDetailsQuery query = new GetSessionDetailsQuery
+        GetSessionDetailsQuery query = new()
         {
             Id = request.Id
         };

@@ -8,9 +8,9 @@ using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
 
-namespace UserNotifications.Infrastructure.Services
+namespace UserNotifications.Infrastructure.Services.Abstract
 {
-    internal interface IMongoUpdateDifinitionService<TUpdate, TEntity> 
+    internal interface IMongoUpdateDifinitionService<TUpdate, TEntity>
         where TUpdate : INewFieldsData<TEntity>
         where TEntity : Entity
     {

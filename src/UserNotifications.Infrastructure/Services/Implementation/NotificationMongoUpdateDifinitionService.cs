@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Domain.Entities;
+using UserNotifications.Infrastructure.Services.Abstract;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
 
-namespace UserNotifications.Infrastructure.Services
+namespace UserNotifications.Infrastructure.Services.Implementation
 {
     internal class NotificationMongoUpdateDifinitionService(IUpdateDefinitionFactory updateDefinitionFactory)
         : IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification>

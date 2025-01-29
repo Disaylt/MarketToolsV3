@@ -13,7 +13,7 @@ namespace UserNotifications.Applications.Commands
     {
         public async Task<Unit> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
         {
-            Notification entity = new Notification
+            Notification entity = new()
             {
                 Message = request.Message,
                 UserId = request.UserId,
