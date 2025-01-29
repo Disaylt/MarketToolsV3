@@ -11,7 +11,7 @@ using Identity.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Identity.Infrastructure.Services
+namespace Identity.Infrastructure.Services.Implementation
 {
     public class SessionService(IRepository<Session> sessionsRepository,
         IOptions<ServiceConfiguration> options,
@@ -23,7 +23,7 @@ namespace Identity.Infrastructure.Services
         public async Task<Session> AddAsync(Session session, CancellationToken cancellationToken = default)
         {
             await sessionsRepository.AddAsync(session, cancellationToken);
-            
+
             SessionCreated newSessionEvent = new(session);
             eventsRepository.AddNotification(newSessionEvent);
 

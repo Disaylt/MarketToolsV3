@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Infrastructure.Services.Claims
+namespace Identity.Infrastructure.Services.Implementation.Claims
 {
     internal static class ClaimsExtensions
     {

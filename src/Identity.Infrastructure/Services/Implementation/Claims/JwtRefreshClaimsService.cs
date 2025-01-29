@@ -1,4 +1,5 @@
 ﻿using Identity.Application.Models;
+using Identity.Infrastructure.Services.Abstract.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -9,30 +10,24 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Infrastructure.Services.Claims
+namespace Identity.Infrastructure.Services.Implementation.Claims
 {
-    public class JwtAccessClaimsService(IRolesClaimService rolesClaimService)
-        : IClaimsService<JwtAccessTokenDto>
+    public class JwtRefreshClaimsService : IClaimsService<JwtRefreshTokenDto>
     {
-        public IEnumerable<Claim> Create(JwtAccessTokenDto details)
+        public IEnumerable<Claim> Create(JwtRefreshTokenDto details)
         {
             Claim jti = new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
             Claim iat = new(JwtRegisteredClaimNames.Iat,
                 EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture),
                 ClaimValueTypes.Integer64);
-            Claim id = new(ClaimTypes.NameIdentifier, details.UserId);
-            Claim sessionId = new(ClaimTypes.Sid, details.SessionId);
+            Claim sessionId = new(ClaimTypes.Sid, details.Id);
 
             List<Claim> claims =
             [
                 jti,
                 iat,
-                id,
                 sessionId
             ];
-
-            IEnumerable<Claim> roles = rolesClaimService.Create(details.Roles);
-            claims.AddRange(roles);
 
             return claims;
         }

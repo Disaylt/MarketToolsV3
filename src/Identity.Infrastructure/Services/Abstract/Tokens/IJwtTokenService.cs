@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Infrastructure.Services.Tokens
+namespace Identity.Infrastructure.Services.Abstract.Tokens
 {
     public interface IJwtTokenService
     {

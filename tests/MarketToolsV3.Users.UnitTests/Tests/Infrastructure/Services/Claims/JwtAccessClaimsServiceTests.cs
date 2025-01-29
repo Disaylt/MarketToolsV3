@@ -6,8 +6,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Models;
-using Identity.Infrastructure.Services;
-using Identity.Infrastructure.Services.Claims;
+using Identity.Infrastructure.Services.Abstract;
+using Identity.Infrastructure.Services.Implementation.Claims;
 using Moq;
 
 namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims

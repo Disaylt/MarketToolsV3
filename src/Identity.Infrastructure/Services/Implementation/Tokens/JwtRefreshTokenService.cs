@@ -1,7 +1,10 @@
 ﻿using Identity.Application.Models;
 using Identity.Application.Services;
 using Identity.Domain.Seed;
-using Identity.Infrastructure.Services.Claims;
+using Identity.Infrastructure.Services.Abstract.Claims;
+using Identity.Infrastructure.Services.Abstract.Tokens;
+using Identity.Infrastructure.Services.Implementation.Claims;
+using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,22 +14,23 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using MarketToolsV3.ConfigurationManager.Models;
 
-namespace Identity.Infrastructure.Services.Tokens
+namespace Identity.Infrastructure.Services.Implementation.Tokens
 {
-    public class JwtAccessTokenService(IClaimsService<JwtAccessTokenDto> claimsService,
+    public class JwtRefreshTokenService(IClaimsService<JwtRefreshTokenDto> claimsService,
         IJwtTokenService jwtTokenService,
+        IOptions<ServiceConfiguration> serviceConfigurationOptions,
         IOptions<AuthConfig> authOptions)
-        : ITokenService<JwtAccessTokenDto>
+        : ITokenService<JwtRefreshTokenDto>
     {
+        private readonly ServiceConfiguration _serviceConfiguration = serviceConfigurationOptions.Value;
         private readonly AuthConfig _authConfig = authOptions.Value;
 
-        public string Create(JwtAccessTokenDto value)
+        public string Create(JwtRefreshTokenDto value)
         {
-            DateTime expires = DateTime.UtcNow.AddMinutes(_authConfig.ExpireAccessTokenMinutes);
+            DateTime expires = DateTime.UtcNow.AddHours(serviceConfigurationOptions.Value.ExpireRefreshTokenHours);
             IEnumerable<Claim> claims = claimsService.Create(value);
-            SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(_authConfig.AuthSecret);
+            SigningCredentials signingCredentials = jwtTokenService.CreateSigningCredentials(serviceConfigurationOptions.Value.SecretRefreshToken);
 
             JwtSecurityToken jwtSecurityToken = new(
                 _authConfig.ValidIssuer,
@@ -42,30 +46,22 @@ namespace Identity.Infrastructure.Services.Tokens
         public async Task<bool> IsValid(string token)
         {
             TokenValidationResult result = await jwtTokenService
-                .GetValidationResultAsync(token, _authConfig.AuthSecret,
+                .GetValidationResultAsync(token,
+                    _serviceConfiguration.SecretRefreshToken,
                     checkValidateAudience: _authConfig.IsCheckValidAudience,
                     checkValidateIssuer: _authConfig.IsCheckValidIssuer);
 
             return result.IsValid;
         }
 
-        public JwtAccessTokenDto Read(string token)
+        public JwtRefreshTokenDto Read(string token)
         {
             JwtSecurityToken jwtSecurityToken = jwtTokenService.ReadJwtToken(token);
 
-            JwtAccessTokenDto jwtAccessTokenDto = new()
+            return new JwtRefreshTokenDto
             {
-                UserId = jwtSecurityToken.Claims.FindByType(ClaimTypes.NameIdentifier) ?? "",
-                SessionId = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? ""
+                Id = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? ""
             };
-
-            IEnumerable<string> roles = jwtSecurityToken.Claims
-                .Where(x => x.Type == ClaimTypes.Role)
-                .Select(x => x.Value);
-
-            jwtAccessTokenDto.Roles.AddRange(roles);
-
-            return jwtAccessTokenDto;
         }
     }
 }

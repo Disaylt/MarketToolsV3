@@ -13,7 +13,7 @@ using Identity.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace Identity.Infrastructure.Services
+namespace Identity.Infrastructure.Services.Implementation
 {
     public class IdentityPersonService(UserManager<IdentityPerson> userManager,
         IRepository<IdentityPerson> identityRepository,
@@ -28,7 +28,7 @@ namespace Identity.Infrastructure.Services
             if (result.Succeeded == false)
             {
                 logger.LogWarning("Bad create identity. Errors - {error}",
-                    string.Join(',', result.Errors.Select((er => er.Description))));
+                    string.Join(',', result.Errors.Select(er => er.Description)));
                 throw new RootServiceException(HttpStatusCode.BadRequest, "Не удалось создать пользователя.");
             }
 

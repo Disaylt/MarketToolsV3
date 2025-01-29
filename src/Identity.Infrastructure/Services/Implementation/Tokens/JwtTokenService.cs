@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Seed;
+using Identity.Infrastructure.Services.Abstract.Tokens;
 using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -12,7 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Infrastructure.Services.Tokens
+namespace Identity.Infrastructure.Services.Implementation.Tokens
 {
     internal class JwtTokenService(IJwtSecurityTokenHandler jwtSecurityTokenHandler,
         IOptions<AuthConfig> authOptions,

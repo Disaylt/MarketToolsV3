@@ -1,5 +1,5 @@
 ﻿using Identity.Application.Models;
-using Identity.Infrastructure.Services.Claims;
+using Identity.Infrastructure.Services.Implementation.Claims;
 using System;
 using System.Collections;
 using System.Collections.Generic;
