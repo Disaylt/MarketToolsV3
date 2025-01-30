@@ -8,7 +8,7 @@ using UserNotifications.Domain.Entities;
 
 namespace UserNotifications.Applications.Specifications.Notifications.GetRangeByDateUserAndLimit
 {
-    public class GetRangeByDateUserAndLimitNotificationSpecification(FilterData filterData)
+    public class GetRangeForUsersNotificationSpecification(FilterData filterData)
         : RangeBaseSpecification<Notification>
     {
         public FilterData Filter { get; } = filterData;

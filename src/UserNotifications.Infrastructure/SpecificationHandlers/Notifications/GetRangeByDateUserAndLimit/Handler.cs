@@ -12,9 +12,9 @@ using UserNotifications.Infrastructure.Utilities;
 namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.GetRangeByDateUserAndLimit
 {
     internal class GetRangeByDateUserAndLimitNotificationSpecificationHandler(IMongoCollection<Notification> collection)
-        : IRangeSpecificationHandler<GetRangeByDateUserAndLimitNotificationSpecification, Notification>
+        : IRangeSpecificationHandler<GetRangeForUsersNotificationSpecification, Notification>
     {
-        public async Task<IReadOnlyCollection<Notification>> HandleAsync(GetRangeByDateUserAndLimitNotificationSpecification specification)
+        public async Task<IReadOnlyCollection<Notification>> HandleAsync(GetRangeForUsersNotificationSpecification specification)
         {
             return await collection
                 .Find(n =>
