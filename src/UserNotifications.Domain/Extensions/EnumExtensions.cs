@@ -10,7 +10,7 @@ namespace UserNotifications.Domain.Extensions
 {
     public static class EnumExtensions
     {
-        public static string GetEnumDescription(Enum value)
+        public static string GetDescription(this Enum value)
         {
             FieldInfo? field = value.GetType().GetField(value.ToString());
 

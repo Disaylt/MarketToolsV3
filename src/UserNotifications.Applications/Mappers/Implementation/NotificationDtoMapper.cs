@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UserNotifications.Applications.Mappers.Abstract;
 using UserNotifications.Applications.Models;
 using UserNotifications.Domain.Entities;
+using UserNotifications.Domain.Extensions;
 
 namespace UserNotifications.Applications.Mappers.Implementation
 {
@@ -20,7 +21,8 @@ namespace UserNotifications.Applications.Mappers.Implementation
                 Message = notification.Message,
                 UserId = notification.UserId,
                 Title = notification.Title,
-                Category = notification.Category
+                Category = notification.Category,
+                CategoryView = notification.Category?.GetDescription()
             };
         }
     }

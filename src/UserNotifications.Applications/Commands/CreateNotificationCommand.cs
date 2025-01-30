@@ -15,6 +15,7 @@ namespace UserNotifications.Applications.Commands
     {
         public required string UserId { get; set; }
         public required string Message { get; set; }
+        public string? Title { get; set; }
         public Category? Category { get; set; }
     }
 }
