@@ -18,7 +18,9 @@ namespace UserNotifications.Applications.Mappers.Implementation
                 Created = notification.Created,
                 IsRead = notification.IsRead,
                 Message = notification.Message,
-                UserId = notification.UserId
+                UserId = notification.UserId,
+                Title = notification.Title,
+                Category = notification.Category
             };
         }
     }
