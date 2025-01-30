@@ -14,7 +14,7 @@ namespace WB.Seller.Companies.Infrastructure
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection collection,
             ServiceConfiguration serviceConfiguration)
         {
-            collection.AddNpgsql<ApiCompaniesDbContext>(serviceConfiguration.DatabaseConnection);
+            collection.AddNpgsql<WbSellerCompaniesDbContext>(serviceConfiguration.DatabaseConnection);
 
             return collection;
         }

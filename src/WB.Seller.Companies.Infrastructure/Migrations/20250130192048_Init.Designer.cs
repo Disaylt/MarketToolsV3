@@ -11,7 +11,7 @@ using WB.Seller.Companies.Infrastructure.Database;
 
 namespace WB.Seller.Companies.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApiCompaniesDbContext))]
+    [DbContext(typeof(WbSellerCompaniesDbContext))]
     [Migration("20250130192048_Init")]
     partial class Init
     {

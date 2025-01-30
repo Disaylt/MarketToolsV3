@@ -10,7 +10,7 @@ using WB.Seller.Companies.Infrastructure.Database;
 
 namespace WB.Seller.Companies.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApiCompaniesDbContext))]
+    [DbContext(typeof(WbSellerCompaniesDbContext))]
     partial class ApiCompaniesDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -6,6 +6,7 @@ using MarketToolsV3.DbMigrations.Service;
 var builder = Host.CreateApplicationBuilder(args);
 
 await builder.AddIdentityMigration();
+await builder.AddWbSellerCompaniesMigration();
 
 builder.Services.AddSingleton<IWorkNotificationServiceService, WorkNotificationServiceService>();
 builder.Services.AddSingleton<IWorkControlService, WorkControlService>();
