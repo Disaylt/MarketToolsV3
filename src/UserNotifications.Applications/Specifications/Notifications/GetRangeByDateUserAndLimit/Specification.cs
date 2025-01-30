@@ -24,5 +24,6 @@ namespace UserNotifications.Applications.Specifications.Notifications.GetRangeBy
     public class FilterData
     {
         public required string UserId { get; set; }
+        public bool? IsRead { get; set; }
     }
 }
