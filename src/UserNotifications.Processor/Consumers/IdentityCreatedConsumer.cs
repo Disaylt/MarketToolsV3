@@ -19,7 +19,9 @@ namespace UserNotifications.Processor.Consumers
             {
                 UserId = context.Message.IdentityId,
                 Category = Category.Identity,
-                Message = "Доброе пожаловать! Рады видеть вас на нашей платформе. Здесь вы сможете эффективно управлять своими компаниями на маркетплейсах."
+                Title = "Приветствие",
+                Message = "Доброе пожаловать! Рады видеть вас. Совершенствуйте уровень управления вашего бизнеса. " +
+                          "Анализируйте, собирайте статистику и будьте в курсе всех событий ваших компаний."
             };
 
             await mediator.Send(command);

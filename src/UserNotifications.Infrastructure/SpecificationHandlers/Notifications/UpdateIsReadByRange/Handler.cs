@@ -18,9 +18,9 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.U
     internal class UpdateIsReadByRangeFilterNotificationSpecififcationHandler(IMongoCollection<Notification> collection,
         IClientSessionHandleContext clientSessionHandleContext,
         IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification> mongoUpdateDifinitionService)
-        : ISpecificationHandler<UpdateIsReadByRangeFilterNotificationSpecififcation>
+        : ISpecificationHandler<UpdateIsReadFieldByRangeNotificationSpecification>
     {
-        public async Task HandleAsync(UpdateIsReadByRangeFilterNotificationSpecififcation specification)
+        public async Task HandleAsync(UpdateIsReadFieldByRangeNotificationSpecification specification)
         {
             INotificationNewFieldsData newFieldsData = CreateNewFiledData(specification.Data);
             var update = mongoUpdateDifinitionService.Create(newFieldsData);

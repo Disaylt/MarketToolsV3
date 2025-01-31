@@ -17,7 +17,8 @@ namespace UserNotifications.Applications.Commands
             {
                 Message = request.Message,
                 UserId = request.UserId,
-                Category = request.Category
+                Category = request.Category,
+                Title = request.Title
             };
 
             await notificationRepository.InsertAsync(entity, cancellationToken);

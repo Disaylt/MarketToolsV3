@@ -19,7 +19,8 @@ namespace UserNotifications.Processor.Consumers
             {
                 UserId = context.Message.UserId,
                 Category = Category.Identity,
-                Message = $"Выполнен вход с помощью устройства - {context.Message.UserAgent}"
+                Title = "Система безопасноссти",
+                Message = $"Выполнен вход с устройства - {context.Message.UserAgent}"
             };
 
             await mediator.Send(command);

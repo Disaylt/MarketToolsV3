@@ -12,13 +12,16 @@ using UserNotifications.Infrastructure.Utilities;
 namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.GetRangeByDateUserAndLimit
 {
     internal class GetRangeByDateUserAndLimitNotificationSpecificationHandler(IMongoCollection<Notification> collection)
-        : IRangeSpecificationHandler<GetRangeByDateUserAndLimitNotificationSpecification, Notification>
+        : IRangeSpecificationHandler<GetRangeForUsersNotificationSpecification, Notification>
     {
-        public async Task<IReadOnlyCollection<Notification>> HandleAsync(GetRangeByDateUserAndLimitNotificationSpecification specification)
+        public async Task<IReadOnlyCollection<Notification>> HandleAsync(GetRangeForUsersNotificationSpecification specification)
         {
+            var filter = specification.Filter;
             return await collection
                 .Find(n =>
-                    n.UserId == specification.Filter.UserId)
+                    n.UserId == filter.UserId
+                    && (filter.IsRead.HasValue == false || n.IsRead == filter.IsRead.Value)
+                    && (filter.Category.HasValue == false || n.Category == filter.Category.Value))
                 .SortByDescending(x => x.Created)
                 .Skip(specification.Options.Skip)
                 .Limit(specification.Options.Take)

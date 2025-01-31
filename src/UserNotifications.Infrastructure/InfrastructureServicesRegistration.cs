@@ -36,10 +36,10 @@ namespace UserNotifications.Infrastructure
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 
-            services.AddScoped<ISpecificationHandler<UpdateIsReadByRangeFilterNotificationSpecififcation>,
+            services.AddScoped<ISpecificationHandler<UpdateIsReadFieldByRangeNotificationSpecification>,
                 UpdateIsReadByRangeFilterNotificationSpecififcationHandler>();
 
-            services.AddScoped<IRangeSpecificationHandler <GetRangeByDateUserAndLimitNotificationSpecification, Notification>,
+            services.AddScoped<IRangeSpecificationHandler <GetRangeForUsersNotificationSpecification, Notification>,
                 GetRangeByDateUserAndLimitNotificationSpecificationHandler>();
 
             services.AddSingleton<IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification>, NotificationMongoUpdateDifinitionService>();

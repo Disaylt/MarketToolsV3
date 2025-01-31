@@ -9,7 +9,7 @@ using WB.Seller.Companies.Infrastructure.Database.EfConfigurations;
 
 namespace WB.Seller.Companies.Infrastructure.Database
 {
-    public class ApiCompaniesDbContext(DbContextOptions<ApiCompaniesDbContext> options) : DbContext(options)
+    public class WbSellerCompaniesDbContext(DbContextOptions<WbSellerCompaniesDbContext> options) : DbContext(options)
     {
         public DbSet<Company> Companies { get; set; } = null!;
         public DbSet<Owner> Owners { get; set; } = null!;

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MarketToolsV3.DbMigrations.Service.Services.Interfaces
 {
-    internal interface IWorkNotificationServiceService
+    public interface IMigrationService<T> where T : class
     {
-        event Action<int>? NotifyTotalCompletedTask;
-        void MarkAsCompleted();
+        Task Run();
     }
 }

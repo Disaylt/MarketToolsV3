@@ -11,6 +11,7 @@ namespace UserNotifications.Domain.Entities
     {
         public required string UserId { get; set; }
         public required string Message { get; set; }
+        public string? Title { get; set; }
         public Category? Category { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public bool IsRead { get; set; }

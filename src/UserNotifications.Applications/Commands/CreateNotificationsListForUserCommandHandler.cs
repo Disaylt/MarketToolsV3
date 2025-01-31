@@ -15,21 +15,21 @@ using UserNotifications.Domain.Seed;
 namespace UserNotifications.Applications.Commands
 {
     public class CreateNotificationsListForUserCommandHandler(
-        ISpecificationHandler<UpdateIsReadByRangeFilterNotificationSpecififcation> updateSpecificationHandler,
-        IRangeSpecificationHandler<GetRangeByDateUserAndLimitNotificationSpecification, Notification> getRangeSpecificationHandler,
+        ISpecificationHandler<UpdateIsReadFieldByRangeNotificationSpecification> updateSpecificationHandler,
+        IRangeSpecificationHandler<GetRangeForUsersNotificationSpecification, Notification> getRangeSpecificationHandler,
         INotificationMapper<NotificationDto> notificationMapper,
         INotificationFiltersService notificationFiltersService)
         : IRequestHandler<CreateNotificationsListForUserCommand, IReadOnlyCollection<NotificationDto>>
     {
         public async Task<IReadOnlyCollection<NotificationDto>> Handle(CreateNotificationsListForUserCommand request, CancellationToken cancellationToken)
         {
-            GetRangeByDateUserAndLimitNotificationSpecification getRangeSpecification = CreateGetRangeSpecification(request);
+            GetRangeForUsersNotificationSpecification getRangeSpecification = CreateGetRangeSpecification(request);
             IReadOnlyCollection<Notification> notifications = await getRangeSpecificationHandler.HandleAsync(getRangeSpecification);
 
             if (notifications.Count > 0)
             {
                 NotificationDateFilter notificationDateFilter = notificationFiltersService.CreateDateFilterFromArray(notifications, true);
-                UpdateIsReadByRangeFilterNotificationSpecififcation updateSpecification = CreateUpdateReadFieldSpecification(notificationDateFilter, request);
+                UpdateIsReadFieldByRangeNotificationSpecification updateSpecification = CreateUpdateReadFieldSpecification(notificationDateFilter, request);
                 await updateSpecificationHandler.HandleAsync(updateSpecification);
             }
 
@@ -38,7 +38,7 @@ namespace UserNotifications.Applications.Commands
                 .ToList();
         }
 
-        private static UpdateIsReadByRangeFilterNotificationSpecififcation CreateUpdateReadFieldSpecification(
+        private static UpdateIsReadFieldByRangeNotificationSpecification CreateUpdateReadFieldSpecification(
             NotificationDateFilter notificationDateFilter,
             CreateNotificationsListForUserCommand request)
         {
@@ -53,21 +53,28 @@ namespace UserNotifications.Applications.Commands
                 IsRead = true
             };
 
-            return new UpdateIsReadByRangeFilterNotificationSpecififcation(filterData, entityData);
+            return new UpdateIsReadFieldByRangeNotificationSpecification(filterData, entityData);
 
         }
 
-        private static GetRangeByDateUserAndLimitNotificationSpecification CreateGetRangeSpecification
+        private static GetRangeForUsersNotificationSpecification CreateGetRangeSpecification
             (CreateNotificationsListForUserCommand request)
         {
             Specifications.Notifications.GetRangeByDateUserAndLimit.FilterData filterData = new()
             {
                 UserId = request.UserId,
+                Category = request.Category,
+                IsRead = request.IsRead
             };
 
-            GetRangeByDateUserAndLimitNotificationSpecification specification = new(filterData);
-            specification.Options.Take = request.Take;
-            specification.Options.Skip = request.Skip;
+            GetRangeForUsersNotificationSpecification specification = new(filterData)
+            {
+                Options =
+                {
+                    Take = request.Take,
+                    Skip = request.Skip
+                }
+            };
 
             return specification;
         }

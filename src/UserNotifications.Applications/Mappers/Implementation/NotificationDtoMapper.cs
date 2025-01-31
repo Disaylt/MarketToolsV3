@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UserNotifications.Applications.Mappers.Abstract;
 using UserNotifications.Applications.Models;
 using UserNotifications.Domain.Entities;
+using UserNotifications.Domain.Extensions;
 
 namespace UserNotifications.Applications.Mappers.Implementation
 {
@@ -18,7 +19,10 @@ namespace UserNotifications.Applications.Mappers.Implementation
                 Created = notification.Created,
                 IsRead = notification.IsRead,
                 Message = notification.Message,
-                UserId = notification.UserId
+                UserId = notification.UserId,
+                Title = notification.Title,
+                Category = notification.Category,
+                CategoryView = notification.Category?.GetDescription()
             };
         }
     }

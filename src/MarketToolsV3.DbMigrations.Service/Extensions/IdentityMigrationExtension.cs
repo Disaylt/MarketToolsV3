@@ -9,6 +9,7 @@ using Identity.Infrastructure.Database;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.DbMigrations.Service.Workers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MarketToolsV3.DbMigrations.Service.Extensions
@@ -23,7 +24,17 @@ namespace MarketToolsV3.DbMigrations.Service.Extensions
 
             builder.Services.AddNpgsql<IdentityDbContext>(serviceConfigManager.Value.DatabaseConnection);
 
-            builder.Services.AddHostedService<EfCoreMigrationBackgroundService<IdentityDbContext>>();
+            builder.Services
+                .AddMigrationBuilderHostService<IdentityDbContext>()
+                .AddHostService()
+                .AddOptions(opt =>
+                {
+                    opt.Execute = context =>
+                    {
+                        context.Database.Migrate();
+                        return Task.CompletedTask;
+                    };
+                });
         }
     }
 }

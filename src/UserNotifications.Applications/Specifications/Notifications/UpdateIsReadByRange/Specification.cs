@@ -10,7 +10,7 @@ using UserNotifications.Domain.Seed;
 
 namespace UserNotifications.Applications.Specifications.Notifications.UpdateIsReadByRange
 {
-    public class UpdateIsReadByRangeFilterNotificationSpecififcation(
+    public class UpdateIsReadFieldByRangeNotificationSpecification(
         FilterData filterData,
         EntityData entityData)
         : BaseSpecification

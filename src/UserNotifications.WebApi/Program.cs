@@ -6,14 +6,13 @@ using Scalar.AspNetCore;
 using UserNotifications.Applications;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure;
+using UserNotifications.Infrastructure.Database;
 
-string serviceName = "user-notifications";
 var builder = WebApplication.CreateBuilder(args);
-
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
-    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(ServiceConstants.ServiceName);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
