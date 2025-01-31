@@ -13,12 +13,17 @@ using UserNotifications.Applications.Specifications.Notifications;
 using UserNotifications.Applications.Mappers;
 using UserNotifications.Applications.Services.Abstract;
 using UserNotifications.Applications.Seed;
+using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.Applications.Commands
 {
     public class CreateNotificationsListForUserCommand : ICommand<IReadOnlyCollection<NotificationDto>>
     {
         public required string UserId { get; set; }
+
+        public bool? IsRead { get; set; }
+        public Category? Category { get; set; }
+
         public int Take { get; set; } = 20;
         public int Skip { get; set; }
     }

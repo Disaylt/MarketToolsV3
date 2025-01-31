@@ -20,7 +20,8 @@ namespace UserNotifications.Infrastructure.SpecificationHandlers.Notifications.G
             return await collection
                 .Find(n =>
                     n.UserId == filter.UserId
-                    && (filter.IsRead.HasValue == false || n.IsRead == filter.IsRead.Value))
+                    && (filter.IsRead.HasValue == false || n.IsRead == filter.IsRead.Value)
+                    && (filter.Category.HasValue == false || n.Category == filter.Category.Value))
                 .SortByDescending(x => x.Created)
                 .Skip(specification.Options.Skip)
                 .Limit(specification.Options.Take)

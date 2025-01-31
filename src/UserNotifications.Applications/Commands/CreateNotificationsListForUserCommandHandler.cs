@@ -63,11 +63,18 @@ namespace UserNotifications.Applications.Commands
             Specifications.Notifications.GetRangeByDateUserAndLimit.FilterData filterData = new()
             {
                 UserId = request.UserId,
+                Category = request.Category,
+                IsRead = request.IsRead
             };
 
-            GetRangeForUsersNotificationSpecification specification = new(filterData);
-            specification.Options.Take = request.Take;
-            specification.Options.Skip = request.Skip;
+            GetRangeForUsersNotificationSpecification specification = new(filterData)
+            {
+                Options =
+                {
+                    Take = request.Take,
+                    Skip = request.Skip
+                }
+            };
 
             return specification;
         }

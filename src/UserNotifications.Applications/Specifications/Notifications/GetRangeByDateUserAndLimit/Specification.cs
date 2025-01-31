@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Domain.Entities;
+using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.Applications.Specifications.Notifications.GetRangeByDateUserAndLimit
 {
@@ -25,5 +26,6 @@ namespace UserNotifications.Applications.Specifications.Notifications.GetRangeBy
     {
         public required string UserId { get; set; }
         public bool? IsRead { get; set; }
+        public Category? Category { get; set; }
     }
 }
