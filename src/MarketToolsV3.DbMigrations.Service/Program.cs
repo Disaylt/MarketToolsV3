@@ -7,6 +7,7 @@ var builder = Host.CreateApplicationBuilder(args);
 
 await builder.AddIdentityMigration();
 await builder.AddWbSellerCompaniesMigration();
+await builder.AddUserNotificationsMigrations();
 
 builder.Services.AddSingleton<IWorkNotificationServiceService, WorkNotificationServiceService>();
 builder.Services.AddSingleton<IWorkControlService, WorkControlService>();

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MarketToolsV3.DbMigrations.Service.Options
 {
-    public class MigrationOptions<T>(Func<Task> executeMethod) where T : class
+    public class MigrationOptions<T> where T : class
     {
-        public Func<Task> Execute { get; } = executeMethod;
+        public Func<T, Task>? Execute { get; set; }
     }
 }
