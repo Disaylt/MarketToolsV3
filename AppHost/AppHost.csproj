@@ -21,6 +21,7 @@
     <ProjectReference Include="..\src\Identity.WebApi\Identity.WebApi.csproj" />
     <ProjectReference Include="..\src\MarketToolsV3.ApiGateway\MarketToolsV3.ApiGateway.csproj" />
     <ProjectReference Include="..\src\MarketToolsV3.DbMigrations.Service\MarketToolsV3.DbMigrations.Service.csproj" />
+    <ProjectReference Include="..\src\MarketToolsV3.FakeData.WebApi\MarketToolsV3.FakeData.WebApi.csproj" />
     <ProjectReference Include="..\src\UserNotifications.Processor\UserNotifications.Processor.csproj" />
     <ProjectReference Include="..\src\UserNotifications.WebApi\UserNotifications.WebApi.csproj" />
     <ProjectReference Include="..\src\WB.Seller.Companies.Processor\WB.Seller.Companies.Processor.csproj" />

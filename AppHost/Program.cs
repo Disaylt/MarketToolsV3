@@ -37,4 +37,8 @@ builder.AddProject<WB_Seller_Companies_Processor>("WbSellerCompaniesProcessor")
     .WithEnvironment("ConfigType", configTypeParameter)
     .WithEnvironment("JsonBasePath", jsonBasePathParameter);
 
+builder.AddProject<MarketToolsV3_FakeData_WebApi>("MarketToolsV3FakeDataWebApi")
+    .WithEnvironment("ConfigType", configTypeParameter)
+    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
+
 builder.Build().Run();
