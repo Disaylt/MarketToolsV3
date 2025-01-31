@@ -7,6 +7,7 @@ using Identity.Domain.Constants;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.DbMigrations.Service.Workers;
+using Microsoft.EntityFrameworkCore;
 using WB.Seller.Companies.Domain.Constants;
 using WB.Seller.Companies.Domain.Seed;
 using WB.Seller.Companies.Infrastructure.Database;
@@ -24,7 +25,17 @@ namespace MarketToolsV3.DbMigrations.Service.Extensions
 
             builder.Services.AddNpgsql<WbSellerCompaniesDbContext>(serviceConfigManager.Value.DatabaseConnection);
 
-            builder.Services.AddHostedService<EfCoreMigrationBackgroundService<WbSellerCompaniesDbContext>>();
+            builder.Services
+                .AddMigrationBuilderHostService<WbSellerCompaniesDbContext>()
+                .AddHostService()
+                .AddOptions(opt =>
+                {
+                    opt.Execute = context =>
+                    {
+                        context.Database.Migrate();
+                        return Task.CompletedTask;
+                    };
+                });
         }
     }
 }

@@ -12,26 +12,33 @@ using MarketToolsV3.DbMigrations.Service.Services.Implementation;
 
 namespace MarketToolsV3.DbMigrations.Service.Utilities
 {
-    internal class MigrationBuilder<T>(IServiceCollection collection) : IMigrationBuilder<T> where T : class
+    internal class MigrationBuilder<T> : IMigrationBuilder<T> where T : class
     {
+        private readonly IServiceCollection _collection;
+        public MigrationBuilder(IServiceCollection collection)
+        {
+            _collection = collection;
+
+            _collection.AddScoped<IMigrationService<T>, MigrationService<T>>();
+        }
+
         public IMigrationBuilder<T> AddOptions(Action<MigrationOptions<T>> opt)
         {
-            collection.Configure(opt);
+            _collection.Configure(opt);
 
             return this;
         }
 
         public IMigrationBuilder<T> AddService(Func<IServiceProvider, T> service)
         {
-            collection.AddScoped(service);
-            collection.AddScoped<IMigrationService<T>, MigrationService<T>>();
+            _collection.AddScoped(service);
 
             return this;
         }
 
         public IMigrationBuilder<T> AddHostService()
         {
-            collection.AddHostedService<SharedMigrationBackgroundService<T>>();
+            _collection.AddHostedService<SharedMigrationBackgroundService<T>>();
 
             return this;
         }

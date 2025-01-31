@@ -10,7 +10,7 @@ namespace UserNotifications.Infrastructure.Database.MongoCollectionBuilders
 {
     public class NotificationCollectionBuilder(IMongoCollection<Notification> collection)
     {
-        private readonly LinkedList<CreateIndexModel<Notification>> _indexes = [];
+        private readonly List<CreateIndexModel<Notification>> _indexes = [];
 
         public async Task Build()
         {
@@ -19,7 +19,15 @@ namespace UserNotifications.Infrastructure.Database.MongoCollectionBuilders
             AddOrSkipUserSearchIndex(existsIndexNames);
             AddOrSkipUserSearchWithIsReadIndex(existsIndexNames);
 
-            await collection.Indexes.CreateManyAsync(_indexes);
+            await CreateIndexesAsync();
+        }
+
+        private async Task CreateIndexesAsync()
+        {
+            if (_indexes.Count > 0)
+            {
+                await collection.Indexes.CreateManyAsync(_indexes);
+            }
         }
 
         private void AddOrSkipUserSearchIndex(HashSet<string> existsIndexNames)
@@ -41,7 +49,7 @@ namespace UserNotifications.Infrastructure.Database.MongoCollectionBuilders
 
             CreateIndexModel<Notification> index = new(userSearchIndexKey, indexOptions);
 
-            _indexes.AddLast(index);
+            _indexes.Add(index);
         }
 
         private void AddOrSkipUserSearchWithIsReadIndex(HashSet<string> existsIndexNames)
@@ -64,7 +72,7 @@ namespace UserNotifications.Infrastructure.Database.MongoCollectionBuilders
 
             CreateIndexModel<Notification> index = new(userSearchWithIsReadIndexKey, indexOptions);
 
-            _indexes.AddLast(index);
+            _indexes.Add(index);
         }
     }
 }
