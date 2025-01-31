@@ -8,7 +8,7 @@ using Castle.Core.Logging;
 using Identity.Domain.Entities;
 using Identity.Domain.Events;
 using Identity.Domain.Seed;
-using Identity.Infrastructure.Services;
+using Identity.Infrastructure.Services.Implementation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

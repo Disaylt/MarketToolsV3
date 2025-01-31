@@ -13,7 +13,7 @@ namespace MarketToolsV3.ConfigurationManager.Implementations
         : ConfigManager(configurationRoot), ITypingConfigManager<T> where T : class
     {
         public T Value => ConfigurationRoot.Get<T>() 
-                          ?? throw new NullReferenceException($"Configuration type:{nameof(T)} not found.");
+                          ?? throw new NullReferenceException($"Configuration type:{typeof(T).FullName} not found.");
 
         public void AddAsOptions(IServiceCollection services)
         {

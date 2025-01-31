@@ -11,6 +11,7 @@ namespace UserNotifications.Domain.Entities
     public class Entity
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; } = null!;
     }
 }

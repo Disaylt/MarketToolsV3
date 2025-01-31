@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
-using Identity.Infrastructure.Services;
+using Identity.Infrastructure.Services.Implementation;
 using MarketToolsV3.Users.IntegrationTests.Source;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

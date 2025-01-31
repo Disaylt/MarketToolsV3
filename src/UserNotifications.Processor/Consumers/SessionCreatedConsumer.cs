@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using UserNotifications.Applications.Commands;
+using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.Processor.Consumers
 {
@@ -17,7 +18,9 @@ namespace UserNotifications.Processor.Consumers
             CreateNotificationCommand command = new()
             {
                 UserId = context.Message.UserId,
-                Message = $"Выполнен вход с помощью устройства - {context.Message.UserAgent}"
+                Category = Category.Identity,
+                Title = "Система безопасноссти",
+                Message = $"Выполнен вход с устройства - {context.Message.UserAgent}"
             };
 
             await mediator.Send(command);

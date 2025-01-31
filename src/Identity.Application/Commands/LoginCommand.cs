@@ -1,4 +1,5 @@
 ﻿using Identity.Application.Models;
+using Identity.Application.Seed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
