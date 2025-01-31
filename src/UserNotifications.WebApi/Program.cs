@@ -16,9 +16,6 @@ ConfigurationServiceFactory configurationServiceFactory = new(builder.Configurat
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
     await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
 
-MongoDatabaseBuilder test = new MongoDatabaseBuilder(serviceConfigManager.Value);
-await test.Build();
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 

@@ -10,50 +10,61 @@ namespace UserNotifications.Infrastructure.Database.MongoCollectionBuilders
 {
     public class NotificationCollectionBuilder(IMongoCollection<Notification> collection)
     {
-        private const string UserSearchIndex = "userSearchIndex";
-        private const string UserSearchWithIsReadIndex = "userSearchWithIsReadIndex";
+        private readonly LinkedList<CreateIndexModel<Notification>> _indexes = [];
+
         public async Task Build()
         {
             HashSet<string> existsIndexNames = await MongoIndexUtility.GetIndexNames(collection);
 
-            if (existsIndexNames.Contains(UserSearchIndex) == false)
-            {
-                var userSearchIndex = CreateUserSearchIndex();
-                await collection.Indexes.CreateOneAsync(userSearchIndex);
-            }
+            AddOrSkipUserSearchIndex(existsIndexNames);
+            AddOrSkipUserSearchWithIsReadIndex(existsIndexNames);
 
-            if (existsIndexNames.Contains(UserSearchWithIsReadIndex) == false)
-            {
-                var userSearchWithIsReadIndex = CreateUserSearchWithIsReadIndex();
-                await collection.Indexes.CreateOneAsync(userSearchWithIsReadIndex);
-            }
+            await collection.Indexes.CreateManyAsync(_indexes);
         }
 
-        private CreateIndexModel<Notification> CreateUserSearchIndex()
+        private void AddOrSkipUserSearchIndex(HashSet<string> existsIndexNames)
         {
+            CreateIndexOptions indexOptions = new()
+            {
+                Name = "userSearchIndex"
+            };
+
+            if (existsIndexNames.Contains(indexOptions.Name))
+            {
+                return;
+            }
+
             var userSearchIndexKey = Builders<Notification>
                 .IndexKeys
                 .Ascending(x => x.UserId)
                 .Descending(x => x.Created);
 
-            return new CreateIndexModel<Notification>(userSearchIndexKey, new CreateIndexOptions
-            {
-                Name = UserSearchIndex
-            });
+            CreateIndexModel<Notification> index = new(userSearchIndexKey, indexOptions);
+
+            _indexes.AddLast(index);
         }
 
-        private CreateIndexModel<Notification> CreateUserSearchWithIsReadIndex()
+        private void AddOrSkipUserSearchWithIsReadIndex(HashSet<string> existsIndexNames)
         {
+            CreateIndexOptions indexOptions = new()
+            {
+                Name = "userSearchWithIsReadIndex"
+            };
+
+            if (existsIndexNames.Contains(indexOptions.Name))
+            {
+                return;
+            }
+
             var userSearchWithIsReadIndexKey = Builders<Notification>
                 .IndexKeys
                 .Ascending(x => x.UserId)
                 .Ascending(x => x.IsRead)
                 .Descending(x => x.Created);
 
-            return new CreateIndexModel<Notification>(userSearchWithIsReadIndexKey, new CreateIndexOptions
-            {
-                Name = UserSearchWithIsReadIndex
-            });
+            CreateIndexModel<Notification> index = new(userSearchWithIsReadIndexKey, indexOptions);
+
+            _indexes.AddLast(index);
         }
     }
 }
