@@ -212,5 +212,117 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
                 Assert.That(authDetails!.AuthDetails.SessionToken, Is.EqualTo(refreshToken));
             });
         }
+
+        [Test]
+        public async Task RegisterAsync_ShouldCallCredentialsService()
+        {
+            NewUserModel body = new()
+            {
+                Email = "email",
+                Login = "login",
+                Password = "password"
+            };
+
+            var authResult = new AuthResultDto()
+            {
+                AuthDetails = new()
+                {
+                    AuthToken = "test-access-token",
+                    SessionToken = "test-refresh-token"
+                },
+                IdentityDetails = new IdentityDetailsDto()
+                {
+                    Email = "email",
+                    Id = "user-id",
+                    Name = "User Name"
+                }
+            };
+
+            _mediatorMock.Setup(x => x.Send(It.IsAny<CreateNewUserCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(authResult);
+
+            var userController = new UserController(
+                _mediatorMock.Object,
+                _credentialsServiceMock.Object,
+                _authContextMock.Object
+            )
+            {
+                ControllerContext = { HttpContext = new DefaultHttpContext() }
+            };
+
+            await userController.RegisterAsync(body, It.IsAny<CancellationToken>());
+
+            _credentialsServiceMock.Verify(
+                cs => cs.Refresh("test-access-token", "test-refresh-token"),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task LoginAsync_ShouldCallCredentialsService()
+        {
+            LoginModel body = new()
+            {
+                Email = "email",
+                Password = "password"
+            };
+
+            var authResult = new AuthResultDto()
+            {
+                AuthDetails = new()
+                {
+                    AuthToken = "test-access-token",
+                    SessionToken = "test-refresh-token"
+                },
+                IdentityDetails = new IdentityDetailsDto()
+                {
+                    Email = "email",
+                    Id = "user-id",
+                    Name = "User Name"
+                }
+            };
+
+            _mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(authResult);
+
+            var userController = new UserController(
+                _mediatorMock.Object,
+                _credentialsServiceMock.Object,
+                _authContextMock.Object
+            )
+            {
+                ControllerContext = { HttpContext = new DefaultHttpContext() }
+            };
+
+            await userController.LoginAsync(body, It.IsAny<CancellationToken>());
+
+            _credentialsServiceMock.Verify(
+                cs => cs.Refresh("test-access-token", "test-refresh-token"),
+                Times.Once);
+        }
+
+        [Test]
+        public async Task LogOut_ShouldCallCredentialsService()
+        {
+
+            const string sessionId = "test-session-id";
+
+            _authContextMock.Setup(x => x.GetSessionIdRequired()).Returns(sessionId);
+
+            var userController = new UserController(
+                _mediatorMock.Object,
+                _credentialsServiceMock.Object,
+                _authContextMock.Object
+            )
+            {
+                ControllerContext = { HttpContext = new DefaultHttpContext() }
+            };
+
+            await userController.LogOut(CancellationToken.None);
+
+            _credentialsServiceMock.Verify(
+                cs => cs.Remove(sessionId),
+                Times.Once);
+        }
+
     }
 }
