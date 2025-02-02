@@ -9,6 +9,7 @@ namespace MarketToolsV3.ConfigurationManager.Models
     public class ServicesAddressesConfig
     {
         public AddressConfig Identity { get; set; } = new();
+        public AddressConfig ApiGateway { get; set; } = new();
     }
 
     public class AddressConfig
