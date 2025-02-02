@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\" />
+    <Folder Include="Application\Models\" />
     <Folder Include="Infrastructure\" />
   </ItemGroup>
 
