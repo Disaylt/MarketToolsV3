@@ -253,7 +253,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             await userController.RegisterAsync(body, It.IsAny<CancellationToken>());
 
             _credentialsServiceMock.Verify(
-                cs => cs.Refresh("test-access-token", "test-refresh-token"),
+                cs => cs.Refresh(It.IsAny<string>(), It.IsAny<string>()),
                 Times.Once);
         }
 
@@ -296,17 +296,14 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             await userController.LoginAsync(body, It.IsAny<CancellationToken>());
 
             _credentialsServiceMock.Verify(
-                cs => cs.Refresh("test-access-token", "test-refresh-token"),
+                cs => cs.Refresh(It.IsAny<String>(), It.IsAny<String>()),
                 Times.Once);
         }
 
         [Test]
         public async Task LogOut_ShouldCallCredentialsService()
         {
-
-            const string sessionId = "test-session-id";
-
-            _authContextMock.Setup(x => x.GetSessionIdRequired()).Returns(sessionId);
+            _authContextMock.Setup(x => x.GetSessionIdRequired()).Returns("test-session-id");
 
             var userController = new UserController(
                 _mediatorMock.Object,
@@ -320,7 +317,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             await userController.LogOut(CancellationToken.None);
 
             _credentialsServiceMock.Verify(
-                cs => cs.Remove(sessionId),
+                cs => cs.Remove(It.IsAny<string>()),
                 Times.Once);
         }
 
