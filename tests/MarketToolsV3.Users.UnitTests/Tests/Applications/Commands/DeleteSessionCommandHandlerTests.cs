@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Commands;
 using Identity.Application.Models;
-using Identity.Application.Services;
+using Identity.Application.Services.Abstract;
 using Identity.Domain.Seed;
 using Moq;
 

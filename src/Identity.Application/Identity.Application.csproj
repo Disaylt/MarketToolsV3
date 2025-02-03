@@ -16,4 +16,8 @@
     <ProjectReference Include="..\IntegrationEvents.Contract\IntegrationEvents.Contract.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Implementation\" />
+  </ItemGroup>
+
 </Project>

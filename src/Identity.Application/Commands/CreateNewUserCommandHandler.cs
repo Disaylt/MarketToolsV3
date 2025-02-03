@@ -1,5 +1,4 @@
 ﻿using Identity.Application.Models;
-using Identity.Application.Services;
 using Identity.Domain.Entities;
 using MediatR;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Identity.Application.Services.Abstract;
 
 namespace Identity.Application.Commands
 {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Models;
 using Identity.Application.Queries;
-using Identity.Application.Services;
+using Identity.Application.Services.Abstract;
 using Identity.Domain.Entities;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
 using Moq;

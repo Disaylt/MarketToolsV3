@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Models;
-using Identity.Application.Services;
+using Identity.Application.Services.Abstract;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
