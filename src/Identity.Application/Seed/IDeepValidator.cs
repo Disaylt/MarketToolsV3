@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Identity.Application.Models;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Identity.Application.Seed
 {
     internal interface IDeepValidator<in TRequest>
     {
-        Task Handle(TRequest request);
+        Task<DeepValidateResult> Handle(TRequest request);
     }
 }
