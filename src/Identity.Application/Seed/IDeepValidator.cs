@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Seed
 {
-    internal interface IDeepValidator<in TRequest>
+    internal interface IDeepValidator<in TRequest> where TRequest : IBaseRequest
     {
         Task<DeepValidateResult> Handle(TRequest request);
     }
