@@ -6,6 +6,6 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
     {
         public override int Id => throw new NotImplementedException($"Id not implement, use {nameof(TaskId)}");
         public virtual Guid TaskId { get; private set; } = Guid.NewGuid();
-        public List<TaskDetails> Details { get; set; } = new();
+        public List<TaskDetails> Details { get; set; } = [];
     }
 }
