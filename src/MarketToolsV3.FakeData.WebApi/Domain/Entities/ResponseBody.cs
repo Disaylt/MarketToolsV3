@@ -8,5 +8,7 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
 
         public TaskDetails TaskDetails { get; set; } = null!;
         public int TaskDetailsId { get; set; }
+
+        public List<ValueUseHistory> ValueUseHistories { get; private set; } = [];
     }
 }

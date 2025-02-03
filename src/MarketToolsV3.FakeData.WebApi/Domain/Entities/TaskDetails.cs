@@ -18,7 +18,6 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public bool MoveOnToNextTaskIfNotCompleted { get; set; }
 
         public List<ResponseBody> Responses { get; private set; } = [];
-        public List<ResponseValue> ResponseValues { get; private set; } = [];
 
         public FakeDataTask Task { get; set; } = null!;
         public string TaskId { get; set; } = null!;

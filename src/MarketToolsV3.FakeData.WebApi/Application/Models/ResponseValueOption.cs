@@ -2,6 +2,6 @@
 
 public enum ResponseValueOption
 {
-    RememberFirst,
-    Random
+    Random,
+    RandomWithoutRepeat
 }
