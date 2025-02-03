@@ -11,6 +11,6 @@ namespace Identity.Application.Utilities.Sessions.Abstract
         ISessionSearchBuilder<TSession> UseCache();
         ISessionSearchBuilder<TSession> UseDatabase();
         ISessionSearchBuilder<TSession> SetCacheTime(TimeSpan timeSpan);
-        Task<TSession> SearchAsync();
+        Task<TSession> SearchAsync(string id);
     }
 }

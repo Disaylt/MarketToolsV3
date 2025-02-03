@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Identity.Application.Utilities.Sessions.Abstract;
 
 namespace Identity.Application.Models
 {
-    public class SessionDto
+    public class SessionDto : ISessionSearchModel
     {
         public required string Id { get; set; }
         public required string UserAgent { get; set; }

@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Services\Implementation\" />
-    <Folder Include="Utilities\Sessions\Implementation\" />
   </ItemGroup>
 
 </Project>
