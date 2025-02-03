@@ -9,6 +9,7 @@ using Identity.WebApi.Controllers;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services;
 using Identity.WebApi.Services.Interfaces;
+using MarketToolsV3.Users.UnitTests.Sources.WebApi.UserController;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,28 +39,10 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task RegisterAsync_ReturnOkAuthDetails()
         {
-            NewUserModel body = new()
-            {
-                Email = "email",
-                Login = "login",
-                Password = "password"
-            };
+            NewUserModel body = UserControllerStaticSources.CreateNewUserBody();
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateNewUserCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AuthResultDto()
-                {
-                    AuthDetails = new()
-                    {
-                        AuthToken = "",
-                        SessionToken = ""
-                    },
-                    IdentityDetails = new IdentityDetailsDto()
-                    {
-                        Email = "",
-                        Id = "",
-                        Name = ""
-                    }
-                });
+                .ReturnsAsync(UserControllerStaticSources.CreateAuthResult());
 
             UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object,  _authContextMock.Object)
             {
@@ -82,12 +65,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [TestCase("token-a-4", "token-r-4")]
         public async Task RegisterAsync_CheckAuthDetailProperties(string accessToken, string refreshToken)
         {
-            NewUserModel body = new()
-            {
-                Email = "email",
-                Login = "login",
-                Password = "password"
-            };
+            NewUserModel body = UserControllerStaticSources.CreateNewUserBody();
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateNewUserCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new AuthResultDto()
@@ -99,9 +77,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
 					},
                     IdentityDetails = new IdentityDetailsDto()
                     {
-                        Email = "",
-                        Id = "",
-                        Name = ""
+                        Email = It.IsAny<string>(),
+                        Id = It.IsAny<string>(),
+                        Name = It.IsAny<string>()
                     }
                 });
 
@@ -128,27 +106,10 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task LoginAsync_ReturnOkAuthDetails()
         {
-            LoginModel body = new ()
-            {
-                Email = "email",
-                Password = "password"
-            };
+            LoginModel body = UserControllerStaticSources.CreateLoginBody();
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new AuthResultDto()
-                {
-                    AuthDetails = new()
-                    {
-                        AuthToken = "",
-                        SessionToken = ""
-                    },
-                    IdentityDetails = new IdentityDetailsDto()
-                    {
-                        Email = "",
-                        Id = "",
-                        Name = ""
-                    }
-                });
+                .ReturnsAsync(UserControllerStaticSources.CreateAuthResult());
 
             UserController userController = new(_mediatorMock.Object, _credentialsServiceMock.Object, _authContextMock.Object)
             {
@@ -171,11 +132,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [TestCase("token-a-4", "token-r-4")]
         public async Task LoginAsync_CheckAuthDetailProperties(string accessToken, string refreshToken)
         {
-            LoginModel body = new()
-            {
-                Email = "email",
-                Password = "password"
-            };
+            LoginModel body = UserControllerStaticSources.CreateLoginBody();
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new AuthResultDto()
@@ -187,9 +144,9 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
 					},
                     IdentityDetails = new IdentityDetailsDto()
                     {
-                        Email = "",
-                        Id = "",
-                        Name = ""
+                        Email = It.IsAny<string>(),
+                        Id = It.IsAny<string>(),
+                        Name = It.IsAny<string>()
                     }
                 });
 
@@ -216,30 +173,10 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task RegisterAsync_ShouldCallCredentialsService()
         {
-            NewUserModel body = new()
-            {
-                Email = "email",
-                Login = "login",
-                Password = "password"
-            };
-
-            var authResult = new AuthResultDto()
-            {
-                AuthDetails = new()
-                {
-                    AuthToken = "test-access-token",
-                    SessionToken = "test-refresh-token"
-                },
-                IdentityDetails = new IdentityDetailsDto()
-                {
-                    Email = "email",
-                    Id = "user-id",
-                    Name = "User Name"
-                }
-            };
+            NewUserModel body = UserControllerStaticSources.CreateNewUserBody();
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreateNewUserCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(authResult);
+                .ReturnsAsync(UserControllerStaticSources.CreateAuthResult());
 
             var userController = new UserController(
                 _mediatorMock.Object,
@@ -260,29 +197,10 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         [Test]
         public async Task LoginAsync_ShouldCallCredentialsService()
         {
-            LoginModel body = new()
-            {
-                Email = "email",
-                Password = "password"
-            };
-
-            var authResult = new AuthResultDto()
-            {
-                AuthDetails = new()
-                {
-                    AuthToken = "test-access-token",
-                    SessionToken = "test-refresh-token"
-                },
-                IdentityDetails = new IdentityDetailsDto()
-                {
-                    Email = "email",
-                    Id = "user-id",
-                    Name = "User Name"
-                }
-            };
+            LoginModel body = UserControllerStaticSources.CreateLoginBody();
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<LoginCommand>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(authResult);
+                .ReturnsAsync(UserControllerStaticSources.CreateAuthResult());
 
             var userController = new UserController(
                 _mediatorMock.Object,
@@ -296,14 +214,14 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             await userController.LoginAsync(body, It.IsAny<CancellationToken>());
 
             _credentialsServiceMock.Verify(
-                cs => cs.Refresh(It.IsAny<String>(), It.IsAny<String>()),
+                cs => cs.Refresh(It.IsAny<string>(), It.IsAny<string>()),
                 Times.Once);
         }
 
         [Test]
         public async Task LogOut_ShouldCallCredentialsService()
         {
-            _authContextMock.Setup(x => x.GetSessionIdRequired()).Returns("test-session-id");
+            _authContextMock.Setup(x => x.GetSessionIdRequired()).Returns(It.IsAny<string>());
 
             var userController = new UserController(
                 _mediatorMock.Object,
