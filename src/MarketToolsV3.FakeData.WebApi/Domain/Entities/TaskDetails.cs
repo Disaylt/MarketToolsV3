@@ -15,7 +15,7 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public int NumFailed { get; set; }
         public int NumberInQueue { get; set; }
         public int TimeoutBeforeRun { get; set; }
-        public bool MoveOnToNextTaskIfNotCompleted { get; set; }
+        public bool SkipIfPreviousTaskNotComplete { get; set; }
 
         public List<ResponseBody> Responses { get; private set; } = [];
 

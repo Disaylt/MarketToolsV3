@@ -2,6 +2,6 @@
 {
     public class ServiceConfig
     {
-        public bool IsActive { get; set; }
+        public bool CanCreateFakeData { get; set; }
     }
 }
