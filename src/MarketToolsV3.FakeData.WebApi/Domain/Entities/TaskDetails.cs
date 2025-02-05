@@ -10,12 +10,13 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public required string Method { get; set; }
         public string? JsonBody { get; set; }
         public TaskCompleteCondition TaskCompleteCondition { get; set; }
-        public int NumberOfRepetitions { get; set; }
+        public int NumberOfExecutions { get; set; }
         public int NumSuccessful { get; set; }
         public int NumFailed { get; set; }
         public int NumberInQueue { get; set; }
         public int TimeoutBeforeRun { get; set; }
-        public bool SkipIfPreviousTaskNotComplete { get; set; }
+        public int NumGroup { get; set; }
+        public TaskState State { get; set; } = TaskState.Wait;
 
         public List<ResponseBody> Responses { get; private set; } = [];
 
