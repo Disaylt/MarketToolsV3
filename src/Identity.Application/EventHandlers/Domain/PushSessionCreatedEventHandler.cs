@@ -15,7 +15,7 @@ namespace Identity.Application.EventHandlers.Domain
     {
         public async Task Handle(SessionCreated notification, CancellationToken cancellationToken)
         {
-            SessionCreatedIntegrationEvent integrationMessage = new SessionCreatedIntegrationEvent
+            SessionCreatedIntegrationEvent integrationMessage = new()
             {
                 SessionId = notification.Session.Id,
                 UserId = notification.Session.IdentityId,
