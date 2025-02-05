@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Identity.Application.Models;
 using Identity.Application.Queries;
+using Identity.WebApi.Models;
 using Identity.WebApi.Services;
 using Identity.WebApi.Services.Interfaces;
 using MediatR;
@@ -27,8 +28,26 @@ namespace Identity.WebApi.Controllers
 
             IEnumerable<SessionDto> sessions = await mediator.Send(query, cancellationToken);
 
-            return Ok(sessions);
+            SessionListViewModel viewResult = new()
+            {
+                CurrentSessionId = authContext.SessionId ?? string.Empty,
+                Sessions = sessions
+                    .Select(s => new SessionViewModel
+                    {
+                        CreateDate = s.CreateDate,
+                        Id = s.Id,
+                        IsActive = s.IsActive,
+                        UserAgent = s.UserAgent,
+                        Updated = s.Updated
+                    })
+                    .ToList()
+            };
+
+            return Ok(viewResult);
         }
+
+
+
 
 
     }
