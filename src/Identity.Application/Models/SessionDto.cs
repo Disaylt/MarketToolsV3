@@ -7,7 +7,7 @@ using Identity.Application.Seed;
 
 namespace Identity.Application.Models
 {
-    public class SessionDto : IQuickSearchResponse
+    public class SessionDto : IQuickSearchResponse, IMap
     {
         public required string Id { get; set; }
         public required string UserAgent { get; set; }

@@ -8,6 +8,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Identity.Application.Mappers.Abstract;
+using Identity.Application.Mappers.Implementation;
+using Identity.Application.Models;
 
 namespace Identity.Application
 {
@@ -22,6 +25,8 @@ namespace Identity.Application
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
+
+            serviceCollection.AddSingleton<ISessionMapper<SessionDto>, SessionDtoMapper>();
 
             return serviceCollection;
         }
