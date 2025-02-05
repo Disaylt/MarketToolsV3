@@ -14,7 +14,10 @@ namespace Identity.WebApi.Controllers
     [ApiController]
     [ApiVersion("1")]
     [Authorize]
-    public class SessionsController(IMediator mediator, IAuthContext authContext)
+    public class SessionsController(
+        IMediator mediator, 
+        IAuthContext authContext,
+        ISessionViewMapper sessionViewMapper)
         : ControllerBase
     {
         [HttpGet]
@@ -32,14 +35,7 @@ namespace Identity.WebApi.Controllers
             {
                 CurrentSessionId = authContext.SessionId ?? string.Empty,
                 Sessions = sessions
-                    .Select(s => new SessionViewModel
-                    {
-                        CreateDate = s.CreateDate,
-                        Id = s.Id,
-                        IsActive = s.IsActive,
-                        UserAgent = s.UserAgent,
-                        Updated = s.Updated
-                    })
+                    .Select(sessionViewMapper.MapFrom)
                     .ToList()
             };
 
