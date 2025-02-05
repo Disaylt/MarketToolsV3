@@ -1,5 +1,4 @@
 ﻿using Identity.Application.Models;
-using Identity.Application.Services;
 using Identity.Domain.Seed;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +13,7 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Identity.Infrastructure.Services.Implementation.Claims;
 using Identity.Infrastructure.Services.Abstract.Claims;
 using Identity.Infrastructure.Services.Abstract.Tokens;
+using Identity.Application.Services.Abstract;
 
 namespace Identity.Infrastructure.Services.Implementation.Tokens
 {

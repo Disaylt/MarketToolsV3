@@ -38,6 +38,8 @@ namespace Identity.WebApi
             collection.AddScoped<ISessionContextService, SessionContextService>();
             collection.AddScoped<ICookiesContextService, CookiesContextService>();
             collection.AddScoped<ICredentialsService, CredentialsService>();
+
+            collection.AddSingleton<ISessionViewMapper, SessionViewMapper>();
         }
 
         public static void AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig)

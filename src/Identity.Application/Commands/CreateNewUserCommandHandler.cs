@@ -1,5 +1,4 @@
 ﻿using Identity.Application.Models;
-using Identity.Application.Services;
 using Identity.Domain.Entities;
 using MediatR;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Identity.Application.Services.Abstract;
 
 namespace Identity.Application.Commands
 {
@@ -25,9 +25,9 @@ namespace Identity.Application.Commands
 
             logger.LogInformation("Add new user - {id}", user.Id);
 
-            Session session = new Session(user.Id, request.UserAgent);
+            Session session = new(user.Id, request.UserAgent);
 
-            JwtRefreshTokenDto refreshTokenData = new JwtRefreshTokenDto { Id = session.Id };
+            JwtRefreshTokenDto refreshTokenData = new() { Id = session.Id };
             string refreshToken = refreshTokenService.Create(refreshTokenData);
 
             session.Token = refreshToken;
@@ -54,7 +54,7 @@ namespace Identity.Application.Commands
             };
         }
 
-        private JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId)
+        private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId)
         {
             return new JwtAccessTokenDto
             {
@@ -63,7 +63,7 @@ namespace Identity.Application.Commands
             };
         }
 
-        private IdentityPerson CreateUser(string email, string login)
+        private static IdentityPerson CreateUser(string email, string login)
         {
             return new IdentityPerson
             {
