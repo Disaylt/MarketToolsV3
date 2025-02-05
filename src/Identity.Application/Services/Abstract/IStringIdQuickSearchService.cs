@@ -7,8 +7,8 @@ using Identity.Application.Seed;
 
 namespace Identity.Application.Services.Abstract
 {
-    public interface IStringIdQuickSearchModel<TResponse>
-        : IBaseQuickSearchModel<TResponse, string>
+    public interface IStringIdQuickSearchService<TResponse>
+        : IBaseQuickSearchService<TResponse, string>
             where TResponse : IQuickSearchResponse
     {
 

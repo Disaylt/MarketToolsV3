@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 namespace Identity.Application.Queries
 {
     public class GetSessionDetailsQueryHandler(
-        IStringIdQuickSearchModel<SessionDto> sessionSearchService,
+        IStringIdQuickSearchService<SessionDto> sessionSearchService,
         IOptions<ServiceConfiguration> options)
         : IRequestHandler<GetSessionDetailsQuery, SessionStatusDto>
     {

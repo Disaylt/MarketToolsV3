@@ -2,7 +2,7 @@
 
 namespace Identity.Application.Services.Abstract;
 
-public interface IBaseQuickSearchModel<TResponse, in TKey>
+public interface IBaseQuickSearchService<TResponse, in TKey>
     where TResponse : IQuickSearchResponse
 
 {

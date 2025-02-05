@@ -16,7 +16,7 @@ namespace Identity.Application.Services.Implementation
         ICacheRepository<SessionDto> sessionCacheRepository,
         IRepository<Session> sessionRepository,
         ISessionMapper<SessionDto> sessionMapper)
-        : IStringIdQuickSearchModel<SessionDto>
+        : IStringIdQuickSearchService<SessionDto>
     {
         public async Task ClearAsync(string id)
         {
