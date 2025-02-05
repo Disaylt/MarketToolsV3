@@ -16,23 +16,31 @@ namespace Identity.Application.Services.Implementation
         IRepository<Session> sessionRepository)
         : IStringIdQuickSearchModel<SessionDto>
     {
-        public Task ClearAsync(string id)
+        public async Task ClearAsync(string id)
         {
-            throw new NotImplementedException();
+            await sessionCacheRepository.DeleteAsync(id, CancellationToken.None);
         }
 
         public async Task<SessionDto> GetAsync(string id, TimeSpan expire)
         {
-            SessionDto? sessionStatus = await sessionCacheRepository.GetAsync(id);
+            SessionDto? session = await sessionCacheRepository.GetAsync(id);
 
-            if (sessionStatus != null) return sessionStatus;
+            if (session != null) return session;
 
             Session entity = await sessionRepository.FindByIdRequiredAsync(id, CancellationToken.None);
-            SessionDto newSessionStatus = new() { Id = entity.Id, IsActive = entity.IsActive };
 
-            await sessionCacheRepository.SetAsync(newSessionStatus.Id, expire));
+            session = new SessionDto
+            {
+                CreateDate = entity.Created,
+                Updated = entity.Updated,
+                Id = entity.Id,
+                IsActive = entity.IsActive,
+                UserAgent = entity.UserAgent
+            };
 
-            return newSessionStatus;
+            await sessionCacheRepository.SetAsync(session.Id, session, expire);
+
+            return session;
         }
     }
 }
