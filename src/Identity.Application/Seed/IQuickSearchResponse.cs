@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Application.Utilities.Sessions.Abstract
+namespace Identity.Application.Seed
 {
-    internal interface ISessionSearchModel
+    public interface IQuickSearchResponse
     {
     }
 }
