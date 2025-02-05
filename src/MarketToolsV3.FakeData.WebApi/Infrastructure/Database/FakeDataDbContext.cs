@@ -15,6 +15,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database
         {
             modelBuilder.ApplyConfiguration(new FakeDataTaskConfig());
             modelBuilder.ApplyConfiguration(new TaskDetailsConfig());
+            modelBuilder.ApplyConfiguration(new ResponseBodyConfig());
 
             base.OnModelCreating(modelBuilder);
         }
