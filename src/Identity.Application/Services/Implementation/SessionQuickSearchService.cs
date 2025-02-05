@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Identity.Application.Mappers.Abstract;
 using Identity.Application.Models;
 using Identity.Application.Services.Abstract;
 using Identity.Domain.Entities;
@@ -13,7 +14,8 @@ namespace Identity.Application.Services.Implementation
 {
     internal class SessionQuickSearchService(
         ICacheRepository<SessionDto> sessionCacheRepository,
-        IRepository<Session> sessionRepository)
+        IRepository<Session> sessionRepository,
+        ISessionMapper<SessionDto> sessionMapper)
         : IStringIdQuickSearchModel<SessionDto>
     {
         public async Task ClearAsync(string id)
@@ -29,14 +31,7 @@ namespace Identity.Application.Services.Implementation
 
             Session entity = await sessionRepository.FindByIdRequiredAsync(id, CancellationToken.None);
 
-            session = new SessionDto
-            {
-                CreateDate = entity.Created,
-                Updated = entity.Updated,
-                Id = entity.Id,
-                IsActive = entity.IsActive,
-                UserAgent = entity.UserAgent
-            };
+            session = sessionMapper.Map(entity);
 
             await sessionCacheRepository.SetAsync(session.Id, session, expire);
 

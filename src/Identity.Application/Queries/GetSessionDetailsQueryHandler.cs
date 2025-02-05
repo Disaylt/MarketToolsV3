@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Models;
+using Identity.Application.Services.Abstract;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using MediatR;
@@ -11,25 +12,21 @@ using Microsoft.Extensions.Options;
 
 namespace Identity.Application.Queries
 {
-    public class GetSessionDetailsQueryHandler(ICacheRepository<SessionStatusDto> sessionCacheRepository,
-        IRepository<Session> sessionRepository,
+    public class GetSessionDetailsQueryHandler(
+        IStringIdQuickSearchModel<SessionDto> sessionSearchService,
         IOptions<ServiceConfiguration> options)
         : IRequestHandler<GetSessionDetailsQuery, SessionStatusDto>
     {
         public async Task<SessionStatusDto> Handle(GetSessionDetailsQuery request, CancellationToken cancellationToken)
         {
-            SessionStatusDto? sessionStatus = await sessionCacheRepository.GetAsync(request.Id);
+            TimeSpan expireSessionTime = TimeSpan.FromHours(options.Value.ExpireRefreshTokenHours);
+            SessionDto session = await sessionSearchService.GetAsync(request.Id, expireSessionTime);
 
-            if (sessionStatus != null) return sessionStatus;
-
-            Session entity = await sessionRepository.FindByIdRequiredAsync(request.Id, cancellationToken);
-            SessionStatusDto newSessionStatus = new() { Id = entity.Id, IsActive = entity.IsActive };
-
-            await sessionCacheRepository.SetAsync(newSessionStatus.Id,
-                newSessionStatus,
-                TimeSpan.FromHours(options.Value.ExpireRefreshTokenHours));
-
-            return newSessionStatus;
+            return new SessionStatusDto
+            {
+                Id = session.Id,
+                IsActive = session.IsActive
+            };
         }
     }
 }
