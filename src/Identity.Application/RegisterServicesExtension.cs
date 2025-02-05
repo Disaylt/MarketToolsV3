@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Identity.Application.Mappers.Abstract;
 using Identity.Application.Mappers.Implementation;
 using Identity.Application.Models;
+using Identity.Application.Services.Abstract;
+using Identity.Application.Services.Implementation;
 
 namespace Identity.Application
 {
@@ -23,10 +25,16 @@ namespace Identity.Application
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+                cfg.AddOpenBehavior(typeof(DeepValidationBehavior<,>));
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 
             serviceCollection.AddSingleton<ISessionMapper<SessionDto>, SessionDtoMapper>();
+
+            serviceCollection.AddScoped<IStringIdQuickSearchService<SessionDto>, SessionQuickSearchService>();
+
+            serviceCollection
+                .AddScoped<IDeepValidator<DeactivateSessionCommand>, DeactivateSessionCommandDeepValidate>();
 
             return serviceCollection;
         }

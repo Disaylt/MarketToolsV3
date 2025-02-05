@@ -14,5 +14,6 @@ namespace Identity.Application.Models
         public DateTime CreateDate { get; set; }
         public DateTime Updated { get; set; }
         public bool IsActive { get; set; }
+        public required string UserId { get; set; }
     }
 }

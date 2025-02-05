@@ -17,7 +17,7 @@ namespace Identity.Application.Behaviors
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            List<DeepValidateResult> deepValidateResults = [];
+            List<ValidateResult> deepValidateResults = [];
 
             foreach (var validator in validators)
             {

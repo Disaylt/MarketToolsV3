@@ -10,6 +10,6 @@ namespace Identity.Application.Seed
 {
     internal interface IDeepValidator<in TRequest> where TRequest : IBaseRequest
     {
-        Task<DeepValidateResult> Handle(TRequest request);
+        Task<ValidateResult> Handle(TRequest request);
     }
 }

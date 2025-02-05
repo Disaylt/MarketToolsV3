@@ -16,8 +16,4 @@
     <ProjectReference Include="..\IntegrationEvents.Contract\IntegrationEvents.Contract.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utilities\Common\Abstract\" />
-  </ItemGroup>
-
 </Project>

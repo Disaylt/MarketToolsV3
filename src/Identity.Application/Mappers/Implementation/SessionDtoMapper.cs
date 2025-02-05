@@ -19,7 +19,8 @@ namespace Identity.Application.Mappers.Implementation
                 Updated = model.Updated,
                 Id = model.Id,
                 IsActive = model.IsActive,
-                UserAgent = model.UserAgent
+                UserAgent = model.UserAgent,
+                UserId = model.IdentityId
             };
         }
     }
