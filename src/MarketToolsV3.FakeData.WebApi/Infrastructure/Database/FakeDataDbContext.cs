@@ -14,6 +14,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new FakeDataTaskConfig());
+            modelBuilder.ApplyConfiguration(new TaskDetailsConfig());
 
             base.OnModelCreating(modelBuilder);
         }
