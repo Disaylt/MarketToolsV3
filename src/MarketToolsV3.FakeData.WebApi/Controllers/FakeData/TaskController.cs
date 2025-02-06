@@ -14,11 +14,10 @@ namespace MarketToolsV3.FakeData.WebApi.Controllers.FakeData
         private readonly List<JsonValue> _values = [];
 
         [HttpPost]
-        public async Task<IActionResult> CreateTaskAsync([FromBody] IReadOnlyCollection<FakeDataModel> tasks)
+        public async Task<IActionResult> CreateTaskAsync([FromBody] IReadOnlyCollection<NewFakeDataModel> tasks)
         {
             ReplaceValues(tasks.First().Body);
 
-            tasks.First().Body
 
             foreach (var value in _values)
             {

@@ -1,11 +1,8 @@
-﻿namespace MarketToolsV3.FakeData.WebApi.Domain.Enums
+﻿namespace MarketToolsV3.FakeData.WebApi.Domain.Enums;
+
+public enum TaskState
 {
-    public enum TaskState
-    {
-        Wait,
-        InProcess,
-        Skip,
-        Complete,
-        Fail
-    }
+    AwaitRun,
+    InProcess,
+    Handled
 }

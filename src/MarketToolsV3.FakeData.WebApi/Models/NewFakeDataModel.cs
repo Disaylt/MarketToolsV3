@@ -6,13 +6,11 @@ using System.Text.Json.Nodes;
 
 namespace MarketToolsV3.FakeData.WebApi.Models
 {
-    public class FakeDataModel
+    public class NewFakeDataModel
     {
         public string? Tag { get; set; }
         public TaskCompleteCondition TaskCompleteCondition { get; set; }
-        public int NumberOfRepetitions { get; set; }
-        public int NumSuccessful { get; set; }
-        public int NumFailed { get; set; }
+        public int NumberOfExecutions { get; set; }
         public int TimeoutBeforeRun { get; set; }
         public string? Path { get; set; }
         public bool SkipIfPreviousTaskNotComplete { get; set; }
