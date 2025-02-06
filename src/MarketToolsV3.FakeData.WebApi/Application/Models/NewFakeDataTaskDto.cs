@@ -1,12 +1,10 @@
-﻿
-
-using MarketToolsV3.FakeData.WebApi.Domain.Enums;
+﻿using MarketToolsV3.FakeData.WebApi.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Nodes;
 
-namespace MarketToolsV3.FakeData.WebApi.Models
+namespace MarketToolsV3.FakeData.WebApi.Application.Models
 {
-    public class NewFakeDataModel
+    public class NewFakeDataTaskDto
     {
         public string? Tag { get; set; }
         public TaskCompleteCondition TaskCompleteCondition { get; set; }

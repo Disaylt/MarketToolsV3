@@ -29,9 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Models\" />
-    <Folder Include="Application\Services\Implementation\" />
     <Folder Include="Infrastructure\Services\Abstract\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
