@@ -1,5 +1,5 @@
 ﻿using Identity.Application.Models;
-using Identity.Application.Services;
+using Identity.Application.Services.Abstract;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Services.Abstract.Claims;
 using Identity.Infrastructure.Services.Abstract.Tokens;

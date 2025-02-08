@@ -15,27 +15,4 @@ namespace Identity.Application.Queries
     {
         public required string Id { get; set; }
     }
-
-
-    public class GetSessionDetailsQueryHandler(ICacheRepository<SessionStatusDto> sessionCacheRepository,
-        IRepository<Session> sessionRepository,
-        IOptions<ServiceConfiguration> options)
-        : IRequestHandler<GetSessionDetailsQuery, SessionStatusDto>
-    {
-        public async Task<SessionStatusDto> Handle(GetSessionDetailsQuery request, CancellationToken cancellationToken)
-        {
-            SessionStatusDto? sessionStatus = await sessionCacheRepository.GetAsync(request.Id);
-
-            if (sessionStatus != null) return sessionStatus;
-
-            Session entity = await sessionRepository.FindByIdRequiredAsync(request.Id, cancellationToken);
-            SessionStatusDto newSessionStatus = new() { Id = entity.Id, IsActive = entity.IsActive };
-
-            await sessionCacheRepository.SetAsync(newSessionStatus.Id,
-            newSessionStatus,
-                TimeSpan.FromHours(options.Value.ExpireRefreshTokenHours));
-
-            return newSessionStatus;
-        }
-    }
 }

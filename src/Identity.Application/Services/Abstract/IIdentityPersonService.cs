@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Domain.Entities;
 
-namespace Identity.Application.Services
+namespace Identity.Application.Services.Abstract
 {
     public interface IIdentityPersonService
     {

@@ -41,7 +41,7 @@ namespace Identity.WebApi.Controllers
         [HttpGet("details")]
         public async Task<IActionResult> GetDetailsAsync(CancellationToken cancellationToken)
         {
-            GetIdentityDetailsQuery query = new GetIdentityDetailsQuery
+            GetIdentityDetailsQuery query = new()
             {
                 UserId = authContext.GetUserIdRequired()
             };

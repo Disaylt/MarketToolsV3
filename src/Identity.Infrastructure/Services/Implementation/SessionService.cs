@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Identity.Application.Services;
 using Identity.Domain.Entities;
 using Identity.Domain.Events;
 using Identity.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Identity.Application.Services.Abstract;
 
 namespace Identity.Infrastructure.Services.Implementation
 {
