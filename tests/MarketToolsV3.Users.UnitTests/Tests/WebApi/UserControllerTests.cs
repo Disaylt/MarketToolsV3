@@ -24,14 +24,12 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
 
         private Mock<IMediator> _mediatorMock;
         private Mock<IAuthContext> _authContextMock;
-        private Mock<ICookiesContextService> _cookiesContextServiceMock;
         private Mock<ICredentialsService> _credentialsServiceMock;
 
         [SetUp]
         public void Setup()
         {
             _mediatorMock = new Mock<IMediator>();
-            _cookiesContextServiceMock = new Mock<ICookiesContextService>();
             _credentialsServiceMock = new Mock<ICredentialsService>();
             _authContextMock = new Mock<IAuthContext>();
         }
