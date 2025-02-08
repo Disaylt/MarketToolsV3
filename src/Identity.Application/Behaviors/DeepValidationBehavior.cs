@@ -35,7 +35,7 @@ namespace Identity.Application.Behaviors
                 throw new RootServiceException(messages: messages);
             }
 
-            return await next(); ;
+            return await next();
         }
     }
 }
