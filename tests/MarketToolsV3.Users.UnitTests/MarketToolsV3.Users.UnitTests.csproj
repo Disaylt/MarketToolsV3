@@ -34,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Tests\Applications\Queries\" />
     <Folder Include="Tests\Infrastructure\Database\" />
   </ItemGroup>
 

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Application.Services
+namespace Identity.Application.Services.Abstract
 {
     public interface ITokenService<T> where T : IToken
     {

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Models;
 using Identity.WebApi.Controllers;
+using Identity.WebApi.Models;
 using Identity.WebApi.Services;
 using Identity.WebApi.Services.Interfaces;
 using MediatR;
@@ -17,12 +18,14 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
     {
         private Mock<IMediator> _mediatorMock;
         private Mock<IAuthContext> _authContextMock;
+        private Mock<ISessionViewMapper> _sessionViewMapperMock;
 
         [SetUp]
         public void Setup()
         {
             _authContextMock = new Mock<IAuthContext>();
             _mediatorMock = new Mock<IMediator>();
+            _sessionViewMapperMock = new Mock<ISessionViewMapper>();
         }
 
         [Test]
@@ -30,7 +33,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         {
             SessionsController sessionsController = new(
                 _mediatorMock.Object,
-                _authContextMock.Object);
+                _authContextMock.Object,
+                _sessionViewMapperMock.Object);
 
             IActionResult result = await sessionsController.GetAsync(It.IsAny<CancellationToken>());
 
@@ -42,12 +46,13 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
         {
             SessionsController sessionsController = new(
                 _mediatorMock.Object,
-                _authContextMock.Object);
+                _authContextMock.Object,
+                _sessionViewMapperMock.Object);
 
             IActionResult result = await sessionsController.GetAsync(It.IsAny<CancellationToken>());
             OkObjectResult? objectResult = result as OkObjectResult;
 
-            Assert.That(objectResult!.Value, Is.AssignableTo<IEnumerable<SessionDto>>());
+            Assert.That(objectResult!.Value, Is.AssignableTo<SessionListViewModel>());
         }
     }
 }
