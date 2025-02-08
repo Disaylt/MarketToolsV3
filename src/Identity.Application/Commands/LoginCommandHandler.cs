@@ -31,9 +31,9 @@ namespace Identity.Application.Commands
                 throw new RootServiceException(HttpStatusCode.NotFound, "Неверно введены почта или пароль.");
             }
 
-            Session session = new Session(user.Id, request.UserAgent);
+            Session session = new(user.Id, request.UserAgent);
 
-            JwtRefreshTokenDto refreshTokenData = new JwtRefreshTokenDto { Id = session.Id };
+            JwtRefreshTokenDto refreshTokenData = new() { Id = session.Id };
             string refreshToken = refreshTokenService.Create(refreshTokenData);
 
             session.Token = refreshToken;
@@ -62,7 +62,7 @@ namespace Identity.Application.Commands
 
         private JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId)
         {
-            return new JwtAccessTokenDto
+            return new()
             {
                 UserId = userId,
                 SessionId = sessionId,

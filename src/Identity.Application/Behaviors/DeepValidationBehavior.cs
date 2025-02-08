@@ -27,7 +27,7 @@ namespace Identity.Application.Behaviors
 
             string[] messages = deepValidateResults
                 .Where(x => x.IsValid == false)
-                .Select(x => x.ErrorMessage)
+                .SelectMany(x => x.ErrorMessages)
                 .ToArray();
 
             if (messages.Length > 0)
@@ -35,7 +35,7 @@ namespace Identity.Application.Behaviors
                 throw new RootServiceException(messages: messages);
             }
 
-            return await next(); ;
+            return await next();
         }
     }
 }
