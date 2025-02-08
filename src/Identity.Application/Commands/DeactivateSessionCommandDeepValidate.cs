@@ -6,22 +6,28 @@ using System.Threading.Tasks;
 using Identity.Application.Models;
 using Identity.Application.Seed;
 using Identity.Application.Services.Abstract;
+using Identity.Application.Utilities.Abstract.Validation;
 
 namespace Identity.Application.Commands
 {
     public class DeactivateSessionCommandDeepValidate(IStringIdQuickSearchService<SessionDto> sessionSearchService)
-        : IDeepValidator<DeactivateSessionCommand>
+        : BaseDeactivateSessionCommandDeepValidate<DeactivateSessionCommand>
     {
-        public async Task<ValidateResult> Handle(DeactivateSessionCommand request)
+        public override async Task<ValidateResult> Handle(DeactivateSessionCommand request)
+        {
+            await ValidateId(request);
+
+            return CreateResult();
+        }
+
+        private async Task ValidateId(DeactivateSessionCommand request)
         {
             SessionDto session = await sessionSearchService.GetAsync(request.Id, TimeSpan.FromMinutes(15));
 
             if (session.UserId != request.UserId)
             {
-                return new ValidateResult(false, "У вас нет доступа для манипуляций данной сессией");
+                ErrorMessages.Add("Нет доступа к сессии.");
             }
-
-            return new ValidateResult(true);
         }
     }
 }

@@ -13,6 +13,7 @@ using Identity.Application.Mappers.Implementation;
 using Identity.Application.Models;
 using Identity.Application.Services.Abstract;
 using Identity.Application.Services.Implementation;
+using FluentValidation;
 
 namespace Identity.Application
 {
@@ -31,6 +32,8 @@ namespace Identity.Application
             });
 
             serviceCollection.AddSingleton<ISessionMapper<SessionDto>, SessionDtoMapper>();
+
+            serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             serviceCollection.AddScoped<IStringIdQuickSearchService<SessionDto>, SessionQuickSearchService>();
 
