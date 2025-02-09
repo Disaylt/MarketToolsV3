@@ -13,7 +13,7 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public int NumberOfExecutions { get; set; }
         public int NumSuccessful { get; set; }
         public int NumFailed { get; set; }
-        public int NumberInQueue { get; set; }
+        public int SortIndex { get; set; }
         public int TimeoutBeforeRun { get; set; }
         public int NumGroup { get; set; }
         public TaskDetailsState State { get; set; } = TaskDetailsState.AwaitRun;

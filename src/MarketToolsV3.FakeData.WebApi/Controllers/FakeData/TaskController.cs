@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using Google.Protobuf.WellKnownTypes;
-using MarketToolsV3.FakeData.WebApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Nodes;

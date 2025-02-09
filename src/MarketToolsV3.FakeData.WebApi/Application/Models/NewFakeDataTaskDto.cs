@@ -16,5 +16,6 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Models
         [Required(ErrorMessage = "Необходимо ввести метод HTTP запроса.")]
         public required string Method { get; set; }
         public JsonNode? Body { get; set; }
+        public int NumGroup { get; set; }
     }
 }

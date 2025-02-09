@@ -29,6 +29,9 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database.Configs
             builder.HasOne(t => t.Task)
                 .WithMany(t => t.Details)
                 .HasForeignKey(t => t.TaskId);
+
+            builder.HasIndex(t => new { t.TaskId, t.SortIndex })
+                .IsUnique();
         }
     }
 }
