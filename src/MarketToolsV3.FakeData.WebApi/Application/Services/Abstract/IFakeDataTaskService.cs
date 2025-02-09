@@ -4,6 +4,6 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
     public interface IFakeDataTaskService
     {
-        Task<FakeDataTaskDto> CreateAsync(NewFakeDataTaskDto task);
+        Task<FakeDataTaskDto> CreateAsync(IReadOnlyCollection<NewFakeDataTaskDto> tasks);
     }
 }
