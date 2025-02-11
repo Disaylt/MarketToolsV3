@@ -9,7 +9,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
     {
         public async Task HandleAsync(FakeDataTaskNotification notification)
         {
-            logger.LogInformation("Handle {@notification}", notification);
+            logger.LogInformation("Handle taskId {notification}", notification.TaskId);
 
             TimeoutNotification timeoutNotification = new()
             {

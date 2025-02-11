@@ -1,6 +1,10 @@
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.FakeData.WebApi.Application;
+using MarketToolsV3.FakeData.WebApi.Application.Models;
+using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Domain.Seed;
+using MarketToolsV3.FakeData.WebApi.Extensions;
 using MarketToolsV3.FakeData.WebApi.Infrastructure;
 using Scalar.AspNetCore;
 
@@ -15,12 +19,16 @@ serviceConfigManager.AddAsOptions(builder.Services);
 builder.AddServiceDefaults();
 
 builder.Services
-    .AddInfrastructureService(serviceConfigManager.Value);
+    .AddInfrastructureService(serviceConfigManager.Value)
+    .AddApplicationServices();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi("v1");
 
 var app = builder.Build();
+
+app.Subscribe<TimeoutNotification>()
+    .Subscribe<FakeDataTaskNotification>();
 
 app.MapDefaultEndpoints();
 
