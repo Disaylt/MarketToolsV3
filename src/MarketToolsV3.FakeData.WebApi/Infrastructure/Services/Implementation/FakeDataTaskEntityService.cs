@@ -12,5 +12,12 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
             await dbContext.Tasks.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task<FakeDataTask?> FindAsync(int id)
+        {
+            return await dbContext
+                .Tasks
+                .FindAsync(id);
+        }
     }
 }
