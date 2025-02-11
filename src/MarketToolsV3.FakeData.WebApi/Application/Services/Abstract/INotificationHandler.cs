@@ -2,8 +2,9 @@
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
-    public interface IFakeDataTaskHostService
+    public interface INotificationHandler<in T>
+        where T : Notification
     {
-        Task RunTask(FakeDataTaskNotification notification);
+        Task HandleAsync(T notification);
     }
 }
