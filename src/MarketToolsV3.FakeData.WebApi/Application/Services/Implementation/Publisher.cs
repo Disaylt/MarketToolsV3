@@ -1,8 +1,9 @@
-﻿using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Notifications;
+using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
-    public class Publisher<T> : IPublisher<T>
+    public class Publisher<T> : IPublisher<T> where T : BaseNotification
     {
         private readonly ICollection<ISubscriber<T>> _subscribers = [];
         public Task Notify(T notification)

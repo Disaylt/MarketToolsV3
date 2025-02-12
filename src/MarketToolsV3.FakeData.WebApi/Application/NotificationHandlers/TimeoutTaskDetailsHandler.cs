@@ -1,9 +1,9 @@
 ﻿using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 
-namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
+namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class TimeoutTaskHandler(ILogger<TimeoutTaskHandler> logger,
+    public class TimeoutTaskDetailsHandler(ILogger<TimeoutTaskDetailsHandler> logger,
         IPublisher<FakeDataTaskNotification> fakeDataTaskPublisher)
     : INotificationHandler<TimeoutTaskDetailsNotification>
     {

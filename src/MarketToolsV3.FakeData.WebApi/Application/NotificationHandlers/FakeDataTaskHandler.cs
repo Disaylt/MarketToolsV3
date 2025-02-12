@@ -4,7 +4,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Entities;
 using MarketToolsV3.FakeData.WebApi.Domain.Enums;
 using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
-namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
+namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class FakeDataTaskHandler(ILogger<FakeDataTaskHandler> logger,
         IUnitOfWork unitOfWork,
