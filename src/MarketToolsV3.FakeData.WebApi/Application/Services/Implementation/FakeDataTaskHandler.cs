@@ -9,8 +9,8 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
     public class FakeDataTaskHandler(ILogger<FakeDataTaskHandler> logger,
         IUnitOfWork unitOfWork,
         IFakeDataTaskEntityService fakeDataTaskEntityService,
-        IPublisher<TaskDetailsExecutionStateNotification> timeoutPublisher,
-        IPublisher<FakeDataTasksFailHandlingNotification> fakeDataTasksFailHandlingPublisher)
+        IPublisher<SelectTaskDetailsNotification> selectTaskDetailsPublisher,
+        IPublisher<FakeDataTasksFailNotification> fakeDataTasksFailHandlingPublisher)
         : INotificationHandler<FakeDataTaskNotification>
     {
         public async Task HandleAsync(FakeDataTaskNotification notification)
@@ -27,11 +27,16 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
                 taskEntity.State = TaskState.InProcess;
                 await unitOfWork.SaveChangesAsync();
 
+                SelectTaskDetailsNotification selectNotification = new()
+                {
+                    TaskId = taskEntity.Id
+                };
 
+                await selectTaskDetailsPublisher.Notify(selectNotification);
             }
             catch
             {
-                FakeDataTasksFailHandlingNotification failNotification = new()
+                FakeDataTasksFailNotification failNotification = new()
                 {
                     Id = notification.TaskId
                 };
