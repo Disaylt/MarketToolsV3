@@ -1,7 +1,7 @@
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.FakeData.WebApi.Application;
-using MarketToolsV3.FakeData.WebApi.Application.Models;
+using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 using MarketToolsV3.FakeData.WebApi.Extensions;
@@ -27,7 +27,7 @@ builder.Services.AddOpenApi("v1");
 
 var app = builder.Build();
 
-app.Subscribe<TimeoutNotification>()
+app.Subscribe<TimeoutTaskDetailsNotification>()
     .Subscribe<FakeDataTaskNotification>();
 
 app.MapDefaultEndpoints();

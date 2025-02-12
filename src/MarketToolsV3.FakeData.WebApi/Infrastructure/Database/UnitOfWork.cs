@@ -34,5 +34,10 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database
                 await fakeDataDbContext.Database.RollbackTransactionAsync();
             }
         }
+
+        public async Task SaveChangesAsync()
+        {
+            await fakeDataDbContext.SaveChangesAsync();
+        }
     }
 }

@@ -1,9 +1,9 @@
-﻿using MarketToolsV3.FakeData.WebApi.Application.Models;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
     public interface INotificationHandler<in T>
-        where T : Notification
+        where T : BaseNotification
     {
         Task HandleAsync(T notification);
     }

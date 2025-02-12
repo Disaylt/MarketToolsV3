@@ -1,5 +1,6 @@
-﻿using MarketToolsV3.FakeData.WebApi.Application.Models;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace MarketToolsV3.FakeData.WebApi.Controllers.FakeData
 {
     [Route("api/fake-data/tasks/{id:int}")]
     [ApiController]
-    public class TaskController(IPublisher<FakeDataTaskNotification> publisher)
+    public class TaskController(IPublisher<FakeDataTaskNotification> publisher, IUnitOfWork unitOfWork)
         : ControllerBase
     {
         [HttpPut]

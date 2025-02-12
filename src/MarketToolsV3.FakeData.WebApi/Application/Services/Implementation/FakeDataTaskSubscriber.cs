@@ -1,4 +1,4 @@
-﻿using MarketToolsV3.FakeData.WebApi.Application.Models;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation

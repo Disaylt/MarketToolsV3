@@ -13,6 +13,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure
             serviceCollection.AddNpgsql<FakeDataDbContext>(serviceConfig.DatabaseConnection);
 
             serviceCollection.AddScoped<IFakeDataTaskEntityService, FakeDataTaskEntityService>();
+            serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return serviceCollection;
         }
