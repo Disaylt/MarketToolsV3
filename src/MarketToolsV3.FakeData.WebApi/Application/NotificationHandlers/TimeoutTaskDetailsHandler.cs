@@ -3,8 +3,7 @@ using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class TimeoutTaskDetailsHandler(ILogger<TimeoutTaskDetailsHandler> logger,
-        IPublisher<FakeDataTaskNotification> fakeDataTaskPublisher)
+    public class TimeoutTaskDetailsHandler(IPublisher<FakeDataTaskNotification> fakeDataTaskPublisher)
     : INotificationHandler<TimeoutTaskDetailsNotification>
     {
         public async Task HandleAsync(TimeoutTaskDetailsNotification notification)

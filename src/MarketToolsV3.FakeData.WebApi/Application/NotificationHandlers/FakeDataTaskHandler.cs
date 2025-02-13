@@ -6,8 +6,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class FakeDataTaskHandler(ILogger<FakeDataTaskHandler> logger,
-        IUnitOfWork unitOfWork,
+    public class FakeDataTaskHandler(IUnitOfWork unitOfWork,
         IFakeDataTaskEntityService fakeDataTaskEntityService,
         IPublisher<SelectTaskDetailsNotification> selectTaskDetailsPublisher,
         IPublisher<FakeDataTasksFailNotification> fakeDataTasksFailHandlingPublisher)
