@@ -12,6 +12,10 @@ namespace MarketToolsV3.FakeData.WebApi.Application
             serviceCollection.AddScoped<INotificationHandler<TimeoutTaskDetailsNotification>, TimeoutTaskDetailsHandler>();
             serviceCollection.AddScoped<INotificationHandler<FakeDataTaskNotification>, FakeDataTaskHandler>();
             serviceCollection.AddScoped<INotificationHandler<FakeDataTasksFailNotification>, FakeDataTasksFailHandler>();
+            serviceCollection.AddScoped<INotificationHandler<FakeDataTaskNotification>, FakeDataTaskHandler>();
+            serviceCollection.AddScoped<INotificationHandler<HandleTaskDetailsNotification>, ProcessTaskDetailsHandler>();
+            serviceCollection.AddScoped<INotificationHandler<SelectTaskDetailsNotification>, SelectTaskDetailsHandler>();
+            serviceCollection.AddScoped<INotificationHandler<StateTaskDetailsNotification>, StateTaskDetailsHandler>();
 
             serviceCollection.AddScoped<IFakeDataTaskService, FakeDataTaskService>();
             serviceCollection.AddScoped<IFakeDataTaskMapService, FakeDataTaskMapService>();

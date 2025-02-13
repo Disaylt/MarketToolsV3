@@ -3,7 +3,8 @@ using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class ProcessTaskDetailsHandler(IPublisher<StateTaskDetailsNotification> stateTaskDetailsPublisher)
+    public class ProcessTaskDetailsHandler(IPublisher<StateTaskDetailsNotification> stateTaskDetailsPublisher,
+        ILogger<ProcessTaskDetailsHandler> logger)
     : INotificationHandler<HandleTaskDetailsNotification>
     {
         public async Task HandleAsync(HandleTaskDetailsNotification notification)
@@ -23,9 +24,10 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
                     throw new Exception("Bad random =)");
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 stateNotification.Success = false;
+                logger.LogWarning(ex, ex.Message);
             }
             finally
             {

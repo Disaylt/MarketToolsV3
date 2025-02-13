@@ -3,7 +3,7 @@
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database
 {
     public class UnitOfWork(FakeDataDbContext fakeDataDbContext)
-        : IUnitOfWork, IDisposable, IAsyncDisposable
+        : IUnitOfWork
     {
         public async Task BeginTransactionAsync()
         {
@@ -18,21 +18,6 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database
         public async Task RollbackTransactionAsync()
         {
             await fakeDataDbContext.Database.RollbackTransactionAsync();
-        }
-
-        public void Dispose()
-        {
-            DisposeAsync()
-                .AsTask()
-                .Wait();
-        }
-
-        public async ValueTask DisposeAsync()
-        {
-            if (fakeDataDbContext.Database.CurrentTransaction != null)
-            {
-                await fakeDataDbContext.Database.RollbackTransactionAsync();
-            }
         }
 
         public async Task SaveChangesAsync()

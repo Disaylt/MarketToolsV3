@@ -16,19 +16,19 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
         {
             try
             {
-                FakeDataTask? taskEntity = await fakeDataTaskEntityService.FindAsync(notification.TaskId);
+                //FakeDataTask? taskEntity = await fakeDataTaskEntityService.FindAsync(notification.TaskId);
 
-                if (taskEntity is not { State: TaskState.AwaitRun })
-                {
-                    return;
-                }
+                //if (taskEntity is not { State: TaskState.AwaitRun })
+                //{
+                //    return;
+                //}
 
-                taskEntity.State = TaskState.InProcess;
-                await unitOfWork.SaveChangesAsync();
+                //taskEntity.State = TaskState.InProcess;
+                //await unitOfWork.SaveChangesAsync();
 
                 SelectTaskDetailsNotification selectNotification = new()
                 {
-                    TaskId = taskEntity.Id
+                    TaskId = 12 // taskEntity.Id
                 };
 
                 await selectTaskDetailsPublisher.Notify(selectNotification);

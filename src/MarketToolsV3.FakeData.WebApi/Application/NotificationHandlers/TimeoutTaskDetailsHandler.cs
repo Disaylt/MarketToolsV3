@@ -8,7 +8,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
     {
         public async Task HandleAsync(TimeoutTaskDetailsNotification notification)
         {
-            int time = Random.Shared.Next(1, 3) * 1000;
+            int time = Random.Shared.Next(1, 10) * 1000;
 
             await Task.Delay(time);
 

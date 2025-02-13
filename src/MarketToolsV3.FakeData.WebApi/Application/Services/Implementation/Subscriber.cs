@@ -11,7 +11,9 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
     {
         public async Task HandleAsync(T notification)
         {
-            logger.LogInformation("Handle notification type:{type}. Body: {@body}", typeof(T).FullName, notification);
+            using var loggerScope = logger.BeginScope("Notification handle id - {id}", Guid.NewGuid());
+
+            logger.LogInformation("Handle notification {@body}", notification);
 
             using var scope = serviceProvider.CreateScope();
 
@@ -20,7 +22,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
                 .GetRequiredService<INotificationHandler<T>>()
                 .HandleAsync(notification);
 
-            logger.LogInformation("Finish handling type: {type}", typeof(T).FullName);
+            logger.LogInformation("Finish handling");
         }
     }
 }
