@@ -3,7 +3,6 @@
     public enum TaskDetailsState
     {
         AwaitRun,
-        InProcess,
         Skip,
         Complete,
         Fail

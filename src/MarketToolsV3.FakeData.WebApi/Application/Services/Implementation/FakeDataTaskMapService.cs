@@ -24,7 +24,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             return taskEntity;
         }
 
-        private TaskDetails CreateDetails(NewFakeDataTaskDto taskDetails, int sortIndex)
+        private static TaskDetails CreateDetails(NewFakeDataTaskDto taskDetails, int sortIndex)
         {
             return new()
             {
@@ -40,7 +40,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             };
         }
 
-        private FakeDataTask CreateTask()
+        private static FakeDataTask CreateTask()
         {
             return new()
             {

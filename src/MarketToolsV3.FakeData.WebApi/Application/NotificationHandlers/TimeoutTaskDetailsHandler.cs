@@ -8,17 +8,16 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
     {
         public async Task HandleAsync(TimeoutTaskDetailsNotification notification)
         {
-            if (notification.Milliseconds > 0)
-            {
-                await Task.Delay(notification.Milliseconds);
-            }
+            int time = Random.Shared.Next(1, 3) * 1000;
 
-            FakeDataTaskNotification fakeDataTaskNotification = CreateNextNotification(notification.TaskId);
+            await Task.Delay(time);
+
+            FakeDataTaskNotification fakeDataTaskNotification = CreateNextNotification(1);
 
             await fakeDataTaskPublisher.Notify(fakeDataTaskNotification);
         }
 
-        private FakeDataTaskNotification CreateNextNotification(int taskId)
+        private static FakeDataTaskNotification CreateNextNotification(int taskId)
         {
             return new()
             {

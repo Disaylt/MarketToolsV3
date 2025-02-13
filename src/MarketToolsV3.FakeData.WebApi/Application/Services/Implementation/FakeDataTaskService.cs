@@ -16,7 +16,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             return CreateResult(entity);
         }
 
-        private FakeDataTaskDto CreateResult(FakeDataTask entity)
+        private static FakeDataTaskDto CreateResult(FakeDataTask entity)
         {
             return new FakeDataTaskDto
             {
