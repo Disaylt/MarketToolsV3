@@ -2,6 +2,6 @@
 {
     public class SelectTaskDetailsNotification : BaseNotification
     {
-        public int TaskId { get; set; }
+        public required string TaskId { get; set; }
     }
 }

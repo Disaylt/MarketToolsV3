@@ -31,7 +31,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 
                 SelectTaskDetailsNotification selectNotification = new()
                 {
-                    TaskId = taskEntity.Id
+                    TaskId = taskEntity.TaskId
                 };
 
                 await selectTaskDetailsPublisher.Notify(selectNotification);

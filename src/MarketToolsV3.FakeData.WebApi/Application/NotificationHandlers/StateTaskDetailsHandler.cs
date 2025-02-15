@@ -1,23 +1,25 @@
 ﻿using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Domain.Entities;
+using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class StateTaskDetailsHandler(IPublisher<TimeoutTaskDetailsNotification> timeoutTaskDetailsPublisher)
+    public class StateTaskDetailsHandler(IPublisher<FakeDataTaskNotification> fakeDataTaskNotificationPublisher,
+        IRepository<TaskDetails> taskDetailsRepository)
     : INotificationHandler<StateTaskDetailsNotification>
     {
         public async Task HandleAsync(StateTaskDetailsNotification notification)
         {
-            int time = Random.Shared.Next(1, 3) * 1000;
+            TaskDetails taskDetails = await taskDetailsRepository.FindRequiredAsync(notification.TaskDetailsId);
 
-            await Task.Delay(time);
 
-            TimeoutTaskDetailsNotification timeoutNotification = new()
+            FakeDataTaskNotification timeoutNotification = new()
             {
-                TaskDetailsId = notification.TaskDetailsId
+                TaskId = taskDetails.TaskId
             };
 
-            await timeoutTaskDetailsPublisher.Notify(timeoutNotification);
+            await fakeDataTaskNotificationPublisher.Notify(timeoutNotification);
         }
     }
 }
