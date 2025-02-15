@@ -7,6 +7,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class FakeDataTaskHandler(IUnitOfWork unitOfWork,
+        ILogger<FakeDataTaskHandler> logger,
         IFakeDataTaskEntityService fakeDataTaskEntityService,
         IPublisher<SelectTaskDetailsNotification> selectTaskDetailsPublisher,
         IPublisher<FakeDataTasksFailNotification> fakeDataTasksFailHandlingPublisher)
@@ -16,19 +17,21 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
         {
             try
             {
-                //FakeDataTask? taskEntity = await fakeDataTaskEntityService.FindAsync(notification.TaskId);
+                FakeDataTask? taskEntity = await fakeDataTaskEntityService.FindAsync(notification.TaskId);
 
-                //if (taskEntity is not { State: TaskState.AwaitRun })
-                //{
-                //    return;
-                //}
+                if (taskEntity is not { State: TaskState.AwaitRun })
+                {
+                    logger.LogInformation("Task not found or status is not 'await'");
 
-                //taskEntity.State = TaskState.InProcess;
-                //await unitOfWork.SaveChangesAsync();
+                    return;
+                }
+
+                taskEntity.State = TaskState.InProcess;
+                await unitOfWork.SaveChangesAsync();
 
                 SelectTaskDetailsNotification selectNotification = new()
                 {
-                    TaskId = 12 // taskEntity.Id
+                    TaskId = taskEntity.Id
                 };
 
                 await selectTaskDetailsPublisher.Notify(selectNotification);

@@ -9,6 +9,7 @@ using MarketToolsV3.FakeData.WebApi.Extensions;
 using MarketToolsV3.FakeData.WebApi.Infrastructure;
 using Scalar.AspNetCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);

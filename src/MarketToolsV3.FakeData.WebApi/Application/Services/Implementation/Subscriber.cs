@@ -13,7 +13,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
         {
             using var loggerScope = logger.BeginScope("Notification handle id - {id}", Guid.NewGuid());
 
-            logger.LogInformation("Handle notification {@body}", notification);
+            logger.LogInformation("Handle notification {@notification}", notification);
 
             using var scope = serviceProvider.CreateScope();
 
@@ -22,7 +22,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
                 .GetRequiredService<INotificationHandler<T>>()
                 .HandleAsync(notification);
 
-            logger.LogInformation("Finish handling");
+            logger.LogInformation("Finish handle notification");
         }
     }
 }
