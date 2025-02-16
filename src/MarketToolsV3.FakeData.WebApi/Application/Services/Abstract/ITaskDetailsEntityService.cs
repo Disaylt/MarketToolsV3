@@ -2,7 +2,7 @@
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
-    public interface IFakeDataDetailsEntityService
+    public interface ITaskDetailsEntityService
     {
         Task<TaskDetails?> TakeNextAsync();
     }

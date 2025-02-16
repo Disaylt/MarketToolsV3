@@ -32,7 +32,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
                 Tag = taskDetails.Tag,
                 Method = taskDetails.Method,
                 JsonBody = taskDetails.Body?.ToJsonString(),
-                TaskCompleteCondition = taskDetails.TaskCompleteCondition,
+                TaskEndCondition = taskDetails.TaskCompleteCondition,
                 NumberOfExecutions = taskDetails.NumberOfExecutions,
                 NumGroup = taskDetails.NumGroup,
                 TimeoutBeforeRun = taskDetails.TimeoutBeforeRun,

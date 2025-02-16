@@ -9,6 +9,7 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public string? Tag { get; set; }
         public required string Method { get; set; }
         public string? JsonBody { get; set; }
+        public TaskEndCondition TaskEndCondition { get; set; }
         public TaskCompleteCondition TaskCompleteCondition { get; set; }
         public int NumberOfExecutions { get; set; }
         public int NumSuccessful { get; set; }
@@ -17,7 +18,6 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public int TimeoutBeforeRun { get; set; }
         public int NumGroup { get; set; }
         public TaskDetailsState State { get; set; } = TaskDetailsState.AwaitRun;
-
         public List<ResponseBody> Responses { get; private set; } = [];
 
         public FakeDataTask Task { get; set; } = null!;

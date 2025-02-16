@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
 {
-    public class FakeDataDetailsEntityService(FakeDataDbContext context)
-        : IFakeDataDetailsEntityService
+    public class TaskDetailsEntityService(FakeDataDbContext context)
+        : ITaskDetailsEntityService
     {
         public async Task<TaskDetails?> TakeNextAsync()
         {

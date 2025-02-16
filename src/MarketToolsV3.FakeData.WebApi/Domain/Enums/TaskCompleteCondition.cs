@@ -2,7 +2,7 @@
 {
     public enum TaskCompleteCondition
     {
-        SuccessTotalQuantity,
-        HandleTotalQuantity
+        AnyResult,
+        SuccessEqualsExecution,
     }
 }

@@ -7,7 +7,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class SelectTaskDetailsHandler(IPublisher<TimeoutTaskDetailsNotification> timeoutTaskDetailsNotificationPublisher,
-        IFakeDataDetailsEntityService fakeDataDetailsEntityService)
+        ITaskDetailsEntityService fakeDataDetailsEntityService)
     : INotificationHandler<SelectTaskDetailsNotification>
     {
         public async Task HandleAsync(SelectTaskDetailsNotification notification)
