@@ -9,10 +9,18 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
     public class TaskDetailsEntityService(FakeDataDbContext context)
         : ITaskDetailsEntityService
     {
+        private readonly DbSet<TaskDetails> _dbSet = context.Set<TaskDetails>();
+        public async Task SetAsSkipGroupAsync(string taskId, int groupId)
+        {
+            await _dbSet
+                .Where(x => x.TaskId == taskId && x.NumGroup == groupId)
+                .ExecuteUpdateAsync(x=> x
+                    .SetProperty(p => p.State, TaskDetailsState.Skip));
+        }
+
         public async Task<TaskDetails?> TakeNextAsync()
         {
-            return await context
-                .Set<TaskDetails>()
+            return await _dbSet
                 .OrderBy(x => x.SortIndex)
                 .FirstOrDefaultAsync(x =>
                     x.State == TaskDetailsState.AwaitRun);

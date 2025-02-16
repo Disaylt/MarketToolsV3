@@ -5,6 +5,7 @@
         AwaitRun,
         Skip,
         Complete,
-        Fail
+        Fail,
+        Undefined
     }
 }

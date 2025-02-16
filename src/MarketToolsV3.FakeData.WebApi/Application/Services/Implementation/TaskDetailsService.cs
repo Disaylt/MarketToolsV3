@@ -20,11 +20,35 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 
         public void SetState(TaskDetails taskDetails)
         {
-            if (taskDetails.TaskEndCondition == TaskEndCondition.HandleTotalQuantity
-                && taskDetails.NumFailed + taskDetails.NumSuccessful >= taskDetails.NumberOfExecutions)
+            bool isEndBySuccess = taskDetails.TaskEndCondition == TaskEndCondition.AwaitEqualsSuccess
+                                  && taskDetails.NumSuccessful >= taskDetails.NumberOfExecutions;
+
+            bool isEndSumSuccessAndFail = taskDetails.TaskEndCondition == TaskEndCondition.AwaitEqualsSumSuccessAndFail
+                                          && taskDetails.NumSuccessful + taskDetails.NumFailed >= taskDetails.NumberOfExecutions;
+
+            bool isEnd = isEndBySuccess || isEndSumSuccessAndFail;
+
+            if (isEnd == false)
             {
-                taskDetails.State = 
+                return;
             }
+
+            if (taskDetails.TaskCompleteCondition == TaskCompleteCondition.SuccessEqualsExecution)
+            {
+                taskDetails.State = taskDetails.NumSuccessful == taskDetails.NumberOfExecutions 
+                    ? TaskDetailsState.Complete 
+                    : TaskDetailsState.Fail;
+                return;
+            }
+
+            if (taskDetails.TaskCompleteCondition == TaskCompleteCondition.AnyResult)
+            {
+                taskDetails.State = TaskDetailsState.Complete;
+                return;
+            }
+
+            taskDetails.State = TaskDetailsState.Undefined;
+
         }
     }
 }
