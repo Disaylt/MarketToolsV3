@@ -13,7 +13,9 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
         public async Task SetGroupAsSkipAsync(string taskId, int groupId)
         {
             await _dbSet
-                .Where(x => x.TaskId == taskId && x.NumGroup == groupId)
+                .Where(x => x.TaskId == taskId
+                            && x.NumGroup == groupId
+                            && x.State == TaskDetailsState.AwaitRun)
                 .ExecuteUpdateAsync(x=> x
                     .SetProperty(p => p.State, TaskDetailsState.Skip));
         }
