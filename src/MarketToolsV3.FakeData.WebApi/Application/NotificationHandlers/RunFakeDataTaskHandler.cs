@@ -6,14 +6,14 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class FakeDataTaskHandler(IUnitOfWork unitOfWork,
-        ILogger<FakeDataTaskHandler> logger,
+    public class RunFakeDataTaskHandler(IUnitOfWork unitOfWork,
+        ILogger<RunFakeDataTaskHandler> logger,
         IFakeDataTaskEntityService fakeDataTaskEntityService,
         IPublisher<SelectTaskDetailsNotification> selectTaskDetailsPublisher,
         IPublisher<FakeDataTasksFailNotification> fakeDataTasksFailHandlingPublisher)
-        : INotificationHandler<FakeDataTaskNotification>
+        : INotificationHandler<RunFakeDataTaskNotification>
     {
-        public async Task HandleAsync(FakeDataTaskNotification notification)
+        public async Task HandleAsync(RunFakeDataTaskNotification notification)
         {
             try
             {

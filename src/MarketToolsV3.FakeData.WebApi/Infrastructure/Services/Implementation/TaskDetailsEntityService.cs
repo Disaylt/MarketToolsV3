@@ -10,7 +10,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
         : ITaskDetailsEntityService
     {
         private readonly DbSet<TaskDetails> _dbSet = context.Set<TaskDetails>();
-        public async Task SetAsSkipGroupAsync(string taskId, int groupId)
+        public async Task SetGroupAsSkipAsync(string taskId, int groupId)
         {
             await _dbSet
                 .Where(x => x.TaskId == taskId && x.NumGroup == groupId)

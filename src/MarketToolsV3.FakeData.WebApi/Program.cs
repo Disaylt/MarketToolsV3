@@ -30,7 +30,7 @@ builder.Services.AddOpenApi("v1");
 
 var app = builder.Build();
 
-app.Subscribe<FakeDataTaskNotification>()
+app.Subscribe<RunFakeDataTaskNotification>()
     .Subscribe<FakeDataTasksFailNotification>()
     .Subscribe<HandleTaskDetailsNotification>()
     .Subscribe<SelectTaskDetailsNotification>()
