@@ -25,7 +25,6 @@ namespace Identity.WebApi.Controllers
         {
             GetActiveSessionsQuery query = new()
             {
-                CurrentSessionId = authContext.SessionId,
                 UserId = authContext.GetUserIdRequired()
             };
 
