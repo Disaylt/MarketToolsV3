@@ -15,7 +15,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
         {
             FakeDataTask taskEntity = await fakeDataTaskRepository.FindRequiredAsync(notification.Id);
 
-            taskEntity.State = TaskState.InProcess;
+            taskEntity.State = TaskState.AwaitRun;
             await unitOfWork.SaveChangesAsync();
 
             RunFakeDataTaskNotification nextNotification = new()

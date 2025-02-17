@@ -3,10 +3,10 @@ using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class FakeDataTasksFailHandler(IPublisher<RunFakeDataTaskNotification> fakeDataTaskPublisher)
-        : INotificationHandler<FakeDataTasksFailNotification>
+    public class FailFakeDataTasksHandler(IPublisher<RunFakeDataTaskNotification> fakeDataTaskPublisher)
+        : INotificationHandler<FailFakeDataTasksNotification>
     {
-        public async Task HandleAsync(FakeDataTasksFailNotification notification)
+        public async Task HandleAsync(FailFakeDataTasksNotification notification)
         {
             await Task.Delay(TimeSpan.FromMinutes(1));
 
