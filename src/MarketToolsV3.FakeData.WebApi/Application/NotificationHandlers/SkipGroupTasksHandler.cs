@@ -17,9 +17,8 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 
             if (taskDetails.State == TaskDetailsState.Fail)
             {
-
+                await taskDetailsEntityService.SetGroupAsSkipAsync(taskDetails.TaskId, taskDetails.NumGroup);
             }
-            await taskDetailsEntityService.SetGroupAsSkipAsync(taskDetails.TaskId, taskDetails.NumGroup);
 
             MarkTaskAsAwaitNotification nextNotification = new()
             {

@@ -5,9 +5,9 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class ProcessTaskDetailsHandler(IPublisher<StateTaskDetailsNotification> stateTaskDetailsPublisher,
         ILogger<ProcessTaskDetailsHandler> logger)
-    : INotificationHandler<HandleTaskDetailsNotification>
+    : INotificationHandler<ProcessTaskDetailsNotification>
     {
-        public async Task HandleAsync(HandleTaskDetailsNotification notification)
+        public async Task HandleAsync(ProcessTaskDetailsNotification notification)
         {
             StateTaskDetailsNotification stateNotification = new()
             {

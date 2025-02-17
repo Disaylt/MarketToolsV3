@@ -32,7 +32,7 @@ var app = builder.Build();
 
 app.Subscribe<RunFakeDataTaskNotification>()
     .Subscribe<FailFakeDataTasksNotification>()
-    .Subscribe<HandleTaskDetailsNotification>()
+    .Subscribe<ProcessTaskDetailsNotification>()
     .Subscribe<SelectTaskDetailsNotification>()
     .Subscribe<StateTaskDetailsNotification>()
     .Subscribe<TimeoutTaskDetailsNotification>();

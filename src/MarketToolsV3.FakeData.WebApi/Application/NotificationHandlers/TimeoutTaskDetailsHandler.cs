@@ -5,7 +5,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class TimeoutTaskDetailsHandler(IPublisher<HandleTaskDetailsNotification> handleTaskDetailsNotificationPublisher,
+    public class TimeoutTaskDetailsHandler(IPublisher<ProcessTaskDetailsNotification> handleTaskDetailsNotificationPublisher,
         IRepository<TaskDetails> taskDetailsRepository)
     : INotificationHandler<TimeoutTaskDetailsNotification>
     {
@@ -15,7 +15,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 
             await AwaitTaskTimeout(taskDetails);
 
-            HandleTaskDetailsNotification fakeDataTaskNotification = CreateNextNotification(1);
+            ProcessTaskDetailsNotification fakeDataTaskNotification = CreateNextNotification(1);
 
             await handleTaskDetailsNotificationPublisher.Notify(fakeDataTaskNotification);
         }
@@ -28,7 +28,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
             }
         }
 
-        private static HandleTaskDetailsNotification CreateNextNotification(int taskId)
+        private static ProcessTaskDetailsNotification CreateNextNotification(int taskId)
         {
             return new()
             {
