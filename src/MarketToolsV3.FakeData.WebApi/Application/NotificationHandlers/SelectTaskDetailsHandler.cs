@@ -7,6 +7,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class SelectTaskDetailsHandler(IPublisher<TimeoutTaskDetailsNotification> timeoutTaskDetailsNotificationPublisher,
+        IPublisher<MarkAsHandleNotification> _markAsHandlePublisher,
         ITaskDetailsEntityService fakeDataDetailsEntityService)
     : INotificationHandler<SelectTaskDetailsNotification>
     {
@@ -16,15 +17,32 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 
             if (taskDetails is null)
             {
-                return;
+                await NotifyMarkAsHandleAsync(notification.TaskId);
             }
+            else
+            {
+                await NotifyTimeoutAsync(taskDetails.Id);
+            }
+        }
 
+        private async Task NotifyTimeoutAsync(int id)
+        {
             TimeoutTaskDetailsNotification handleNotification = new()
             {
-                TaskDetailsId = taskDetails.Id
+                TaskDetailsId = id
             };
 
             await timeoutTaskDetailsNotificationPublisher.Notify(handleNotification);
+        }
+
+        private async Task NotifyMarkAsHandleAsync(string id)
+        {
+            MarkAsHandleNotification notification = new()
+            {
+                Id = id
+            };
+
+            await _markAsHandlePublisher.Notify(notification);
         }
     }
 }
