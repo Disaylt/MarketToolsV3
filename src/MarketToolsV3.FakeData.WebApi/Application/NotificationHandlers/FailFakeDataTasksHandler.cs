@@ -10,12 +10,17 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
         {
             await Task.Delay(TimeSpan.FromMinutes(1));
 
-            RunFakeDataTaskNotification fakeDataNotification = new()
+            await NotifyRunAsync(notification.Id);
+        }
+
+        private async Task NotifyRunAsync(string id)
+        {
+            RunFakeDataTaskNotification notification = new()
             {
-                TaskId = notification.Id
+                TaskId = id
             };
 
-            await fakeDataTaskPublisher.Notify(fakeDataNotification);
+            await fakeDataTaskPublisher.Notify(notification);
         }
     }
 }

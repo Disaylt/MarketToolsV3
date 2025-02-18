@@ -29,21 +29,32 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
                 taskEntity.State = TaskState.InProcess;
                 await unitOfWork.SaveChangesAsync();
 
-                SelectTaskDetailsNotification selectNotification = new()
-                {
-                    TaskId = notification.TaskId
-                };
-
-                await selectTaskDetailsPublisher.Notify(selectNotification);
+                await NotifySelectDetailsAsync(notification.TaskId);
             }
             catch
             {
-                FailFakeDataTasksNotification failNotification = new()
-                {
-                    Id = notification.TaskId
-                };
-                await fakeDataTasksFailHandlingPublisher.Notify(failNotification);
+                await NotifyFailAsync(notification.TaskId);
             }
+        }
+
+        private async Task NotifySelectDetailsAsync(string id)
+        {
+            SelectTaskDetailsNotification notification = new()
+            {
+                TaskId = id
+            };
+
+            await selectTaskDetailsPublisher.Notify(notification);
+
+        }
+
+        private async Task NotifyFailAsync(string id)
+        {
+            FailFakeDataTasksNotification notification = new()
+            {
+                Id = id
+            };
+            await fakeDataTasksFailHandlingPublisher.Notify(notification);
         }
     }
 }

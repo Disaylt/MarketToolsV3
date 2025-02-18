@@ -13,7 +13,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
     {
         public async Task HandleAsync(SelectTaskDetailsNotification notification)
         {
-            TaskDetails? taskDetails = await fakeDataDetailsEntityService.TakeNextAsync();
+            TaskDetails? taskDetails = await fakeDataDetailsEntityService.TakeNextAsync(notification.TaskId);
 
             if (taskDetails is null)
             {

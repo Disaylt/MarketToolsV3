@@ -20,12 +20,17 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
                 await taskDetailsEntityService.SetGroupAsSkipAsync(taskDetails.TaskId, taskDetails.NumGroup);
             }
 
-            MarkTaskAsAwaitNotification nextNotification = new()
+            await NotifyMarkAsAwait(taskDetails.TaskId);
+        }
+
+        private async Task NotifyMarkAsAwait(string id)
+        {
+            MarkTaskAsAwaitNotification notification = new()
             {
-                Id = taskDetails.TaskId
+                Id = id
             };
 
-            await markTaskAsAwaitPublisher.Notify(nextNotification);
+            await markTaskAsAwaitPublisher.Notify(notification);
         }
     }
 }

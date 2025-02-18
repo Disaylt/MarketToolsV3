@@ -15,9 +15,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 
             await AwaitTaskTimeout(taskDetails);
 
-            ProcessTaskDetailsNotification fakeDataTaskNotification = CreateNextNotification(1);
-
-            await handleTaskDetailsNotificationPublisher.Notify(fakeDataTaskNotification);
+            await NotifyProcessTaskAsync(taskDetails.Id);
         }
 
         private static async Task AwaitTaskTimeout(TaskDetails taskDetails)
@@ -28,12 +26,14 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
             }
         }
 
-        private static ProcessTaskDetailsNotification CreateNextNotification(int taskId)
+        private async Task NotifyProcessTaskAsync(int taskId)
         {
-            return new()
+            ProcessTaskDetailsNotification notification = new()
             {
                 TaskDetailsId = taskId
             };
+
+            await handleTaskDetailsNotificationPublisher.Notify(notification);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
         {
             FakeDataTask taskEntity = await fakeDataTaskRepository.FindRequiredAsync(notification.Id);
 
-            taskEntity.State = TaskState.AwaitRun;
+            taskEntity.State = TaskState.Handled;
             await unitOfWork.SaveChangesAsync();
         }
     }

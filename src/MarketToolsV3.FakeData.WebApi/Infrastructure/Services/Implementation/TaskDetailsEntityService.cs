@@ -20,12 +20,13 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
                     .SetProperty(p => p.State, TaskDetailsState.Skip));
         }
 
-        public async Task<TaskDetails?> TakeNextAsync()
+        public async Task<TaskDetails?> TakeNextAsync(string taskId)
         {
             return await _dbSet
                 .OrderBy(x => x.SortIndex)
                 .FirstOrDefaultAsync(x =>
-                    x.State == TaskDetailsState.AwaitRun);
+                    x.State == TaskDetailsState.AwaitRun &&
+                    x.TaskId == taskId);
         }
     }
 }

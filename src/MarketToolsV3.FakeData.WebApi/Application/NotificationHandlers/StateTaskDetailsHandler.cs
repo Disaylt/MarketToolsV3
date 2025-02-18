@@ -20,17 +20,17 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 
             await unitOfWork.SaveChangesAsync();
 
-            SkipGroupTasksNotification taskNotification = CreateNextNotification(taskDetails);
-
-            await fakeDataTaskNotificationPublisher.Notify(taskNotification);
+            await NotifySkipGroupAsync(taskDetails.Id);
         }
 
-        private SkipGroupTasksNotification CreateNextNotification(TaskDetails taskDetails)
+        private async Task NotifySkipGroupAsync(int id)
         {
-            return new()
+            SkipGroupTasksNotification taskNotification = new()
             {
-                TaskDetailsId = taskDetails.Id
+                TaskDetailsId = id
             };
+
+            await fakeDataTaskNotificationPublisher.Notify(taskNotification);
         }
     }
 }
