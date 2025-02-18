@@ -15,9 +15,9 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
         {
             TaskDetails taskDetails = await taskDetailsRepository.FindRequiredAsync(notification.TaskDetailsId);
 
-            if (taskDetails.State == TaskDetailsState.Fail)
+            if (taskDetails is { State: TaskDetailsState.Fail, NumGroup: not null })
             {
-                await taskDetailsEntityService.SetGroupAsSkipAsync(taskDetails.TaskId, taskDetails.NumGroup);
+                await taskDetailsEntityService.SetGroupAsSkipAsync(taskDetails.TaskId, taskDetails.NumGroup.Value);
             }
 
             await NotifyMarkAsAwait(taskDetails.TaskId);

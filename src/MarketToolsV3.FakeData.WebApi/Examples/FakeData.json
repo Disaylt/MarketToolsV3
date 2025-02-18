@@ -1,0 +1,16 @@
+[
+  {
+    "Tag": "register",
+    "TaskEndCondition": 1,
+    "TaskCompleteCondition": 1,
+    "NumberOfExecutions": 1,
+    "Path": "",
+    "Method": "POST",
+    "Body": {
+      "Email": "asd",
+      "Login": "asd",
+      "Password": "qweqwe"
+    },
+    "NumGroup": 1
+  }
+]
