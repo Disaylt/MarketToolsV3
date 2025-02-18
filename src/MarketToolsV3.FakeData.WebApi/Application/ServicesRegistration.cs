@@ -22,6 +22,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application
 
             serviceCollection.AddSingleton(typeof(IPublisher<>), typeof(Publisher<>));
             serviceCollection.AddSingleton(typeof(ISubscriber<>), typeof(Subscriber<>));
+            serviceCollection.AddSingleton<ISafeSubscriberHandler, SafeSubscriberHandler>();
 
             return serviceCollection;
         }

@@ -3,14 +3,16 @@ using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
-    public class Publisher<T> : IPublisher<T> where T : BaseNotification
+    public class Publisher<T>(ISafeSubscriberHandler safeSubscriberHandler)
+        : IPublisher<T> 
+        where T : BaseNotification
     {
         private readonly ICollection<ISubscriber<T>> _subscribers = [];
         public Task Notify(T notification)
         {
             foreach (var subscriber in _subscribers)
             {
-                Task.Run(() => subscriber.HandleAsync(notification));
+                Task.Run(() => safeSubscriberHandler.SafeRunAsync(subscriber, notification));
             }
 
             return Task.CompletedTask;
