@@ -6,5 +6,6 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
     {
         ICollection<JsonValue> FindRandomTemplateValues(JsonNode? node);
         void GenerateRandomValue(JsonValue  value);
+        void GenerateRandomValues(IEnumerable<JsonValue> values);
     }
 }

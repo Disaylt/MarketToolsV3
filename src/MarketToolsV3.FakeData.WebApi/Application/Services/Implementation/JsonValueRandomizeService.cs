@@ -2,12 +2,14 @@
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
     public class JsonValueRandomizeService : IJsonValueRandomizeService
     {
+        private const string Words = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
         public ICollection<JsonValue> FindRandomTemplateValues(JsonNode? node)
         {
             if (node is JsonObject jsonObject)
@@ -30,12 +32,33 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 
         public void GenerateRandomValue(JsonValue value)
         {
+            if (value.GetValueKind() != JsonValueKind.String)
+            {
+                return;
+            }
+
+            string[] data = value
+                .GetValue<string>()
+                .Split('@')[1]
+                .Split(':');
+
+            string type = data[0];
+            int min = int.Parse(data[1]);
+            int max = int.Parse(data[2]);
+
+
+            throw new NotImplementedException();
+        }
+
+        public void GenerateRandomValues(IEnumerable<JsonValue> values)
+        {
             throw new NotImplementedException();
         }
 
         private ICollection<JsonValue> ParseJsonArray(JsonArray jsonArray)
         {
             List<JsonValue> values = [];
+
             foreach (var item in jsonArray)
             {
                 ICollection<JsonValue> arrayValues = FindRandomTemplateValues(item);
@@ -48,6 +71,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
         private ICollection<JsonValue> ParseJsonObject(JsonObject jsonObject)
         {
             List<JsonValue> values = [];
+
             foreach (var property in jsonObject)
             {
                 ICollection<JsonValue> objectValues = FindRandomTemplateValues(property.Value);
