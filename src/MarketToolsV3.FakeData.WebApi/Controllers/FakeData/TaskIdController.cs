@@ -8,7 +8,7 @@ namespace MarketToolsV3.FakeData.WebApi.Controllers.FakeData
 {
     [Route("api/fake-data/tasks/{id}")]
     [ApiController]
-    public class TaskController(IPublisher<RunFakeDataTaskNotification> publisher)
+    public class TaskIdController(IPublisher<RunFakeDataTaskNotification> publisher)
         : ControllerBase
     {
         [HttpPut]

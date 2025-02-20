@@ -10,7 +10,15 @@
       "Email": "asd",
       "Login": "asd",
       "Password": "qweqwe"
-    },
-    "NumGroup": 1
+    }
+  },
+  {
+    "Tag": "test",
+    "TaskEndCondition": 0,
+    "TaskCompleteCondition": 0,
+    "NumberOfExecutions": 10,
+    "TimeoutBeforeRun": 1000,
+    "Path": "",
+    "Method": "POST"
   }
 ]

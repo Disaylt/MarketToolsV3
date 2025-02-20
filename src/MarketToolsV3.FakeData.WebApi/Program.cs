@@ -4,6 +4,7 @@ using MarketToolsV3.FakeData.WebApi;
 using MarketToolsV3.FakeData.WebApi.Application;
 using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Services.Implementation;
 using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 using MarketToolsV3.FakeData.WebApi.Extensions;
 using MarketToolsV3.FakeData.WebApi.Infrastructure;
@@ -27,15 +28,16 @@ builder.Services
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi("v1");
+builder.Services.AddSingleton<IJsonValueRandomizeService, JsonValueRandomizeService>();
 
 var app = builder.Build();
 
-app.Subscribe<RunFakeDataTaskNotification>()
-    .Subscribe<FailFakeDataTasksNotification>()
-    .Subscribe<ProcessTaskDetailsNotification>()
-    .Subscribe<SelectTaskDetailsNotification>()
-    .Subscribe<StateTaskDetailsNotification>()
-    .Subscribe<TimeoutTaskDetailsNotification>();
+//app.Subscribe<RunFakeDataTaskNotification>()
+//    .Subscribe<FailFakeDataTasksNotification>()
+//    .Subscribe<ProcessTaskDetailsNotification>()
+//    .Subscribe<SelectTaskDetailsNotification>()
+//    .Subscribe<StateTaskDetailsNotification>()
+//    .Subscribe<TimeoutTaskDetailsNotification>();
 
 app.MapDefaultEndpoints();
 

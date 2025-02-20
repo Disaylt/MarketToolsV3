@@ -12,17 +12,21 @@ namespace MarketToolsV3.FakeData.WebApi.Application
             serviceCollection.AddScoped<INotificationHandler<TimeoutTaskDetailsNotification>, TimeoutTaskDetailsHandler>();
             serviceCollection.AddScoped<INotificationHandler<RunFakeDataTaskNotification>, RunFakeDataTaskHandler>();
             serviceCollection.AddScoped<INotificationHandler<FailFakeDataTasksNotification>, FailFakeDataTasksHandler>();
-            serviceCollection.AddScoped<INotificationHandler<RunFakeDataTaskNotification>, RunFakeDataTaskHandler>();
             serviceCollection.AddScoped<INotificationHandler<ProcessTaskDetailsNotification>, ProcessTaskDetailsHandler>();
             serviceCollection.AddScoped<INotificationHandler<SelectTaskDetailsNotification>, SelectTaskDetailsHandler>();
             serviceCollection.AddScoped<INotificationHandler<StateTaskDetailsNotification>, StateTaskDetailsHandler>();
+            serviceCollection.AddScoped<INotificationHandler<MarkAsHandleNotification>, MarkAsHandleHandler>();
+            serviceCollection.AddScoped<INotificationHandler<MarkTaskAsAwaitNotification>, MarkTaskAsAwaitHandler>();
+            serviceCollection.AddScoped<INotificationHandler<SkipGroupTasksNotification>, SkipGroupTasksHandler>();
 
             serviceCollection.AddScoped<IFakeDataTaskService, FakeDataTaskService>();
             serviceCollection.AddScoped<IFakeDataTaskMapService, FakeDataTaskMapService>();
 
             serviceCollection.AddSingleton(typeof(IPublisher<>), typeof(Publisher<>));
             serviceCollection.AddSingleton(typeof(ISubscriber<>), typeof(Subscriber<>));
+
             serviceCollection.AddSingleton<ISafeSubscriberHandler, SafeSubscriberHandler>();
+            serviceCollection.AddSingleton<ITaskDetailsService, TaskDetailsService>();
 
             return serviceCollection;
         }

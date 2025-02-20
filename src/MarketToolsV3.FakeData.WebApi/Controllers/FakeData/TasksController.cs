@@ -10,7 +10,8 @@ namespace MarketToolsV3.FakeData.WebApi.Controllers.FakeData
 {
     [Route("api/fake-data/tasks")]
     [ApiController]
-    public class TasksController(IFakeDataTaskService fakeDataTaskService) 
+    public class TasksController(IFakeDataTaskService fakeDataTaskService,
+        IJsonValueRandomizeService jsonValueRandomizeService) 
         : ControllerBase
     {
         [HttpPost]
@@ -19,6 +20,14 @@ namespace MarketToolsV3.FakeData.WebApi.Controllers.FakeData
             FakeDataTaskDto result = await fakeDataTaskService.CreateAsync(body);
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public IActionResult Test(JsonNode value)
+        {
+            var result = jsonValueRandomizeService.FindRandomTemplateValues(value);
+
+            return Ok(new { Total = result.Count });
         }
     }
 }
