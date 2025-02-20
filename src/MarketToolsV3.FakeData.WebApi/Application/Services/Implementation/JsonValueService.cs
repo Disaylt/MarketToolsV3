@@ -9,7 +9,9 @@ using System.Text.Json.Nodes;
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
     public class JsonValueService(
-        IRandomTemplateParser randomTemplateParser)
+        IRandomTemplateParser randomTemplateParser,
+        IJsonValueRandomizeService<int> intJsonValueRandomizeService,
+        IJsonValueRandomizeService<string> stringJsonValueRandomizeService)
         : IJsonValueService
     {
         public ICollection<JsonValue> FindRandomTemplateValues(JsonNode? node)
@@ -45,20 +47,22 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             switch (typingData.Type)
             {
                 case "num":
-                    int num = Random
-                        .Shared
-                        .Next(typingData.Min, typingData.Max);
+                    int num = intJsonValueRandomizeService.Create(typingData.Min, typingData.Max);
                     value.ReplaceWith(num);
                     break;
                 case "str":
-
+                    string str = stringJsonValueRandomizeService.Create(typingData.Min, typingData.Max);
+                    value.ReplaceWith(str);
                     break;
             }
         }
 
         public void GenerateRandomValues(IEnumerable<JsonValue> values)
         {
-            throw new NotImplementedException();
+            foreach (var value in values)
+            {
+                GenerateRandomValue(value);
+            }
         }
 
         private ICollection<JsonValue> ParseJsonArray(JsonArray jsonArray)
