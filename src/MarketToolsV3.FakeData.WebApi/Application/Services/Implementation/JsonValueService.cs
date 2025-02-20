@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using MarketToolsV3.FakeData.WebApi.Application.Models;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,9 +8,10 @@ using System.Text.Json.Nodes;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
-    public class JsonValueRandomizeService : IJsonValueRandomizeService
+    public class JsonValueService(
+        IRandomTemplateParser randomTemplateParser)
+        : IJsonValueService
     {
-        private const string Words = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
         public ICollection<JsonValue> FindRandomTemplateValues(JsonNode? node)
         {
             if (node is JsonObject jsonObject)
@@ -37,17 +39,21 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
                 return;
             }
 
-            string[] data = value
-                .GetValue<string>()
-                .Split('@')[1]
-                .Split(':');
+            string data = value.GetValue<string>();
+            JsonRandomModel typingData = randomTemplateParser.Parse(data);
 
-            string type = data[0];
-            int min = int.Parse(data[1]);
-            int max = int.Parse(data[2]);
+            switch (typingData.Type)
+            {
+                case "num":
+                    int num = Random
+                        .Shared
+                        .Next(typingData.Min, typingData.Max);
+                    value.ReplaceWith(num);
+                    break;
+                case "str":
 
-
-            throw new NotImplementedException();
+                    break;
+            }
         }
 
         public void GenerateRandomValues(IEnumerable<JsonValue> values)

@@ -28,6 +28,8 @@ namespace MarketToolsV3.FakeData.WebApi.Application
             serviceCollection.AddSingleton<ISafeSubscriberHandler, SafeSubscriberHandler>();
             serviceCollection.AddSingleton<ITaskDetailsService, TaskDetailsService>();
             serviceCollection.AddSingleton<IRandomTemplateParser, RandomTemplateParser>();
+            serviceCollection.AddSingleton<IJsonValueRandomizeService<string>, StrJsonValueRandomizeService>();
+            serviceCollection.AddSingleton<IJsonValueRandomizeService<int>, IntJsonValueRandomizeService>();
 
             return serviceCollection;
         }

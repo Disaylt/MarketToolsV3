@@ -28,7 +28,7 @@ builder.Services
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi("v1");
-builder.Services.AddSingleton<IJsonValueRandomizeService, JsonValueRandomizeService>();
+builder.Services.AddSingleton<IJsonValueService, JsonValueService>();
 
 var app = builder.Build();
 

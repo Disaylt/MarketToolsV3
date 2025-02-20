@@ -1,11 +1,7 @@
-﻿using System.Text.Json.Nodes;
-
-namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
+﻿namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
-    public interface IJsonValueRandomizeService
+    public interface IJsonValueRandomizeService<out T>
     {
-        ICollection<JsonValue> FindRandomTemplateValues(JsonNode? node);
-        void GenerateRandomValue(JsonValue  value);
-        void GenerateRandomValues(IEnumerable<JsonValue> values);
+        T Create(int min, int max);
     }
 }
