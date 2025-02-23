@@ -10,6 +10,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database
         public DbSet<ResponseBody> Responses { get; set; } = null!;
         public DbSet<ValueUseHistory> ValueUseHistories { get; set; } = null!;
         public DbSet<TaskDetails> TasksDetails { get; set; } = null!;
+        public DbSet<CookieEntity> Cookies { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -17,6 +18,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database
             modelBuilder.ApplyConfiguration(new TaskDetailsConfig());
             modelBuilder.ApplyConfiguration(new ResponseBodyConfig());
             modelBuilder.ApplyConfiguration(new ValueUseHistoryConfig());
+            modelBuilder.ApplyConfiguration(new CookieConfig());
 
             base.OnModelCreating(modelBuilder);
         }
