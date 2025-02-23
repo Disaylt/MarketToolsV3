@@ -20,10 +20,11 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Implementation
                 if (_idAndInfoPair.ContainsKey(id) == false ||
                     DateTime.UtcNow - _idAndInfoPair[id].Created > TimeSpan.FromMinutes(5))
                 {
+                    _idAndInfoPair[id].Handler.Dispose();
                     await RefreshHttpInfoAsync(id);
                 }
 
-                return new TaskHttpClient(_idAndInfoPair[id].Handler);
+                return new TaskHttpClient(_idAndInfoPair[id], cookieContainerBackgroundService);
             }
             finally
             {
@@ -38,7 +39,8 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Implementation
                 Handler = new()
                 {
                     CookieContainer = await cookieContainerBackgroundService.CreateByTask(id)
-                }
+                },
+                Id = id
             };
             _idAndInfoPair.Add(id, info);
         }
