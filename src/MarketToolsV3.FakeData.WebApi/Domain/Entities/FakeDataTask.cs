@@ -9,5 +9,6 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public virtual string TaskId { get; private set; } = Guid.NewGuid().ToString();
         public TaskState State { get; set; } = TaskState.AwaitRun;
         public List<TaskDetails> Details { get; set; } = [];
+        public List<CookieEntity> Cookies { get; set; } = [];
     }
 }
