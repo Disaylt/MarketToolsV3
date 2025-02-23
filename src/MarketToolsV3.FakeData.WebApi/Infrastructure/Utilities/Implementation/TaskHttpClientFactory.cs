@@ -24,7 +24,9 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Implementation
                     await RefreshHttpInfoAsync(id);
                 }
 
-                return new TaskHttpClient(_idAndInfoPair[id], cookieContainerBackgroundService);
+                var taskHttpClient = new TaskHttpClient(_idAndInfoPair[id], cookieContainerBackgroundService);
+
+                return new ConcurrentTaskHttpClient(taskHttpClient, _idAndInfoPair[id], taskHttpLockStore);
             }
             finally
             {
