@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net;
+using System.Text.Json;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,6 @@ namespace MarketToolsV3.FakeData.WebApi.Controllers.FakeData
     public class TasksController(IFakeDataTaskService fakeDataTaskService) 
         : ControllerBase
     {
-
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] IReadOnlyCollection<NewFakeDataTaskDto> body)
         {

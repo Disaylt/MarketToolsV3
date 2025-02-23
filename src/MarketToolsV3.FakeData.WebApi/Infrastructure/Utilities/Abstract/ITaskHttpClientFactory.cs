@@ -2,6 +2,6 @@
 {
     public interface ITaskHttpClientFactory
     {
-        ITaskHttpClient CreateHttpClient(int id);
+        Task<ITaskHttpClient> CreateAsync(string id);
     }
 }
