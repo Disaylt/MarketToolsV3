@@ -20,6 +20,8 @@ ITypingConfigManager<ServiceConfig> serviceConfigManager =
 serviceConfigManager.AddAsOptions(builder.Services);
 
 builder.AddServiceDefaults();
+builder.Services.AddHttpClient("asd")
+    .ConfigurePrimaryHttpMessageHandler(x => new HttpClientHandler());
 
 builder.AddFakeDataLogging();
 builder.Services
@@ -54,3 +56,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

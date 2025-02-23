@@ -34,6 +34,7 @@
   <ItemGroup>
     <Folder Include="Application\Utilities\" />
     <Folder Include="Infrastructure\Services\Abstract\" />
+    <Folder Include="Infrastructure\Utilities\Implementation\" />
     <Folder Include="Models\" />
   </ItemGroup>
 
