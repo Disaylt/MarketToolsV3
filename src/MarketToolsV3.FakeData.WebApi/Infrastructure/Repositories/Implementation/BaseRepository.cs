@@ -3,7 +3,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories
+namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories.Implementation
 {
     public class BaseRepository<T>(FakeDataDbContext context)
         : IRepository<T> where T : Entity
@@ -18,7 +18,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories
         public async Task<T> FindRequiredAsync(params object[] keys)
         {
             return await _dbSet.FindAsync(keys)
-                ?? throw new RootServiceException(HttpStatusCode.NotFound, 
+                ?? throw new RootServiceException(HttpStatusCode.NotFound,
                     $"Entity ({typeof(T).Name} not found. Keys:{string.Join('|', keys)})");
         }
     }
