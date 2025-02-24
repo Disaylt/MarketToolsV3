@@ -1,7 +1,11 @@
-﻿using MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Mappers;
+using MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers;
 using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Implementation;
+using MarketToolsV3.FakeData.WebApi.Domain.Entities;
+using MarketToolsV3.FakeData.WebApi.Domain.Seed;
+using System.Net;
 
 namespace MarketToolsV3.FakeData.WebApi.Application
 {
@@ -25,6 +29,8 @@ namespace MarketToolsV3.FakeData.WebApi.Application
             serviceCollection.AddSingleton(typeof(IPublisher<>), typeof(Publisher<>));
             serviceCollection.AddSingleton(typeof(ISubscriber<>), typeof(Subscriber<>));
 
+            serviceCollection.AddSingleton<IFromMapper<Cookie, CookieEntity>, CookieFromCookieEntityMapper>();
+            serviceCollection.AddSingleton<IToMapper<CookieEntity, Cookie>, CookieToCookieEntityMapper>();
             serviceCollection.AddSingleton<ISafeSubscriberHandler, SafeSubscriberHandler>();
             serviceCollection.AddSingleton<ITaskDetailsService, TaskDetailsService>();
             serviceCollection.AddSingleton<IRandomTemplateParser, RandomTemplateParser>();

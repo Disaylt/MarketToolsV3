@@ -3,7 +3,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
 namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
 {
-    public class CookieEntity : Entity
+    public class CookieEntity : Entity, IFromMap<Cookie>, IToMap<Cookie>
     {
         public required string Name { get; set; }
         public string? Value { get; set; }

@@ -20,6 +20,8 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             serviceCollection.AddScoped(typeof(IQueryableRepository<>), typeof(QueryableRepository<>));
 
+            serviceCollection.AddSingleton<IMapFactory, MapFactory>();
+
             return serviceCollection;
         }
     }
