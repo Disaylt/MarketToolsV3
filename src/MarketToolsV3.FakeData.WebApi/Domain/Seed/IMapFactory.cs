@@ -3,6 +3,6 @@
     public interface IMapFactory
     {
         IToMapper<T, TResult> CreateToMapper<T, TResult>() where T : IToMap<TResult>;
-        IFromMapper<T, TResult> CreateFromMapper<T, TResult>() where T : IFromMap<TResult>;
+        IFromMapper<T, TResult> CreateFromMapper<T, TResult>() where TResult : IFromMap<T>;
     }
 }

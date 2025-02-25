@@ -34,12 +34,12 @@ builder.Services.AddSingleton<IJsonValueService, JsonValueService>();
 
 var app = builder.Build();
 
-//app.Subscribe<RunFakeDataTaskNotification>()
-//    .Subscribe<FailFakeDataTasksNotification>()
-//    .Subscribe<ProcessTaskDetailsNotification>()
-//    .Subscribe<SelectTaskDetailsNotification>()
-//    .Subscribe<StateTaskDetailsNotification>()
-//    .Subscribe<TimeoutTaskDetailsNotification>();
+app.Subscribe<RunFakeDataTaskNotification>()
+    .Subscribe<FailFakeDataTasksNotification>()
+    .Subscribe<ProcessTaskDetailsNotification>()
+    .Subscribe<SelectTaskDetailsNotification>()
+    .Subscribe<StateTaskDetailsNotification>()
+    .Subscribe<TimeoutTaskDetailsNotification>();
 
 app.MapDefaultEndpoints();
 
