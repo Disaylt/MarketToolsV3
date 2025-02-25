@@ -65,7 +65,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             }
         }
 
-        private ICollection<JsonValue> ParseJsonArray(JsonArray jsonArray)
+        private  List<JsonValue> ParseJsonArray(JsonArray jsonArray)
         {
             List<JsonValue> values = [];
 
@@ -78,7 +78,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             return values;
         }
 
-        private ICollection<JsonValue> ParseJsonObject(JsonObject jsonObject)
+        private List<JsonValue> ParseJsonObject(JsonObject jsonObject)
         {
             List<JsonValue> values = [];
 

@@ -4,5 +4,6 @@
     {
         public bool CanCreateFakeData { get; set; }
         public string DatabaseConnection { get; set; } = string.Empty;
+        public string? BaseAddress { get; set; }
     }
 }
