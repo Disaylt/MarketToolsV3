@@ -2,6 +2,7 @@ using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.FakeData.WebApi;
 using MarketToolsV3.FakeData.WebApi.Application;
+using MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers;
 using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Implementation;
@@ -20,8 +21,6 @@ ITypingConfigManager<ServiceConfig> serviceConfigManager =
 serviceConfigManager.AddAsOptions(builder.Services);
 
 builder.AddServiceDefaults();
-builder.Services.AddHttpClient("asd")
-    .ConfigurePrimaryHttpMessageHandler(x => new HttpClientHandler());
 
 builder.AddFakeDataLogging();
 builder.Services
@@ -36,6 +35,9 @@ var app = builder.Build();
 
 app.Subscribe<RunFakeDataTaskNotification>()
     .Subscribe<FailFakeDataTasksNotification>()
+    .Subscribe<MarkAsHandleNotification>()
+    .Subscribe<MarkTaskAsAwaitNotification>()
+    .Subscribe<SkipGroupTasksNotification>()
     .Subscribe<ProcessTaskDetailsNotification>()
     .Subscribe<SelectTaskDetailsNotification>()
     .Subscribe<StateTaskDetailsNotification>()

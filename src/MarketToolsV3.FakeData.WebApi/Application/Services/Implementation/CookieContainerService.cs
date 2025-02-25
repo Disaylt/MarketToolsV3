@@ -5,25 +5,25 @@ using System.Net;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
-    public class CookieContainerService(
-        IFromMapper<Cookie, CookieEntity> cookieFromMapper,
-        IToMapper<CookieEntity, Cookie> cookieToMapper,
+    public class CookieContainerService(IMapperFactory mapperFactory,
         ICookieEntityService cookieEntityService)
         : ICookieContainerService
     {
         public async Task<CookieContainer> CreateByTask(string id)
         {
+            var mapper = mapperFactory.CreateToMapper<CookieEntity, Cookie>();
             var entities = await cookieEntityService.GetRangeByTaskAsync(id);
-            var cookies = entities.Select(cookieToMapper.Map);
+            var cookies = entities.Select(mapper.Map);
 
             return CreateCookieContainer(cookies);
         }
 
         public async Task RefreshByTask(string id, CookieContainer container)
         {
+            var mapper = mapperFactory.CreateFromMapper<Cookie, CookieEntity>();
             await cookieEntityService.ClearByTaskIdAsync(id);
             IEnumerable<CookieEntity> cookies = container.GetAllCookies()
-                .Select(cookieFromMapper.Map)
+                .Select(mapper.Map)
                 .Select(x =>
                 {
                     x.TaskId = id;

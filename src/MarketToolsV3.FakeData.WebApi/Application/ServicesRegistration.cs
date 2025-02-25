@@ -25,6 +25,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application
 
             serviceCollection.AddScoped<IFakeDataTaskService, FakeDataTaskService>();
             serviceCollection.AddScoped<IFakeDataTaskMapService, FakeDataTaskMapService>();
+            serviceCollection.AddScoped<ICookieContainerService, CookieContainerService>();
 
             serviceCollection.AddSingleton(typeof(IPublisher<>), typeof(Publisher<>));
             serviceCollection.AddSingleton(typeof(ISubscriber<>), typeof(Subscriber<>));
@@ -34,6 +35,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application
             serviceCollection.AddSingleton<ISafeSubscriberHandler, SafeSubscriberHandler>();
             serviceCollection.AddSingleton<ITaskDetailsService, TaskDetailsService>();
             serviceCollection.AddSingleton<IRandomTemplateParser, RandomTemplateParser>();
+            serviceCollection.AddSingleton<IJsonValueService, JsonValueService>();
             serviceCollection.AddSingleton<IJsonValueRandomizeService<string>, StrJsonValueRandomizeService>();
             serviceCollection.AddSingleton<IJsonValueRandomizeService<int>, IntJsonValueRandomizeService>();
 

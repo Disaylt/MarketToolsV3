@@ -2,8 +2,8 @@
 
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
 {
-    public class MapFactory(IServiceProvider serviceProvider)
-        : IMapFactory
+    public class MapperFactory(IServiceProvider serviceProvider)
+        : IMapperFactory
     {
         public IFromMapper<T, TResult> CreateFromMapper<T, TResult>() where TResult : IFromMap<T>
         {
