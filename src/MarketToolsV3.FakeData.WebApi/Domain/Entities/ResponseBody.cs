@@ -7,10 +7,8 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
     {
         public string? Data { get; set; }
         public HttpStatusCode StatusCode { get; set; }
-
+        public bool Used { get; set; } = false;
         public TaskDetails TaskDetails { get; set; } = null!;
         public int TaskDetailsId { get; set; }
-
-        public List<ValueUseHistory> ValueUseHistories { get; private set; } = [];
     }
 }

@@ -4,21 +4,25 @@
     "TaskEndCondition": 1,
     "TaskCompleteCondition": 1,
     "NumberOfExecutions": 1,
-    "Path": "",
+    "Path": "auth/v1/users/register",
     "Method": "POST",
+    "TimeoutBeforeRun": 2000,
     "Body": {
-      "Email": "asd",
-      "Login": "asd",
-      "Password": "qweqwe"
+      "Email": "test@test.test",
+      "Login": "testUser",
+      "Password": "123123"
     }
   },
   {
-    "Tag": "test",
-    "TaskEndCondition": 0,
+    "Tag": "login",
+    "TaskEndCondition": 1,
     "TaskCompleteCondition": 0,
     "NumberOfExecutions": 10,
-    "TimeoutBeforeRun": 1000,
-    "Path": "",
-    "Method": "POST"
+    "Path": "auth/v1/users/login",
+    "Method": "POST",
+    "Body": {
+      "Email": "test@test.test",
+      "Password": "123123"
+    }
   }
 ]

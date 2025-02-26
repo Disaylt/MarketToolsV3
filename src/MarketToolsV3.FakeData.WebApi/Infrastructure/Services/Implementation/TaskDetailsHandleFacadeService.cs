@@ -2,6 +2,7 @@
 using MarketToolsV3.FakeData.WebApi.Domain.Entities;
 using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Abstract;
+using System.Text.Json.Nodes;
 
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
 {
@@ -18,6 +19,8 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
 
             ITaskHttpClient taskHttpClient = await taskHttpClientFactory.CreateAsync(taskDetails.TaskId);
             HttpResponseMessage responseMessage = await taskHttpClient.SendAsync(httpRequestMessage, CancellationToken.None);
+
+
             responseMessage.EnsureSuccessStatusCode();
 
             ResponseBody response = await CreateResponseBody(responseMessage, id);
@@ -42,7 +45,8 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
             HttpRequestMessage httpRequestMessage = new(httpMethod, taskDetails.Path);
             if (string.IsNullOrEmpty(taskDetails.JsonBody) == false)
             {
-                httpRequestMessage.Content = JsonContent.Create(taskDetails.JsonBody);
+                JsonNode? json = JsonNode.Parse(taskDetails.JsonBody);
+                httpRequestMessage.Content = JsonContent.Create(json);
             }
 
             return httpRequestMessage;

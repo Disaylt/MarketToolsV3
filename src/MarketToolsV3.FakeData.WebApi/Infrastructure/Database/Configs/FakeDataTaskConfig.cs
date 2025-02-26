@@ -11,6 +11,8 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database.Configs
             builder.HasKey(e => e.TaskId);
             builder.Property(e => e.TaskId)
                 .HasMaxLength(1000);
+
+            builder.Ignore(x => x.Id);
         }
     }
 }

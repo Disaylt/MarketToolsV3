@@ -1,12 +1,16 @@
 ﻿using System.Net;
+using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Models;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Abstract;
+using Microsoft.Extensions.Options;
 
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Implementation
 {
     public class TaskHttpClientFactory(ITaskHttpLockStore taskHttpLockStore,
-        ICookieContainerBackgroundService cookieContainerBackgroundService)
+        ICookieContainerBackgroundService cookieContainerBackgroundService,
+        IOptions<ServiceConfig> serviceConfigOptions,
+        ILoggerFactory loggerFactory)
         : ITaskHttpClientFactory
     {
         private readonly Dictionary<string, HttpClientHandlerInfoModel> _idAndInfoPair = new();
@@ -17,14 +21,21 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Implementation
             {
                 await semaphoreSlim.WaitAsync();
 
-                if (_idAndInfoPair.ContainsKey(id) == false ||
+
+                if (!_idAndInfoPair.TryGetValue(id, out var info) ||
                     DateTime.UtcNow - _idAndInfoPair[id].Created > TimeSpan.FromMinutes(5))
                 {
-                    _idAndInfoPair[id].Handler.Dispose();
+                    info?.Handler.Dispose();
                     await RefreshHttpInfoAsync(id);
                 }
 
-                var taskHttpClient = new TaskHttpClient(_idAndInfoPair[id], cookieContainerBackgroundService);
+                var taskHttpClient = new TaskHttpClient(
+                    _idAndInfoPair[id], 
+                    cookieContainerBackgroundService,
+                    loggerFactory.CreateLogger<TaskHttpClient>());
+
+                taskHttpClient.BaseAddress = new Uri(serviceConfigOptions.Value.BaseAddress 
+                                                     ?? throw new NullReferenceException());
 
                 return new ConcurrentTaskHttpClient(taskHttpClient, _idAndInfoPair[id], taskHttpLockStore);
             }
