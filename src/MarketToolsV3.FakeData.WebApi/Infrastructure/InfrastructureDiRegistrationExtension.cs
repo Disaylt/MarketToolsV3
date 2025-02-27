@@ -20,6 +20,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure
             serviceCollection.AddScoped<IFakeDataTaskEntityService, FakeDataTaskEntityService>();
             serviceCollection.AddScoped<ITaskDetailsEntityService, TaskDetailsEntityService>();
             serviceCollection.AddScoped<ITaskDetailsHandleFacadeService, TaskDetailsHandleFacadeService>();
+            serviceCollection.AddScoped<ITaskDetailsHttpBodyService, TaskDetailsHttpBodyService>();
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
             serviceCollection.AddScoped<ICookieEntityService, CookieEntityService>();
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
