@@ -6,7 +6,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
     public class TaskDetailsService : ITaskDetailsService
     {
-        public void IncrementScore(bool isSuccess, TaskDetails taskDetails)
+        public void IncrementScore(bool isSuccess, TaskDetailsEntity taskDetails)
         {
             if (isSuccess)
             {
@@ -18,7 +18,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             }
         }
 
-        public void SetState(TaskDetails taskDetails)
+        public void SetState(TaskDetailsEntity taskDetails)
         {
             bool isEndBySuccess = taskDetails.TaskEndCondition == TaskEndCondition.AwaitEqualsSuccess
                                   && taskDetails.NumSuccessful >= taskDetails.NumberOfExecutions;

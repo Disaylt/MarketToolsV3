@@ -6,11 +6,10 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database
 {
     public class FakeDataDbContext(DbContextOptions<FakeDataDbContext> options) : DbContext(options)
     {
-        public DbSet<FakeDataTask> Tasks { get; set; } = null!;
-        public DbSet<ResponseBody> Responses { get; set; } = null!;
-        public DbSet<TaskDetails> TasksDetails { get; set; } = null!;
+        public DbSet<FakeDataTaskEntity> Tasks { get; set; } = null!;
+        public DbSet<ResponseBodyEntity> Responses { get; set; } = null!;
+        public DbSet<TaskDetailsEntity> TasksDetails { get; set; } = null!;
         public DbSet<CookieEntity> Cookies { get; set; } = null!;
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new FakeDataTaskConfig());

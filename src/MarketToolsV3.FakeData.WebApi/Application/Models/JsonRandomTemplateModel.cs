@@ -1,6 +1,6 @@
 ﻿namespace MarketToolsV3.FakeData.WebApi.Application.Models
 {
-    public record JsonRandomModel
+    public record JsonRandomTemplateModel
     {
         public required string Type { get; init; }
         public int Min { get; init; }

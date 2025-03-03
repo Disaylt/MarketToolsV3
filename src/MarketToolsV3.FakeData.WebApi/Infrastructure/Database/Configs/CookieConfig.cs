@@ -19,7 +19,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database.Configs
             builder.Property(e => e.Value)
                 .HasMaxLength(4096);
 
-            builder.HasOne(e => e.Task)
+            builder.HasOne(e => e.TaskEntity)
                 .WithMany(e => e.Cookies)
                 .HasForeignKey(e => e.TaskId);
         }

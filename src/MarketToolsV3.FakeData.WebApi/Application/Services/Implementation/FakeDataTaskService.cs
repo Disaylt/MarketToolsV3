@@ -10,13 +10,13 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
     {
         public async Task<FakeDataTaskDto> CreateAsync(IReadOnlyCollection<NewFakeDataTaskDto> tasks)
         {
-            FakeDataTask entity = fakeDataTaskMapService.Map(tasks);
+            FakeDataTaskEntity entity = fakeDataTaskMapService.Map(tasks);
             await fakeDataTaskEntityService.AddAsync(entity);
 
             return CreateResult(entity);
         }
 
-        private static FakeDataTaskDto CreateResult(FakeDataTask entity)
+        private static FakeDataTaskDto CreateResult(FakeDataTaskEntity entity)
         {
             return new FakeDataTaskDto
             {

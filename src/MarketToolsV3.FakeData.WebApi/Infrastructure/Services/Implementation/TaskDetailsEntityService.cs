@@ -9,7 +9,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
     public class TaskDetailsEntityService(FakeDataDbContext context)
         : ITaskDetailsEntityService
     {
-        private readonly DbSet<TaskDetails> _dbSet = context.Set<TaskDetails>();
+        private readonly DbSet<TaskDetailsEntity> _dbSet = context.Set<TaskDetailsEntity>();
         public async Task SetGroupAsSkipAsync(string taskId, int groupId)
         {
             await _dbSet
@@ -20,7 +20,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
                     .SetProperty(p => p.State, TaskDetailsState.Skip));
         }
 
-        public async Task<TaskDetails?> TakeNextAsync(string taskId)
+        public async Task<TaskDetailsEntity?> TakeNextAsync(string taskId)
         {
             return await _dbSet
                 .OrderBy(x => x.SortIndex)

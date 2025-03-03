@@ -33,7 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Utilities\" />
+    <Folder Include="Application\Features\ResponseBody\Services\Implementation\" />
+    <Folder Include="Application\Features\TaskDetails\Utilities\Abstract\" />
+    <Folder Include="Application\Features\TaskDetails\Utilities\Implementation\" />
+    <Folder Include="Infrastructure\Features\ResponseBody\Services\Abstract\" />
     <Folder Include="Models\" />
   </ItemGroup>
 

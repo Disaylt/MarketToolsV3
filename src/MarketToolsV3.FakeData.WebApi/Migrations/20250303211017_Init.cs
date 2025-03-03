@@ -90,37 +90,16 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Data = table.Column<string>(type: "character varying(10000)", maxLength: 10000, nullable: true),
                     StatusCode = table.Column<int>(type: "integer", nullable: false),
-                    TaskDetailsId = table.Column<int>(type: "integer", nullable: false),
+                    TaskDetailId = table.Column<int>(type: "integer", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Responses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Responses_TasksDetails_TaskDetailsId",
-                        column: x => x.TaskDetailsId,
+                        name: "FK_Responses_TasksDetails_TaskDetailId",
+                        column: x => x.TaskDetailId,
                         principalTable: "TasksDetails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ValueUseHistories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Path = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    ResponseBodyId = table.Column<int>(type: "integer", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ValueUseHistories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ValueUseHistories_Responses_ResponseBodyId",
-                        column: x => x.ResponseBodyId,
-                        principalTable: "Responses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -131,20 +110,15 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Responses_TaskDetailsId",
+                name: "IX_Responses_TaskDetailId",
                 table: "Responses",
-                column: "TaskDetailsId");
+                column: "TaskDetailId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TasksDetails_TaskId_SortIndex",
                 table: "TasksDetails",
                 columns: new[] { "TaskId", "SortIndex" },
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ValueUseHistories_ResponseBodyId",
-                table: "ValueUseHistories",
-                column: "ResponseBodyId");
         }
 
         /// <inheritdoc />
@@ -152,9 +126,6 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Cookies");
-
-            migrationBuilder.DropTable(
-                name: "ValueUseHistories");
 
             migrationBuilder.DropTable(
                 name: "Responses");

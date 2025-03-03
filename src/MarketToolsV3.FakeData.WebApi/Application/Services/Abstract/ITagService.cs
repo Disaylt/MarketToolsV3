@@ -2,8 +2,8 @@
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
-    public interface IRandomTemplateParser
+    public interface ITagService
     {
-        JsonRandomModel Parse(string value);
+        TagTemplateModel Parse(string tagData);
     }
 }

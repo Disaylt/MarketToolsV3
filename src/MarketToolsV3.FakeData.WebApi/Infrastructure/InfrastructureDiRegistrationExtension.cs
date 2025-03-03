@@ -1,6 +1,10 @@
-﻿using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Features.ResponseBody.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Database;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.ResponseBody.Services.Implementation;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.ResponseBody.Utilities.Abstract;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.ResponseBody.Utilities.Implementation;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories.Abstract;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories.Implementation;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Abstract;
@@ -23,6 +27,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure
             serviceCollection.AddScoped<ITaskDetailsHttpBodyService, TaskDetailsHttpBodyService>();
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
             serviceCollection.AddScoped<ICookieEntityService, CookieEntityService>();
+            serviceCollection.AddScoped<IResponseBodyTagService, ResponseBodyTagService>();
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             serviceCollection.AddScoped(typeof(IQueryableRepository<>), typeof(QueryableRepository<>));
 
@@ -32,6 +37,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure
 
             serviceCollection.AddSingleton<ITaskHttpClientFactory, TaskHttpClientFactory>();
             serviceCollection.AddSingleton<ITaskHttpLockStore, TaskHttpLockStore>();
+            serviceCollection.AddSingleton<ITagIndexUtility, TagIndexUtility>();
 
             return serviceCollection;
         }

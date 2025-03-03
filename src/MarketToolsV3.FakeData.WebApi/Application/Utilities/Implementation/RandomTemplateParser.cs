@@ -1,11 +1,11 @@
 ﻿using MarketToolsV3.FakeData.WebApi.Application.Models;
-using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Utilities.Abstract;
 
-namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
+namespace MarketToolsV3.FakeData.WebApi.Application.Utilities.Implementation
 {
     public class RandomTemplateParser : IRandomTemplateParser
     {
-        public JsonRandomModel Parse(string value)
+        public JsonRandomTemplateModel Parse(string value)
         {
             string[] data = value
                 .Split('@')[1]

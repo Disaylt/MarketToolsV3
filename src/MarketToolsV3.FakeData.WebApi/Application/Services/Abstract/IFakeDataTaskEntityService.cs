@@ -4,7 +4,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
     public interface IFakeDataTaskEntityService
     {
-        Task AddAsync(FakeDataTask entity);
-        Task<FakeDataTask?> FindAsync(string id);
+        Task AddAsync(FakeDataTaskEntity entity);
+        Task<FakeDataTaskEntity?> FindAsync(string id);
     }
 }

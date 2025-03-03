@@ -5,6 +5,6 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
     public interface IFakeDataTaskMapService
     {
-        FakeDataTask Map(IReadOnlyCollection<NewFakeDataTaskDto> tasksDetails);
+        FakeDataTaskEntity Map(IReadOnlyCollection<NewFakeDataTaskDto> tasksDetails);
     }
 }

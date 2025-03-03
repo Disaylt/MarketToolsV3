@@ -7,14 +7,14 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class MarkAsHandleHandler(IUnitOfWork unitOfWork,
-        IRepository<FakeDataTask> fakeDataTaskRepository)
+        IRepository<FakeDataTaskEntity> fakeDataTaskRepository)
         : INotificationHandler<MarkAsHandleNotification>
     {
         public async Task HandleAsync(MarkAsHandleNotification notification)
         {
-            FakeDataTask taskEntity = await fakeDataTaskRepository.FindRequiredAsync(notification.Id);
+            FakeDataTaskEntity taskEntityEntity = await fakeDataTaskRepository.FindRequiredAsync(notification.Id);
 
-            taskEntity.State = TaskState.Handled;
+            taskEntityEntity.State = TaskState.Handled;
             await unitOfWork.SaveChangesAsync();
         }
     }

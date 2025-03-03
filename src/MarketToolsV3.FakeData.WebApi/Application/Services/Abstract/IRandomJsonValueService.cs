@@ -2,9 +2,8 @@
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Abstract
 {
-    public interface IJsonValueService
+    public interface IRandomJsonValueService
     {
-        ICollection<JsonValue> FindRandomTemplateValues(JsonNode? node);
         void GenerateRandomValue(JsonValue  value);
         void GenerateRandomValues(IEnumerable<JsonValue> values);
     }

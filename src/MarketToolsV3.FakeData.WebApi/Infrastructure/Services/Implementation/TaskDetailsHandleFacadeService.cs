@@ -8,7 +8,7 @@ using System.Text.Json.Nodes;
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
 {
     public class TaskDetailsHandleFacadeService(
-        IRepository<TaskDetails> taskDetailsRepository,
+        IRepository<TaskDetailsEntity> taskDetailsRepository,
         ITaskHttpClientFactory taskHttpClientFactory,
         ITaskDetailsHttpBodyService taskDetailsHttpBodyService,
         IUnitOfWork unitOfWork)
@@ -16,7 +16,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
     {
         public async Task HandleAsync(int id)
         {
-            TaskDetails taskDetails = await taskDetailsRepository.FindRequiredAsync(id);
+            TaskDetailsEntity taskDetails = await taskDetailsRepository.FindRequiredAsync(id);
             HttpRequestMessage httpRequestMessage = await taskDetailsHttpBodyService.CreateRequestMessage(taskDetails);
 
             ITaskHttpClient taskHttpClient = await taskHttpClientFactory.CreateAsync(taskDetails.TaskId);
@@ -25,19 +25,19 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
 
             responseMessage.EnsureSuccessStatusCode();
 
-            ResponseBody response = await CreateResponseBody(responseMessage, id);
+            ResponseBodyEntity response = await CreateResponseBody(responseMessage, id);
             taskDetails.Responses.Add(response);
 
             await unitOfWork.SaveChangesAsync();
         }
 
-        private static async Task<ResponseBody> CreateResponseBody(HttpResponseMessage responseMessage, int taskDetailsId)
+        private static async Task<ResponseBodyEntity> CreateResponseBody(HttpResponseMessage responseMessage, int taskDetailsId)
         {
             return new()
             {
                 Data = await responseMessage.Content.ReadAsStringAsync(),
                 StatusCode = responseMessage.StatusCode,
-                TaskDetailsId = taskDetailsId
+                TaskDetailId = taskDetailsId
             };
         }
     }

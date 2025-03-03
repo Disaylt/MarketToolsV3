@@ -62,7 +62,7 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                     b.ToTable("Cookies");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTask", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTaskEntity", b =>
                 {
                     b.Property<string>("TaskId")
                         .HasMaxLength(1000)
@@ -79,7 +79,7 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBody", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBodyEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -97,20 +97,17 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                     b.Property<int>("StatusCode")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TaskDetailsId")
+                    b.Property<int>("TaskDetailId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("Used")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskDetailsId");
+                    b.HasIndex("TaskDetailId");
 
                     b.ToTable("Responses");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetails", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetailsEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -181,45 +178,45 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
 
             modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.CookieEntity", b =>
                 {
-                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTask", "Task")
+                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTaskEntity", "TaskEntity")
                         .WithMany("Cookies")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Task");
+                    b.Navigation("TaskEntity");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBody", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBodyEntity", b =>
                 {
-                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetails", "TaskDetails")
+                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetailsEntity", "TaskDetail")
                         .WithMany("Responses")
-                        .HasForeignKey("TaskDetailsId")
+                        .HasForeignKey("TaskDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TaskDetails");
+                    b.Navigation("TaskDetail");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetails", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetailsEntity", b =>
                 {
-                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTask", "Task")
+                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTaskEntity", "TaskEntity")
                         .WithMany("Details")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Task");
+                    b.Navigation("TaskEntity");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTask", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTaskEntity", b =>
                 {
                     b.Navigation("Cookies");
 
                     b.Navigation("Details");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetails", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetailsEntity", b =>
                 {
                     b.Navigation("Responses");
                 });

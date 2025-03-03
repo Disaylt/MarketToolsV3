@@ -17,11 +17,11 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
         {
             try
             {
-                FakeDataTask? taskEntity = await fakeDataTaskEntityService.FindAsync(notification.TaskId);
+                FakeDataTaskEntity? taskEntity = await fakeDataTaskEntityService.FindAsync(notification.TaskId);
 
                 if (taskEntity is not { State: TaskState.AwaitRun })
                 {
-                    logger.LogInformation("Task not found or status is not 'await'");
+                    logger.LogInformation("TaskEntity not found or status is not 'await'");
 
                     return;
                 }

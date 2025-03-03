@@ -6,19 +6,19 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class TimeoutTaskDetailsHandler(IPublisher<ProcessTaskDetailsNotification> handleTaskDetailsNotificationPublisher,
-        IRepository<TaskDetails> taskDetailsRepository)
+        IRepository<TaskDetailsEntity> taskDetailsRepository)
     : INotificationHandler<TimeoutTaskDetailsNotification>
     {
         public async Task HandleAsync(TimeoutTaskDetailsNotification notification)
         {
-            TaskDetails taskDetails = await taskDetailsRepository.FindRequiredAsync(notification.TaskDetailsId);
+            TaskDetailsEntity taskDetails = await taskDetailsRepository.FindRequiredAsync(notification.TaskDetailsId);
 
             await AwaitTaskTimeout(taskDetails);
 
             await NotifyProcessTaskAsync(taskDetails.Id);
         }
 
-        private static async Task AwaitTaskTimeout(TaskDetails taskDetails)
+        private static async Task AwaitTaskTimeout(TaskDetailsEntity taskDetails)
         {
             if (taskDetails.TimeoutBeforeRun > 0)
             {

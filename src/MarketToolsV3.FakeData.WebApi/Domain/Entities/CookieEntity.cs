@@ -11,7 +11,7 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public string? Domain { get; set; }
 
 
-        public FakeDataTask Task { get; set; } = null!;
+        public FakeDataTaskEntity TaskEntity { get; set; } = null!;
         public string TaskId { get; set; } = null!;
     }
 }

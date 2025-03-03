@@ -3,7 +3,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
 namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
 {
-    public class TaskDetails : Entity
+    public class TaskDetailsEntity : Entity
     {
         public required string Path { get; set; }
         public string? Tag { get; set; }
@@ -18,9 +18,9 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public int TimeoutBeforeRun { get; set; }
         public int? NumGroup { get; set; }
         public TaskDetailsState State { get; set; } = TaskDetailsState.AwaitRun;
-        public List<ResponseBody> Responses { get; private set; } = [];
+        public List<ResponseBodyEntity> Responses { get; private set; } = [];
 
-        public FakeDataTask Task { get; set; } = null!;
+        public FakeDataTaskEntity TaskEntity { get; set; } = null!;
         public string TaskId { get; set; } = null!;
     }
 }

@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database.Configs
 {
-    public class ResponseBodyConfig : IEntityTypeConfiguration<ResponseBody>
+    public class ResponseBodyConfig : IEntityTypeConfiguration<ResponseBodyEntity>
     {
-        public void Configure(EntityTypeBuilder<ResponseBody> builder)
+        public void Configure(EntityTypeBuilder<ResponseBodyEntity> builder)
         {
             builder.HasKey(r => r.Id);
 
             builder.Property(r => r.Data)
                 .HasMaxLength(10000);
 
-            builder.HasOne(r => r.TaskDetails)
+            builder.HasOne(r => r.TaskDetail)
                 .WithMany(t => t.Responses)
-                .HasForeignKey(t => t.TaskDetailsId);
+                .HasForeignKey(t => t.TaskDetailId);
         }
     }
 }

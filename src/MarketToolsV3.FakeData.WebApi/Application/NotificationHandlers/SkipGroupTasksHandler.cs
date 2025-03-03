@@ -6,14 +6,14 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
-    public class SkipGroupTasksHandler(IRepository<TaskDetails> taskDetailsRepository,
+    public class SkipGroupTasksHandler(IRepository<TaskDetailsEntity> taskDetailsRepository,
         IPublisher<MarkTaskAsAwaitNotification> markTaskAsAwaitPublisher,
         ITaskDetailsEntityService taskDetailsEntityService)
         : INotificationHandler<SkipGroupTasksNotification>
     {
         public async Task HandleAsync(SkipGroupTasksNotification notification)
         {
-            TaskDetails taskDetails = await taskDetailsRepository.FindRequiredAsync(notification.TaskDetailsId);
+            TaskDetailsEntity taskDetails = await taskDetailsRepository.FindRequiredAsync(notification.TaskDetailsId);
 
             if (taskDetails is { State: TaskDetailsState.Fail, NumGroup: not null })
             {

@@ -7,13 +7,13 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
     public class FakeDataTaskEntityService(FakeDataDbContext dbContext)
         : IFakeDataTaskEntityService
     {
-        public async Task AddAsync(FakeDataTask entity)
+        public async Task AddAsync(FakeDataTaskEntity entity)
         {
             await dbContext.Tasks.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<FakeDataTask?> FindAsync(string id)
+        public async Task<FakeDataTaskEntity?> FindAsync(string id)
         {
             return await dbContext
                 .Tasks

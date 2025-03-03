@@ -7,24 +7,24 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
     public class FakeDataTaskMapService : IFakeDataTaskMapService
     {
-        public FakeDataTask Map(IReadOnlyCollection<NewFakeDataTaskDto> tasksDetails)
+        public FakeDataTaskEntity Map(IReadOnlyCollection<NewFakeDataTaskDto> tasksDetails)
         {
-            FakeDataTask taskEntity = CreateTask();
+            FakeDataTaskEntity taskEntityEntity = CreateTask();
 
             int sortIndex = 0;
 
             foreach (NewFakeDataTaskDto taskDetails in tasksDetails)
             {
-                TaskDetails taskDetailsEntity = CreateDetails(taskDetails, sortIndex);
+                TaskDetailsEntity taskDetailsEntity = CreateDetails(taskDetails, sortIndex);
 
-                taskEntity.Details.Add(taskDetailsEntity);
+                taskEntityEntity.Details.Add(taskDetailsEntity);
                 sortIndex++;
             }
 
-            return taskEntity;
+            return taskEntityEntity;
         }
 
-        private static TaskDetails CreateDetails(NewFakeDataTaskDto taskDetails, int sortIndex)
+        private static TaskDetailsEntity CreateDetails(NewFakeDataTaskDto taskDetails, int sortIndex)
         {
             return new()
             {
@@ -41,7 +41,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             };
         }
 
-        private static FakeDataTask CreateTask()
+        private static FakeDataTaskEntity CreateTask()
         {
             return new()
             {

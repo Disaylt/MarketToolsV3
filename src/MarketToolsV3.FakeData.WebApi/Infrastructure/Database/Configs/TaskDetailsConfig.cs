@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database.Configs
 {
-    public class TaskDetailsConfig : IEntityTypeConfiguration<TaskDetails>
+    public class TaskDetailsConfig : IEntityTypeConfiguration<TaskDetailsEntity>
     {
-        public void Configure(EntityTypeBuilder<TaskDetails> builder)
+        public void Configure(EntityTypeBuilder<TaskDetailsEntity> builder)
         {
             builder.HasKey(t => t.Id);
 
@@ -26,7 +26,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Database.Configs
             builder.Property(t => t.Method)
                 .HasMaxLength(50);
 
-            builder.HasOne(t => t.Task)
+            builder.HasOne(t => t.TaskEntity)
                 .WithMany(t => t.Details)
                 .HasForeignKey(t => t.TaskId);
 

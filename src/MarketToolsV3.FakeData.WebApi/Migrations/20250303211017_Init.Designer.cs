@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketToolsV3.FakeData.WebApi.Migrations
 {
     [DbContext(typeof(FakeDataDbContext))]
-    [Migration("20250225205450_Init")]
+    [Migration("20250303211017_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -65,7 +65,7 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                     b.ToTable("Cookies");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTask", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTaskEntity", b =>
                 {
                     b.Property<string>("TaskId")
                         .HasMaxLength(1000)
@@ -82,7 +82,7 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBody", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBodyEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,17 +100,17 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                     b.Property<int>("StatusCode")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TaskDetailsId")
+                    b.Property<int>("TaskDetailId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskDetailsId");
+                    b.HasIndex("TaskDetailId");
 
                     b.ToTable("Responses");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetails", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetailsEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -179,89 +179,47 @@ namespace MarketToolsV3.FakeData.WebApi.Migrations
                     b.ToTable("TasksDetails");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ValueUseHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<int>("ResponseBodyId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ResponseBodyId");
-
-                    b.ToTable("ValueUseHistories");
-                });
-
             modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.CookieEntity", b =>
                 {
-                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTask", "Task")
+                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTaskEntity", "TaskEntity")
                         .WithMany("Cookies")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Task");
+                    b.Navigation("TaskEntity");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBody", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBodyEntity", b =>
                 {
-                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetails", "TaskDetails")
+                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetailsEntity", "TaskDetail")
                         .WithMany("Responses")
-                        .HasForeignKey("TaskDetailsId")
+                        .HasForeignKey("TaskDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TaskDetails");
+                    b.Navigation("TaskDetail");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetails", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetailsEntity", b =>
                 {
-                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTask", "Task")
+                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTaskEntity", "TaskEntity")
                         .WithMany("Details")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Task");
+                    b.Navigation("TaskEntity");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ValueUseHistory", b =>
-                {
-                    b.HasOne("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBody", "ResponseBody")
-                        .WithMany("ValueUseHistories")
-                        .HasForeignKey("ResponseBodyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ResponseBody");
-                });
-
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTask", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.FakeDataTaskEntity", b =>
                 {
                     b.Navigation("Cookies");
 
                     b.Navigation("Details");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.ResponseBody", b =>
-                {
-                    b.Navigation("ValueUseHistories");
-                });
-
-            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetails", b =>
+            modelBuilder.Entity("MarketToolsV3.FakeData.WebApi.Domain.Entities.TaskDetailsEntity", b =>
                 {
                     b.Navigation("Responses");
                 });
