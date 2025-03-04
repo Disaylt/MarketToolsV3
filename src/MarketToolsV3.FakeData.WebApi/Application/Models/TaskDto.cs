@@ -2,7 +2,7 @@
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Models
 {
-    public class FakeDataTaskDto
+    public class TaskDto
     {
         public required string Id { get; set; }
         public TaskState State { get; set; }

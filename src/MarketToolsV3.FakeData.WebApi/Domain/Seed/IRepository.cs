@@ -4,5 +4,7 @@
     {
         Task<T?> FindAsync(params object[] keys);
         Task<T> FindRequiredAsync(params object[] keys);
+        IQueryable<T> AsQueryable();
+        Task<List<TResult>> ToListAsync<TResult>(IQueryable<TResult>  query);
     }
 }

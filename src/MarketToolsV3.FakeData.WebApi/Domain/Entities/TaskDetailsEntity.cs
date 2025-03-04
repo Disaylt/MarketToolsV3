@@ -20,7 +20,7 @@ namespace MarketToolsV3.FakeData.WebApi.Domain.Entities
         public TaskDetailsState State { get; set; } = TaskDetailsState.AwaitRun;
         public List<ResponseBodyEntity> Responses { get; private set; } = [];
 
-        public FakeDataTaskEntity TaskEntity { get; set; } = null!;
+        public TaskEntity TaskEntity { get; set; } = null!;
         public string TaskId { get; set; } = null!;
     }
 }

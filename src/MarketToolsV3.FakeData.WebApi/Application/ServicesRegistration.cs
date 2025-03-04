@@ -27,8 +27,8 @@ namespace MarketToolsV3.FakeData.WebApi.Application
             serviceCollection.AddScoped<INotificationHandler<MarkTaskAsAwaitNotification>, MarkTaskAsAwaitHandler>();
             serviceCollection.AddScoped<INotificationHandler<SkipGroupTasksNotification>, SkipGroupTasksHandler>();
 
-            serviceCollection.AddScoped<IFakeDataTaskService, FakeDataTaskService>();
-            serviceCollection.AddScoped<IFakeDataTaskMapService, FakeDataTaskMapService>();
+            serviceCollection.AddScoped<ITaskService, FakeDataTaskService>();
+            serviceCollection.AddScoped<ITaskMapService, FakeDataTaskMapService>();
             serviceCollection.AddScoped<ICookieContainerService, CookieContainerService>();
             serviceCollection.AddScoped<IJsonNodeHandler, RandomJsonNodeHandler>();
             serviceCollection.AddScoped<IJsonNodeHandler, BodySelectJsonNodeHandler>();

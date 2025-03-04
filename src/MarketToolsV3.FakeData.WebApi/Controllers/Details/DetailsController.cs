@@ -7,17 +7,17 @@ using System.Text.Json.Nodes;
 using MarketToolsV3.FakeData.WebApi.Application.Models;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 
-namespace MarketToolsV3.FakeData.WebApi.Controllers.FakeData
+namespace MarketToolsV3.FakeData.WebApi.Controllers.Details
 {
-    [Route("api/fake-data/tasks")]
+    [Route("api/tasks/details")]
     [ApiController]
-    public class TasksController(IFakeDataTaskService fakeDataTaskService) 
+    public class DetailsController(ITaskService fakeDataTaskService)
         : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] IReadOnlyCollection<NewFakeDataTaskDto> body)
+        public async Task<IActionResult> CreateAsync([FromBody] IReadOnlyCollection<NewTaskDetailsDto> body)
         {
-            FakeDataTaskDto result = await fakeDataTaskService.CreateAsync(body);
+            TaskDto result = await fakeDataTaskService.CreateAsync(body);
 
             return Ok(result);
         }

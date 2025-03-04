@@ -8,7 +8,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class RunFakeDataTaskHandler(IUnitOfWork unitOfWork,
         ILogger<RunFakeDataTaskHandler> logger,
-        IFakeDataTaskEntityService fakeDataTaskEntityService,
+        ITaskEntityService fakeDataTaskEntityService,
         IPublisher<SelectTaskDetailsNotification> selectTaskDetailsPublisher,
         IPublisher<FailFakeDataTasksNotification> fakeDataTasksFailHandlingPublisher)
         : INotificationHandler<RunFakeDataTaskNotification>
@@ -17,7 +17,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
         {
             try
             {
-                FakeDataTaskEntity? taskEntity = await fakeDataTaskEntityService.FindAsync(notification.TaskId);
+                TaskEntity? taskEntity = await fakeDataTaskEntityService.FindAsync(notification.TaskId);
 
                 if (taskEntity is not { State: TaskState.AwaitRun })
                 {

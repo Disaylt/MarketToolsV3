@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Models
 {
-    public class NewFakeDataTaskDto
+    public class NewTaskDetailsDto
     {
         public string? Tag { get; set; }
         public TaskEndCondition TaskEndCondition { get; set; }

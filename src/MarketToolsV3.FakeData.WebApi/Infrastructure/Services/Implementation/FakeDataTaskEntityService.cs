@@ -5,15 +5,15 @@ using MarketToolsV3.FakeData.WebApi.Infrastructure.Database;
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation
 {
     public class FakeDataTaskEntityService(FakeDataDbContext dbContext)
-        : IFakeDataTaskEntityService
+        : ITaskEntityService
     {
-        public async Task AddAsync(FakeDataTaskEntity entity)
+        public async Task AddAsync(TaskEntity entity)
         {
             await dbContext.Tasks.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<FakeDataTaskEntity?> FindAsync(string id)
+        public async Task<TaskEntity?> FindAsync(string id)
         {
             return await dbContext
                 .Tasks

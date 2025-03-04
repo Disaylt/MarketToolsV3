@@ -21,7 +21,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure
         {
             serviceCollection.AddNpgsql<FakeDataDbContext>(serviceConfig.DatabaseConnection);
 
-            serviceCollection.AddScoped<IFakeDataTaskEntityService, FakeDataTaskEntityService>();
+            serviceCollection.AddScoped<ITaskEntityService, FakeDataTaskEntityService>();
             serviceCollection.AddScoped<ITaskDetailsEntityService, TaskDetailsEntityService>();
             serviceCollection.AddScoped<ITaskDetailsHandleFacadeService, TaskDetailsHandleFacadeService>();
             serviceCollection.AddScoped<ITaskDetailsHttpBodyService, TaskDetailsHttpBodyService>();

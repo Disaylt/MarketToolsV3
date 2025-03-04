@@ -7,6 +7,7 @@ using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {
     public class SkipGroupTasksHandler(IRepository<TaskDetailsEntity> taskDetailsRepository,
+        IRepository<TaskEntity> fakeDataTaskRepository,
         IPublisher<MarkTaskAsAwaitNotification> markTaskAsAwaitPublisher,
         ITaskDetailsEntityService taskDetailsEntityService)
         : INotificationHandler<SkipGroupTasksNotification>
@@ -20,7 +21,12 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
                 await taskDetailsEntityService.SetGroupAsSkipAsync(taskDetails.TaskId, taskDetails.NumGroup.Value);
             }
 
-            await NotifyMarkAsAwait(taskDetails.TaskId);
+            TaskEntity task = await fakeDataTaskRepository.FindRequiredAsync(taskDetails.TaskId);
+
+            if (task.State == TaskState.Handled)
+            {
+                await NotifyMarkAsAwait(taskDetails.TaskId);
+            }
         }
 
         private async Task NotifyMarkAsAwait(string id)

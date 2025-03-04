@@ -1,24 +1,49 @@
 ﻿using MarketToolsV3.FakeData.WebApi.Application.Models;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Domain.Entities;
+using MarketToolsV3.FakeData.WebApi.Domain.Enums;
+using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
-    public class FakeDataTaskService(IFakeDataTaskMapService fakeDataTaskMapService,
-        IFakeDataTaskEntityService fakeDataTaskEntityService)
-        : IFakeDataTaskService
+    public class FakeDataTaskService(ITaskMapService taskMapService,
+        ITaskEntityService taskEntityService,
+        IRepository<TaskEntity> taskRepository,
+        IUnitOfWork unitOfWork)
+        : ITaskService
     {
-        public async Task<FakeDataTaskDto> CreateAsync(IReadOnlyCollection<NewFakeDataTaskDto> tasks)
+        public async Task<TaskDto> CreateAsync(IReadOnlyCollection<NewTaskDetailsDto> tasks)
         {
-            FakeDataTaskEntity entity = fakeDataTaskMapService.Map(tasks);
-            await fakeDataTaskEntityService.AddAsync(entity);
+            TaskEntity entity = taskMapService.Map(tasks);
+            await taskEntityService.AddAsync(entity);
 
             return CreateResult(entity);
         }
 
-        private static FakeDataTaskDto CreateResult(FakeDataTaskEntity entity)
+        public async Task SetState(string id, TaskState state)
         {
-            return new FakeDataTaskDto
+            TaskEntity task = await taskRepository.FindRequiredAsync(id);
+            task.State = state;
+
+            await unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<IReadOnlyCollection<TaskDto>> GetAllAsync()
+        {
+            var query = taskRepository
+                .AsQueryable()
+                .Select(x => new TaskDto
+                {
+                    Id = x.TaskId,
+                    State = x.State
+                });
+
+            return await taskRepository.ToListAsync(query);
+        }
+
+        private static TaskDto CreateResult(TaskEntity entity)
+        {
+            return new TaskDto
             {
                 Id = entity.TaskId,
                 State = entity.State

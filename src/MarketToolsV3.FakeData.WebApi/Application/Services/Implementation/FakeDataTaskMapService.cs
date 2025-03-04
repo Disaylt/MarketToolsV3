@@ -5,15 +5,15 @@ using MarketToolsV3.FakeData.WebApi.Domain.Enums;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
 {
-    public class FakeDataTaskMapService : IFakeDataTaskMapService
+    public class FakeDataTaskMapService : ITaskMapService
     {
-        public FakeDataTaskEntity Map(IReadOnlyCollection<NewFakeDataTaskDto> tasksDetails)
+        public TaskEntity Map(IReadOnlyCollection<NewTaskDetailsDto> tasksDetails)
         {
-            FakeDataTaskEntity taskEntityEntity = CreateTask();
+            TaskEntity taskEntityEntity = CreateTask();
 
             int sortIndex = 0;
 
-            foreach (NewFakeDataTaskDto taskDetails in tasksDetails)
+            foreach (NewTaskDetailsDto taskDetails in tasksDetails)
             {
                 TaskDetailsEntity taskDetailsEntity = CreateDetails(taskDetails, sortIndex);
 
@@ -24,24 +24,24 @@ namespace MarketToolsV3.FakeData.WebApi.Application.Services.Implementation
             return taskEntityEntity;
         }
 
-        private static TaskDetailsEntity CreateDetails(NewFakeDataTaskDto taskDetails, int sortIndex)
+        private static TaskDetailsEntity CreateDetails(NewTaskDetailsDto taskDetailsDetails, int sortIndex)
         {
             return new()
             {
-                Path = taskDetails.Path ?? throw new Exception("Path is null"),
-                Tag = taskDetails.Tag,
-                Method = taskDetails.Method,
-                JsonBody = taskDetails.Body?.ToJsonString(),
-                TaskEndCondition = taskDetails.TaskEndCondition,
-                TaskCompleteCondition = taskDetails.TaskCompleteCondition,
-                NumberOfExecutions = taskDetails.NumberOfExecutions,
-                NumGroup = taskDetails.NumGroup,
-                TimeoutBeforeRun = taskDetails.TimeoutBeforeRun,
+                Path = taskDetailsDetails.Path ?? throw new Exception("Path is null"),
+                Tag = taskDetailsDetails.Tag,
+                Method = taskDetailsDetails.Method,
+                JsonBody = taskDetailsDetails.Body?.ToJsonString(),
+                TaskEndCondition = taskDetailsDetails.TaskEndCondition,
+                TaskCompleteCondition = taskDetailsDetails.TaskCompleteCondition,
+                NumberOfExecutions = taskDetailsDetails.NumberOfExecutions,
+                NumGroup = taskDetailsDetails.NumGroup,
+                TimeoutBeforeRun = taskDetailsDetails.TimeoutBeforeRun,
                 SortIndex = sortIndex
             };
         }
 
-        private static FakeDataTaskEntity CreateTask()
+        private static TaskEntity CreateTask()
         {
             return new()
             {

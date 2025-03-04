@@ -10,6 +10,11 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories.Implementati
     {
         private readonly DbSet<T> _dbSet = context.Set<T>();
 
+        public IQueryable<T> AsQueryable()
+        {
+            return _dbSet.AsQueryable();
+        }
+
         public async Task<T?> FindAsync(params object[] keys)
         {
             return await _dbSet.FindAsync(keys);
@@ -20,6 +25,11 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories.Implementati
             return await _dbSet.FindAsync(keys)
                 ?? throw new RootServiceException(HttpStatusCode.NotFound,
                     $"Entity ({typeof(T).Name} not found. Keys:{string.Join('|', keys)})");
+        }
+
+        public async Task<List<TResult>> ToListAsync<TResult>(IQueryable<TResult> query)
+        {
+            return await query.ToListAsync();
         }
     }
 }
