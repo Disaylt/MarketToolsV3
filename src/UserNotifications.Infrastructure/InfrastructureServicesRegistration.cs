@@ -34,12 +34,12 @@ namespace UserNotifications.Infrastructure
 
             services.AddScoped<IUnitOfWork, MongoUnitOfWork>();
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
-            services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));   
 
             services.AddScoped<ISpecificationHandler<UpdateIsReadFieldByRangeNotificationSpecification>,
                 UpdateIsReadByRangeFilterNotificationSpecififcationHandler>();
 
-            services.AddScoped<IRangeSpecificationHandler <GetRangeForUsersNotificationSpecification, Notification>,
+            services.AddScoped<IRangeSpecificationHandler<GetRangeForUsersNotificationSpecification, Notification>,
                 GetRangeByDateUserAndLimitNotificationSpecificationHandler>();
 
             services.AddSingleton<IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification>, NotificationMongoUpdateDifinitionService>();

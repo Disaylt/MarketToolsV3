@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Identity.Infrastructure\Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\MarketToolsV3.FakeData.WebApi\MarketToolsV3.FakeData.WebApi.csproj" />
     <ProjectReference Include="..\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj" />
     <ProjectReference Include="..\UserNotifications.Infrastructure\UserNotifications.Infrastructure.csproj" />
     <ProjectReference Include="..\WB.Seller.Companies.Infrastructure\WB.Seller.Companies.Infrastructure.csproj" />

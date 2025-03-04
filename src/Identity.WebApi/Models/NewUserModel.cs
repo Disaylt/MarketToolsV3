@@ -9,7 +9,7 @@ namespace Identity.WebApi.Models
         public required string Email { get; set; }
 
         [Required(ErrorMessage = "Введите логин.")]
-        [MinLength(6, ErrorMessage = "Минимальная длинна логина 6 символов.")]
+        [MinLength(4, ErrorMessage = "Минимальная длинна логина 4 символов.")]
         public required string Login { get; set; }
 
         [Required(ErrorMessage = "Введите пароль.")]
