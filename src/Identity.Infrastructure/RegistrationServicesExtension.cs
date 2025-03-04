@@ -34,6 +34,7 @@ namespace Identity.Infrastructure
             collection.AddScoped<ISessionService, SessionService>();
             collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
             collection.AddScoped<IIdentityPersonService, IdentityPersonService>();
+            collection.AddScoped<IExtensionRepository, ExtensionRepository>();
             collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
 
             AddRedisCache(collection, serviceConfiguration.RedisConfig);
