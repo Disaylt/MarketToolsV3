@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="QueryObjects\" />
     <Folder Include="Utilities\Implementation\" />
   </ItemGroup>
 
