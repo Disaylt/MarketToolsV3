@@ -1,0 +1,24 @@
+[
+  {
+    "Tag": "register",
+    "TaskEndCondition": 1,
+    "TaskCompleteCondition": 1,
+    "NumberOfExecutions": 1,
+    "Path": "auth/v1/users/register",
+    "Method": "POST",
+    "TimeoutBeforeRun": 2000,
+    "Body": {
+      "Email": "testEndpoints@test.test",
+      "Login": "testEndpoints",
+      "Password": "123123"
+    }
+  },
+  {
+    "Tag": "details",
+    "TaskEndCondition": 1,
+    "TaskCompleteCondition": 0,
+    "NumberOfExecutions": 2,
+    "Path": "identity/v1/users/details",
+    "Method": "GET"
+  }
+]
