@@ -23,7 +23,7 @@ namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 
             TaskEntity task = await fakeDataTaskRepository.FindRequiredAsync(taskDetails.TaskId);
 
-            if (task.State == TaskState.Handled)
+            if (task.State == TaskState.InProcess)
             {
                 await NotifyMarkAsAwait(taskDetails.TaskId);
             }

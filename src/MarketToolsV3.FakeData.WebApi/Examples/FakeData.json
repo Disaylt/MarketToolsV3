@@ -1,8 +1,8 @@
 [
   {
     "Tag": "register",
-    "TaskEndCondition": 1,
-    "TaskCompleteCondition": 0,
+    "TaskEndCondition": 0,
+    "TaskCompleteCondition": 1,
     "NumberOfExecutions": 1,
     "Path": "auth/v1/users/register",
     "Method": "POST",
@@ -16,7 +16,7 @@
   {
     "Tag": "login",
     "TaskEndCondition": 1,
-    "TaskCompleteCondition": 0,
+    "TaskCompleteCondition": 1,
     "NumberOfExecutions": 1,
     "Path": "auth/v1/users/login",
     "Method": "POST",
@@ -28,9 +28,9 @@
   },
   {
     "Tag": "details",
-    "TaskEndCondition": 1,
-    "TaskCompleteCondition": 0,
-    "NumberOfExecutions": 2,
+    "TaskEndCondition": 0,
+    "TaskCompleteCondition": 1,
+    "NumberOfExecutions": 5,
     "Path": "identity/v1/users/details",
     "Method": "GET"
   }

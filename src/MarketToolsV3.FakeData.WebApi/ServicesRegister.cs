@@ -9,9 +9,7 @@ namespace MarketToolsV3.FakeData.WebApi
         {
             LoggerConfiguration logConfig = new();
 
-            logConfig = builder.Environment.IsDevelopment()
-                ? logConfig.MinimumLevel.Debug()
-                : logConfig.MinimumLevel.Information();
+            logConfig = logConfig.MinimumLevel.Information();
 
             Log.Logger = logConfig
                 .Enrich.FromLogContext()
