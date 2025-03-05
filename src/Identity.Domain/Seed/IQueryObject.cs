@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Domain.Seed
 {
-    public interface IQueryObject
+    public interface IQueryObject<T> where T : class 
     {
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Identity.Domain.Seed
 {
-    public interface IQueryObjectAdapter<in TQueryObject, out TResult>
-    where TQueryObject : IQueryObject
+    public interface IQueryObjectHandler<in TQueryObject, out TResult>
+    where TQueryObject : IQueryObject<TResult> 
     where TResult : class
     {
         IQueryable<TResult> Create(TQueryObject  query);
