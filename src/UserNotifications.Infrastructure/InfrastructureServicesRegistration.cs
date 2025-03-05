@@ -6,16 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserNotifications.Applications.Specifications.Notifications.GetRangeByDateUserAndLimit;
-using UserNotifications.Applications.Specifications.Notifications.UpdateIsReadByRange;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
 using UserNotifications.Infrastructure.Repositories;
 using UserNotifications.Infrastructure.Services.Abstract;
 using UserNotifications.Infrastructure.Services.Implementation;
-using UserNotifications.Infrastructure.SpecificationHandlers.Notifications.GetRangeByDateUserAndLimit;
-using UserNotifications.Infrastructure.SpecificationHandlers.Notifications.UpdateIsReadByRange;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.Builders;
 using UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData;
@@ -35,12 +31,6 @@ namespace UserNotifications.Infrastructure
             services.AddScoped<IUnitOfWork, MongoUnitOfWork>();
             services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));   
-
-            services.AddScoped<ISpecificationHandler<UpdateIsReadFieldByRangeNotificationSpecification>,
-                UpdateIsReadByRangeFilterNotificationSpecififcationHandler>();
-
-            services.AddScoped<IRangeSpecificationHandler<GetRangeForUsersNotificationSpecification, Notification>,
-                GetRangeByDateUserAndLimitNotificationSpecificationHandler>();
 
             services.AddSingleton<IMongoUpdateDifinitionService<INotificationNewFieldsData, Notification>, NotificationMongoUpdateDifinitionService>();
 
