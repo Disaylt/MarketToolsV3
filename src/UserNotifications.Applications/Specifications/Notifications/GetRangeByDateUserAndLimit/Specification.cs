@@ -13,7 +13,7 @@ namespace UserNotifications.Applications.Specifications.Notifications.GetRangeBy
         : RangeBaseSpecification<Notification>
     {
         public FilterData Filter { get; } = filterData;
-        public Options Options { get; } = new Options();
+        public Options Options { get; } = new();
     }
 
     public class Options

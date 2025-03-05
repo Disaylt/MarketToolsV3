@@ -34,14 +34,5 @@ namespace UserNotifications.Infrastructure.Repositories
         {
             await collection.InsertOneAsync(_clientSessionHandle, entity, cancellationToken: cancellationToken);
         }
-
-        public async Task<IReadOnlyCollection<T>> ToListAsync(Expression<Func<T, bool>>? expression = null, CancellationToken cancellationToken = default)
-        {
-            var mongoFilter = MongoFilterUtility.CreateOrEmpty(expression);
-            return await collection
-                .Find(mongoFilter)
-                .ToListAsync();
-
-        }
     }
 }

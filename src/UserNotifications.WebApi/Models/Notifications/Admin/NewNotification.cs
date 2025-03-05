@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.WebApi.Models.Notifications.Admin
 {
@@ -11,5 +12,8 @@ namespace UserNotifications.WebApi.Models.Notifications.Admin
         [Required]
         [MaxLength(1000)]
         public required string Message { get; set; }
+
+        public string? Title { get; set; }
+        public Category? Category { get; set; }
     }
 }

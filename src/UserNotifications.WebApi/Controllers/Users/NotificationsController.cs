@@ -6,7 +6,7 @@ using UserNotifications.WebApi.Models.Notifications.Users;
 
 namespace UserNotifications.WebApi.Controllers.Users
 {
-    [Route("api/v{version:apiVersion}/users/[controller]")]
+    [Route("api/v{version:apiVersion}/notifications")]
     [ApiController]
     [ApiVersion("1")]
     public class NotificationsController(IMediator mediator)
