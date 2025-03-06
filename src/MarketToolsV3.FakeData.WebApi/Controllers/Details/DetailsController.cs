@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Nodes;
 using MarketToolsV3.FakeData.WebApi.Application.Models;
-using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.FakeTasks.Services.Abstract;
 
 namespace MarketToolsV3.FakeData.WebApi.Controllers.Details
 {

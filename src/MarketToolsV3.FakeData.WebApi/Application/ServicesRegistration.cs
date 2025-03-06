@@ -1,4 +1,16 @@
 ﻿using MarketToolsV3.FakeData.WebApi.Application.Enums;
+using MarketToolsV3.FakeData.WebApi.Application.Features.Cookies.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.Cookies.Services.Implementation;
+using MarketToolsV3.FakeData.WebApi.Application.Features.FakeTasks.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.FakeTasks.Services.Implementation;
+using MarketToolsV3.FakeData.WebApi.Application.Features.Json.Handlers.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.Json.Handlers.Implementation;
+using MarketToolsV3.FakeData.WebApi.Application.Features.Json.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.Json.Services.Implementation;
+using MarketToolsV3.FakeData.WebApi.Application.Features.Json.Utilities.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.Json.Utilities.Implementation;
+using MarketToolsV3.FakeData.WebApi.Application.Features.TaskDetails.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.TaskDetails.Services.Implementation;
 using MarketToolsV3.FakeData.WebApi.Application.Mappers;
 using MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers;
 using MarketToolsV3.FakeData.WebApi.Application.Notifications;
@@ -27,8 +39,8 @@ namespace MarketToolsV3.FakeData.WebApi.Application
             serviceCollection.AddScoped<INotificationHandler<MarkTaskAsAwaitNotification>, MarkTaskAsAwaitHandler>();
             serviceCollection.AddScoped<INotificationHandler<SkipGroupTasksNotification>, SkipGroupTasksHandler>();
 
-            serviceCollection.AddScoped<ITaskService, FakeDataTaskService>();
-            serviceCollection.AddScoped<ITaskMapService, FakeDataTaskMapService>();
+            serviceCollection.AddScoped<ITaskService, TaskService>();
+            serviceCollection.AddScoped<ITaskMapService, TaskMapService>();
             serviceCollection.AddScoped<ICookieContainerService, CookieContainerService>();
             serviceCollection.AddScoped<IJsonNodeHandler, RandomJsonNodeHandler>();
             serviceCollection.AddScoped<IJsonNodeHandler, BodySelectJsonNodeHandler>();
