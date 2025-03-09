@@ -21,6 +21,7 @@ namespace Identity.WebApi.Controllers
         : ControllerBase
     {
         [HttpGet]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> GetAsync(CancellationToken cancellationToken)
         {
             GetActiveSessionsQuery query = new()

@@ -13,6 +13,7 @@ namespace UserNotifications.WebApi.Controllers.Users
         : ControllerBase
     {
         [HttpGet]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> GetAsync([FromQuery] GetRangeNotificationsQuery query)
         {
             CreateReadNotificationCollectionCommand request = new()

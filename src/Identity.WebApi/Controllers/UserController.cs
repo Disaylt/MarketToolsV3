@@ -25,6 +25,7 @@ namespace Identity.WebApi.Controllers
     {
         [Authorize]
         [HttpPut("logout")]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> LogOut(CancellationToken cancellationToken)
         {
             DeactivateSessionCommand command = new()
@@ -39,6 +40,7 @@ namespace Identity.WebApi.Controllers
 
         [Authorize]
         [HttpGet("details")]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> GetDetailsAsync(CancellationToken cancellationToken)
         {
             GetIdentityDetailsQuery query = new()
@@ -52,6 +54,7 @@ namespace Identity.WebApi.Controllers
         }
 
         [HttpPost("register")]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> RegisterAsync([FromBody] NewUserModel user, CancellationToken cancellationToken)
         {
             CreateNewUserCommand command = new()
@@ -70,6 +73,7 @@ namespace Identity.WebApi.Controllers
         }
 
         [HttpPost("login")]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> LoginAsync([FromBody] LoginModel body, CancellationToken cancellationToken)
         {
             LoginCommand command = new()
