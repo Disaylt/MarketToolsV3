@@ -14,6 +14,7 @@ namespace UserNotifications.WebApi.Controllers.Users
     public class NotificationController(IMediator mediator) : ControllerBase
     {
         [HttpPost]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> CreateAsync([FromBody] NewNotification body)
         {
             CreateNotificationCommand command = new()
