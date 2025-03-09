@@ -9,7 +9,6 @@ using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
 using System.Linq.Expressions;
-using UserNotifications.Infrastructure.Utilities;
 
 namespace UserNotifications.Infrastructure.Repositories
 {
@@ -21,6 +20,11 @@ namespace UserNotifications.Infrastructure.Repositories
     {
         private readonly IClientSessionHandle _clientSessionHandle = clientSessionHandleContext.Session;
         public IUnitOfWork UnitOfWork => unitOfWork;
+
+        public IQueryable<T> AsQueryable()
+        {
+            return collection.AsQueryable();
+        }
 
         public async Task<T> FindByIdAsync(string id, CancellationToken cancellationToken)
         {

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Queries\" />
+    <Folder Include="Services\Implementation\" />
   </ItemGroup>
 
 </Project>

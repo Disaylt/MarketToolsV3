@@ -13,5 +13,6 @@ namespace UserNotifications.Domain.Seed
         IUnitOfWork UnitOfWork { get; }
         Task<T> FindByIdAsync(string id, CancellationToken cancellationToken);
         Task InsertAsync(T entity, CancellationToken cancellationToken);
+        IQueryable<T> AsQueryable();
     }
 }

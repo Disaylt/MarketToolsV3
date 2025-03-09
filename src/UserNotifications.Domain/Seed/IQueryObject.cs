@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Domain.Entities;
 
-namespace UserNotifications.Infrastructure.Utilities.Mongo.UpdateDifinition.NewFieldsData
+namespace UserNotifications.Domain.Seed
 {
-    public interface INewFieldsData<T> where T : Entity
+    public interface IQueryObject<T> where T : Entity
     {
-
     }
 }

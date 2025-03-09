@@ -4,14 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserNotifications.Applications.Commands;
-using UserNotifications.WebApi.Models.Notifications.Admin;
+using UserNotifications.WebApi.Models.Notifications;
 
 namespace UserNotifications.WebApi.Controllers.Users
 {
     [Route("api/v{version:apiVersion}/notifications")]
     [ApiController]
     [ApiVersion("1")]
-    [Authorize(Roles = "admin")]
     public class NotificationController(IMediator mediator) : ControllerBase
     {
         [HttpPost]

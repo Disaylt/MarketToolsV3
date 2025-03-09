@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserNotifications.Applications.Commands;
-using UserNotifications.WebApi.Models.Notifications.Users;
+using UserNotifications.WebApi.Models.Notifications;
 
 namespace UserNotifications.WebApi.Controllers.Users
 {
@@ -15,9 +15,18 @@ namespace UserNotifications.WebApi.Controllers.Users
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] GetRangeNotificationsQuery query)
         {
-            
+            CreateReadNotificationCollectionCommand request = new()
+            {
+                UserId = "1",
+                Category = query.Category,
+                IsRead = query.IsRead,
+                Skip = query.Skip,
+                Take = query.Take
+            };
 
-            return Ok();
+            var result = await mediator.Send(request);
+
+            return Ok(result);
         }
     }
 }

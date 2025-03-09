@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using UserNotifications.Domain.Enums;
 
-namespace UserNotifications.WebApi.Models.Notifications.Admin
+namespace UserNotifications.WebApi.Models.Notifications
 {
     public class NewNotification
     {
@@ -14,6 +14,8 @@ namespace UserNotifications.WebApi.Models.Notifications.Admin
         public required string Message { get; set; }
 
         public string? Title { get; set; }
-        public Category? Category { get; set; }
+
+        [Required]
+        public Category Category { get; set; }
     }
 }

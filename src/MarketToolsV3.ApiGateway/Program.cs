@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Proto.Contract.Identity;
+using Scalar.AspNetCore;
 using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +42,7 @@ string corsName = builder.Services
 
 var app = builder.Build();
 
+
 app.UseCors(corsName);
 
 app.UseMiddleware<AuthContextMiddleware>();
@@ -50,6 +52,7 @@ app.UseMiddleware<SessionMiddleware>();
 app.UseMiddleware<HeadersTokensAdapterMiddleware>();
 
 await app.UseOcelot();
+
 app.UseMiddleware<CookiesInjectMiddleware>();
 
 app.Run();
