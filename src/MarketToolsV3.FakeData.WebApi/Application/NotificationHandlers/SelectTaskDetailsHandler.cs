@@ -3,6 +3,7 @@ using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using System;
 using MarketToolsV3.FakeData.WebApi.Domain.Entities;
 using MarketToolsV3.FakeData.WebApi.Domain.Seed;
+using MarketToolsV3.FakeData.WebApi.Application.Features.TaskDetails.Services.Abstract;
 
 namespace MarketToolsV3.FakeData.WebApi.Application.NotificationHandlers
 {

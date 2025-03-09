@@ -1,16 +1,22 @@
-﻿using MarketToolsV3.FakeData.WebApi.Application.Features.ResponseBody.Services.Abstract;
-using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Features.Cookies.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.FakeTasks.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.ResponseBody.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Features.TaskDetails.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Domain.Seed;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Database;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.Cookies.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.Cookies.Services.Implementation;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.FakeTasks.Services.Implementation;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.ResponseBody.Services.Implementation;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.ResponseBody.Utilities.Abstract;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.ResponseBody.Utilities.Implementation;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Features.TaskDetails.Services.Implementation;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories.Abstract;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Repositories.Implementation;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Http.Abstract;
+using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Http.Implementation;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation;
-using MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Abstract;
-using MarketToolsV3.FakeData.WebApi.Infrastructure.Utilities.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure
@@ -21,7 +27,7 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure
         {
             serviceCollection.AddNpgsql<FakeDataDbContext>(serviceConfig.DatabaseConnection);
 
-            serviceCollection.AddScoped<ITaskEntityService, FakeDataTaskEntityService>();
+            serviceCollection.AddScoped<ITaskEntityService, TaskEntityService>();
             serviceCollection.AddScoped<ITaskDetailsEntityService, TaskDetailsEntityService>();
             serviceCollection.AddScoped<ITaskDetailsHandleFacadeService, TaskDetailsHandleFacadeService>();
             serviceCollection.AddScoped<ITaskDetailsHttpBodyService, TaskDetailsHttpBodyService>();
