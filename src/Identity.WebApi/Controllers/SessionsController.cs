@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.WebApi.Controllers
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/sessions")]
     [ApiController]
     [ApiVersion("1")]
     [Authorize]
