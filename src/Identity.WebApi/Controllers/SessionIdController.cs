@@ -15,11 +15,11 @@ using static MassTransit.ValidationResultExtensions;
 
 namespace Identity.WebApi.Controllers
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/sessions/{id}")]
     [ApiController]
     [ApiVersion("1")]
     [Authorize]
-    public class SessionController(IMediator mediator, ISessionContextService sessionContextService) 
+    public class SessionIdController(IMediator mediator, ISessionContextService sessionContextService) 
         : ControllerBase
     {
         [HttpPost("deactivate")]
