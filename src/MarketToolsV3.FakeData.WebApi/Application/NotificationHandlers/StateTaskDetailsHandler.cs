@@ -1,4 +1,5 @@
-﻿using MarketToolsV3.FakeData.WebApi.Application.Notifications;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Features.TaskDetails.Services.Abstract;
+using MarketToolsV3.FakeData.WebApi.Application.Notifications;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Application.Services.Implementation;
 using MarketToolsV3.FakeData.WebApi.Domain.Entities;

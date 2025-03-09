@@ -9,7 +9,7 @@ namespace Identity.Domain.Seed
     public interface IRepository<T> where T : class
     {
         IUnitOfWork UnitOfWork { get; }
-        public IQueryable<T> AsQueryable();
+        IQueryable<T> AsQueryable();
         Task<T> FindByIdRequiredAsync(object id, CancellationToken cancellationToken);
         Task<T> UpdateAsync(T entity, CancellationToken cancellationToken);
         Task DeleteAsync(T entity, CancellationToken cancellationToken);

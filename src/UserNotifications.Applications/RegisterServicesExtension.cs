@@ -10,8 +10,6 @@ using UserNotifications.Applications.Behaviors;
 using UserNotifications.Applications.Mappers.Abstract;
 using UserNotifications.Applications.Mappers.Implementation;
 using UserNotifications.Applications.Models;
-using UserNotifications.Applications.Services.Abstract;
-using UserNotifications.Applications.Services.Implementation;
 
 namespace UserNotifications.Applications
 {
@@ -29,7 +27,6 @@ namespace UserNotifications.Applications
 
             serviceCollection.AddMappers();
 
-            serviceCollection.AddSingleton<INotificationFiltersService, NotificationFiltersService>();
 
             return serviceCollection;
         }

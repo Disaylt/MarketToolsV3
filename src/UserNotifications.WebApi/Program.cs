@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 using UserNotifications.Applications;

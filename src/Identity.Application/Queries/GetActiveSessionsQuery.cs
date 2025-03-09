@@ -10,7 +10,6 @@ namespace Identity.Application.Queries
 {
     public class GetActiveSessionsQuery : IRequest<IEnumerable<SessionDto>>
     {
-        public string? CurrentSessionId { get; set; }
         public required string UserId { get; set; }
     }
 }
