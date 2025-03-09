@@ -22,6 +22,7 @@ namespace Identity.WebApi.Controllers
     public class SessionIdController(IMediator mediator, ISessionContextService sessionContextService) 
         : ControllerBase
     {
+        [MapToApiVersion(1)]
         [HttpPost("deactivate")]
         public async Task<IActionResult> DeactivateAsync(string id, CancellationToken cancellationToken)
         {
