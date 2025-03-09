@@ -1,42 +1,94 @@
-﻿using FluentValidation;
+﻿using NUnit.Framework;
+using FluentValidation;
+using FluentValidation.TestHelper;
+using Bogus;
 using Identity.Application.Commands;
-using Identity.Application;
-using Moq;
-using NUnit.Framework;
 
 namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 {
     [TestFixture]
     public class CreateNewUserCommandValidationTests
     {
-        private Mock<CreateNewUserCommandValidation> _validatorMock;
+        private CreateNewUserCommandValidation _validator;
+        private Faker _faker;
 
         [SetUp]
         public void Setup()
         {
-            _validatorMock = new Mock<CreateNewUserCommandValidation>() { CallBase = true };
+            _validator = new CreateNewUserCommandValidation();
+            _faker = new Faker();
         }
 
-        [TestCase("ValidLogin", true)]
-        [TestCase("sh", false)]
-        [TestCase("", false)]
-        [TestCase("12345678901234567890123456789012345678901234567890", false)]
-        public void Validate_Login(string login, bool expectedIsValid)
+        [Test]
+        public void Validate_Login_Should_Have_Error_For_Invalid_Login()
         {
-            var command = new CreateNewUserCommand { Login = login, Password = "ValidPassword123", Email = "test@example.com" };
-            var result = _validatorMock.Object.Validate(command);
-            Assert.That(result.IsValid, Is.EqualTo(expectedIsValid));
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Random.String2(2),
+                Password = _faker.Internet.Password(12),
+                Email = _faker.Internet.Email()
+            };
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Login);
         }
 
-        [TestCase("StrongPass123", true)]
-        [TestCase("123", false)]
-        [TestCase("", false)]
-        [TestCase("12345678901234567890123456789012345678901234567890", false)]
-        public void Validate_Password(string password, bool expectedIsValid)
+        [Test]
+        public void Validate_Login_Should_Not_Have_Error_For_Valid_Login()
         {
-            var command = new CreateNewUserCommand { Login = "ValidLogin", Password = password, Email = "test@example.com" };
-            var result = _validatorMock.Object.Validate(command);
-            Assert.That(result.IsValid, Is.EqualTo(expectedIsValid));
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Internet.UserName(),
+                Password = _faker.Internet.Password(12),
+                Email = _faker.Internet.Email()
+            };
+            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Login);
+        }
+
+        [Test]
+        public void Validate_Password_Should_Have_Error_For_Invalid_Password()
+        {
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Internet.UserName(),
+                Password = _faker.Random.String2(3),
+                Email = _faker.Internet.Email()
+            };
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Password);
+        }
+
+        [Test]
+        public void Validate_Password_Should_Not_Have_Error_For_Valid_Password()
+        {
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Internet.UserName(),
+                Password = _faker.Internet.Password(12),
+                Email = _faker.Internet.Email()
+            };
+            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Password);
+        }
+
+        [Test]
+        public void Validate_Email_Should_Have_Error_For_Invalid_Email()
+        {
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Internet.UserName(),
+                Password = _faker.Internet.Password(12),
+                Email = "invalid-email"
+            };
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Email);
+        }
+
+        [Test]
+        public void Validate_Email_Should_Not_Have_Error_For_Valid_Email()
+        {
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Internet.UserName(),
+                Password = _faker.Internet.Password(12),
+                Email = _faker.Internet.Email()
+            };
+            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Email);
         }
     }
 }
