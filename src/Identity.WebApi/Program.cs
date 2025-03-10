@@ -50,6 +50,8 @@ builder.AddLogging(serviceConfigManager.Value);
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
