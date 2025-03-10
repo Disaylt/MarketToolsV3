@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Identity.WebApi.Services.Implementation;
+using Identity.WebApi.ExceptionHandlers;
 
 namespace Identity.WebApi
 {
@@ -38,6 +39,8 @@ namespace Identity.WebApi
             collection.AddScoped<ISessionContextService, SessionContextService>();
             collection.AddScoped<ICookiesContextService, CookiesContextService>();
             collection.AddScoped<ICredentialsService, CredentialsService>();
+            collection.AddProblemDetails();
+            collection.AddExceptionHandler<RootExceptionHandler>();
 
             collection.AddSingleton<ISessionViewMapper, SessionViewMapper>();
         }

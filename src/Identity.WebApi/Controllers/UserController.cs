@@ -1,7 +1,9 @@
-﻿using Asp.Versioning;
+﻿using System.Net;
+using Asp.Versioning;
 using Identity.Application.Commands;
 using Identity.Application.Models;
 using Identity.Application.Queries;
+using Identity.Domain.Seed;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services;
 using Identity.WebApi.Services.Implementation;
@@ -57,6 +59,7 @@ namespace Identity.WebApi.Controllers
         [MapToApiVersion(1)]
         public async Task<IActionResult> RegisterAsync([FromBody] NewUserModel user, CancellationToken cancellationToken)
         {
+            throw new RootServiceException(HttpStatusCode.BadRequest, "1 error", "2 error");
             CreateNewUserCommand command = new()
             {
                 Email = user.Email,
