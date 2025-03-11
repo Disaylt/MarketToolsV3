@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WB.Seller.Companies.Domain.Seed;
 using WB.Seller.Companies.Infrastructure.Database;
+using WB.Seller.Companies.Infrastructure.Repositories;
+using WB.Seller.Companies.Infrastructure.Seed.Implementation;
 
 namespace WB.Seller.Companies.Infrastructure
 {
@@ -15,6 +17,11 @@ namespace WB.Seller.Companies.Infrastructure
             ServiceConfiguration serviceConfiguration)
         {
             collection.AddNpgsql<WbSellerCompaniesDbContext>(serviceConfiguration.DatabaseConnection);
+
+            collection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<WbSellerCompaniesDbContext>>();
+
+            collection.AddSingleton<IMapperFactory, MapperFactory>();
 
             return collection;
         }

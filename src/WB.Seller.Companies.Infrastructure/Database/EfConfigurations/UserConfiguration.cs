@@ -9,11 +9,11 @@ using WB.Seller.Companies.Domain.Entities;
 
 namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
 {
-    internal class SubscriberConfiguration : IEntityTypeConfiguration<Subscriber>
+    internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
     {
-        public void Configure(EntityTypeBuilder<Subscriber> builder)
+        public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
-            builder.ToTable("subscribers");
+            builder.ToTable("users");
 
             builder.HasKey(x => x.SubId);
 
@@ -24,16 +24,16 @@ namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
                 .HasMaxLength(200);
 
             builder.HasMany(s => s.Companies)
-                .WithMany(c => c.Subscribers)
-                .UsingEntity<Subscription>(
+                .WithMany(c => c.Users)
+                .UsingEntity<SubscriptionEntity>(
                     j => j
                         .HasOne(x => x.Company)
                         .WithMany(x => x.Subscriptions)
                         .HasForeignKey(x => x.CompanyId),
                     j => j
-                        .HasOne(s => s.Subscriber)
+                        .HasOne(s => s.User)
                         .WithMany(s => s.Subscriptions)
-                        .HasForeignKey(s => s.SubscriberId));
+                        .HasForeignKey(s => s.UserId));
         }
     }
 }

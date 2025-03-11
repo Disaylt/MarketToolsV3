@@ -8,21 +8,21 @@ using WB.Seller.Companies.Domain.Seed;
 
 namespace WB.Seller.Companies.Domain.Entities
 {
-    public class Permission : Entity
+    public class PermissionEntity : Entity
     {
         public PermissionStatus Status { get; private set; }
         public PermissionType Type { get; private set; }
 
         public int SubscriptionId { get; private set; }
-        public Subscription Subscription { get; private set; }
+        public SubscriptionEntity Subscription { get; private set; }
 
 
-        protected Permission()
+        protected PermissionEntity()
         {
             Subscription = null!;
         }
 
-        public Permission(PermissionStatus status, PermissionType type, int subscriptionId) : this()
+        public PermissionEntity(PermissionStatus status, PermissionType type, int subscriptionId) : this()
         {
             Status = status;
             Type = type;

@@ -9,15 +9,15 @@ using WB.Seller.Companies.Domain.Entities;
 
 namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
 {
-    internal class SubscriptionConfiguration : IEntityTypeConfiguration<Subscription>
+    internal class SubscriptionConfiguration : IEntityTypeConfiguration<SubscriptionEntity>
     {
-        public void Configure(EntityTypeBuilder<Subscription> builder)
+        public void Configure(EntityTypeBuilder<SubscriptionEntity> builder)
         {
             builder.ToTable("subscriptions");
 
             builder.HasKey(e => e.Id);
 
-            builder.HasIndex(e => new { e.CompanyId, e.SubscriberId })
+            builder.HasIndex(e => new { e.CompanyId, SubscriberId = e.UserId })
                 .IsUnique();
 
             builder.Property(e => e.Note)
@@ -32,9 +32,9 @@ namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
                 .WithMany(e => e.Subscriptions)
                 .HasForeignKey(e => e.CompanyId);
 
-            builder.HasOne(e => e.Subscriber)
+            builder.HasOne(e => e.User)
                 .WithMany(e => e.Subscriptions)
-                .HasForeignKey(e => e.SubscriberId);
+                .HasForeignKey(e => e.UserId);
         }
     }
 }

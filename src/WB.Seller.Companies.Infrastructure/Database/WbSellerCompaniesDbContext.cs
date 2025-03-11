@@ -11,17 +11,15 @@ namespace WB.Seller.Companies.Infrastructure.Database
 {
     public class WbSellerCompaniesDbContext(DbContextOptions<WbSellerCompaniesDbContext> options) : DbContext(options)
     {
-        public DbSet<Company> Companies { get; set; } = null!;
-        public DbSet<Owner> Owners { get; set; } = null!;
-        public DbSet<Permission> Permissions { get; set; } = null!;
-        public DbSet<Subscriber> Subscribers { get; set; } = null!;
-        public DbSet<Subscription> Subscriptions { get; set; } = null!;
+        public DbSet<CompanyEntity> Companies { get; set; } = null!;
+        public DbSet<PermissionEntity> Permissions { get; set; } = null!;
+        public DbSet<UserEntity> Users { get; set; } = null!;
+        public DbSet<SubscriptionEntity> Subscriptions { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CompanyConfiguration());
-            modelBuilder.ApplyConfiguration(new OwnerConfiguration());
-            modelBuilder.ApplyConfiguration(new SubscriberConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new SubscriptionConfiguration());
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
 
