@@ -12,6 +12,7 @@ using WB.Seller.Companies.Domain.Seed;
 namespace WB.Seller.Companies.Application.Commands
 {
     public class CreateCompanyCommandHandler(IRepository<CompanyEntity> companyRepository,
+        IMapperFactory mapperFactory,
         IRepository<UserEntity> userRepository,
         IRepository<SubscriptionEntity> subscriptionRepository)
         : IRequestHandler<CreateCompanyCommand, CompanyDto>
@@ -27,6 +28,10 @@ namespace WB.Seller.Companies.Application.Commands
             await subscriptionRepository.AddAsync(newSubscription,cancellationToken);
 
             await companyRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
+            return mapperFactory
+                .CreateFromMapper<CompanyEntity, CompanyDto>()
+                .Map(newCompany);
         }
     }
 }
