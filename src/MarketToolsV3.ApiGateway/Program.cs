@@ -45,14 +45,6 @@ var app = builder.Build();
 
 app.UseCors(corsName);
 
-app.UseMiddleware<AuthContextMiddleware>();
-app.UseMiddleware<AccessTokenMiddleware>();
-app.UseMiddleware<TokensRefreshMiddleware>();
-app.UseMiddleware<SessionMiddleware>();
-app.UseMiddleware<HeadersTokensAdapterMiddleware>();
-
 await app.UseOcelot();
-
-app.UseMiddleware<CookiesInjectMiddleware>();
 
 app.Run();

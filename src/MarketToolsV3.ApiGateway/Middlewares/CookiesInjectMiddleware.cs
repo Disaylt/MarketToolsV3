@@ -7,6 +7,7 @@ using Ocelot.Middleware;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
 {
+    [Obsolete]
     public class CookiesInjectMiddleware(RequestDelegate next)
     {
         private static readonly CookieOptions CookieOptions = new()

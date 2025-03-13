@@ -9,6 +9,7 @@ using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace MarketToolsV3.ApiGateway.Middlewares;
 
+[Obsolete]
 public class SessionMiddleware(RequestDelegate next)
 {
     public async Task Invoke(HttpContext httpContext,

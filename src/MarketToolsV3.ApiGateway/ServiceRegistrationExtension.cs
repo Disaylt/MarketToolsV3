@@ -1,4 +1,5 @@
-﻿using MarketToolsV3.ApiGateway.Models.Tokens;
+﻿using MarketToolsV3.ApiGateway.Middlewares;
+using MarketToolsV3.ApiGateway.Models.Tokens;
 using MarketToolsV3.ApiGateway.Services.Implementation;
 using MarketToolsV3.ApiGateway.Services.Interfaces;
 using MarketToolsV3.ConfigurationManager.Models;
