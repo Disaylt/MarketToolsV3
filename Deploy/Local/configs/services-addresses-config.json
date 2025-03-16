@@ -3,6 +3,6 @@
 		"Grpc":"https://localhost:7269"
 	},
 	"ApiGateway":{
-		"WebApi":"https://localhost:7249"
+		"WebApi" : "https://localhost:7249"
 	}
 }

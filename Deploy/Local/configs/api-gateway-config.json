@@ -1,6 +1,6 @@
 {
     "Routes": [
-        {
+		{
 		  "DownstreamPathTemplate": "/api/{everything}",
 		  "DownstreamScheme": "https",
 		  "DownstreamHostAndPorts": [
@@ -21,8 +21,9 @@
 			  "Port": 7256
 			}
 		  ],
-		  "Metadata":{
-			"skip-refresh-cookies":"true"  
+		  "AuthenticationOptions": {
+			"AuthenticationProviderKey": "Bearer",
+			"AllowedScopes": []
 		  },
 		  "UpstreamPathTemplate": "/auth/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
@@ -36,6 +37,10 @@
 			  "Port": 7295
 			}
 		  ],
+		  "AuthenticationOptions": {
+			"AuthenticationProviderKey": "Bearer",
+			"AllowedScopes": []
+		  },
 		  "UpstreamPathTemplate": "/user-notifications/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		}

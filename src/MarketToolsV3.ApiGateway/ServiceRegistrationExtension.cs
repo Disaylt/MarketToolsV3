@@ -4,6 +4,9 @@ using MarketToolsV3.ApiGateway.Services.Implementation;
 using MarketToolsV3.ApiGateway.Services.Interfaces;
 using MarketToolsV3.ConfigurationManager.Models;
 using Proto.Contract.Identity;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MarketToolsV3.ApiGateway;
 
@@ -26,6 +29,33 @@ public static class ServiceRegistrationExtension
         });
 
         return name;
+    }
+
+    public static IServiceCollection AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig)
+    {
+        byte[] secretBytes = Encoding.UTF8.GetBytes(authConfig.AuthSecret);
+
+        collection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(opt =>
+            {
+                {
+                    opt.IncludeErrorDetails = false;
+                    opt.SaveToken = true;
+                    opt.RequireHttpsMetadata = true;
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = authConfig.IsCheckValidIssuer,
+                        ValidateAudience = authConfig.IsCheckValidAudience,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidAudience = authConfig.ValidAudience,
+                        ValidIssuer = authConfig.ValidIssuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(secretBytes)
+                    };
+                }
+            });
+
+        return collection;
     }
 
     public static IServiceCollection AddApiGatewayServices(this IServiceCollection collection)

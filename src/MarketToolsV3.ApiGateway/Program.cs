@@ -28,9 +28,12 @@ authConfigManager.AddAsOptions(builder.Services);
 ITypingConfigManager<ServicesAddressesConfig> servicesAddressesConfigManager 
     = await configurationServiceFactory.CreateFromServicesAddressesAsync();
 
+var ocelotPipelineConfiguration = OcelotPipelineConfigurationFactory.Create();
+
 builder.Services
     .AddAuthGrpcClient(servicesAddressesConfigManager.Value)
-    .AddApiGatewayServices();
+    .AddApiGatewayServices()
+    .AddServiceAuthentication(authConfigManager.Value);
 
 builder.Services
     .AddOcelot(builder.Configuration);
@@ -42,9 +45,10 @@ string corsName = builder.Services
 
 var app = builder.Build();
 
-
 app.UseCors(corsName);
 
-await app.UseOcelot();
+app.UseAuthentication();
+
+await app.UseOcelot(ocelotPipelineConfiguration);
 
 app.Run();

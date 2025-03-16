@@ -1,0 +1,10 @@
+{
+	"DatabaseConnection":"Host=localhost;Port=5430;Username=postgres;Password=easypassword;Database=WbSellerApiCompanies",
+	"RedisConfig" : {
+		"Host": "localhost",
+		"Port": 6380,
+		"Password": "default",
+		"User": "easypassword",
+		"Database": 2
+	}
+}

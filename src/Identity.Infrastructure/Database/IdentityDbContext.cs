@@ -17,6 +17,8 @@ namespace Identity.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new SessionsConfiguration());
+            modelBuilder.ApplyConfiguration(new ServiceConfiguration());
+            modelBuilder.ApplyConfiguration(new ServiceClaimConfiguration());
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("public");

@@ -1,4 +1,5 @@
 {
 	"DatabaseConnection":"Host=localhost;Port=5430;Username=postgres;Password=easypassword;Database=FakeData",
+	"BaseAddress":"https://localhost:7249",
 	"CanCreateFakeData":true
 }
