@@ -11,6 +11,7 @@ using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
 using Identity.Infrastructure.QueryableHandlers;
 using Identity.Infrastructure.QueryObjectAdapters;
+using Identity.Infrastructure.QueryObjectHandlers;
 using Identity.Infrastructure.Repositories;
 using Identity.Infrastructure.Services.Abstract;
 using Identity.Infrastructure.Services.Abstract.Claims;
@@ -39,7 +40,9 @@ namespace Identity.Infrastructure
             collection.AddScoped<IIdentityPersonService, IdentityPersonService>();
             collection.AddScoped<IExtensionRepository, ExtensionRepository>();
             collection.AddScoped<IQueryableHandler<Session, SessionDto>, SessionToTransferMapQueryableHandler>();
+            collection.AddScoped<IQueryableHandler<Service, ServiceAuthInfoDto>, ServiceToAuthServiceTransferQueryableHandler>();
             collection.AddScoped<IQueryObjectHandler<GetActivateSessionQueryObject, Session>, GetActivateSessionQueryObjectHandler>();
+            collection.AddScoped<IQueryObjectHandler<FindServiceQueryObject, Service>, FindServiceQueryObjectHandler>();
             collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
 
             AddRedisCache(collection, serviceConfiguration.RedisConfig);

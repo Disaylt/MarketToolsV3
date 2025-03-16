@@ -36,6 +36,7 @@ namespace Identity.Application
             serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             serviceCollection.AddScoped<IStringIdQuickSearchService<SessionDto>, SessionQuickSearchService>();
+            serviceCollection.AddScoped<IProviderClaimsService, ProviderClaimsService>();
 
             serviceCollection
                 .AddScoped<IDeepValidator<DeactivateSessionCommand>, DeactivateSessionCommandDeepValidate>();

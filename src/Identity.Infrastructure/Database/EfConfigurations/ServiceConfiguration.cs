@@ -15,10 +15,13 @@ namespace Identity.Infrastructure.Database.EfConfigurations
         {
             builder.ToTable("services");
 
-            builder.HasKey(x => new { x.CategoryId, x.ProviderId });
+            builder.HasKey(x => x.Id);
 
             builder.Property(e => e.IdentityId)
                 .HasMaxLength(100);
+
+            builder.HasIndex(x => new { x.IdentityId, x.CategoryId, x.ProviderId })
+                .IsUnique();
 
             builder.HasOne(x => x.Identity)
                 .WithMany(x => x.Services)

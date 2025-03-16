@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Services.Implementation.Claims
@@ -24,7 +25,7 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
                 ClaimValueTypes.Integer64);
             Claim id = new(ClaimTypes.NameIdentifier, details.UserId);
             Claim sessionId = new(ClaimTypes.Sid, details.SessionId);
-
+            
             List<Claim> claims =
             [
                 jti,
@@ -32,6 +33,18 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
                 id,
                 sessionId
             ];
+
+            if (details.ServiceAuthInfo is not null)
+            {
+                Claim categoryId = new("categoryId", details.ServiceAuthInfo.CategoryId.ToString());
+                Claim providerId = new("providerId", details.ServiceAuthInfo.ProviderId.ToString());
+                Claim providerPermissions = new("providerPermissions",
+                    JsonSerializer.Serialize(details.ServiceAuthInfo.ClimTypeAndValuePairs));
+
+                claims.Add(categoryId);
+                claims.Add(providerId);
+                claims.Add(providerPermissions);
+            }
 
             IEnumerable<Claim> roles = rolesClaimService.Create(details.Roles);
             claims.AddRange(roles);

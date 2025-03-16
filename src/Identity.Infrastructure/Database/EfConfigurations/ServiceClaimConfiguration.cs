@@ -17,9 +17,12 @@ namespace Identity.Infrastructure.Database.EfConfigurations
 
             builder.HasKey(x => x.Id);
 
+            builder.HasIndex(x => new { x.ServiceId, x.Type })
+                .IsUnique();
+
             builder.HasOne(x => x.Service)
                 .WithMany(x => x.Claims)
-                .HasForeignKey(e => new { e.CategoryId, e.ProviderId })
+                .HasForeignKey(e => e.ServiceId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

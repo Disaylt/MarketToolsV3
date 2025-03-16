@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initt : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,7 @@ namespace Identity.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -174,26 +175,94 @@ namespace Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sessions",
+                name: "services",
                 schema: "public",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Token = table.Column<string>(type: "text", nullable: true),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IdentityId = table.Column<string>(type: "text", nullable: false),
-                    UserAgent = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CategoryId = table.Column<int>(type: "integer", nullable: false),
+                    ProviderId = table.Column<int>(type: "integer", nullable: false),
+                    IdentityId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sessions", x => x.Id);
+                    table.PrimaryKey("PK_services", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sessions_AspNetUsers_IdentityId",
+                        name: "FK_services_AspNetUsers_IdentityId",
                         column: x => x.IdentityId,
                         principalSchema: "public",
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "sessions",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Token = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IdentityId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    UserAgent = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_sessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_sessions_AspNetUsers_IdentityId",
+                        column: x => x.IdentityId,
+                        principalSchema: "public",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "serviceClaims",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Value = table.Column<int>(type: "integer", nullable: false),
+                    ServiceId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_serviceClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_serviceClaims_services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalSchema: "public",
+                        principalTable: "services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "serviceRoles",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Value = table.Column<int>(type: "integer", nullable: false),
+                    ServiceId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_serviceRoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_serviceRoles_services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalSchema: "public",
+                        principalTable: "services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -243,9 +312,30 @@ namespace Identity.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sessions_IdentityId",
+                name: "IX_serviceClaims_ServiceId_Type",
                 schema: "public",
-                table: "Sessions",
+                table: "serviceClaims",
+                columns: new[] { "ServiceId", "Type" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_serviceRoles_ServiceId_Value",
+                schema: "public",
+                table: "serviceRoles",
+                columns: new[] { "ServiceId", "Value" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_services_IdentityId_CategoryId_ProviderId",
+                schema: "public",
+                table: "services",
+                columns: new[] { "IdentityId", "CategoryId", "ProviderId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_sessions_IdentityId",
+                schema: "public",
+                table: "sessions",
                 column: "IdentityId");
         }
 
@@ -273,11 +363,23 @@ namespace Identity.Infrastructure.Migrations
                 schema: "public");
 
             migrationBuilder.DropTable(
-                name: "Sessions",
+                name: "serviceClaims",
+                schema: "public");
+
+            migrationBuilder.DropTable(
+                name: "serviceRoles",
+                schema: "public");
+
+            migrationBuilder.DropTable(
+                name: "sessions",
                 schema: "public");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles",
+                schema: "public");
+
+            migrationBuilder.DropTable(
+                name: "services",
                 schema: "public");
 
             migrationBuilder.DropTable(

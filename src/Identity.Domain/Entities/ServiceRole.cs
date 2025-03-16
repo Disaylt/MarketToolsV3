@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Identity.Domain.Entities
 {
-    public class ServiceClaim
+    public class ServiceRole
     {
         public int Id { get; set; }
-
-        public int Type { get; set; }
         public int Value { get; set; }
 
         public int ServiceId { get; set; }

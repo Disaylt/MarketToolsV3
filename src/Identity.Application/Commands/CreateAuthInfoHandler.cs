@@ -16,7 +16,8 @@ namespace Identity.Application.Commands
         ILogger<CreateAuthInfoHandler> logger,
         ITokenService<JwtAccessTokenDto> accessTokenService,
         ITokenService<JwtRefreshTokenDto> refreshTokenService,
-        ISessionService sessionService)
+        ISessionService sessionService,
+        IProviderClaimsService providerClaimsService)
         : IRequestHandler<CreateAuthInfo, AuthInfoDto>
     {
         public async Task<AuthInfoDto> Handle(CreateAuthInfo request, CancellationToken cancellationToken)
@@ -44,6 +45,8 @@ namespace Identity.Application.Commands
             await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
 
             JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
+            accessTokenData.ServiceAuthInfo = await providerClaimsService
+                    .FindOrDefault(request.CategoryId, request.ProviderId);
 
             logger.LogInformation("Build auth info result.");
 

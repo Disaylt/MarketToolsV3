@@ -18,7 +18,7 @@ namespace Identity.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -88,6 +88,80 @@ namespace Identity.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", "public");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.Service", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("ProviderId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityId", "CategoryId", "ProviderId")
+                        .IsUnique();
+
+                    b.ToTable("services", "public");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.ServiceClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId", "Type")
+                        .IsUnique();
+
+                    b.ToTable("serviceClaims", "public");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.ServiceRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId", "Value")
+                        .IsUnique();
+
+                    b.ToTable("serviceRoles", "public");
                 });
 
             modelBuilder.Entity("Identity.Domain.Entities.Session", b =>
@@ -258,6 +332,39 @@ namespace Identity.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", "public");
                 });
 
+            modelBuilder.Entity("Identity.Domain.Entities.Service", b =>
+                {
+                    b.HasOne("Identity.Domain.Entities.IdentityPerson", "Identity")
+                        .WithMany("Services")
+                        .HasForeignKey("IdentityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Identity");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.ServiceClaim", b =>
+                {
+                    b.HasOne("Identity.Domain.Entities.Service", "Service")
+                        .WithMany("Claims")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.ServiceRole", b =>
+                {
+                    b.HasOne("Identity.Domain.Entities.Service", "Service")
+                        .WithMany("Roles")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("Identity.Domain.Entities.Session", b =>
                 {
                     b.HasOne("Identity.Domain.Entities.IdentityPerson", "Identity")
@@ -322,7 +429,16 @@ namespace Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Identity.Domain.Entities.IdentityPerson", b =>
                 {
+                    b.Navigation("Services");
+
                     b.Navigation("Sessions");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.Service", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }
