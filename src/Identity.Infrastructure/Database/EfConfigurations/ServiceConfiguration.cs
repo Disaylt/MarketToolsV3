@@ -20,7 +20,7 @@ namespace Identity.Infrastructure.Database.EfConfigurations
             builder.Property(e => e.IdentityId)
                 .HasMaxLength(100);
 
-            builder.HasIndex(x => new { x.IdentityId, x.CategoryId, x.ProviderId })
+            builder.HasIndex(x => new { x.IdentityId, CategoryId = x.ProviderType, x.ProviderId })
                 .IsUnique();
 
             builder.HasOne(x => x.Identity)

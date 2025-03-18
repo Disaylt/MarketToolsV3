@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using MarketToolsV3.ConfigurationManager.Models;
 using Identity.Infrastructure.Services.Implementation.Claims;
@@ -60,6 +61,21 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
                 UserId = jwtSecurityToken.Claims.FindByType(ClaimTypes.NameIdentifier) ?? "",
                 SessionId = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? ""
             };
+
+            if (int.TryParse(jwtSecurityToken.Claims.FindByType("providerType"), out var providerTypeResult)
+                && int.TryParse(jwtSecurityToken.Claims.FindByType("providerId"), out var providerIdResult))
+            {
+                string? providerPermissions = jwtSecurityToken.Claims.FindByType("providerPermissions");
+
+                jwtAccessTokenDto.ServiceAuthInfo = new()
+                {
+                    ProviderId = providerIdResult,
+                    ProviderType = providerTypeResult,
+                    ClaimTypeAndValuePairs = providerPermissions != null
+                        ? JsonSerializer.Deserialize<Dictionary<int, int>>(providerPermissions) ?? []
+                        : []
+                };
+            }
 
             IEnumerable<string> roles = jwtSecurityToken.Claims
                 .Where(x => x.Type == ClaimTypes.Role)

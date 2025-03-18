@@ -17,16 +17,16 @@ namespace Identity.Application.Services.Implementation
         IExtensionRepository extensionRepository)
     : IProviderClaimsService
     {
-        public async Task<ServiceAuthInfoDto?> FindOrDefault(int? categoryId, int? providerId)
+        public async Task<ServiceAuthInfoDto?> FindOrDefault(int? providerType, int? providerId)
         {
-            if (categoryId == null || providerId == null)
+            if (providerType == null || providerId == null)
             {
                 return null;
             }
 
             FindServiceQueryObject queryObject = new()
             {
-                CategoryId = categoryId.Value,
+                ProviderType = providerType.Value,
                 ProviderId = providerId.Value
             };
 

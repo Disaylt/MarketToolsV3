@@ -16,9 +16,9 @@ namespace Identity.Infrastructure.QueryableHandlers
             var result = query
                 .Select(x => new ServiceAuthInfoDto
                 {
-                    CategoryId = x.CategoryId,
+                    ProviderType = x.ProviderType,
                     ProviderId = x.ProviderId,
-                    ClimTypeAndValuePairs = x.Claims
+                    ClaimTypeAndValuePairs = x.Claims
                         .ToDictionary(c => c.Type, c => c.Value)
 
                 });

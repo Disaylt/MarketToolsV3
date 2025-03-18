@@ -1,6 +1,9 @@
 ﻿using Asp.Versioning;
 using Identity.Application.Commands;
+using Identity.Application.Models;
+using Identity.WebApi.Models;
 using Identity.WebApi.Services.Implementation;
+using Identity.WebApi.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,14 +14,29 @@ namespace Identity.WebApi.Controllers
     [Route("api/v{version:apiVersion}/tokens")]
     [ApiController]
     [ApiVersion("1")]
-    public class TokensController(IMediator mediator)
+    public class TokensController(
+        IMediator mediator,
+        ICredentialsService credentialsService)
         : ControllerBase
     {
         [HttpPost("refresh")]
         [MapToApiVersion(1)]
-        public async Task<IActionResult> RefreshTokenAsync([FromBody] CreateAuthInfo body, CancellationToken cancellationToken)
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] NewAuthInfo body, CancellationToken cancellationToken)
         {
-            var result = await mediator.Send(body, cancellationToken);
+            var command = new CreateAuthInfo
+            {
+                RefreshToken = body.RefreshToken,
+                ProviderId = body.ProviderId,
+                ProviderType = body.ProviderType,
+                UserAgent = HttpContext.Request.Headers.UserAgent.FirstOrDefault() ?? "Unknown"
+            };
+
+            var result = await mediator.Send(command, cancellationToken);
+
+            if (result is { IsValid: true, Details: not null })
+            {
+                credentialsService.Refresh(result.Details.AuthToken, result.Details.SessionToken);
+            }
 
             return Ok(result);
         }

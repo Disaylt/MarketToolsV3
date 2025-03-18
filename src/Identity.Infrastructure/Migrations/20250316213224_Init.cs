@@ -329,7 +329,7 @@ namespace Identity.Infrastructure.Migrations
                 name: "IX_services_IdentityId_CategoryId_ProviderId",
                 schema: "public",
                 table: "services",
-                columns: new[] { "IdentityId", "CategoryId", "ProviderId" },
+                columns: new[] { "IdentityId", "ProviderType", "ProviderId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

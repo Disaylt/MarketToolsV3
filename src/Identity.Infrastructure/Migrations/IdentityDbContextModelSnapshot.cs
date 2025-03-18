@@ -98,7 +98,7 @@ namespace Identity.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("ProviderType")
                         .HasColumnType("integer");
 
                     b.Property<string>("IdentityId")
@@ -111,7 +111,7 @@ namespace Identity.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityId", "CategoryId", "ProviderId")
+                    b.HasIndex("IdentityId", "ProviderType", "ProviderId")
                         .IsUnique();
 
                     b.ToTable("services", "public");

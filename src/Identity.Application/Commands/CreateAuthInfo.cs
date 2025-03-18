@@ -12,7 +12,7 @@ namespace Identity.Application.Commands
     {
         public string UserAgent { get; set; } = "Unknown";
         public required string RefreshToken { get; set; }
-        public int? CategoryId { get; set; }
+        public int? ProviderType { get; set; }
         public int? ProviderId { get; set; }
     }
 }

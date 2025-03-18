@@ -16,7 +16,7 @@ namespace Identity.Infrastructure.QueryObjectHandlers
         {
             return serviceRepository
                 .AsQueryable()
-                .Where(x => x.CategoryId == query.CategoryId && x.ProviderId == query.ProviderId);
+                .Where(x => x.ProviderType == query.ProviderType && x.ProviderId == query.ProviderId);
         }
     }
 }

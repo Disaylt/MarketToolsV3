@@ -46,7 +46,7 @@ namespace Identity.Application.Commands
 
             JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
             accessTokenData.ServiceAuthInfo = await providerClaimsService
-                    .FindOrDefault(request.CategoryId, request.ProviderId);
+                    .FindOrDefault(request.ProviderType, request.ProviderId);
 
             logger.LogInformation("Build auth info result.");
 

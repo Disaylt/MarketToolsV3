@@ -9,7 +9,7 @@
 			  "Port": 7256
 			}
 		  ],
-		  "UpstreamPathTemplate": "/identity/{everything}",
+		  "UpstreamPathTemplate": "/api/auth/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		},
 		{
@@ -25,7 +25,7 @@
 			"AuthenticationProviderKey": "Bearer",
 			"AllowedScopes": []
 		  },
-		  "UpstreamPathTemplate": "/auth/{everything}",
+		  "UpstreamPathTemplate": "/api/identity/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		},
 		{
@@ -41,7 +41,7 @@
 			"AuthenticationProviderKey": "Bearer",
 			"AllowedScopes": []
 		  },
-		  "UpstreamPathTemplate": "/user-notifications/{everything}",
+		  "UpstreamPathTemplate": "/api/user-notifications/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		}
     ],

@@ -9,7 +9,7 @@ namespace Identity.Domain.Entities
     public class Service
     {
         public int Id { get; set; }
-        public int CategoryId { get; set; }
+        public int ProviderType { get; set; }
         public int ProviderId { get; set; }
         public required string IdentityId { get; set; }
         public IdentityPerson Identity { get; set; } = null!;

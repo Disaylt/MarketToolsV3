@@ -8,8 +8,8 @@ namespace Identity.Application.Models
 {
     public class ServiceAuthInfoDto
     {
-        public int CategoryId { get; set; }
+        public int ProviderType { get; set; }
         public int ProviderId { get; set; }
-        public Dictionary<int, int> ClimTypeAndValuePairs { get; set; } = new();
+        public Dictionary<int, int> ClaimTypeAndValuePairs { get; set; } = new();
     }
 }

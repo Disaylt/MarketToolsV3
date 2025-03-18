@@ -10,7 +10,7 @@ namespace Identity.Application.QueryObjects
 {
     public class FindServiceQueryObject : IQueryObject<Service>
     {
-        public int CategoryId { get; set; }
+        public int ProviderType { get; set; }
         public int ProviderId { get; set; }
     }
 }

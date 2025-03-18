@@ -32,7 +32,8 @@ namespace Identity.WebApi.Controllers
         {
             DeactivateSessionCommand command = new()
             {
-                Id = authContext.GetSessionIdRequired()
+                Id = authContext.GetSessionIdRequired(),
+                UserId = authContext.GetUserIdRequired()
             };
             await mediator.Send(command, cancellationToken);
             credentialsService.Remove(command.Id);

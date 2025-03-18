@@ -36,10 +36,10 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
 
             if (details.ServiceAuthInfo is not null)
             {
-                Claim categoryId = new("categoryId", details.ServiceAuthInfo.CategoryId.ToString());
+                Claim categoryId = new("providerType", details.ServiceAuthInfo.ProviderType.ToString());
                 Claim providerId = new("providerId", details.ServiceAuthInfo.ProviderId.ToString());
                 Claim providerPermissions = new("providerPermissions",
-                    JsonSerializer.Serialize(details.ServiceAuthInfo.ClimTypeAndValuePairs));
+                    JsonSerializer.Serialize(details.ServiceAuthInfo.ClaimTypeAndValuePairs));
 
                 claims.Add(categoryId);
                 claims.Add(providerId);

@@ -9,6 +9,6 @@ namespace Identity.Application.Services.Abstract
 {
     public interface IProviderClaimsService
     {
-        Task<ServiceAuthInfoDto?> FindOrDefault(int? categoryId, int? providerId);
+        Task<ServiceAuthInfoDto?> FindOrDefault(int? providerType, int? providerId);
     }
 }
