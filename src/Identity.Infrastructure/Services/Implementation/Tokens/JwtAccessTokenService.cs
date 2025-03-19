@@ -102,9 +102,9 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
                 .ToList();
         }
 
-        private IReadOnlyDictionary<int, int> ParseModuleClaims(IEnumerable<Claim> claims)
+        private IReadOnlyCollection<ModuleClaimDto> ParseModuleClaims(IEnumerable<Claim> claims)
         {
-            Dictionary<int, int> result = new();
+            List<ModuleClaimDto> result = new();
             var tempStrValues = claims
                 .Where(x => x.Type.StartsWith("modulePermission"))
                 .Select(x => new { SplitType = x.Type.Split('_'), Value = x.Value });
@@ -115,7 +115,11 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
                     && int.TryParse(claim.SplitType[1], out var typeResult)
                     && int.TryParse(claim.Value, out var valueResult))
                 {
-                    result.Add(typeResult, valueResult);
+                    result.Add(new ModuleClaimDto
+                    {
+                        Type = typeResult,
+                        Value = valueResult
+                    });
                 }
             }
 

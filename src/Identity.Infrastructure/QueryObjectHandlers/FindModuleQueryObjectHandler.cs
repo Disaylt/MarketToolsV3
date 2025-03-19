@@ -9,7 +9,7 @@ using Identity.Domain.Seed;
 
 namespace Identity.Infrastructure.QueryObjectHandlers
 {
-    public class FindServiceQueryObjectHandler(IRepository<Module> serviceRepository)
+    public class FindModuleQueryObjectHandler(IRepository<Module> serviceRepository)
         : IQueryObjectHandler<FindModuleQueryObject, Module>
     {
         public IQueryable<Module> Create(FindModuleQueryObject query)

@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using Identity.Application.Commands;
 using Identity.Application.Models;
+using Identity.Application.Services.Abstract;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services.Implementation;
 using Identity.WebApi.Services.Interfaces;

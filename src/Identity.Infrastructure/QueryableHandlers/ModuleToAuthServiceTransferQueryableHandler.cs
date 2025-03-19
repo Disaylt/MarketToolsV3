@@ -9,7 +9,7 @@ using Identity.Domain.Seed;
 
 namespace Identity.Infrastructure.QueryableHandlers
 {
-    public class ServiceToAuthServiceTransferQueryableHandler : IQueryableHandler<Module, ModuleAuthInfoDto>
+    public class ModuleToAuthServiceTransferQueryableHandler : IQueryableHandler<Module, ModuleAuthInfoDto>
     {
         public Task<IQueryable<ModuleAuthInfoDto>> HandleAsync(IQueryable<Module> query)
         {
@@ -19,11 +19,20 @@ namespace Identity.Infrastructure.QueryableHandlers
                     Type = x.Type,
                     Path = x.Path,
                     Id = x.ExternalId,
-                    ClaimTypeAndValuePairs = x.Claims
-                        .ToDictionary(c => c.Type, c => c.Value),
-                    Roles = x.Roles.Select(r => r.Value).ToList()
 
+                    ClaimTypeAndValuePairs = x.Claims
+                        .Select(x=> new ModuleClaimDto
+                        {
+                            Type = x.Type,
+                            Value = x.Value
+                        })
+                        .ToList(),
+
+                    Roles = x.Roles
+                        .Select(r => r.Value)
+                        .ToList()
                 });
+
 
             return Task.FromResult(result);
         }
