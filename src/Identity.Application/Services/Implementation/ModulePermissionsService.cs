@@ -11,23 +11,24 @@ using Identity.Domain.Seed;
 
 namespace Identity.Application.Services.Implementation
 {
-    public class ProviderClaimsService(
-        IQueryObjectHandler<FindServiceQueryObject, Service> findServiceQueryObjectHandler,
-        IQueryableHandler<Service, ServiceAuthInfoDto> serviceToServiceAuthQueryableHandler,
+    public class ModulePermissionsService(
+        IQueryObjectHandler<FindModuleQueryObject, Module> findServiceQueryObjectHandler,
+        IQueryableHandler<Module, ModuleAuthInfoDto> serviceToServiceAuthQueryableHandler,
         IExtensionRepository extensionRepository)
-    : IProviderClaimsService
+    : IModulePermissionsService
     {
-        public async Task<ServiceAuthInfoDto?> FindOrDefault(int? providerType, int? providerId)
+        public async Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? type, int? id)
         {
-            if (providerType == null || providerId == null)
+            if (path == null || type == null || id == null)
             {
                 return null;
             }
 
-            FindServiceQueryObject queryObject = new()
+            FindModuleQueryObject queryObject = new()
             {
-                ProviderType = providerType.Value,
-                ProviderId = providerId.Value
+                Path = path,
+                Type = type,
+                Id = id.Value,
             };
 
             var queryObjectResult = findServiceQueryObjectHandler.Create(queryObject);

@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace Identity.Domain.Entities
 {
-    public class Service
+    public class Module
     {
         public int Id { get; set; }
-        public int ProviderType { get; set; }
-        public int ProviderId { get; set; }
+        public required string Type { get; set; }
+        public required string Path { get; set; }
+        public int ExternalId { get; set; }
         public required string IdentityId { get; set; }
         public IdentityPerson Identity { get; set; } = null!;
 
-        public List<ServiceClaim> Claims { get; set; } = [];
-        public List<ServiceRole> Roles { get; set; } = [];
+        public List<ModuleClaim> Claims { get; set; } = [];
+        public List<ModuleRole> Roles { get; set; } = [];
     }
 }

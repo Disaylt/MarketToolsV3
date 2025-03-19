@@ -11,6 +11,6 @@ namespace Identity.Application.Models
         public required string UserId { get; init; }
         public required string SessionId { get ; init; }
         public List<string> Roles { get; } = [];
-        public ServiceAuthInfoDto? ServiceAuthInfo { get; set; }
+        public ModuleAuthInfoDto? ServiceAuthInfo { get; set; }
     }
 }

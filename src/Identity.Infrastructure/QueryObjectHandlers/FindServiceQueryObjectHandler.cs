@@ -9,14 +9,16 @@ using Identity.Domain.Seed;
 
 namespace Identity.Infrastructure.QueryObjectHandlers
 {
-    public class FindServiceQueryObjectHandler(IRepository<Service> serviceRepository)
-        : IQueryObjectHandler<FindServiceQueryObject, Service>
+    public class FindServiceQueryObjectHandler(IRepository<Module> serviceRepository)
+        : IQueryObjectHandler<FindModuleQueryObject, Module>
     {
-        public IQueryable<Service> Create(FindServiceQueryObject query)
+        public IQueryable<Module> Create(FindModuleQueryObject query)
         {
             return serviceRepository
                 .AsQueryable()
-                .Where(x => x.ProviderType == query.ProviderType && x.ProviderId == query.ProviderId);
+                .Where(x => x.Type == query.Type 
+                            && x.ExternalId == query.Id 
+                            && x.Path == query.Path);
         }
     }
 }

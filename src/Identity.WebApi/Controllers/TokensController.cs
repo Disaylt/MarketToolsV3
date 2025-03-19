@@ -26,8 +26,9 @@ namespace Identity.WebApi.Controllers
             var command = new CreateAuthInfo
             {
                 RefreshToken = body.RefreshToken,
-                ProviderId = body.ProviderId,
-                ProviderType = body.ProviderType,
+                ModulePath = body.ModulePath, 
+                ModuleId= body.ModuleId,
+                ModuleType = body.ModuleType,
                 UserAgent = HttpContext.Request.Headers.UserAgent.FirstOrDefault() ?? "Unknown"
             };
 

@@ -13,16 +13,16 @@ namespace Identity.Infrastructure.Database
     public class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : IdentityDbContext<IdentityPerson>(options)
     {
         public DbSet<Session> Sessions { get; set; } = null!;
-        public DbSet<Service> Services { get; set; } = null!;
-        public DbSet<ServiceRole> ServiceRoles { get; set; } = null!;
-        public DbSet<ServiceClaim> ServiceClaims { get; set; } = null!;
+        public DbSet<Module> Modules { get; set; } = null!;
+        public DbSet<ModuleRole> ModuleRoles { get; set; } = null!;
+        public DbSet<ModuleClaim> ModuleClaims { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new SessionsConfiguration());
-            modelBuilder.ApplyConfiguration(new ServiceConfiguration());
-            modelBuilder.ApplyConfiguration(new ServiceClaimConfiguration());
-            modelBuilder.ApplyConfiguration(new ServiceRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new ModuleConfiguration());
+            modelBuilder.ApplyConfiguration(new ModuleClaimConfiguration());
+            modelBuilder.ApplyConfiguration(new ModuleRoleConfiguration());
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("public");

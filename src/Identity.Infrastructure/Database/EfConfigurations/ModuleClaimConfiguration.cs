@@ -9,20 +9,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Identity.Infrastructure.Database.EfConfigurations
 {
-    public class ServiceClaimConfiguration : IEntityTypeConfiguration<ServiceClaim>
+    public class ModuleClaimConfiguration : IEntityTypeConfiguration<ModuleClaim>
     {
-        public void Configure(EntityTypeBuilder<ServiceClaim> builder)
+        public void Configure(EntityTypeBuilder<ModuleClaim> builder)
         {
-            builder.ToTable("serviceClaims");
+            builder.ToTable("moduleClaims");
 
             builder.HasKey(x => x.Id);
 
-            builder.HasIndex(x => new { x.ServiceId, x.Type })
+            builder.HasIndex(x => new { x.ModuleId, x.Type })
                 .IsUnique();
 
-            builder.HasOne(x => x.Service)
+            builder.HasOne(x => x.Module)
                 .WithMany(x => x.Claims)
-                .HasForeignKey(e => e.ServiceId)
+                .HasForeignKey(e => e.ModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

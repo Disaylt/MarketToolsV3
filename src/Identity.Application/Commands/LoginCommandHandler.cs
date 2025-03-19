@@ -60,7 +60,7 @@ namespace Identity.Application.Commands
             };
         }
 
-        private JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId)
+        private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId)
         {
             return new()
             {

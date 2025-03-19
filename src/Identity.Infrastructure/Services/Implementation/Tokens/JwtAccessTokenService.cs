@@ -62,28 +62,64 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
                 SessionId = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? ""
             };
 
-            if (int.TryParse(jwtSecurityToken.Claims.FindByType("providerType"), out var providerTypeResult)
-                && int.TryParse(jwtSecurityToken.Claims.FindByType("providerId"), out var providerIdResult))
-            {
-                string? providerPermissions = jwtSecurityToken.Claims.FindByType("providerPermissions");
+            string? moduleType = jwtSecurityToken.Claims.FindByType("moduleType");
+            string? modulePath = jwtSecurityToken.Claims.FindByType("modulePath");
 
+            if (int.TryParse(jwtSecurityToken.Claims.FindByType("moduleId"), out var moduleId)
+                && moduleType != null
+                && modulePath != null)
+            {
                 jwtAccessTokenDto.ServiceAuthInfo = new()
                 {
-                    ProviderId = providerIdResult,
-                    ProviderType = providerTypeResult,
-                    ClaimTypeAndValuePairs = providerPermissions != null
-                        ? JsonSerializer.Deserialize<Dictionary<int, int>>(providerPermissions) ?? []
-                        : []
+                    Type = moduleType,
+                    Id = moduleId,
+                    Path = modulePath,
+                    Roles = ParseModuleRoles(jwtSecurityToken.Claims),
+                    ClaimTypeAndValuePairs = ParseModuleClaims(jwtSecurityToken.Claims)
                 };
             }
 
-            IEnumerable<string> roles = jwtSecurityToken.Claims
-                .Where(x => x.Type == ClaimTypes.Role)
-                .Select(x => x.Value);
-
+            IEnumerable<string> roles = ParseRoles(jwtSecurityToken.Claims);
             jwtAccessTokenDto.Roles.AddRange(roles);
 
             return jwtAccessTokenDto;
+        }
+
+        private IReadOnlyCollection<string> ParseRoles(IEnumerable<Claim> claims)
+        {
+            return claims
+                .Where(x => x.Type == ClaimTypes.Role)
+                .Select(x => x.Value)
+                .ToList();
+        }
+
+        private IReadOnlyCollection<string> ParseModuleRoles(IEnumerable<Claim> claims)
+        {
+            string moduleRoleType = $"module_{ClaimTypes.Role}";
+            return claims
+                .Where(x => x.Type == moduleRoleType)
+                .Select(x => x.Value)
+                .ToList();
+        }
+
+        private IReadOnlyDictionary<int, int> ParseModuleClaims(IEnumerable<Claim> claims)
+        {
+            Dictionary<int, int> result = new();
+            var tempStrValues = claims
+                .Where(x => x.Type.StartsWith("modulePermission"))
+                .Select(x => new { SplitType = x.Type.Split('_'), Value = x.Value });
+
+            foreach (var claim in tempStrValues)
+            {
+                if (claim.SplitType.Length > 1
+                    && int.TryParse(claim.SplitType[1], out var typeResult)
+                    && int.TryParse(claim.Value, out var valueResult))
+                {
+                    result.Add(typeResult, valueResult);
+                }
+            }
+
+            return result;
         }
     }
 }

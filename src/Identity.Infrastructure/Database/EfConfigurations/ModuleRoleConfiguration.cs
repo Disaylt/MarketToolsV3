@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Database.EfConfigurations
 {
-    internal class ServiceRoleConfiguration : IEntityTypeConfiguration<ServiceRole>
+    internal class ModuleRoleConfiguration : IEntityTypeConfiguration<ModuleRole>
     {
-        public void Configure(EntityTypeBuilder<ServiceRole> builder)
+        public void Configure(EntityTypeBuilder<ModuleRole> builder)
         {
-            builder.ToTable("serviceRoles");
+            builder.ToTable("moduleRoles");
 
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => new { x.Value, x.ModuleId});
 
-            builder.HasIndex(x => new { x.ServiceId, x.Value })
-                .IsUnique();
+            builder.Property(x => x.Value)
+                .HasMaxLength(100);
 
-            builder.HasOne(x => x.Service)
+            builder.HasOne(x => x.Module)
                 .WithMany(x => x.Roles)
-                .HasForeignKey(e => e.ServiceId)
+                .HasForeignKey(e => e.ModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

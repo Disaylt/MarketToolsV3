@@ -40,9 +40,9 @@ namespace Identity.Infrastructure
             collection.AddScoped<IIdentityPersonService, IdentityPersonService>();
             collection.AddScoped<IExtensionRepository, ExtensionRepository>();
             collection.AddScoped<IQueryableHandler<Session, SessionDto>, SessionToTransferMapQueryableHandler>();
-            collection.AddScoped<IQueryableHandler<Service, ServiceAuthInfoDto>, ServiceToAuthServiceTransferQueryableHandler>();
+            collection.AddScoped<IQueryableHandler<Module, ModuleAuthInfoDto>, ServiceToAuthServiceTransferQueryableHandler>();
             collection.AddScoped<IQueryObjectHandler<GetActivateSessionQueryObject, Session>, GetActivateSessionQueryObjectHandler>();
-            collection.AddScoped<IQueryObjectHandler<FindServiceQueryObject, Service>, FindServiceQueryObjectHandler>();
+            collection.AddScoped<IQueryObjectHandler<FindModuleQueryObject, Module>, FindServiceQueryObjectHandler>();
             collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
 
             AddRedisCache(collection, serviceConfiguration.RedisConfig);

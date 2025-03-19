@@ -12,7 +12,8 @@ namespace Identity.Application.Commands
     {
         public string UserAgent { get; set; } = "Unknown";
         public required string RefreshToken { get; set; }
-        public int? ProviderType { get; set; }
-        public int? ProviderId { get; set; }
+        public string? ModuleType { get; set; }
+        public string? ModulePath { get; set; }
+        public int? ModuleId { get; set; }
     }
 }

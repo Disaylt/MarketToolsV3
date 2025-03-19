@@ -7,8 +7,8 @@ using Identity.Application.Models;
 
 namespace Identity.Application.Services.Abstract
 {
-    public interface IProviderClaimsService
+    public interface IModulePermissionsService
     {
-        Task<ServiceAuthInfoDto?> FindOrDefault(int? providerType, int? providerId);
+        Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? type, int? id);
     }
 }

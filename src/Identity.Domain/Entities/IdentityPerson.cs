@@ -11,6 +11,6 @@ namespace Identity.Domain.Entities
     {
         public DateTime CreateDate { get; private set; } = DateTime.UtcNow;
         public List<Session> Sessions { get; set; } = [];
-        public List<Service> Services { get; set; } = [];
+        public List<Module> Modules { get; set; } = [];
     }
 }

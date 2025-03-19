@@ -8,9 +8,10 @@ using Identity.Domain.Seed;
 
 namespace Identity.Application.QueryObjects
 {
-    public class FindServiceQueryObject : IQueryObject<Service>
+    public class FindModuleQueryObject : IQueryObject<Module>
     {
-        public int ProviderType { get; set; }
-        public int ProviderId { get; set; }
+        public required string Type { get; set; }
+        public required string Path { get; set; }
+        public int Id { get; set; }
     }
 }

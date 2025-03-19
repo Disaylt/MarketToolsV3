@@ -36,14 +36,22 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
 
             if (details.ServiceAuthInfo is not null)
             {
-                Claim categoryId = new("providerType", details.ServiceAuthInfo.ProviderType.ToString());
-                Claim providerId = new("providerId", details.ServiceAuthInfo.ProviderId.ToString());
-                Claim providerPermissions = new("providerPermissions",
-                    JsonSerializer.Serialize(details.ServiceAuthInfo.ClaimTypeAndValuePairs));
 
-                claims.Add(categoryId);
-                claims.Add(providerId);
-                claims.Add(providerPermissions);
+                string moduleRoleType = $"module_{ClaimTypes.Role}";
+
+                foreach (var role in details.ServiceAuthInfo.Roles)
+                {
+                    claims.Add(new Claim(moduleRoleType, role));
+                }
+
+                foreach (var typeAndValue in details.ServiceAuthInfo.ClaimTypeAndValuePairs)
+                {
+                    claims.Add(new Claim($"modulePermission_{typeAndValue.Key}", typeAndValue.Value.ToString()));
+                }
+
+                claims.Add(new Claim("moduleType", details.ServiceAuthInfo.Type));
+                claims.Add(new Claim("modulePath", details.ServiceAuthInfo.Path));
+                claims.Add(new Claim("moduleId", details.ServiceAuthInfo.Id.ToString()));
             }
 
             IEnumerable<Claim> roles = rolesClaimService.Create(details.Roles);
