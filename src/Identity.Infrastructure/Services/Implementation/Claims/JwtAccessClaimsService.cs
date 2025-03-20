@@ -46,7 +46,7 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
 
                 foreach (var typeAndValue in details.ServiceAuthInfo.ClaimTypeAndValuePairs)
                 {
-                    claims.Add(new Claim($"modulePermission_{typeAndValue.Type}", typeAndValue.Value.ToString()));
+                    claims.Add(new Claim($"mp_{typeAndValue.Type}", typeAndValue.Value.ToString()));
                 }
 
                 claims.Add(new Claim("moduleType", details.ServiceAuthInfo.Type));

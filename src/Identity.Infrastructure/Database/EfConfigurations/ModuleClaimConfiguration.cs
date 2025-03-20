@@ -20,6 +20,9 @@ namespace Identity.Infrastructure.Database.EfConfigurations
             builder.HasIndex(x => new { x.ModuleId, x.Type })
                 .IsUnique();
 
+            builder.Property(x => x.Type)
+                .HasMaxLength(200);
+
             builder.HasOne(x => x.Module)
                 .WithMany(x => x.Claims)
                 .HasForeignKey(e => e.ModuleId)

@@ -8,7 +8,7 @@ namespace Identity.Application.Models
 {
     public class ModuleClaimDto
     {
-        public int Type { get; set; }
+        public required string Type { get; set; }
         public int Value { get; set; }
     }
 }

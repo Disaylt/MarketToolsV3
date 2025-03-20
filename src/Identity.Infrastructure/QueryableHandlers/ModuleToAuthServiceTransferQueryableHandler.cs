@@ -21,10 +21,10 @@ namespace Identity.Infrastructure.QueryableHandlers
                     Id = x.ExternalId,
 
                     ClaimTypeAndValuePairs = x.Claims
-                        .Select(x=> new ModuleClaimDto
+                        .Select(moduleClaim=> new ModuleClaimDto
                         {
-                            Type = x.Type,
-                            Value = x.Value
+                            Type = moduleClaim.Type,
+                            Value = moduleClaim.Value
                         })
                         .ToList(),
 

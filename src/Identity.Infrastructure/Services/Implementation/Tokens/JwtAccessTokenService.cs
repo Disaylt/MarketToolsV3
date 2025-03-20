@@ -93,31 +93,31 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
                 .ToList();
         }
 
-        private IReadOnlyCollection<string> ParseModuleRoles(IEnumerable<Claim> claims)
+        private static IReadOnlyCollection<string> ParseModuleRoles(IEnumerable<Claim> claims)
         {
             string moduleRoleType = $"module_{ClaimTypes.Role}";
+
             return claims
                 .Where(x => x.Type == moduleRoleType)
                 .Select(x => x.Value)
                 .ToList();
         }
 
-        private IReadOnlyCollection<ModuleClaimDto> ParseModuleClaims(IEnumerable<Claim> claims)
+        private static IReadOnlyCollection<ModuleClaimDto> ParseModuleClaims(IEnumerable<Claim> claims)
         {
-            List<ModuleClaimDto> result = new();
+            List<ModuleClaimDto> result = [];
             var tempStrValues = claims
-                .Where(x => x.Type.StartsWith("modulePermission"))
-                .Select(x => new { SplitType = x.Type.Split('_'), Value = x.Value });
+                .Where(x => x.Type.StartsWith("mp_"))
+                .Select(x => new { SplitType = x.Type.Split('_'), x.Value });
 
             foreach (var claim in tempStrValues)
             {
                 if (claim.SplitType.Length > 1
-                    && int.TryParse(claim.SplitType[1], out var typeResult)
                     && int.TryParse(claim.Value, out var valueResult))
                 {
                     result.Add(new ModuleClaimDto
                     {
-                        Type = typeResult,
+                        Type = claim.SplitType[1],
                         Value = valueResult
                     });
                 }

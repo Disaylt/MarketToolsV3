@@ -11,7 +11,7 @@ namespace Identity.Application.Models
         public required string Type { get; set; }
         public required string Path { get; set; }
         public int Id { get; set; }
-        public IReadOnlyCollection<ModuleClaimDto> ClaimTypeAndValuePairs { get; set; } = new List<ModuleClaimDto>();
+        public IReadOnlyCollection<ModuleClaimDto> ClaimTypeAndValuePairs { get; set; } = [];
         public IReadOnlyCollection<string> Roles { get; set; } = [];
     }
 }

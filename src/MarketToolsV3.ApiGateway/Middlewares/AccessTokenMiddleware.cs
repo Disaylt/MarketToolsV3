@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
 {
-    [Obsolete]
+    [Obsolete("Outdated token handling")]
     public class AccessTokenMiddleware(RequestDelegate next)
     {
         public async Task Invoke(HttpContext httpContext,
