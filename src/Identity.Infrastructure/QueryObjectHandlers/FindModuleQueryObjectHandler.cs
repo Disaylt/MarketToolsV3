@@ -18,7 +18,8 @@ namespace Identity.Infrastructure.QueryObjectHandlers
                 .AsQueryable()
                 .Where(x => x.Type == query.Type 
                             && x.ExternalId == query.Id 
-                            && x.Path == query.Path);
+                            && x.Path == query.Path
+                            && x.IdentityId == query.UserId);
         }
     }
 }

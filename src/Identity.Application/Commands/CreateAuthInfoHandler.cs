@@ -46,7 +46,7 @@ namespace Identity.Application.Commands
 
             JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
             accessTokenData.ServiceAuthInfo = await modulePermissionsService
-                    .FindOrDefault(request.ModulePath, request.ModuleType, request.ModuleId);
+                    .FindOrDefault(request.ModulePath, request.ModuleType, session.IdentityId, request.ModuleId);
 
             logger.LogInformation("Build auth info result.");
 

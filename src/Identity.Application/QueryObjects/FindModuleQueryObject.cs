@@ -12,6 +12,7 @@ namespace Identity.Application.QueryObjects
     {
         public required string Type { get; set; }
         public required string Path { get; set; }
+        public required string UserId { get; set; }
         public int Id { get; set; }
     }
 }

@@ -17,9 +17,12 @@ namespace Identity.Application.Services.Implementation
         IExtensionRepository extensionRepository)
     : IModulePermissionsService
     {
-        public async Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? type, int? id)
+        public async Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? type, string? userId, int? id)
         {
-            if (path == null || type == null || id == null)
+            if (path == null 
+                || type == null 
+                || id == null 
+                || userId == null)
             {
                 return null;
             }
@@ -28,6 +31,7 @@ namespace Identity.Application.Services.Implementation
             {
                 Path = path,
                 Type = type,
+                UserId = userId,
                 Id = id.Value,
             };
 
