@@ -12,10 +12,10 @@ namespace WB.Seller.Companies.Domain.Entities
         public int NumberOfTokenChecks { get; private set; }
         public DateTime StateUpdated { get; private set; }
 
-        private readonly List<SubscriptionEntity> _subscriptions = new();
+        private readonly List<SubscriptionEntity> _subscriptions = [];
         public IReadOnlyCollection<SubscriptionEntity> Subscriptions => _subscriptions;
 
-        private readonly List<UserEntity> _users = new();
+        private readonly List<UserEntity> _users = [];
         public IReadOnlyCollection<UserEntity> Users => _users;
 
         protected CompanyEntity()

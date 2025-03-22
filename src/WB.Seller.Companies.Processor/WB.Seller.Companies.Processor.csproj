@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IntegrationEvents.Contract\IntegrationEvents.Contract.csproj" />
     <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
     <ProjectReference Include="..\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj" />
     <ProjectReference Include="..\WB.Seller.Companies.Application\WB.Seller.Companies.Application.csproj" />
