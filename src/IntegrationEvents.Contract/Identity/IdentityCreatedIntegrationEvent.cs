@@ -9,5 +9,6 @@ namespace IntegrationEvents.Contract.Identity
     public record IdentityCreatedIntegrationEvent : BaseIntegrationEvent
     {
         public required string IdentityId { get; init; }
+        public required string Login { get; init; }
     }
 }

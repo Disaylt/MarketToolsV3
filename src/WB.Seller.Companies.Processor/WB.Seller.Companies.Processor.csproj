@@ -10,11 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.4.0" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.4.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
     <ProjectReference Include="..\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\WB.Seller.Companies.Application\WB.Seller.Companies.Application.csproj" />
+    <ProjectReference Include="..\WB.Seller.Companies.Domain\WB.Seller.Companies.Domain.csproj" />
+    <ProjectReference Include="..\WB.Seller.Companies.Infrastructure\WB.Seller.Companies.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
