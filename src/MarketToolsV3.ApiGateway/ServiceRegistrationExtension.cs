@@ -60,6 +60,8 @@ public static class ServiceRegistrationExtension
 
     public static IServiceCollection AddApiGatewayServices(this IServiceCollection collection)
     {
+        collection.AddScoped<IAuthContext, AuthContext>();
+
         collection.AddSingleton<ITokenReader<AccessToken>, AccessTokenReader>();
         collection.AddSingleton<ITokenReader<SessionToken>, SessionTokenReader>();
         collection.AddSingleton<IAccessTokenService, AccessTokenService>();

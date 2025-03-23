@@ -2,11 +2,18 @@
 	"DatabaseConnection":"Host=localhost;Port=5430;Username=postgres;Password=easypassword;Database=Identities",
 	"ExpireRefreshTokenHours": 240,
 	"SecretRefreshToken":"localTestRefreshToken123LocaltestRefreshToken123",
-	"RedisConfig" : {
+	"IdentityRedisConfig" : {
 		"Host": "localhost",
 		"Port": 6380,
 		"Password": "default",
 		"User": "easypassword",
 		"Database": 1
+	},
+	"SharedIdentityRedisConfig" : {
+		"Host": "localhost",
+		"Port": 6380,
+		"Password": "default",
+		"User": "easypassword",
+		"Database": 2
 	}
 }

@@ -15,8 +15,6 @@ using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IAuthContext, AuthContext>();
-
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
 IConfigManager serviceConfigManager = await configurationServiceFactory.CreateFromServiceAsync(ApiGatewayConfig.ServiceName);

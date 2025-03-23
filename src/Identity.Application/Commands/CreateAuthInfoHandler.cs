@@ -64,7 +64,8 @@ namespace Identity.Application.Commands
         private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId) => new()
         {
             UserId = userId,
-            SessionId = sessionId
+            SessionId = sessionId,
+            Id = Guid.NewGuid().ToString()
         };
     }
 }

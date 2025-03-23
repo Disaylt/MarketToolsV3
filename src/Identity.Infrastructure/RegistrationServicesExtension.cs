@@ -23,8 +23,11 @@ using MarketToolsV3.ConfigurationManager.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace Identity.Infrastructure
@@ -45,7 +48,8 @@ namespace Identity.Infrastructure
             collection.AddScoped<IQueryObjectHandler<FindModuleQueryObject, Module>, FindModuleQueryObjectHandler>();
             collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
 
-            AddRedisCache(collection, serviceConfiguration.RedisConfig);
+            AddRedisCache(collection, serviceConfiguration.SharedIdentityRedisConfig, "shared-identity");
+            AddRedisCache(collection, serviceConfiguration.IdentityRedisConfig, "identity");
 
             collection.AddIdentityCore<IdentityPerson>(options =>
                 {
@@ -66,21 +70,21 @@ namespace Identity.Infrastructure
             collection.AddSingleton<IClaimsService<JwtRefreshTokenDto>, JwtRefreshClaimsService>();
             collection.AddSingleton<ITokenService<JwtAccessTokenDto>, JwtAccessTokenService>();
             collection.AddSingleton<ITokenService<JwtRefreshTokenDto>, JwtRefreshTokenService>();
-            collection.AddSingleton(typeof(ICacheRepository<>), typeof(DefaultCacheRepository<>));
+            collection.AddSingleton<ICacheRepository, DefaultCacheRepository>();
 
             return collection;
         }
 
-        private static void AddRedisCache(IServiceCollection collection, RedisConfig redisConfig)
+        private static void AddRedisCache(IServiceCollection collection, RedisConfig redisConfig, string key)
         {
             if (string.IsNullOrEmpty(redisConfig.Host))
             {
                 throw new NullReferenceException("Redis host is null.");
             }
 
-            collection.AddStackExchangeRedisCache(opt =>
+            var options = Options.Create(new RedisCacheOptions
             {
-                opt.ConfigurationOptions = new ConfigurationOptions
+                ConfigurationOptions = new ConfigurationOptions
                 {
                     EndPoints =
                     {
@@ -89,8 +93,10 @@ namespace Identity.Infrastructure
                     User = redisConfig.User,
                     Password = redisConfig.Password,
                     DefaultDatabase = redisConfig.Database
-                };
+                }
             });
+
+            collection.AddKeyedSingleton<IDistributedCache>(key, new RedisCache(options));
         }
     }
 }

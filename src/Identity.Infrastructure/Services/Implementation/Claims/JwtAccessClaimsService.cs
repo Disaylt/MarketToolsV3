@@ -23,15 +23,17 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
             Claim iat = new(JwtRegisteredClaimNames.Iat,
                 EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture),
                 ClaimValueTypes.Integer64);
-            Claim id = new(ClaimTypes.NameIdentifier, details.UserId);
+            Claim userId = new(ClaimTypes.NameIdentifier, details.UserId);
+            Claim tokenId = new(ClaimTypes.SerialNumber, details.Id);
             Claim sessionId = new(ClaimTypes.Sid, details.SessionId);
             
             List<Claim> claims =
             [
                 jti,
                 iat,
-                id,
-                sessionId
+                userId,
+                sessionId,
+                tokenId
             ];
 
             if (details.ServiceAuthInfo is not null)

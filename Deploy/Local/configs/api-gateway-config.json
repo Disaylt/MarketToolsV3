@@ -1,7 +1,7 @@
 {
     "Routes": [
 		{
-		  "DownstreamPathTemplate": "/api/{everything}",
+		  "DownstreamPathTemplate": "/api/{version}/{everything}",
 		  "DownstreamScheme": "https",
 		  "DownstreamHostAndPorts": [
 			{
@@ -9,11 +9,11 @@
 			  "Port": 7256
 			}
 		  ],
-		  "UpstreamPathTemplate": "/api/auth/{everything}",
+		  "UpstreamPathTemplate": "/api/{version}/auth/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		},
 		{
-		  "DownstreamPathTemplate": "/api/{everything}",
+		  "DownstreamPathTemplate": "/api/{version}/{everything}",
 		  "DownstreamScheme": "https",
 		  "DownstreamHostAndPorts": [
 			{
@@ -25,11 +25,11 @@
 			"AuthenticationProviderKey": "Bearer",
 			"AllowedScopes": []
 		  },
-		  "UpstreamPathTemplate": "/api/identity/{everything}",
+		  "UpstreamPathTemplate": "/api/{version}/identity/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		},
 		{
-		  "DownstreamPathTemplate": "/api/{everything}",
+		  "DownstreamPathTemplate": "/api/{version}/{everything}",
 		  "DownstreamScheme": "https",
 		  "DownstreamHostAndPorts": [
 			{
@@ -41,7 +41,23 @@
 			"AuthenticationProviderKey": "Bearer",
 			"AllowedScopes": []
 		  },
-		  "UpstreamPathTemplate": "/api/user-notifications/{everything}",
+		  "UpstreamPathTemplate": "/api/{version}/user-notifications/{everything}",
+		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
+		},
+		{
+		  "DownstreamPathTemplate": "/api/{version}/{everything}",
+		  "DownstreamScheme": "https",
+		  "DownstreamHostAndPorts": [
+			{
+			  "Host": "localhost",
+			  "Port": 7099
+			}
+		  ],
+		  "AuthenticationOptions": {
+			"AuthenticationProviderKey": "Bearer",
+			"AllowedScopes": []
+		  },
+		  "UpstreamPathTemplate": "/api/{version}/wb/seller/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		}
     ],
