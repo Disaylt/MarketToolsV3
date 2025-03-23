@@ -63,5 +63,12 @@
     ],
     "GlobalConfiguration": {
         "BaseUrl": "https://localhost:7249"
-    }
+    },
+	"SharedIdentityRedisConfig" : {
+		"Host": "localhost",
+		"Port": 6380,
+		"Password": "default",
+		"User": "easypassword",
+		"Database": 2
+	}
 }

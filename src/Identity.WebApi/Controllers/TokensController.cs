@@ -27,6 +27,7 @@ namespace Identity.WebApi.Controllers
             var command = new CreateAuthInfo
             {
                 RefreshToken = body.RefreshToken,
+                AccessToken = body.AccessToken,
                 ModulePath = body.ModulePath, 
                 ModuleId= body.ModuleId,
                 ModuleType = body.ModuleType,

@@ -7,6 +7,11 @@ using Proto.Contract.Identity;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using MarketToolsV3.ApiGateway.Domain.Seed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using StackExchange.Redis;
 
 namespace MarketToolsV3.ApiGateway;
 
@@ -58,7 +63,7 @@ public static class ServiceRegistrationExtension
         return collection;
     }
 
-    public static IServiceCollection AddApiGatewayServices(this IServiceCollection collection)
+    public static IServiceCollection AddApiGatewayServices(this IServiceCollection collection, ServiceConfiguration serviceConfiguration)
     {
         collection.AddScoped<IAuthContext, AuthContext>();
 
@@ -67,8 +72,8 @@ public static class ServiceRegistrationExtension
         collection.AddSingleton<IAccessTokenService, AccessTokenService>();
         collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
 
-        collection.AddDistributedMemoryCache();
-        collection.AddSingleton(typeof(ICacheRepository<>), typeof(DefaultCacheRepository<>));
+        AddRedisCache(collection, serviceConfiguration.SharedIdentityRedisConfig, null);
+        collection.AddSingleton<ICacheRepository, DefaultCacheRepository>();
 
         return collection;
     }
@@ -92,5 +97,36 @@ public static class ServiceRegistrationExtension
         }
 
         return collection;
+    }
+
+    private static void AddRedisCache(IServiceCollection collection, RedisConfig redisConfig, string? key)
+    {
+        if (string.IsNullOrEmpty(redisConfig.Host))
+        {
+            throw new NullReferenceException("Redis host is null.");
+        }
+
+        var options = Options.Create(new RedisCacheOptions
+        {
+            ConfigurationOptions = new ConfigurationOptions
+            {
+                EndPoints =
+                {
+                    { redisConfig.Host, redisConfig.Port }
+                },
+                User = redisConfig.User,
+                Password = redisConfig.Password,
+                DefaultDatabase = redisConfig.Database
+            }
+        });
+
+        if (string.IsNullOrEmpty(key))
+        {
+            collection.AddSingleton<IDistributedCache>(new RedisCache(options));
+        }
+        else
+        {
+            collection.AddKeyedSingleton<IDistributedCache>(key, new RedisCache(options));
+        }
     }
 }

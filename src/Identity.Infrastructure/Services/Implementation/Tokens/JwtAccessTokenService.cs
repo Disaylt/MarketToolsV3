@@ -60,7 +60,7 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
             {
                 UserId = jwtSecurityToken.Claims.FindByType(ClaimTypes.NameIdentifier) ?? "",
                 SessionId = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? "",
-                Id = jwtSecurityToken.Claims.FindByType(ClaimTypes.SerialNumber) ?? ""
+                Id = jwtSecurityToken.Claims.FindByType(JwtRegisteredClaimNames.Jti) ?? ""
             };
 
             string? moduleType = jwtSecurityToken.Claims.FindByType("moduleType");

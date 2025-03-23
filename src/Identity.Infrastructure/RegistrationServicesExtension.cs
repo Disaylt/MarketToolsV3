@@ -23,6 +23,7 @@ using MarketToolsV3.ConfigurationManager.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
@@ -49,7 +50,7 @@ namespace Identity.Infrastructure
             collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
 
             AddRedisCache(collection, serviceConfiguration.SharedIdentityRedisConfig, "shared-identity");
-            AddRedisCache(collection, serviceConfiguration.IdentityRedisConfig, "identity");
+            AddRedisCache(collection, serviceConfiguration.IdentityRedisConfig, null);
 
             collection.AddIdentityCore<IdentityPerson>(options =>
                 {
@@ -71,11 +72,18 @@ namespace Identity.Infrastructure
             collection.AddSingleton<ITokenService<JwtAccessTokenDto>, JwtAccessTokenService>();
             collection.AddSingleton<ITokenService<JwtRefreshTokenDto>, JwtRefreshTokenService>();
             collection.AddSingleton<ICacheRepository, DefaultCacheRepository>();
+            collection.AddKeyedSingleton<ICacheRepository, DefaultCacheRepository>("shared-identity", (sp, key) =>
+            {
+                var distributedCache = sp.GetRequiredKeyedService<IDistributedCache>(key);
+
+                return new DefaultCacheRepository(distributedCache);
+            });
+            collection.AddSingleton<ISharedAuthService, SharedAuthService>();
 
             return collection;
         }
 
-        private static void AddRedisCache(IServiceCollection collection, RedisConfig redisConfig, string key)
+        private static void AddRedisCache(IServiceCollection collection, RedisConfig redisConfig, string? key)
         {
             if (string.IsNullOrEmpty(redisConfig.Host))
             {
@@ -96,7 +104,16 @@ namespace Identity.Infrastructure
                 }
             });
 
-            collection.AddKeyedSingleton<IDistributedCache>(key, new RedisCache(options));
+            var redisCache = new RedisCache(options);
+
+            if (string.IsNullOrEmpty(key))
+            {
+                collection.AddSingleton<IDistributedCache>(redisCache);
+            }
+            else
+            {
+                collection.AddKeyedSingleton<IDistributedCache>(key, redisCache);
+            }
         }
     }
 }

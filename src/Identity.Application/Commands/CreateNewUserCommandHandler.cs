@@ -59,7 +59,8 @@ namespace Identity.Application.Commands
             return new JwtAccessTokenDto
             {
                 UserId = userId,
-                SessionId = sessionId
+                SessionId = sessionId,
+                Id = Guid.NewGuid().ToString()
             };
         }
 

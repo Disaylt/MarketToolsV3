@@ -12,12 +12,14 @@ using Ocelot.Middleware;
 using Proto.Contract.Identity;
 using Scalar.AspNetCore;
 using System.IdentityModel.Tokens.Jwt;
+using MarketToolsV3.ApiGateway.Domain.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
-IConfigManager serviceConfigManager = await configurationServiceFactory.CreateFromServiceAsync(ApiGatewayConfig.ServiceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = await configurationServiceFactory
+    .CreateFromServiceAsync<ServiceConfiguration>(ApiGatewayConstant.ServiceName);
 serviceConfigManager.JoinTo(builder.Configuration);
 
 var authConfigManager = await configurationServiceFactory.CreateFromAuthAsync();
@@ -30,7 +32,7 @@ var ocelotPipelineConfiguration = OcelotPipelineConfigurationFactory.Create();
 
 builder.Services
     .AddAuthGrpcClient(servicesAddressesConfigManager.Value)
-    .AddApiGatewayServices()
+    .AddApiGatewayServices(serviceConfigManager.Value)
     .AddServiceAuthentication(authConfigManager.Value);
 
 builder.Services

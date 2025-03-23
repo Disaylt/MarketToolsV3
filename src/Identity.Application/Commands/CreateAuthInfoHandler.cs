@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MassTransit.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Identity.Application.Commands
 {
@@ -17,7 +20,8 @@ namespace Identity.Application.Commands
         ITokenService<JwtAccessTokenDto> accessTokenService,
         ITokenService<JwtRefreshTokenDto> refreshTokenService,
         ISessionService sessionService,
-        IModulePermissionsService modulePermissionsService)
+        IModulePermissionsService modulePermissionsService,
+        ISharedAuthService sharedAuthService)
         : IRequestHandler<CreateAuthInfo, AuthInfoDto>
     {
         public async Task<AuthInfoDto> Handle(CreateAuthInfo request, CancellationToken cancellationToken)
@@ -30,10 +34,13 @@ namespace Identity.Application.Commands
             }
 
             JwtRefreshTokenDto refreshTokenData = refreshTokenService.Read(request.RefreshToken);
+            JwtAccessTokenDto accessTokenData = accessTokenService.Read(request.AccessToken);
 
             Session session = await sessionRepository.FindByIdRequiredAsync(refreshTokenData.Id, cancellationToken);
 
-            if (session.IsActive == false || session.Token != request.RefreshToken)
+            if (session.IsActive == false 
+                || session.Token != request.RefreshToken
+                || accessTokenData.SessionId != refreshTokenData.Id)
             {
                 logger.LogWarning("Session status not active ({status}) or current refresh token does not match session refresh token.", session.IsActive);
 
@@ -44,21 +51,25 @@ namespace Identity.Application.Commands
 
             await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
 
-            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
-            accessTokenData.ServiceAuthInfo = await modulePermissionsService
+            JwtAccessTokenDto newAccessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
+            newAccessTokenData.ServiceAuthInfo = await modulePermissionsService
                     .FindOrDefault(request.ModulePath, request.ModuleType, session.IdentityId, request.ModuleId);
 
             logger.LogInformation("Build auth info result.");
 
-            return new AuthInfoDto
+            var newAuthData = new AuthInfoDto
             {
                 IsValid = true,
                 Details = new AuthDetailsDto
                 {
-                    AuthToken = accessTokenService.Create(accessTokenData),
+                    AuthToken = accessTokenService.Create(newAccessTokenData),
                     SessionToken = refreshToken
                 }
             };
+
+            await sharedAuthService.AddToBlackListAsync(accessTokenData.Id);
+
+            return newAuthData;
         }
 
         private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId) => new()

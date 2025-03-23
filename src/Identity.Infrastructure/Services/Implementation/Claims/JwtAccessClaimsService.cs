@@ -19,12 +19,11 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
     {
         public IEnumerable<Claim> Create(JwtAccessTokenDto details)
         {
-            Claim jti = new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
+            Claim jti = new(JwtRegisteredClaimNames.Jti, details.Id);
             Claim iat = new(JwtRegisteredClaimNames.Iat,
                 EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture),
                 ClaimValueTypes.Integer64);
             Claim userId = new(ClaimTypes.NameIdentifier, details.UserId);
-            Claim tokenId = new(ClaimTypes.SerialNumber, details.Id);
             Claim sessionId = new(ClaimTypes.Sid, details.SessionId);
             
             List<Claim> claims =
@@ -32,8 +31,7 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
                 jti,
                 iat,
                 userId,
-                sessionId,
-                tokenId
+                sessionId
             ];
 
             if (details.ServiceAuthInfo is not null)

@@ -66,6 +66,7 @@ namespace Identity.Application.Commands
             {
                 UserId = userId,
                 SessionId = sessionId,
+                Id = Guid.NewGuid().ToString()
             };
         }
     }
