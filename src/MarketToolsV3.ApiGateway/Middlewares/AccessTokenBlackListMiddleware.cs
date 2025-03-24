@@ -7,7 +7,6 @@ namespace MarketToolsV3.ApiGateway.Middlewares
         public async Task Invoke(HttpContext httpContext,
         ICacheRepository cacheRepository)
         {
-
             await next(httpContext);
         }
     }

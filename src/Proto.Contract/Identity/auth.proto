@@ -12,7 +12,6 @@ message AuthInfoRequest{
 
 	string userAgent = 1;
 	string sessionToken = 2;
-	string accessToken = 3;
 }
 
 message AuthInfoReply{

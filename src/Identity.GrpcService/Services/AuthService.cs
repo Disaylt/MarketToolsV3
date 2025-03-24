@@ -43,8 +43,7 @@ namespace Identity.GrpcService.Services
             return new()
             {
                 UserAgent = request.UserAgent,
-                RefreshToken = request.SessionToken,
-                AccessToken = request.AccessToken
+                RefreshToken = request.SessionToken
             };
         }
     }

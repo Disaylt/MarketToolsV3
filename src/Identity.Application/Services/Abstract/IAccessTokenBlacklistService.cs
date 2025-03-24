@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Services.Abstract
 {
-    public interface ISharedAuthService
+    public interface IAccessTokenBlacklistService
     {
-        Task AddToBlackListAsync(string id);
+        Task AddAsync(string id);
     }
 }

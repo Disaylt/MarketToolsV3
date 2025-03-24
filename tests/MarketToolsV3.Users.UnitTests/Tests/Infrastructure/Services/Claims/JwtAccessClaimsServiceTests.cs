@@ -30,7 +30,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
             JwtAccessTokenDto accessToken = new()
             {
                 UserId = "",
-                SessionId = "",
                 Id = ""
             };
 
@@ -50,7 +49,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
             JwtAccessTokenDto accessToken = new()
             {
                 UserId = "",
-                SessionId = "",
                 Id = ""
             };
 
@@ -70,7 +68,6 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
             JwtAccessTokenDto accessToken = new()
             {
                 UserId = "",
-                SessionId = "",
                 Id = ""
             };
 

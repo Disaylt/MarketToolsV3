@@ -11,13 +11,13 @@ using Microsoft.Extensions.Options;
 
 namespace Identity.Infrastructure.Services.Implementation
 {
-    public class SharedAuthService(
+    public class AccessTokenBlacklistService(
         [FromKeyedServices("shared-identity")] ICacheRepository sharedIdentityCacheRepository,
         IOptions<AuthConfig> authConfigOptions)
-        : ISharedAuthService
+        : IAccessTokenBlacklistService
     {
 
-        public async Task AddToBlackListAsync(string id)
+        public async Task AddAsync(string id)
         {
             string key = $"blacklist-access-token-{id}";
             TimeSpan expire = TimeSpan.FromMinutes(authConfigOptions.Value.ExpireAccessTokenMinutes);

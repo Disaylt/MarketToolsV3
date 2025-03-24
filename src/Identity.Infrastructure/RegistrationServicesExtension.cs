@@ -78,7 +78,7 @@ namespace Identity.Infrastructure
 
                 return new DefaultCacheRepository(distributedCache);
             });
-            collection.AddSingleton<ISharedAuthService, SharedAuthService>();
+            collection.AddSingleton<IAccessTokenBlacklistService, AccessTokenBlacklistService>();
 
             return collection;
         }

@@ -24,14 +24,12 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
                 EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture),
                 ClaimValueTypes.Integer64);
             Claim userId = new(ClaimTypes.NameIdentifier, details.UserId);
-            Claim sessionId = new(ClaimTypes.Sid, details.SessionId);
             
             List<Claim> claims =
             [
                 jti,
                 iat,
-                userId,
-                sessionId
+                userId
             ];
 
             if (details.ServiceAuthInfo is not null)
