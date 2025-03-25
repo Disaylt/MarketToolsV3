@@ -9,7 +9,6 @@ namespace Identity.Application.Models
     public record AuthInfoDto
     {
         public bool IsValid { get; init; }
-        public bool Refreshed { get; init; }
         public AuthDetailsDto? Details { get; init; }
     }
 }

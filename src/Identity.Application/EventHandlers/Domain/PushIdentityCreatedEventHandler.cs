@@ -17,7 +17,8 @@ namespace Identity.Application.EventHandlers.Domain
         {
             IdentityCreatedIntegrationEvent integrationMessage = new()
             {
-                IdentityId = notification.Identity.Id
+                IdentityId = notification.Identity.Id,
+                Login = notification.Identity.UserName ?? "Unknown"
             };
 
             await bus.Publish(integrationMessage, cancellationToken);

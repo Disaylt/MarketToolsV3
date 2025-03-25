@@ -6,6 +6,7 @@ using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
 {
+    [Obsolete]
     public class HeadersTokensAdapterMiddleware(RequestDelegate next)
     {
         public async Task Invoke(HttpContext httpContext, 

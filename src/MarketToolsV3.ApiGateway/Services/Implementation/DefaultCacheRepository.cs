@@ -4,17 +4,17 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace MarketToolsV3.ApiGateway.Services.Implementation
 {
-    internal class DefaultCacheRepository<T>(IDistributedCache distributedCache)
-        : ICacheRepository<T> where T : class
+    internal class DefaultCacheRepository(IDistributedCache distributedCache)
+        : ICacheRepository
     {
-        public async Task DeleteAsync(string key, CancellationToken cancellationToken)
+        public async Task DeleteAsync<T>(string key, CancellationToken cancellationToken) where T : class
         {
             string typeKey = BuildKey<T>(key);
 
             await distributedCache.RemoveAsync(typeKey, cancellationToken);
         }
 
-        public async Task<T?> GetAsync(string key)
+        public async Task<T?> GetAsync<T>(string key) where T : class
         {
             string typeKey = BuildKey<T>(key);
 
@@ -28,7 +28,7 @@ namespace MarketToolsV3.ApiGateway.Services.Implementation
             return JsonSerializer.Deserialize<T>(value);
         }
 
-        public async Task SetAsync(string key, T value, TimeSpan expire)
+        public async Task SetAsync<T>(string key, T value, TimeSpan expire) where T : class
         {
             string strValue = JsonSerializer.Serialize(value);
             string typeKey = BuildKey<T>(key);

@@ -60,7 +60,8 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
 
             return new JwtRefreshTokenDto
             {
-                Id = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? ""
+                Id = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? "",
+                AccessTokenId = jwtSecurityToken.Claims.FindByType(ClaimTypes.SerialNumber) ?? string.Empty
             };
         }
     }

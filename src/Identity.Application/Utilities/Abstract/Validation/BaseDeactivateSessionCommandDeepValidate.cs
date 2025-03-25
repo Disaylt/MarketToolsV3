@@ -18,7 +18,7 @@ namespace Identity.Application.Utilities.Abstract.Validation
         {
             if (ErrorMessages.Count > 0)
             {
-                return new ValidateResult(false, ErrorMessages.ToArray());
+                return new ValidateResult(false, [.. ErrorMessages]);
             }
 
             return new ValidateResult(true);

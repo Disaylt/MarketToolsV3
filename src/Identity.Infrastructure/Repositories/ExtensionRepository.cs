@@ -15,6 +15,11 @@ namespace Identity.Infrastructure.Repositories
             return await query.CountAsync();
         }
 
+        public async Task<T?> FirstOrDefaultAsync<T>(IQueryable<T> query) where T : class
+        {
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<List<T>> ToListAsync<T>(IQueryable<T> query) where T : class
         {
             return await query.ToListAsync();

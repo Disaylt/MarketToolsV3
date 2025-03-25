@@ -57,12 +57,12 @@ namespace Identity.WebApi
                     {
                         opt.IncludeErrorDetails = false;
                         opt.SaveToken = true;
-                        opt.RequireHttpsMetadata = false;
+                        opt.RequireHttpsMetadata = true;
                         opt.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuer = authConfig.IsCheckValidIssuer,
                             ValidateAudience = authConfig.IsCheckValidAudience,
-                            ValidateLifetime = true,
+                            ValidateLifetime = false,
                             ValidateIssuerSigningKey = true,
                             ValidAudience = authConfig.ValidAudience,
                             ValidIssuer = authConfig.ValidIssuer,

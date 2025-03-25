@@ -15,6 +15,7 @@ namespace UserNotifications.WebApi.Controllers.Users
     {
         [HttpPost]
         [MapToApiVersion(1)]
+        [Authorize("admin")]
         public async Task<IActionResult> CreateAsync([FromBody] NewNotification body)
         {
             CreateNotificationCommand command = new()

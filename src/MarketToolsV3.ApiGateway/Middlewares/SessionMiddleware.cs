@@ -9,12 +9,13 @@ using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace MarketToolsV3.ApiGateway.Middlewares;
 
+[Obsolete]
 public class SessionMiddleware(RequestDelegate next)
 {
     public async Task Invoke(HttpContext httpContext,
         Session.SessionClient sessionClient,
         IOptions<AuthConfig> options,
-        ICacheRepository<SessionActiveStatusReply> sessionCacheRepository,
+        ICacheRepository sessionCacheRepository,
         IAuthContext authContext)
     {
         if (authContext is { State: AuthState.AccessTokenValid, SessionId: not null })
@@ -24,7 +25,7 @@ public class SessionMiddleware(RequestDelegate next)
                 Id = authContext.SessionId
             };
 
-            SessionActiveStatusReply? sessionState = await sessionCacheRepository.GetAsync(authContext.SessionId);
+            SessionActiveStatusReply? sessionState = await sessionCacheRepository.GetAsync<SessionActiveStatusReply>(authContext.SessionId);
 
             if (sessionState is null)
             {
@@ -45,7 +46,7 @@ public class SessionMiddleware(RequestDelegate next)
     }
 
     private async Task RemoveTokenByHeaderAsync(AuthConfig authConfig, 
-        ICacheRepository<SessionActiveStatusReply> sessionCacheRepository, 
+        ICacheRepository sessionCacheRepository, 
         HttpContext httpContext)
     {
         string sessionRemoveHeaderName = authConfig.Headers.SessionRemove.Name;
@@ -53,15 +54,15 @@ public class SessionMiddleware(RequestDelegate next)
 
         if (string.IsNullOrEmpty(removeSessionId) == false)
         {
-            await sessionCacheRepository.DeleteAsync(removeSessionId, CancellationToken.None);
+            await sessionCacheRepository.DeleteAsync<SessionActiveStatusReply>(removeSessionId, CancellationToken.None);
         }
     }
 
-    private async Task RemoveTokenByContextAsync(IAuthContext authContext, ICacheRepository<SessionActiveStatusReply> sessionCacheRepository)
+    private async Task RemoveTokenByContextAsync(IAuthContext authContext, ICacheRepository sessionCacheRepository)
     {
         if (authContext.State == AuthState.TokensRefreshed && string.IsNullOrEmpty(authContext.SessionToken) == false)
         {
-            await sessionCacheRepository.DeleteAsync(authContext.SessionToken, CancellationToken.None);
+            await sessionCacheRepository.DeleteAsync<SessionActiveStatusReply>(authContext.SessionToken, CancellationToken.None);
         }
     }
 }

@@ -13,19 +13,19 @@ using Identity.Domain.Seed;
 namespace Identity.Application.Services.Implementation
 {
     internal class SessionQuickSearchService(
-        ICacheRepository<SessionDto> sessionCacheRepository,
+        ICacheRepository sessionCacheRepository,
         IRepository<Session> sessionRepository,
         ISessionMapper<SessionDto> sessionMapper)
         : IStringIdQuickSearchService<SessionDto>
     {
         public async Task ClearAsync(string id)
         {
-            await sessionCacheRepository.DeleteAsync(id, CancellationToken.None);
+            await sessionCacheRepository.DeleteAsync<SessionDto>(id, CancellationToken.None);
         }
 
         public async Task<SessionDto> GetAsync(string id, TimeSpan expire)
         {
-            SessionDto? session = await sessionCacheRepository.GetAsync(id);
+            SessionDto? session = await sessionCacheRepository.GetAsync<SessionDto>(id);
 
             if (session != null) return session;
 
