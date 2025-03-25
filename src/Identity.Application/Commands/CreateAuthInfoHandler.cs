@@ -33,9 +33,9 @@ namespace Identity.Application.Commands
                 return new AuthInfoDto { IsValid = false };
             }
 
-            JwtRefreshTokenDto refreshTokenData = refreshTokenService.Read(request.RefreshToken);
+            JwtRefreshTokenDto oldRefreshTokenData = refreshTokenService.Read(request.RefreshToken);
 
-            Session session = await sessionRepository.FindByIdRequiredAsync(refreshTokenData.Id, cancellationToken);
+            Session session = await sessionRepository.FindByIdRequiredAsync(oldRefreshTokenData.Id, cancellationToken);
 
             if (session.IsActive == false 
                 || session.Token != request.RefreshToken)
@@ -45,15 +45,13 @@ namespace Identity.Application.Commands
                 return new AuthInfoDto { IsValid = false };
             }
 
-            string refreshToken = refreshTokenService.Create(refreshTokenData);
-
-            await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
-
             JwtAccessTokenDto newAccessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
             newAccessTokenData.ModuleAuthInfo = await modulePermissionsService
                     .FindOrDefault(request.ModulePath, request.ModuleType, session.IdentityId, request.ModuleId);
 
-            logger.LogInformation("Build auth info result.");
+            JwtRefreshTokenDto newRefreshTokenData = CreateRefreshToken(session.Id, newAccessTokenData.Id);
+            string refreshToken = refreshTokenService.Create(newRefreshTokenData);
+            await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
 
             var newAuthData = new AuthInfoDto
             {
@@ -65,12 +63,21 @@ namespace Identity.Application.Commands
                 }
             };
 
-            if (string.IsNullOrEmpty(refreshTokenData.AccessTokenId) == false)
+            if (string.IsNullOrEmpty(oldRefreshTokenData.AccessTokenId) == false)
             {
-                await accessTokenBlacklistService.AddAsync(refreshTokenData.AccessTokenId);
+                await accessTokenBlacklistService.AddAsync(oldRefreshTokenData.AccessTokenId);
             }
 
             return newAuthData;
+        }
+
+        private static JwtRefreshTokenDto CreateRefreshToken(string sessionId, string accessTokenId)
+        {
+            return new()
+            {
+                Id = sessionId,
+                AccessTokenId = accessTokenId
+            };
         }
 
         private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId) => new()

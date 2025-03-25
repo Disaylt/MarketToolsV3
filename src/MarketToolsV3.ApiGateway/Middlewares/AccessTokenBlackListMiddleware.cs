@@ -11,7 +11,7 @@ namespace MarketToolsV3.ApiGateway.Middlewares
         {
             if (accessTokenContext.Data == null
                 || httpContext.User.Identity?.IsAuthenticated == false
-                || await cacheRepository.GetAsync<object>($"blacklist-access-token-{accessTokenContext.Data.Id}") == null)
+                || await cacheRepository.GetAsync<object>($"blacklist-access-token-{accessTokenContext.Data.Id}") != null)
             {
                 httpContext.Request.Headers.Remove("Authorization");
                 accessTokenContext.Remove();
