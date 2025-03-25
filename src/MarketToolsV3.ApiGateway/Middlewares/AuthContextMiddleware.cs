@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
 {
+    [Obsolete]
     public class AuthContextMiddleware(RequestDelegate next)
     {
         public Task Invoke(HttpContext httpContext,

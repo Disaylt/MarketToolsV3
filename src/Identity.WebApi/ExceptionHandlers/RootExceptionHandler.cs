@@ -13,6 +13,8 @@ namespace Identity.WebApi.ExceptionHandlers
                 return false;
             }
 
+            httpContext.Response.StatusCode = (int)rootServiceException.StatusCode;
+
             var problemDetailsContext = new ProblemDetailsContext()
             {
                 HttpContext = httpContext,

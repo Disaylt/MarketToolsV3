@@ -11,7 +11,8 @@ using MediatR;
 
 namespace Identity.Application.Commands
 {
-    public class DeactivateSessionCommandHandler(IStringIdQuickSearchService<SessionDto> sessionSearchService,
+    public class DeactivateSessionCommandHandler(
+        IStringIdQuickSearchService<SessionDto> sessionSearchService,
         ISessionService sessionService)
         : IRequestHandler<DeactivateSessionCommand, Unit>
     {

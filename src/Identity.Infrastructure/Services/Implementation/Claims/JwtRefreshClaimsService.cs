@@ -21,11 +21,13 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
                 EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture),
                 ClaimValueTypes.Integer64);
             Claim sessionId = new(ClaimTypes.Sid, details.Id);
+            Claim accessTokenId = new(ClaimTypes.SerialNumber, details.AccessTokenId);
 
             List<Claim> claims =
             [
                 jti,
                 iat,
+                accessTokenId,
                 sessionId
             ];
 

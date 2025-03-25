@@ -10,5 +10,6 @@ namespace Identity.Domain.Seed
     {
         Task<List<T>> ToListAsync<T>(IQueryable<T> query) where T : class;
         Task<int> CountAsync<T>(IQueryable<T> query) where T : class;
+        Task<T?> FirstOrDefaultAsync<T>(IQueryable<T> query) where T : class;
     }
 }

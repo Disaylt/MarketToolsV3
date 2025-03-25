@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Domain.Entities;
@@ -10,12 +11,15 @@ using Identity.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Identity.Application.Services.Abstract;
+using Identity.Application.Models;
 
 namespace Identity.Infrastructure.Services.Implementation
 {
     public class SessionService(IRepository<Session> sessionsRepository,
         IOptions<ServiceConfiguration> options,
-        IEventRepository eventsRepository)
+        IEventRepository eventsRepository,
+        IAccessTokenBlacklistService accessTokenBlacklistService,
+        ITokenService<JwtRefreshTokenDto> refreshTokenService)
         : ISessionService
     {
         private readonly ServiceConfiguration _configuration = options.Value;
@@ -62,9 +66,16 @@ namespace Identity.Infrastructure.Services.Implementation
         {
             Session session = await sessionsRepository.FindByIdRequiredAsync(id, cancellationToken);
 
+            if (session.Token == null)
+            {
+                throw new RootServiceException(HttpStatusCode.NotFound, "Токен сессии не найден");
+            }     
+
+            JwtRefreshTokenDto tokenData = refreshTokenService.Read(session.Token);
+            await accessTokenBlacklistService.AddAsync(tokenData.AccessTokenId);
+
             session.IsActive = false;
 
-            await sessionsRepository.UpdateAsync(session, cancellationToken);
             await sessionsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         }
     }

@@ -6,18 +6,17 @@ using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure;
 using UserNotifications.Processor;
 
-string serviceName = "user-notifications";
 var builder = Host.CreateApplicationBuilder(args);
 builder.AddServiceDefaults();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
-    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(serviceName);
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(ServiceConstants.ServiceName);
 ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
     await configurationServiceFactory.CreateFromMessageBrokerAsync();
 
 builder.Services
-    .AddMessageBroker(messageBrokerConfigManager.Value, serviceName)
+    .AddMessageBroker(messageBrokerConfigManager.Value, ServiceConstants.ServiceName)
     .AddApplicationLayer()
     .AddInfrastructureServices(serviceConfigManager.Value);
 

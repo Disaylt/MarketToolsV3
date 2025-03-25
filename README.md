@@ -6,9 +6,9 @@
 
 | Тип  | Описание | 
 |:---------:| ----------- |
-| **Архитектурные решения**    | Microservices, Clear architecture, Event driven architecture, Unit of work & Repositories, Mediator & CQRS, REST, gRPC, EventBus, OAuth (2.0), Cache-Aside Pattern, Api gateway |
-| **Библиотеки**    | Serilog, FluentValidation, Google.Protobuf, MassTransit, MediatR, EntityFrameworkCore, DependencyInjection, OpenApi, MongoDB.Driver, Moq, NUnit, Ocelot, Scrutor |
-| **Внешние технологии**    | Docker compose, PostgreSql, Mongodb replica set, RabbitMQ, ElasticSearch, Kibana, Redis |
+| **Архитектурные решения**    | *Microservices, Clear architecture, Event driven architecture, Unit of work & Repositories, Mediator & CQRS, REST, gRPC, EventBus, OAuth (2.0), Cache-Aside Pattern, Api gateway* |
+| **Библиотеки**    | *Serilog, FluentValidation, Google.Protobuf, MassTransit, MediatR, EntityFrameworkCore, DependencyInjection, OpenApi, MongoDB.Driver, Moq, NUnit, Ocelot, Scrutor* |
+| **Внешние технологии**    | *Docker compose, PostgreSql, Mongodb replica set, RabbitMQ, ElasticSearch, Kibana, Redis* |
 
 #### Поддерживаемые провайдеры.
 

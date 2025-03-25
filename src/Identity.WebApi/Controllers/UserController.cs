@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using Asp.Versioning;
 using Identity.Application.Commands;
 using Identity.Application.Models;
@@ -32,7 +33,8 @@ namespace Identity.WebApi.Controllers
         {
             DeactivateSessionCommand command = new()
             {
-                Id = authContext.GetSessionIdRequired()
+                Id = authContext.GetSessionIdRequired(),
+                UserId = authContext.GetUserIdRequired()
             };
             await mediator.Send(command, cancellationToken);
             credentialsService.Remove(command.Id);
@@ -59,7 +61,6 @@ namespace Identity.WebApi.Controllers
         [MapToApiVersion(1)]
         public async Task<IActionResult> RegisterAsync([FromBody] NewUserModel user, CancellationToken cancellationToken)
         {
-            throw new RootServiceException(HttpStatusCode.BadRequest, "1 error", "2 error");
             CreateNewUserCommand command = new()
             {
                 Email = user.Email,
