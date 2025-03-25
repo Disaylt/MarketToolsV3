@@ -27,7 +27,7 @@ namespace Identity.Application.Commands
 
             Session session = new(user.Id, request.UserAgent);
 
-            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(user.Id);
+            JwtAccessTokenDto accessTokenData = CreateAccessTokenData(user.Id, session.Id);
             string accessToken = accessTokenService.Create(accessTokenData);
 
             JwtRefreshTokenDto refreshTokenData = new()
@@ -59,11 +59,12 @@ namespace Identity.Application.Commands
             };
         }
 
-        private static JwtAccessTokenDto CreateAccessTokenData(string userId)
+        private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId)
         {
             return new JwtAccessTokenDto
             {
                 UserId = userId,
+                SessionId = sessionId,
                 Id = Guid.NewGuid().ToString()
             };
         }

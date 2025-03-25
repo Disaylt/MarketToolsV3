@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using Asp.Versioning;
 using Identity.Application.Commands;
 using Identity.Application.Models;

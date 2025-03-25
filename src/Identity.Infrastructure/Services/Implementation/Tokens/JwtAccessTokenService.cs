@@ -59,6 +59,7 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
             JwtAccessTokenDto jwtAccessTokenDto = new()
             {
                 UserId = jwtSecurityToken.Claims.FindByType(ClaimTypes.NameIdentifier) ?? "",
+                SessionId = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? "",
                 Id = jwtSecurityToken.Claims.FindByType(JwtRegisteredClaimNames.Jti) ?? ""
             };
 
@@ -69,7 +70,7 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
                 && moduleType != null
                 && modulePath != null)
             {
-                jwtAccessTokenDto.ServiceAuthInfo = new()
+                jwtAccessTokenDto.ModuleAuthInfo = new()
                 {
                     Type = moduleType,
                     Id = moduleId,

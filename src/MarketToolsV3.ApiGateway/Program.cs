@@ -49,6 +49,10 @@ app.UseCors(corsName);
 
 app.UseAuthentication();
 
+app.UseMiddleware<AccessTokenContextMiddleware>();
+app.UseMiddleware<AccessTokenBlackListMiddleware>();
+app.UseMiddleware<ModuleCheckMiddleware>();
+
 await app.UseOcelot(ocelotPipelineConfiguration);
 
 app.Run();

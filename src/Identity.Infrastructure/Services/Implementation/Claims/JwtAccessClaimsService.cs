@@ -23,33 +23,35 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
             Claim iat = new(JwtRegisteredClaimNames.Iat,
                 EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture),
                 ClaimValueTypes.Integer64);
+            Claim sessionId = new(ClaimTypes.Sid, details.SessionId);
             Claim userId = new(ClaimTypes.NameIdentifier, details.UserId);
-            
+
             List<Claim> claims =
             [
                 jti,
                 iat,
-                userId
+                userId,
+                sessionId
             ];
 
-            if (details.ServiceAuthInfo is not null)
+            if (details.ModuleAuthInfo is not null)
             {
 
                 string moduleRoleType = $"module_{ClaimTypes.Role}";
 
-                foreach (var role in details.ServiceAuthInfo.Roles)
+                foreach (var role in details.ModuleAuthInfo.Roles)
                 {
                     claims.Add(new Claim(moduleRoleType, role));
                 }
 
-                foreach (var typeAndValue in details.ServiceAuthInfo.ClaimTypeAndValuePairs)
+                foreach (var typeAndValue in details.ModuleAuthInfo.ClaimTypeAndValuePairs)
                 {
                     claims.Add(new Claim($"mp_{typeAndValue.Type}", typeAndValue.Value.ToString()));
                 }
 
-                claims.Add(new Claim("moduleType", details.ServiceAuthInfo.Type));
-                claims.Add(new Claim("modulePath", details.ServiceAuthInfo.Path));
-                claims.Add(new Claim("moduleId", details.ServiceAuthInfo.Id.ToString()));
+                claims.Add(new Claim("moduleType", details.ModuleAuthInfo.Type));
+                claims.Add(new Claim("modulePath", details.ModuleAuthInfo.Path));
+                claims.Add(new Claim("moduleId", details.ModuleAuthInfo.Id.ToString()));
             }
 
             IEnumerable<Claim> roles = rolesClaimService.Create(details.Roles);

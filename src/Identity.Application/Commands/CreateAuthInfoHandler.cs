@@ -21,7 +21,7 @@ namespace Identity.Application.Commands
         ITokenService<JwtRefreshTokenDto> refreshTokenService,
         ISessionService sessionService,
         IModulePermissionsService modulePermissionsService,
-        IAccessTokenBlacklistService sharedAuthService)
+        IAccessTokenBlacklistService accessTokenBlacklistService)
         : IRequestHandler<CreateAuthInfo, AuthInfoDto>
     {
         public async Task<AuthInfoDto> Handle(CreateAuthInfo request, CancellationToken cancellationToken)
@@ -49,8 +49,8 @@ namespace Identity.Application.Commands
 
             await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
 
-            JwtAccessTokenDto newAccessTokenData = CreateAccessTokenData(session.IdentityId);
-            newAccessTokenData.ServiceAuthInfo = await modulePermissionsService
+            JwtAccessTokenDto newAccessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
+            newAccessTokenData.ModuleAuthInfo = await modulePermissionsService
                     .FindOrDefault(request.ModulePath, request.ModuleType, session.IdentityId, request.ModuleId);
 
             logger.LogInformation("Build auth info result.");
@@ -65,18 +65,19 @@ namespace Identity.Application.Commands
                 }
             };
 
-            if (string.IsNullOrEmpty(refreshTokenData.AccessTokenId))
+            if (string.IsNullOrEmpty(refreshTokenData.AccessTokenId) == false)
             {
-                await sharedAuthService.AddAsync(refreshTokenData.AccessTokenId);
+                await accessTokenBlacklistService.AddAsync(refreshTokenData.AccessTokenId);
             }
 
             return newAuthData;
         }
 
-        private static JwtAccessTokenDto CreateAccessTokenData(string userId) => new()
+        private static JwtAccessTokenDto CreateAccessTokenData(string userId, string sessionId) => new()
         {
             UserId = userId,
-            Id = Guid.NewGuid().ToString()
+            Id = Guid.NewGuid().ToString(),
+            SessionId = sessionId
         };
     }
 }
