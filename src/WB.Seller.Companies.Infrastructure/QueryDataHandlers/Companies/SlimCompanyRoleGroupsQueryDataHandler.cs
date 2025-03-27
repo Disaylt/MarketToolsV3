@@ -10,49 +10,34 @@ using Dapper;
 using Npgsql;
 using WB.Seller.Companies.Application.Models;
 using WB.Seller.Companies.Application.QueryData.Companies;
+using WB.Seller.Companies.Domain.Enums;
 using WB.Seller.Companies.Domain.Seed;
 
 namespace WB.Seller.Companies.Infrastructure.QueryDataHandlers.Companies
 {
     internal class SlimCompanyRoleGroupsQueryDataHandler(IDbConnection dbConnection)
-        : IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<string, CompanySlimInfoDto>>>
+        : IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<SubscriptionRole, CompanySlimInfoDto>>>
     {
-        private readonly string _queryString = "select " +
-                                               "s.\"Role\", " +
-                                               "jsonb_agg(jsonb_build_object('Id', c.\"Id\", 'Name', c.\"Name\", 'Token', c.\"Token\")) AS \"Values\" " +
-                                               "from companies as c " +
-                                               "join subscriptions as s on s.\"CompanyId\" = c.\"Id\" " +
-                                               "join users as u on u.\"SubId\" = s.\"UserId\" " +
-                                               "where \"SubId\" = @SubId " +
-                                               "group by s.\"Role\"";
-        public async Task<IEnumerable<GroupDto<string, CompanySlimInfoDto>>> HandleAsync(SlimCompanyRoleGroupsQueryData queryData)
+        private readonly string _queryString = @$"select
+                                                s.role as Role,
+                                                jsonb_agg(jsonb_build_object('Id', c.id, 'Name', c.Name)) as Values
+                                                from companies as c
+                                                join subscriptions as s on s.company_id = c.id
+                                                join users as u on u.sub_id = s.user_id
+                                                where sub_id = @{nameof(SlimCompanyRoleGroupsQueryData.UserId)}
+                                                group by s.role";
+        public async Task<IEnumerable<GroupDto<SubscriptionRole, CompanySlimInfoDto>>> HandleAsync(SlimCompanyRoleGroupsQueryData queryData)
         {
-            var dynamic =
-                await dbConnection.QueryAsync(
-                    _queryString,
-                    new { SubId = queryData.UserId });
+            var response =
+                await dbConnection.QueryAsync<(int Role, string Values)>(
+                    _queryString, queryData);
 
-            var result = dynamic.Select(item => new Test
-            {
-
-                Role = item.Role,
-                Values = JsonSerializer.Deserialize<TestObj[]>(item.Values.ToString())
-            }).ToList();
-
-            return [];
+            return response
+                .Select(x => new GroupDto<SubscriptionRole, CompanySlimInfoDto>()
+                {
+                    Key = (SubscriptionRole)x.Role,
+                    Values = JsonSerializer.Deserialize<IEnumerable<CompanySlimInfoDto>>(x.Values) ?? []
+                });
         }
-    }
-
-    public class Test
-    {
-        public int Role { get; set; }
-        public TestObj[] Values { get; set; } = [];
-    }
-
-    public class TestObj
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string? Token { get; set; }
     }
 }

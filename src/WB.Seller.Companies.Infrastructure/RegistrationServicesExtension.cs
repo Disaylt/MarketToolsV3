@@ -14,6 +14,7 @@ using WB.Seller.Companies.Application.Models;
 using WB.Seller.Companies.Application.QueryData.Companies;
 using WB.Seller.Companies.Infrastructure.QueryDataHandlers.Companies;
 using Npgsql;
+using WB.Seller.Companies.Domain.Enums;
 
 namespace WB.Seller.Companies.Infrastructure
 {
@@ -30,7 +31,7 @@ namespace WB.Seller.Companies.Infrastructure
 
             collection.AddSingleton<IMapperFactory, MapperFactory>();
 
-            collection.AddScoped<IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<string, CompanySlimInfoDto>>>, SlimCompanyRoleGroupsQueryDataHandler>();
+            collection.AddScoped<IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<SubscriptionRole, CompanySlimInfoDto>>>, SlimCompanyRoleGroupsQueryDataHandler>();
             
             return collection;
         }
