@@ -5,23 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using WB.Seller.Companies.Application.Models;
+using WB.Seller.Companies.Application.QueryData.Companies;
+using WB.Seller.Companies.Domain.Seed;
 
 namespace WB.Seller.Companies.Application.Queries
 {
-    public class GetSlimCompaniesQueryHandler 
+    public class GetSlimCompaniesQueryHandler(
+        IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<string, CompanySlimInfoDto>>> queryDataHandler)
         : IRequestHandler<GetSlimCompaniesQuery, IEnumerable<GroupDto<string, CompanySlimInfoDto>>>
     {
         public async Task<IEnumerable<GroupDto<string, CompanySlimInfoDto>>> Handle(GetSlimCompaniesQuery request, CancellationToken cancellationToken)
         {
-            List<string> test = ["1", "2", "1", "3", "2", "1"];
+            var queryData = new SlimCompanyRoleGroupsQueryData
+            {
+                UserId = request.UserId
+            };
 
-            return test
-                .GroupBy(x => x)
-                .Select(g => new GroupDto<string, CompanySlimInfoDto>
-                {
-                    Key = g.Key,
-                    Values = g.Select(v=> new CompanySlimInfoDto { Id = 1, Name = $"test - {v}" })
-                });
+            return await queryDataHandler.HandleAsync(queryData);
         }
     }
 }

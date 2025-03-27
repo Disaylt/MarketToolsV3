@@ -10,7 +10,10 @@ using WB.Seller.Companies.Domain.Seed;
 using WB.Seller.Companies.Infrastructure.Database;
 using WB.Seller.Companies.Infrastructure.Repositories;
 using WB.Seller.Companies.Infrastructure.Seed.Implementation;
-using Microsoft.Data.SqlClient;
+using WB.Seller.Companies.Application.Models;
+using WB.Seller.Companies.Application.QueryData.Companies;
+using WB.Seller.Companies.Infrastructure.QueryDataHandlers.Companies;
+using Npgsql;
 
 namespace WB.Seller.Companies.Infrastructure
 {
@@ -20,13 +23,15 @@ namespace WB.Seller.Companies.Infrastructure
             ServiceConfiguration serviceConfiguration)
         {
             collection.AddNpgsql<WbSellerCompaniesDbContext>(serviceConfiguration.DatabaseConnection);
-            collection.AddScoped<IDbConnection>(_ => new SqlConnection(serviceConfiguration.DatabaseConnection));
+            collection.AddScoped<IDbConnection>(_ => new NpgsqlConnection(serviceConfiguration.DatabaseConnection));
 
             collection.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<WbSellerCompaniesDbContext>>();
 
             collection.AddSingleton<IMapperFactory, MapperFactory>();
 
+            collection.AddScoped<IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<string, CompanySlimInfoDto>>>, SlimCompanyRoleGroupsQueryDataHandler>();
+            
             return collection;
         }
     }

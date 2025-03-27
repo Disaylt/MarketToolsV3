@@ -13,8 +13,6 @@ namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
     {
         public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
-            builder.ToTable("users");
-
             builder.HasKey(x => x.SubId);
 
             builder.Ignore(e => e.Id);

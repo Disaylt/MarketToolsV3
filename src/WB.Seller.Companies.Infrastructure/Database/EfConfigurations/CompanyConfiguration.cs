@@ -13,8 +13,6 @@ namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
     {
         public void Configure(EntityTypeBuilder<CompanyEntity> builder)
         {
-            builder.ToTable("companies");
-
             builder.HasKey(e => e.Id);
 
             builder.Property(e => e.Token)
@@ -34,6 +32,7 @@ namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
                         .HasOne(x => x.Company)
                         .WithMany(x => x.Subscriptions)
                         .HasForeignKey(x => x.CompanyId));
+
         }
     }
 }

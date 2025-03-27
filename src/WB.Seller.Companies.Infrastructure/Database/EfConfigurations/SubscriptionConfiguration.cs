@@ -13,8 +13,6 @@ namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
     {
         public void Configure(EntityTypeBuilder<SubscriptionEntity> builder)
         {
-            builder.ToTable("subscriptions");
-
             builder.HasKey(e => e.Id);
 
             builder.HasIndex(e => new { e.CompanyId, SubscriberId = e.UserId })

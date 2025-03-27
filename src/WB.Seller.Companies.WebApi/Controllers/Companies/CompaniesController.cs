@@ -21,7 +21,7 @@ namespace WB.Seller.Companies.WebApi.Controllers.Companies
         {
             GetSlimCompaniesQuery query = new()
             {
-                UserId = "asd"
+                UserId = "2b90e7de-1862-4ab2-9fce-015d1ec20e71"
             };
 
             var result = await mediator.Send(query, cancellationToken);

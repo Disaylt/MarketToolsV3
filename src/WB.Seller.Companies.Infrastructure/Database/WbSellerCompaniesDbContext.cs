@@ -25,5 +25,14 @@ namespace WB.Seller.Companies.Infrastructure.Database
 
             base.OnModelCreating(modelBuilder);
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                .UseNpgsql()
+                .UseSnakeCaseNamingConvention();
+
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

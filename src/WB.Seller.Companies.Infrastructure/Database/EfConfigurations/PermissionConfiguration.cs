@@ -13,8 +13,6 @@ namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
     {
         public void Configure(EntityTypeBuilder<PermissionEntity> builder)
         {
-            builder.ToTable("permissions");
-
             builder.HasKey(e => e.Id);
 
             builder.HasIndex(e => new { e.Type, e.Status, e.SubscriptionId })
