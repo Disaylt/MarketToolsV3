@@ -9,10 +9,12 @@ using WB.Seller.Companies.Domain.Entities;
 
 namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
+    internal class UserConfiguration : BaseConfiguration<UserEntity>
     {
-        public void Configure(EntityTypeBuilder<UserEntity> builder)
+        public override void Configure(EntityTypeBuilder<UserEntity> builder)
         {
+            base.Configure(builder);
+
             builder.HasKey(x => x.SubId);
 
             builder.Ignore(e => e.Id);

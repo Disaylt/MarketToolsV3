@@ -14,9 +14,7 @@ namespace WB.Seller.Companies.Domain.Entities
 
         private readonly List<SubscriptionEntity> _subscriptions = [];
         public IReadOnlyCollection<SubscriptionEntity> Subscriptions => _subscriptions;
-
-        private readonly List<UserEntity> _users = [];
-        public IReadOnlyCollection<UserEntity> Users => _users;
+        public IReadOnlyCollection<UserEntity> Users { get; private set; } = [];
 
         protected CompanyEntity()
         {
@@ -32,11 +30,6 @@ namespace WB.Seller.Companies.Domain.Entities
         public void AddSubscription(SubscriptionEntity subscription)
         {
             _subscriptions.Add(subscription);
-        }
-
-        public void AddUser(UserEntity user)
-        {
-            _users.Add(user);
         }
     }
 }

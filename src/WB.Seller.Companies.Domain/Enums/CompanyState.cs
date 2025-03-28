@@ -9,7 +9,7 @@ namespace WB.Seller.Companies.Domain.Enums
 {
     public enum CompanyState
     {
-        [Description("Ожидает подтвверждение токена")]
+        [Description("Ожидает подтверждение токена")]
         AwaitTokenConfirmation,
 
         [Description("Активно")]
