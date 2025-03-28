@@ -9,7 +9,6 @@
 
     public class ModuleAuthInfoDto
     {
-        public required string Type { get; set; }
         public required string Path { get; set; }
         public int Id { get; set; }
     }
