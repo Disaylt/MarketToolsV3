@@ -15,16 +15,16 @@ using Microsoft.Extensions.Options;
 
 namespace Identity.Application.Commands
 {
-    public class CreateAuthInfoHandler(IRepository<Session> sessionRepository,
-        ILogger<CreateAuthInfoHandler> logger,
+    public class CreateAuthInfoCommandHandler(IRepository<Session> sessionRepository,
+        ILogger<CreateAuthInfoCommandHandler> logger,
         ITokenService<JwtAccessTokenDto> accessTokenService,
         ITokenService<JwtRefreshTokenDto> refreshTokenService,
         ISessionService sessionService,
         IModulePermissionsService modulePermissionsService,
         IAccessTokenBlacklistService accessTokenBlacklistService)
-        : IRequestHandler<CreateAuthInfo, AuthInfoDto>
+        : IRequestHandler<CreateAuthInfoCommand, AuthInfoDto>
     {
-        public async Task<AuthInfoDto> Handle(CreateAuthInfo request, CancellationToken cancellationToken)
+        public async Task<AuthInfoDto> Handle(CreateAuthInfoCommand request, CancellationToken cancellationToken)
         {
             if (await refreshTokenService.IsValid(request.RefreshToken) == false)
             {
@@ -47,7 +47,7 @@ namespace Identity.Application.Commands
 
             JwtAccessTokenDto newAccessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
             newAccessTokenData.ModuleAuthInfo = await modulePermissionsService
-                    .FindOrDefault(request.ModulePath, request.ModuleType, session.IdentityId, request.ModuleId);
+                    .FindOrDefault(request.ModulePath, session.IdentityId, request.ModuleId);
 
             JwtRefreshTokenDto newRefreshTokenData = CreateRefreshToken(session.Id, newAccessTokenData.Id);
             string refreshToken = refreshTokenService.Create(newRefreshTokenData);

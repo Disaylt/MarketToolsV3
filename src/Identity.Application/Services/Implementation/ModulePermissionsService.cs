@@ -17,10 +17,9 @@ namespace Identity.Application.Services.Implementation
         IExtensionRepository extensionRepository)
     : IModulePermissionsService
     {
-        public async Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? type, string? userId, int? id)
+        public async Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? userId, int? id)
         {
-            if (path == null 
-                || type == null 
+            if (path == null
                 || id == null 
                 || userId == null)
             {
@@ -30,7 +29,6 @@ namespace Identity.Application.Services.Implementation
             FindModuleQueryObject queryObject = new()
             {
                 Path = path,
-                Type = type,
                 UserId = userId,
                 Id = id.Value,
             };

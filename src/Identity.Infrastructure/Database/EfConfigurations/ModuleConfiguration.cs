@@ -23,10 +23,7 @@ namespace Identity.Infrastructure.Database.EfConfigurations
             builder.Property(e => e.Path)
                 .HasMaxLength(512);
 
-            builder.Property(e => e.Type)
-                .HasMaxLength(100);
-
-            builder.HasIndex(x => new { x.IdentityId, x.Path, x.Type, x.ExternalId, })
+            builder.HasIndex(x => new { x.IdentityId, x.Path, x.ExternalId, })
                 .IsUnique();
 
             builder.HasOne(x => x.Identity)

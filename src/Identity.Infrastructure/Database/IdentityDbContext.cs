@@ -27,5 +27,14 @@ namespace Identity.Infrastructure.Database
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("public");
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder
+                .UseNpgsql()
+                .UseSnakeCaseNamingConvention();
+        }
     }
 }

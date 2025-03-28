@@ -9,7 +9,6 @@ namespace Identity.Domain.Entities
     public class Module
     {
         public int Id { get; set; }
-        public required string Type { get; set; }
         public required string Path { get; set; }
         public int ExternalId { get; set; }
         public required string IdentityId { get; set; }
