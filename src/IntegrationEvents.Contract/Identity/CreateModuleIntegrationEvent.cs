@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntegrationEvents.Contract.Identity
 {
-    public record ModuleCreatedIntegrationEvent : BaseIntegrationEvent
+    public record CreateModuleIntegrationEvent : BaseIntegrationEvent
     {
         public required string UserId { get; init; }
         public required string Path { get; init; }

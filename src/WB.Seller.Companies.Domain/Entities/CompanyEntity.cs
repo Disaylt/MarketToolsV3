@@ -1,4 +1,5 @@
 ﻿using WB.Seller.Companies.Domain.Enums;
+using WB.Seller.Companies.Domain.Events;
 using WB.Seller.Companies.Domain.Seed;
 
 namespace WB.Seller.Companies.Domain.Entities
@@ -7,10 +8,6 @@ namespace WB.Seller.Companies.Domain.Entities
     {
         public string Name { get; private set; }
         public string? Token { get; private set; }
-        public bool IsActive { get; private set; }
-        public CompanyState State { get; private set; }
-        public int NumberOfTokenChecks { get; private set; }
-        public DateTime StateUpdated { get; private set; }
 
         private readonly List<SubscriptionEntity> _subscriptions = [];
         public IReadOnlyCollection<SubscriptionEntity> Subscriptions => _subscriptions;
@@ -19,6 +16,8 @@ namespace WB.Seller.Companies.Domain.Entities
         protected CompanyEntity()
         {
             Name = null!;
+
+            AddDomainEvent(new CompanyCreatedDomainEvent(this));
         }
 
         public CompanyEntity(string name, string? token) : this()

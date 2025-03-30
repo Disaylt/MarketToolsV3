@@ -10,5 +10,6 @@ namespace IntegrationEvents.Contract.WB.Seller.Companies
     {
         public required int CompanyId { get; init; }
         public required string UserId { get; init; }
+        public string? Token { get; set; }
     }
 }
