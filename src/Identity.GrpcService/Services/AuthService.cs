@@ -18,9 +18,9 @@ namespace Identity.GrpcService.Services
             return CreateAuthInfoResponse(authInfo);
         }
 
-        private AuthInfoReply CreateAuthInfoResponse(AuthInfoDto authInfo)
+        private static AuthInfoReply CreateAuthInfoResponse(AuthInfoDto authInfo)
         {
-            AuthInfoReply value = new AuthInfoReply
+            AuthInfoReply value = new()
             {
                 IsValid = authInfo.IsValid
             };
@@ -38,9 +38,9 @@ namespace Identity.GrpcService.Services
             return value;
         }
 
-        private CreateAuthInfo CreateAuthInfoCommand(AuthInfoRequest request)
+        private static CreateAuthInfo CreateAuthInfoCommand(AuthInfoRequest request)
         {
-            return new CreateAuthInfo
+            return new()
             {
                 UserAgent = request.UserAgent,
                 RefreshToken = request.SessionToken

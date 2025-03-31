@@ -32,12 +32,12 @@ namespace UserNotifications.Processor
                             h.Password(messageBrokerConfig.RabbitMqPassword);
                         });
 
-                    cfg.ReceiveEndpoint($"{serviceName}.IdentityCreatedQueue", re =>
+                    cfg.ReceiveEndpoint($"{serviceName}.{nameof(IdentityCreatedConsumer)}", re =>
                     {
                         re.ConfigureConsumer<IdentityCreatedConsumer>(context);
                     });
 
-                    cfg.ReceiveEndpoint($"{serviceName}.SessionCreatedQueue", re =>
+                    cfg.ReceiveEndpoint($"{serviceName}.{nameof(SessionCreatedConsumer)}", re =>
                     {
                         re.ConfigureConsumer<SessionCreatedConsumer>(context);
                     });

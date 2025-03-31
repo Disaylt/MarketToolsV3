@@ -4,20 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Models;
-using Identity.Application.Services;
+using Identity.Application.QueryObjects;
+using Identity.Application.Services.Abstract;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
+using Identity.Infrastructure.QueryableHandlers;
+using Identity.Infrastructure.QueryObjectAdapters;
+using Identity.Infrastructure.QueryObjectHandlers;
 using Identity.Infrastructure.Repositories;
-using Identity.Infrastructure.Services;
-using Identity.Infrastructure.Services.Claims;
-using Identity.Infrastructure.Services.Tokens;
+using Identity.Infrastructure.Services.Abstract;
+using Identity.Infrastructure.Services.Abstract.Claims;
+using Identity.Infrastructure.Services.Abstract.Tokens;
+using Identity.Infrastructure.Services.Implementation;
+using Identity.Infrastructure.Services.Implementation.Claims;
+using Identity.Infrastructure.Services.Implementation.Tokens;
 using MarketToolsV3.ConfigurationManager.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace Identity.Infrastructure
@@ -31,9 +42,15 @@ namespace Identity.Infrastructure
             collection.AddScoped<ISessionService, SessionService>();
             collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<IdentityDbContext>>();
             collection.AddScoped<IIdentityPersonService, IdentityPersonService>();
+            collection.AddScoped<IExtensionRepository, ExtensionRepository>();
+            collection.AddScoped<IQueryableHandler<Session, SessionDto>, SessionToTransferMapQueryableHandler>();
+            collection.AddScoped<IQueryableHandler<Module, ModuleAuthInfoDto>, ModuleToAuthServiceTransferQueryableHandler>();
+            collection.AddScoped<IQueryObjectHandler<GetActivateSessionQueryObject, Session>, GetActivateSessionQueryObjectHandler>();
+            collection.AddScoped<IQueryObjectHandler<FindModuleQueryObject, Module>, FindModuleQueryObjectHandler>();
             collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
 
-            AddRedisCache(collection, serviceConfiguration.RedisConfig);
+            AddRedisCache(collection, serviceConfiguration.SharedIdentityRedisConfig, "shared-identity");
+            AddRedisCache(collection, serviceConfiguration.IdentityRedisConfig, null);
 
             collection.AddIdentityCore<IdentityPerson>(options =>
                 {
@@ -54,21 +71,28 @@ namespace Identity.Infrastructure
             collection.AddSingleton<IClaimsService<JwtRefreshTokenDto>, JwtRefreshClaimsService>();
             collection.AddSingleton<ITokenService<JwtAccessTokenDto>, JwtAccessTokenService>();
             collection.AddSingleton<ITokenService<JwtRefreshTokenDto>, JwtRefreshTokenService>();
-            collection.AddSingleton(typeof(ICacheRepository<>), typeof(DefaultCacheRepository<>));
+            collection.AddSingleton<ICacheRepository, DefaultCacheRepository>();
+            collection.AddKeyedSingleton<ICacheRepository, DefaultCacheRepository>("shared-identity", (sp, key) =>
+            {
+                var distributedCache = sp.GetRequiredKeyedService<IDistributedCache>(key);
+
+                return new DefaultCacheRepository(distributedCache);
+            });
+            collection.AddSingleton<IAccessTokenBlacklistService, AccessTokenBlacklistService>();
 
             return collection;
         }
 
-        private static void AddRedisCache(IServiceCollection collection, RedisConfig redisConfig)
+        private static void AddRedisCache(IServiceCollection collection, RedisConfig redisConfig, string? key)
         {
             if (string.IsNullOrEmpty(redisConfig.Host))
             {
                 throw new NullReferenceException("Redis host is null.");
             }
 
-            collection.AddStackExchangeRedisCache(opt =>
+            var options = Options.Create(new RedisCacheOptions
             {
-                opt.ConfigurationOptions = new ConfigurationOptions
+                ConfigurationOptions = new ConfigurationOptions
                 {
                     EndPoints =
                     {
@@ -77,8 +101,19 @@ namespace Identity.Infrastructure
                     User = redisConfig.User,
                     Password = redisConfig.Password,
                     DefaultDatabase = redisConfig.Database
-                };
+                }
             });
+
+            var redisCache = new RedisCache(options);
+
+            if (string.IsNullOrEmpty(key))
+            {
+                collection.AddSingleton<IDistributedCache>(redisCache);
+            }
+            else
+            {
+                collection.AddKeyedSingleton<IDistributedCache>(key, redisCache);
+            }
         }
     }
 }

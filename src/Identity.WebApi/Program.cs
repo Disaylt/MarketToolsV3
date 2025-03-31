@@ -9,6 +9,8 @@ using Identity.WebApi.Services;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Core;
 
@@ -29,7 +31,7 @@ ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApi("v1");
 builder.Services.AddServiceAuthentication(authConfigManager.Value);
 builder.Services.AddWebApiServices();
 builder.Services
@@ -48,10 +50,12 @@ builder.AddLogging(serviceConfigManager.Value);
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();

@@ -8,7 +8,7 @@ namespace MarketToolsV3.DbMigrations.Service.Services.Interfaces
 {
     internal interface IWorkNotificationServiceService
     {
-        event Action<int>? NotifiyTotalCompletedTask;
         void MarkAsCompleted();
+        void Subscribe(Action<int> action);
     }
 }

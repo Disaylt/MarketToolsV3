@@ -7,6 +7,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Behaviors;
+using UserNotifications.Applications.Mappers.Abstract;
+using UserNotifications.Applications.Mappers.Implementation;
+using UserNotifications.Applications.Models;
 
 namespace UserNotifications.Applications
 {
@@ -22,7 +25,15 @@ namespace UserNotifications.Applications
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
 
+            serviceCollection.AddMappers();
+
+
             return serviceCollection;
+        }
+
+        private static void AddMappers(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddSingleton<INotificationMapper<NotificationDto>, NotificationDtoMapper>();
         }
     }
 }

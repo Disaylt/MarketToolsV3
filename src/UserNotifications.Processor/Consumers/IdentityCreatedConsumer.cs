@@ -7,6 +7,7 @@ using IntegrationEvents.Contract.Identity;
 using MassTransit;
 using MediatR;
 using UserNotifications.Applications.Commands;
+using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.Processor.Consumers
 {
@@ -17,7 +18,10 @@ namespace UserNotifications.Processor.Consumers
             CreateNotificationCommand command = new()
             {
                 UserId = context.Message.IdentityId,
-                Message = "Доброе пожаловать! Рады видеть вас на нашей платформе. Здесь вы сможете эффективно управлять своими компаниями на маркетплейсах."
+                Category = Category.Identity,
+                Title = "Приветствие",
+                Message = "Доброе пожаловать! Рады видеть вас. Совершенствуйте уровень управления вашего бизнеса. " +
+                          "Анализируйте, собирайте статистику и будьте в курсе всех событий ваших компаний."
             };
 
             await mediator.Send(command);

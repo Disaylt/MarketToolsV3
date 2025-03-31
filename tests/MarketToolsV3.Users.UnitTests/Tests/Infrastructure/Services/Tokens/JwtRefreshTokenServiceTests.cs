@@ -1,7 +1,5 @@
 ﻿using Identity.Application.Models;
 using Identity.Domain.Seed;
-using Identity.Infrastructure.Services.Claims;
-using Identity.Infrastructure.Services.Tokens;
 using Microsoft.Extensions.Options;
 using Moq;
 using System;
@@ -14,6 +12,9 @@ using System.Threading.Tasks;
 using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.DataProtection;
+using Identity.Infrastructure.Services.Abstract.Claims;
+using Identity.Infrastructure.Services.Abstract.Tokens;
+using Identity.Infrastructure.Services.Implementation.Tokens;
 
 namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Tokens
 {

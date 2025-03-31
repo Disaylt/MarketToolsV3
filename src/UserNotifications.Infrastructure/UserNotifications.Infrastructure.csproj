@@ -14,7 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\UserNotifications.Applications\UserNotifications.Applications.csproj" />
     <ProjectReference Include="..\UserNotifications.Domain\UserNotifications.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Abstract\" />
   </ItemGroup>
 
 </Project>

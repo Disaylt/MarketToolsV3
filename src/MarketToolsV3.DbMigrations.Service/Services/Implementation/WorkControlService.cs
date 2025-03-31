@@ -21,7 +21,8 @@ namespace MarketToolsV3.DbMigrations.Service.Services.Implementation
         {
             _serviceConfig = options.Value;
             _hostApplicationLifetime = lifetime;
-            workNotificationServiceService.NotifiyTotalCompletedTask += ExitServiceBeforeCompleteAllTask;
+
+            workNotificationServiceService.Subscribe(ExitServiceBeforeCompleteAllTask);
         }
 
         private void ExitServiceBeforeCompleteAllTask(int quantityTasks)

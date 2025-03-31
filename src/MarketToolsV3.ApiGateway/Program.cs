@@ -10,15 +10,16 @@ using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Proto.Contract.Identity;
+using Scalar.AspNetCore;
 using System.IdentityModel.Tokens.Jwt;
+using MarketToolsV3.ApiGateway.Domain.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IAuthContext, AuthContext>();
-
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
-IConfigManager serviceConfigManager = await configurationServiceFactory.CreateFromServiceAsync(ApiGatewayConfig.ServiceName);
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager = await configurationServiceFactory
+    .CreateFromServiceAsync<ServiceConfiguration>(ApiGatewayConstant.ServiceName);
 serviceConfigManager.JoinTo(builder.Configuration);
 
 var authConfigManager = await configurationServiceFactory.CreateFromAuthAsync();
@@ -27,9 +28,12 @@ authConfigManager.AddAsOptions(builder.Services);
 ITypingConfigManager<ServicesAddressesConfig> servicesAddressesConfigManager 
     = await configurationServiceFactory.CreateFromServicesAddressesAsync();
 
+var ocelotPipelineConfiguration = OcelotPipelineConfigurationFactory.Create();
+
 builder.Services
     .AddAuthGrpcClient(servicesAddressesConfigManager.Value)
-    .AddApiGatewayServices();
+    .AddApiGatewayServices(serviceConfigManager.Value)
+    .AddServiceAuthentication(authConfigManager.Value);
 
 builder.Services
     .AddOcelot(builder.Configuration);
@@ -43,13 +47,12 @@ var app = builder.Build();
 
 app.UseCors(corsName);
 
-app.UseMiddleware<AuthContextMiddleware>();
-app.UseMiddleware<AccessTokenMiddleware>();
-app.UseMiddleware<TokensRefreshMiddleware>();
-app.UseMiddleware<SessionMiddleware>();
-app.UseMiddleware<HeadersTokensAdapterMiddleware>();
+app.UseAuthentication();
 
-await app.UseOcelot();
-app.UseMiddleware<CookiesInjectMiddleware>();
+app.UseMiddleware<AccessTokenContextMiddleware>();
+app.UseMiddleware<AccessTokenBlackListMiddleware>();
+app.UseMiddleware<ModuleCheckMiddleware>();
+
+await app.UseOcelot(ocelotPipelineConfiguration);
 
 app.Run();

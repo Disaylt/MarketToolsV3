@@ -1,7 +1,8 @@
 ﻿using Identity.Application.Models;
 using Identity.Domain.Seed;
-using Identity.Infrastructure.Services.Claims;
-using Identity.Infrastructure.Services.Tokens;
+using Identity.Infrastructure.Services.Abstract.Claims;
+using Identity.Infrastructure.Services.Abstract.Tokens;
+using Identity.Infrastructure.Services.Implementation.Tokens;
 using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;

@@ -1,7 +1,10 @@
-﻿using Asp.Versioning;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using Asp.Versioning;
 using Identity.Application.Commands;
 using Identity.Application.Models;
 using Identity.Application.Queries;
+using Identity.Domain.Seed;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services;
 using Identity.WebApi.Services.Implementation;
@@ -15,7 +18,7 @@ using static MassTransit.ValidationResultExtensions;
 
 namespace Identity.WebApi.Controllers
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/users")]
     [ApiController]
     [ApiVersion("1")]
     public class UserController(IMediator mediator, 
@@ -25,11 +28,13 @@ namespace Identity.WebApi.Controllers
     {
         [Authorize]
         [HttpPut("logout")]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> LogOut(CancellationToken cancellationToken)
         {
             DeactivateSessionCommand command = new()
             {
-                Id = authContext.GetSessionIdRequired()
+                Id = authContext.GetSessionIdRequired(),
+                UserId = authContext.GetUserIdRequired()
             };
             await mediator.Send(command, cancellationToken);
             credentialsService.Remove(command.Id);
@@ -39,9 +44,10 @@ namespace Identity.WebApi.Controllers
 
         [Authorize]
         [HttpGet("details")]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> GetDetailsAsync(CancellationToken cancellationToken)
         {
-            GetIdentityDetailsQuery query = new GetIdentityDetailsQuery
+            GetIdentityDetailsQuery query = new()
             {
                 UserId = authContext.GetUserIdRequired()
             };
@@ -52,6 +58,7 @@ namespace Identity.WebApi.Controllers
         }
 
         [HttpPost("register")]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> RegisterAsync([FromBody] NewUserModel user, CancellationToken cancellationToken)
         {
             CreateNewUserCommand command = new()
@@ -70,6 +77,7 @@ namespace Identity.WebApi.Controllers
         }
 
         [HttpPost("login")]
+        [MapToApiVersion(1)]
         public async Task<IActionResult> LoginAsync([FromBody] LoginModel body, CancellationToken cancellationToken)
         {
             LoginCommand command = new()

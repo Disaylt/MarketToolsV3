@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MediatR;
 using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 
@@ -13,10 +13,12 @@ namespace UserNotifications.Applications.Commands
     {
         public async Task<Unit> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
         {
-            Notification entity = new Notification
+            Notification entity = new()
             {
                 Message = request.Message,
-                UserId = request.UserId
+                UserId = request.UserId,
+                Category = request.Category,
+                Title = request.Title
             };
 
             await notificationRepository.InsertAsync(entity, cancellationToken);

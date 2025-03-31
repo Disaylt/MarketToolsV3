@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Castle.Core.Logging;
 using Identity.Application.Commands;
 using Identity.Application.Models;
-using Identity.Application.Services;
+using Identity.Application.Services.Abstract;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using Microsoft.Extensions.Logging;

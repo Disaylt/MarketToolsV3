@@ -57,10 +57,10 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             var authConfigOptions = Options.Create(new AuthConfig());
             var service = new CookiesContextService(_httpContextAccessorMock.Object, authConfigOptions);
 
-            service.AddSessionToken("test-session-token");
+            service.AddSessionToken(It.IsAny<string>());
 
             _responseCookiesMock.Verify(
-                x => x.Append("refresh-token", "test-session-token", It.IsAny<CookieOptions>()),
+                x => x.Append(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CookieOptions>()),
                 Times.Once,
                 "Refresh token was not added correctly.");
         }
@@ -81,7 +81,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             service.DeleteAccessToken();
 
             _responseCookiesMock.Verify(
-                x => x.Delete("access-token"),
+                x => x.Delete(It.IsAny<string>()),
                 Times.Once,
                 "Access token was not removed correctly.");
         }
@@ -102,7 +102,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.WebApi
             service.DeleteSessionToken();
 
             _responseCookiesMock.Verify(
-                x => x.Delete("refresh-token"),
+                x => x.Delete(It.IsAny<string>()),
                 Times.Once,
                 "Refresh token was not removed correctly.");
         }

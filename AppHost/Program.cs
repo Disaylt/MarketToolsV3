@@ -2,39 +2,27 @@ using Projects;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+IReadOnlyCollection<IResourceBuilder<ProjectResource>> projects =
+[
+    builder.AddProject<Identity_WebApi>("IdentityWebApiService"),
+    builder.AddProject<UserNotifications_Processor>("UserNotificationProcessor"),
+    builder.AddProject<UserNotifications_WebApi>("UserNotificationWebApi"),
+    builder.AddProject<WB_Seller_Companies_WebApi>("WbSellerCompaniesWebapi"),
+    builder.AddProject<MarketToolsV3_ApiGateway>("MarketToolsV3ApiGateway"),
+    builder.AddProject<Identity_GrpcService>("IdentityGrpcService"),
+    builder.AddProject<WB_Seller_Companies_Processor>("WbSellerCompaniesProcessor"),
+    builder.AddProject<MarketToolsV3_FakeData_WebApi>("MarketToolsV3FakeDataWebApi")
+];
+
 var configTypeParameter = builder.AddParameter("ConfigType");
 var jsonBasePathParameter = builder.AddParameter("JsonBasePath");
 
-
-builder
-    .AddProject<Identity_WebApi>("IdentityWebApiService")
-    .WithEnvironment("ConfigType", configTypeParameter)
-    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
-
-builder
-    .AddProject<UserNotifications_Processor>("UserNotificationProcessor")
-    .WithEnvironment("ConfigType", configTypeParameter)
-    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
-
-builder
-    .AddProject<UserNotifications_WebApi>("UserNotificationWebApi")
-    .WithEnvironment("ConfigType", configTypeParameter)
-    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
-
-builder.AddProject<WB_Seller_Api_Companies_WebApi>("WbSellerApiCompaniesWebapi")
-    .WithEnvironment("ConfigType", configTypeParameter)
-    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
-
-builder.AddProject<MarketToolsV3_ApiGateway>("MarketToolsV3ApiGateway")
-    .WithEnvironment("ConfigType", configTypeParameter)
-    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
-
-builder.AddProject<Identity_GrpcService>("IdentityGrpcService")
-    .WithEnvironment("ConfigType", configTypeParameter)
-    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
-
-builder.AddProject<MarketToolsV3_DbMigrations_Service>("MarketToolsv3-DbMigrationsService")
-    .WithEnvironment("ConfigType", configTypeParameter)
-    .WithEnvironment("JsonBasePath", jsonBasePathParameter);
+foreach (var project in projects)
+{
+    project.WithEnvironment("ConfigType", configTypeParameter)
+        .WithEnvironment("JsonBasePath", jsonBasePathParameter)
+        .WithEndpoint("https", endpoint => endpoint.IsProxied = false, false)
+        .WithEndpoint("http", endpoint => endpoint.IsProxied = false, false);
+}
 
 builder.Build().Run();

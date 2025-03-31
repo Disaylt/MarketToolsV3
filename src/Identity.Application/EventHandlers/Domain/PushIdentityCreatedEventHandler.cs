@@ -15,9 +15,10 @@ namespace Identity.Application.EventHandlers.Domain
     {
         public async Task Handle(IdentityCreated notification, CancellationToken cancellationToken)
         {
-            IdentityCreatedIntegrationEvent integrationMessage = new IdentityCreatedIntegrationEvent
+            IdentityCreatedIntegrationEvent integrationMessage = new()
             {
-                IdentityId = notification.Identity.Id
+                IdentityId = notification.Identity.Id,
+                Login = notification.Identity.UserName ?? "Unknown"
             };
 
             await bus.Publish(integrationMessage, cancellationToken);

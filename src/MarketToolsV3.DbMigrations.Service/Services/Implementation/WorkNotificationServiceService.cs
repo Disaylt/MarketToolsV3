@@ -13,12 +13,17 @@ namespace MarketToolsV3.DbMigrations.Service.Services.Implementation
     {
         private int _numCompletedTasks = 0;
 
-        public event Action<int>? NotifiyTotalCompletedTask;
+        private event Action<int>? NotifyTotalCompletedTask;
+
+        public void Subscribe(Action<int> action)
+        {
+            NotifyTotalCompletedTask += action;
+        }
 
         public void MarkAsCompleted()
         {
             _numCompletedTasks += 1;
-            NotifiyTotalCompletedTask?.Invoke(_numCompletedTasks);
+            NotifyTotalCompletedTask?.Invoke(_numCompletedTasks);
         }
     }
 }
