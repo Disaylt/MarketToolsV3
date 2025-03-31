@@ -90,7 +90,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             };
             _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Email);
         }
-
+      
         [Test]
         public void Validate_Should_Have_Error_When_Login_Exceeds_Max_Length()
         {
