@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarketToolsV3.EventBus
+namespace MarketToolsV3.IntegrationEventLogServiceEf
 {
-    public interface IIntegrationEventLogService
+    public class EventBusService
     {
+
     }
 }

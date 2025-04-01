@@ -6,21 +6,21 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using IntegrationEvents.Contract;
 
-namespace MarketToolsV3.EventBus
+namespace MarketToolsV3.EventBus.Models
 {
-    public class IntegrationEventLogEntity
+    public class IntegrationEventLogEntry
     {
         private static readonly JsonSerializerOptions IndentedOptions = new() { WriteIndented = true };
 
-        private IntegrationEventLogEntity(){}
+        private IntegrationEventLogEntry() { }
 
-        public IntegrationEventLogEntity(BaseIntegrationEvent @event, Guid transactionId)
+        public IntegrationEventLogEntry(BaseIntegrationEvent @event, Guid transactionId)
         {
-            Content = JsonSerializer.Serialize(@event, @event.GetType(), IndentedOptions);
+            Type eventType = @event.GetType();
+            Content = JsonSerializer.Serialize(@event, eventType, IndentedOptions);
             TransactionId = transactionId;
             Id = @event.Id;
-            Type = @event.GetType().FullName 
-                   ?? throw new NullReferenceException("Event type is null");
+            Type = eventType.FullName ?? throw new NullReferenceException("Event type is null");
         }
 
         public Guid Id { get; private set; }

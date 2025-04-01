@@ -5,24 +5,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntegrationEvents.Contract;
-using MarketToolsV3.EventBus;
+using MarketToolsV3.EventBus.Models;
+using MarketToolsV3.EventBus.Services.Abstract;
 
 namespace MarketToolsV3.IntegrationEventLogServiceEf
 {
-    public class IntegrationEventLogService<TContext>(TContext context)
+    public class IntegrationEventLogService<TContext>(TContext context) : IIntegrationEventLogService
     where TContext : DbContext
     {
-        public async Task SaveEventAsync(BaseIntegrationEvent @event, CancellationToken cancellationToken)
+        public async Task AddEventAsync(BaseIntegrationEvent @event, CancellationToken cancellationToken)
         {
             if (context.Database.CurrentTransaction is null)
             {
                 throw new NullReferenceException("Transaction is null.");
             }
 
-            IntegrationEventLogEntity logEvent = new(@event, context.Database.CurrentTransaction.TransactionId);
-            await context.Set<IntegrationEventLogEntity>().AddAsync(logEvent, cancellationToken);
+            IntegrationEventLogEntry logEvent = new(@event, context.Database.CurrentTransaction.TransactionId);
+            await context.Set<IntegrationEventLogEntry>().AddAsync(logEvent, cancellationToken);
+        }
 
-            await context.SaveChangesAsync(cancellationToken);
+        public async Task<IReadOnlyCollection<IntegrationEventLogEntry>> GetNotPublishByTransaction(Guid transactionId)
+        {
+            return await context.Set<IntegrationEventLogEntry>()
+                .Where(x => x.TransactionId == transactionId && x.State == EventStateEnum.NotPublished)
+                .ToListAsync();
         }
     }
 }

@@ -33,7 +33,6 @@ namespace Identity.WebApi.Controllers
 
             await mediator.Send(command, cancellationToken);
             sessionContextService.MarkAsDelete(command.Id);
-
             return Ok();
         }
     }
