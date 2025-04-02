@@ -47,11 +47,11 @@ namespace Identity.Application.Commands
 
             JwtAccessTokenDto newAccessTokenData = CreateAccessTokenData(session.IdentityId, session.Id);
             newAccessTokenData.ModuleAuthInfo = await modulePermissionsService
-                    .FindOrDefault(request.ModulePath, session.IdentityId, request.ModuleId);
+                    .FindOrDefault(request.ModulePath, session.IdentityId, request.ModuleId, cancellationToken);
 
             JwtRefreshTokenDto newRefreshTokenData = CreateRefreshToken(session.Id, newAccessTokenData.Id);
             string refreshToken = refreshTokenService.Create(newRefreshTokenData);
-            await sessionService.UpdateAsync(session, refreshToken, request.UserAgent, cancellationToken);
+            await sessionService.UpdateAsync(session, refreshToken, cancellationToken, request.UserAgent);
 
             var newAuthData = new AuthInfoDto
             {
@@ -65,7 +65,7 @@ namespace Identity.Application.Commands
 
             if (string.IsNullOrEmpty(oldRefreshTokenData.AccessTokenId) == false)
             {
-                await accessTokenBlacklistService.AddAsync(oldRefreshTokenData.AccessTokenId);
+                await accessTokenBlacklistService.AddAsync(oldRefreshTokenData.AccessTokenId, cancellationToken);
             }
 
             return newAuthData;

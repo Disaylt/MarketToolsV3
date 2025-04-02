@@ -40,7 +40,8 @@ namespace Identity.Infrastructure.Repositories
         {
             T? entity = await _dbSet.FindAsync([id], cancellationToken: cancellationToken);
 
-            return entity ?? throw new RootServiceException(HttpStatusCode.NotFound, "Not found");
+            return entity ?? throw new RootServiceException(HttpStatusCode.NotFound)
+                .AddMessages($"ID: {id} not found.");
         }
 
         public Task<T> UpdateAsync(T entity, CancellationToken cancellationToken)

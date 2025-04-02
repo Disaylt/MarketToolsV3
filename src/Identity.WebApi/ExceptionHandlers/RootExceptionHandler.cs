@@ -23,16 +23,11 @@ namespace Identity.WebApi.ExceptionHandlers
                 {
                     Status = (int)rootServiceException.StatusCode,
                     Title = "Ошибка обработки данных.",
-                    Detail = "Приложение не смогло обработать ваш запрос. Пожалуйста исправьте ошибки которые вы видете и попробуйте снова."
+                    Detail = "Приложение не смогло обработать ваш запрос. Пожалуйста исправьте ошибки и попробуйте снова."
                 }
             };
 
-            Dictionary<string, IEnumerable<string>> errorMessages = new()
-            {
-                { "Messages", rootServiceException.Messages }
-            };
-
-            problemDetailsContext.ProblemDetails.Extensions.TryAdd("errors", errorMessages);
+            problemDetailsContext.ProblemDetails.Extensions.TryAdd("errors", rootServiceException.KeyAndMessagesPairs);
 
             return await problemDetailsService.TryWriteAsync(problemDetailsContext);
         }

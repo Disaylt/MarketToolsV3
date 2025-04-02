@@ -15,6 +15,7 @@ using WB.Seller.Companies.Application.QueryData.Companies;
 using WB.Seller.Companies.Infrastructure.QueryDataHandlers.Companies;
 using Npgsql;
 using WB.Seller.Companies.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace WB.Seller.Companies.Infrastructure
 {
@@ -23,7 +24,12 @@ namespace WB.Seller.Companies.Infrastructure
         public static IServiceCollection AddInfrastructureLayer(this IServiceCollection collection,
             ServiceConfiguration serviceConfiguration)
         {
-            collection.AddNpgsql<WbSellerCompaniesDbContext>(serviceConfiguration.DatabaseConnection);
+            collection.AddDbContext<WbSellerCompaniesDbContext>(opt =>
+            {
+                opt.UseNpgsql(serviceConfiguration.DatabaseConnection)
+                    .UseSnakeCaseNamingConvention();
+            });
+
             collection.AddScoped<IDbConnection>(_ => new NpgsqlConnection(serviceConfiguration.DatabaseConnection));
 
             collection.AddScoped(typeof(IRepository<>), typeof(Repository<>));

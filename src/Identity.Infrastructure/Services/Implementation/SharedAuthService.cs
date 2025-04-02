@@ -17,12 +17,12 @@ namespace Identity.Infrastructure.Services.Implementation
         : IAccessTokenBlacklistService
     {
 
-        public async Task AddAsync(string id)
+        public async Task AddAsync(string id, CancellationToken cancellationToken)
         {
             string key = $"blacklist-access-token-{id}";
             TimeSpan expire = TimeSpan.FromMinutes(authConfigOptions.Value.ExpireAccessTokenMinutes);
 
-            await sharedIdentityCacheRepository.SetAsync(key, new object(), expire);
+            await sharedIdentityCacheRepository.SetAsync(key, new object(), expire, cancellationToken);
         }
     }
 }

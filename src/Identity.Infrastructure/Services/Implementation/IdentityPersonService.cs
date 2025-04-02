@@ -29,7 +29,8 @@ namespace Identity.Infrastructure.Services.Implementation
             {
                 logger.LogWarning("Bad create identity. Errors - {error}",
                     string.Join(',', result.Errors.Select(er => er.Description)));
-                throw new RootServiceException(HttpStatusCode.BadRequest, "Не удалось создать пользователя.");
+                throw new RootServiceException()
+                    .AddMessages("Не удалось создать пользователя, попробуйте изменить данные или обратитесь в тех. поддержку.");
             }
 
             logger.LogInformation("Create new identity - {id}", identity.Id);
@@ -64,7 +65,8 @@ namespace Identity.Infrastructure.Services.Implementation
         public async Task<IdentityPerson> FindByIdRequiredAsync(string id)
         {
             return await userManager.FindByIdAsync(id)
-                   ?? throw new RootServiceException(HttpStatusCode.NotFound, "Пользователь не найден.");
+                   ?? throw new RootServiceException(HttpStatusCode.NotFound)
+                       .AddMessages("Пользователь не найден.");
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
+using System.Threading;
 
 namespace Identity.Infrastructure.Repositories
 {
@@ -21,10 +22,10 @@ namespace Identity.Infrastructure.Repositories
             await distributedCache.RemoveAsync(typeKey, cancellationToken);
         }
 
-        public async Task<T?> GetAsync<T>(string key) where T : class
+        public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToke) where T : class
         {
             string typeKey = BuildKey<T>(key);
-            string? value = await distributedCache.GetStringAsync(typeKey);
+            string? value = await distributedCache.GetStringAsync(typeKey, cancellationToke);
 
             if (value == null)
             {
@@ -34,7 +35,7 @@ namespace Identity.Infrastructure.Repositories
             return JsonSerializer.Deserialize<T>(value);
         }
 
-        public async Task SetAsync<T>(string key, T value, TimeSpan expire) where T : class
+        public async Task SetAsync<T>(string key, T value, TimeSpan expire, CancellationToken cancellationToke) where T : class
         {
             string strValue = JsonSerializer.Serialize(value);
             string typeKey = BuildKey<T>(key);
@@ -42,7 +43,7 @@ namespace Identity.Infrastructure.Repositories
             await distributedCache.SetStringAsync(typeKey, strValue, new DistributedCacheEntryOptions
             {
                 AbsoluteExpirationRelativeToNow = expire,
-            });
+            }, cancellationToke);
 
         }
 

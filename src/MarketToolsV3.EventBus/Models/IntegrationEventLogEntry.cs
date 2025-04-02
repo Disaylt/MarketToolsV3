@@ -12,7 +12,12 @@ namespace MarketToolsV3.EventBus.Models
     {
         private static readonly JsonSerializerOptions IndentedOptions = new() { WriteIndented = true };
 
-        private IntegrationEventLogEntry() { }
+#pragma warning disable CS8618, CS9264
+        /// <summary>
+        /// For EF core
+        /// </summary>
+        private IntegrationEventLogEntity(){}
+#pragma warning restore CS8618, CS9264
 
         public IntegrationEventLogEntry(BaseIntegrationEvent @event, Guid transactionId)
         {

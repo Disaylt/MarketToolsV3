@@ -17,7 +17,7 @@ namespace Identity.Application.Services.Implementation
         IExtensionRepository extensionRepository)
     : IModulePermissionsService
     {
-        public async Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? userId, int? id)
+        public async Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? userId, int? id, CancellationToken cancellationToken)
         {
             if (path == null
                 || id == null 
@@ -36,7 +36,7 @@ namespace Identity.Application.Services.Implementation
             var queryObjectResult = findServiceQueryObjectHandler.Create(queryObject);
             var serviceAuthInfoQuery = await serviceToServiceAuthQueryableHandler.HandleAsync(queryObjectResult);
 
-            return await extensionRepository.FirstOrDefaultAsync(serviceAuthInfoQuery);
+            return await extensionRepository.FirstOrDefaultAsync(serviceAuthInfoQuery, cancellationToken);
         }
     }
 }
