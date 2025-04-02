@@ -22,7 +22,7 @@ namespace Identity.Application.Behaviors
 
             foreach (var validator in validators)
             {
-                var result = await validator.Handle(request);
+                var result = await validator.Handle(request, cancellationToken);
                 deepValidateResults.Add(result);
             }
 

@@ -13,6 +13,6 @@ namespace Identity.Domain.Seed
         void RemoveNotification(INotification notification);
         void AddNotification(INotification notification);
         void ClearNotifications();
-        Task PublishAllAsync();
+        Task PublishAllAsync(CancellationToken cancellationToken);
     }
 }

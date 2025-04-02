@@ -24,7 +24,7 @@ namespace Identity.Infrastructure.Services.Implementation
     {
         private readonly ServiceConfiguration _configuration = options.Value;
 
-        public async Task<Session> AddAsync(Session session, CancellationToken cancellationToken = default)
+        public async Task<Session> AddAsync(Session session, CancellationToken cancellationToken)
         {
             await sessionsRepository.AddAsync(session, cancellationToken);
 
@@ -36,7 +36,7 @@ namespace Identity.Infrastructure.Services.Implementation
             return session;
         }
 
-        public async Task UpdateAsync(Session session, string token, string userAgent = "Unknown", CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(Session session, string token, CancellationToken cancellationToken, string userAgent = "Unknown")
         {
             session.Token = token;
             session.UserAgent = userAgent;
@@ -45,7 +45,7 @@ namespace Identity.Infrastructure.Services.Implementation
             await sessionsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken)
         {
             return await sessionsRepository
                 .AsQueryable()
@@ -55,14 +55,14 @@ namespace Identity.Infrastructure.Services.Implementation
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
+        public async Task DeleteAsync(string id, CancellationToken cancellationToken)
         {
             Session session = await sessionsRepository.FindByIdRequiredAsync(id, cancellationToken);
             await sessionsRepository.DeleteAsync(session, cancellationToken);
             await sessionsRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeactivateAsync(string id, CancellationToken cancellationToken = default)
+        public async Task DeactivateAsync(string id, CancellationToken cancellationToken)
         {
             Session session = await sessionsRepository.FindByIdRequiredAsync(id, cancellationToken);
 
@@ -72,7 +72,7 @@ namespace Identity.Infrastructure.Services.Implementation
             }     
 
             JwtRefreshTokenDto tokenData = refreshTokenService.Read(session.Token);
-            await accessTokenBlacklistService.AddAsync(tokenData.AccessTokenId);
+            await accessTokenBlacklistService.AddAsync(tokenData.AccessTokenId, cancellationToken);
 
             session.IsActive = false;
 

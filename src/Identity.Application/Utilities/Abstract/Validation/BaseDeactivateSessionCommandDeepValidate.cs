@@ -12,7 +12,7 @@ namespace Identity.Application.Utilities.Abstract.Validation
     public abstract class BaseDeactivateSessionCommandDeepValidate<TRequest> : IDeepValidator<TRequest> where TRequest : IBaseRequest
     {
         protected ICollection<string> ErrorMessages { get; } = [];
-        public abstract Task<ValidateResult> Handle(TRequest request);
+        public abstract Task<ValidateResult> Handle(TRequest request, CancellationToken cancellationToken);
 
         protected ValidateResult CreateResult()
         {

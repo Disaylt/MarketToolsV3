@@ -31,7 +31,7 @@ namespace Identity.Application.Queries
             IQueryable<Session> sessionQuery = sessionQueryObjectAdapter.Create(queryObject);
             IQueryable<SessionDto> sessionTransferQuery = await sessionToTransferHandler.HandleAsync(sessionQuery);
 
-            return await extensionRepository.ToListAsync(sessionTransferQuery);
+            return await extensionRepository.ToListAsync(sessionTransferQuery, cancellationToken);
         }
     }
 }
