@@ -16,11 +16,7 @@ namespace WB.Seller.Companies.Application.Mappers
             return new()
             {
                 Id = value.Id,
-                Name = value.Name,
-                IsActive = value.IsActive,
-                State = value.State,
-                NumberOfTokenChecks = value.NumberOfTokenChecks,
-                StateUpdated = value.StateUpdated
+                Name = value.Name
             };
         }
     }
