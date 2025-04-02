@@ -25,11 +25,11 @@ namespace Identity.Infrastructure.Repositories
             _notifications.Clear();
         }
 
-        public async Task PublishAllAsync()
+        public async Task PublishAllAsync(CancellationToken cancellationToken)
         {
             foreach (INotification notification in _notifications)
             {
-                await mediator.Publish(notification);
+                await mediator.Publish(notification, cancellationToken);
             }
 
             ClearNotifications();

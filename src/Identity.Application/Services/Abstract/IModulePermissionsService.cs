@@ -9,6 +9,6 @@ namespace Identity.Application.Services.Abstract
 {
     public interface IModulePermissionsService
     {
-        Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? type, string? userId, int? id);
+        Task<ModuleAuthInfoDto?> FindOrDefault(string? path, string? userId, int? id, CancellationToken cancellationToken);
     }
 }

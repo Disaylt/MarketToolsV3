@@ -23,6 +23,7 @@ using MarketToolsV3.ConfigurationManager.Models;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
@@ -47,7 +48,12 @@ namespace Identity.Infrastructure
             collection.AddScoped<IQueryableHandler<Module, ModuleAuthInfoDto>, ModuleToAuthServiceTransferQueryableHandler>();
             collection.AddScoped<IQueryObjectHandler<GetActivateSessionQueryObject, Session>, GetActivateSessionQueryObjectHandler>();
             collection.AddScoped<IQueryObjectHandler<FindModuleQueryObject, Module>, FindModuleQueryObjectHandler>();
-            collection.AddNpgsql<IdentityDbContext>(serviceConfiguration.DatabaseConnection);
+
+            collection.AddDbContext<IdentityDbContext>(opt =>
+            {
+                opt.UseNpgsql(serviceConfiguration.DatabaseConnection)
+                    .UseSnakeCaseNamingConvention();
+            });
 
             AddRedisCache(collection, serviceConfiguration.SharedIdentityRedisConfig, "shared-identity");
             AddRedisCache(collection, serviceConfiguration.IdentityRedisConfig, null);

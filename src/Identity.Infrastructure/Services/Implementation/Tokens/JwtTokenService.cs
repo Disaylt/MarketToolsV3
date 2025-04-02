@@ -38,7 +38,9 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
             catch (Exception ex)
             {
                 logger.LogError(ex, "Unable to read jwt token - {token}", token);
-                throw new RootServiceException(HttpStatusCode.BadRequest, "Не удалось прочить токен");
+
+                throw new RootServiceException()
+                    .AddMessages("Не удалось прочить токен");
             }
         }
 

@@ -7,6 +7,10 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Domain.Seed;
+using Identity.Application.Commands;
+using Identity.Application.Models;
+using System.Threading;
+using FluentValidation.Results;
 
 namespace Identity.Application.Behaviors
 {
@@ -15,25 +19,58 @@ namespace Identity.Application.Behaviors
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            if (validators.Any())
+            var validationResults = await HandleValidatorsAsync(request, cancellationToken);
+            var errorDetails = CollectErrorDetails(validationResults);
+
+            if (errorDetails.Length > 0)
             {
-                var context = new ValidationContext<TRequest>(request);
-
-                var validationResults = await Task.WhenAll(
-                    validators.Select(v =>
-                        v.ValidateAsync(context, cancellationToken)));
-
-                var errorMessages = validationResults
-                    .Where(r => r.Errors.Count > 0)
-                    .SelectMany(r => r.Errors)
-                    .Select(e=> e.ErrorMessage)
-                    .ToArray();
-
-                if (errorMessages.Length > 0)
-                    throw new RootServiceException(HttpStatusCode.BadRequest, errorMessages);
+                throw CreatePrimeException(errorDetails);
             }
 
             return await next();
+        }
+
+        private RootServiceException CreatePrimeException((string PropertyName, string ErrorMessage)[] exceptions)
+        {
+            RootServiceException generalException = new RootServiceException();
+
+            foreach (var problemDetail in exceptions)
+            {
+                if (string.IsNullOrEmpty(problemDetail.PropertyName))
+                {
+                    generalException.AddMessages(problemDetail.ErrorMessage);
+                }
+                else
+                {
+                    generalException.AddKeyMessages(problemDetail.PropertyName, problemDetail.ErrorMessage);
+                }
+            }
+
+            return generalException;
+        }
+
+        private (string PropertyName, string ErrorMessage)[] CollectErrorDetails(
+            ValidationResult[] validationResults)
+        {
+            return validationResults
+                .Where(r => r.Errors.Count > 0)
+                .SelectMany(r => r.Errors)
+                .Select(e => (e.PropertyName, e.ErrorMessage))
+                .ToArray();
+        }
+
+        private async Task<ValidationResult[]> HandleValidatorsAsync(TRequest request, CancellationToken cancellationToken)
+        {
+            if (validators.Any() == false)
+            {
+                return [];
+            }
+
+            var context = new ValidationContext<TRequest>(request);
+
+            return await Task.WhenAll(
+            validators.Select(v =>
+                    v.ValidateAsync(context, cancellationToken)));
         }
     }
 }

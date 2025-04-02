@@ -77,7 +77,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
                 eventRepository.AddNotification(notification);
             }
 
-            await eventRepository.PublishAllAsync();
+            await eventRepository.PublishAllAsync(CancellationToken.None);
 
             _mediator.Verify(m => m.Publish(It.IsAny<INotification>(), default), Times.Exactly(quantity));
         }
@@ -95,7 +95,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Repositories
                 eventRepository.AddNotification(notification);
             }
 
-            await eventRepository.PublishAllAsync();
+            await eventRepository.PublishAllAsync(CancellationToken.None);
 
             Assert.That(eventRepository.Notifications, Has.Count.EqualTo(0));
         }

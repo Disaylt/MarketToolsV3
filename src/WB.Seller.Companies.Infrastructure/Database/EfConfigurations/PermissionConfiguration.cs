@@ -9,11 +9,11 @@ using WB.Seller.Companies.Domain.Entities;
 
 namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
 {
-    internal class PermissionConfiguration : IEntityTypeConfiguration<PermissionEntity>
+    internal class PermissionConfiguration : BaseConfiguration<PermissionEntity>
     {
-        public void Configure(EntityTypeBuilder<PermissionEntity> builder)
+        public override void Configure(EntityTypeBuilder<PermissionEntity> builder)
         {
-            builder.ToTable("permissions");
+            base.Configure(builder);
 
             builder.HasKey(e => e.Id);
 

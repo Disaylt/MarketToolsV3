@@ -10,7 +10,6 @@ namespace Identity.Application.QueryObjects
 {
     public class FindModuleQueryObject : IQueryObject<Module>
     {
-        public required string Type { get; set; }
         public required string Path { get; set; }
         public required string UserId { get; set; }
         public int Id { get; set; }

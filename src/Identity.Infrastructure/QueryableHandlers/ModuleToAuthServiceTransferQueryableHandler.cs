@@ -16,7 +16,6 @@ namespace Identity.Infrastructure.QueryableHandlers
             var result = query
                 .Select(x => new ModuleAuthInfoDto
                 {
-                    Type = x.Type,
                     Path = x.Path,
                     Id = x.ExternalId,
 

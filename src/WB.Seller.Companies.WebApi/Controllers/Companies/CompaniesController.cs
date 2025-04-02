@@ -17,11 +17,12 @@ namespace WB.Seller.Companies.WebApi.Controllers.Companies
     {
         [HttpGet("slim")]
         [MapToApiVersion("1")]
+        [Authorize]
         public async Task<IActionResult> CreateAsync(CancellationToken cancellationToken)
         {
             GetSlimCompaniesQuery query = new()
             {
-                UserId = "asd"
+                UserId = HttpContext.GetUserIdRequired()
             };
 
             var result = await mediator.Send(query, cancellationToken);

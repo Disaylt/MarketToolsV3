@@ -20,7 +20,7 @@ namespace Identity.Application.Queries
         public async Task<SessionStatusDto> Handle(GetSessionDetailsQuery request, CancellationToken cancellationToken)
         {
             TimeSpan expireSessionTime = TimeSpan.FromHours(options.Value.ExpireRefreshTokenHours);
-            SessionDto session = await sessionSearchService.GetAsync(request.Id, expireSessionTime);
+            SessionDto session = await sessionSearchService.GetAsync(request.Id, expireSessionTime, cancellationToken);
 
             return new SessionStatusDto
             {
