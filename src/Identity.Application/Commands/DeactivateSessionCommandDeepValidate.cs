@@ -13,20 +13,20 @@ namespace Identity.Application.Commands
     public class DeactivateSessionCommandDeepValidate(IStringIdQuickSearchService<SessionDto> sessionSearchService)
         : BaseDeactivateSessionCommandDeepValidate<DeactivateSessionCommand>
     {
-        public override async Task<ValidateResult> Handle(DeactivateSessionCommand request)
+        public override async Task<ValidateResult> Handle(DeactivateSessionCommand request, CancellationToken cancellationToken)
         {
-            await ValidateId(request);
+            await ValidateId(request, cancellationToken);
 
             return CreateResult();
         }
 
-        private async Task ValidateId(DeactivateSessionCommand request)
+        private async Task ValidateId(DeactivateSessionCommand request, CancellationToken cancellationToken)
         {
-            SessionDto session = await sessionSearchService.GetAsync(request.Id, TimeSpan.FromMinutes(15));
+            SessionDto session = await sessionSearchService.GetAsync(request.Id, TimeSpan.FromMinutes(15), cancellationToken);
 
             if (session.UserId != request.UserId)
             {
-                ErrorMessages.Add("Нет доступа к сессии.");
+                Exception.AddMessages("Нет доступа к сессии.");
             }
         }
     }

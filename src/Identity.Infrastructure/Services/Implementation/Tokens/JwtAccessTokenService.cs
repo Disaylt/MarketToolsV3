@@ -63,16 +63,12 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
                 Id = jwtSecurityToken.Claims.FindByType(JwtRegisteredClaimNames.Jti) ?? ""
             };
 
-            string? moduleType = jwtSecurityToken.Claims.FindByType("moduleType");
             string? modulePath = jwtSecurityToken.Claims.FindByType("modulePath");
 
-            if (int.TryParse(jwtSecurityToken.Claims.FindByType("moduleId"), out var moduleId)
-                && moduleType != null
-                && modulePath != null)
+            if (int.TryParse(jwtSecurityToken.Claims.FindByType("moduleId"), out var moduleId) && modulePath != null)
             {
                 jwtAccessTokenDto.ModuleAuthInfo = new()
                 {
-                    Type = moduleType,
                     Id = moduleId,
                     Path = modulePath,
                     Roles = ParseModuleRoles(jwtSecurityToken.Claims),

@@ -11,7 +11,7 @@ namespace Identity.GrpcService.Services
     {
         public override async Task<AuthInfoReply> GetAuthInfo(AuthInfoRequest request, ServerCallContext context)
         {
-            CreateAuthInfo command = CreateAuthInfoCommand(request);
+            CreateAuthInfoCommand command = CreateAuthInfoCommand(request);
 
             AuthInfoDto authInfo = await mediator.Send(command);
 
@@ -38,7 +38,7 @@ namespace Identity.GrpcService.Services
             return value;
         }
 
-        private static CreateAuthInfo CreateAuthInfoCommand(AuthInfoRequest request)
+        private static CreateAuthInfoCommand CreateAuthInfoCommand(AuthInfoRequest request)
         {
             return new()
             {

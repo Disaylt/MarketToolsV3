@@ -11,8 +11,8 @@ namespace Identity.Application.Services.Abstract
     {
         Task<Session> AddAsync(Session session, CancellationToken cancellationToken);
 
-        Task UpdateAsync(Session session, string token, string userAgent = "Unknown",
-            CancellationToken cancellationToken = default);
+        Task UpdateAsync(Session session, string token, CancellationToken cancellationToken,
+            string userAgent = "Unknown");
         Task<IEnumerable<Session>> GetActiveSessionsAsync(string identityId, CancellationToken cancellationToken);
         Task DeleteAsync(string id, CancellationToken cancellationToken);
         Task DeactivateAsync(string id, CancellationToken cancellationToken);

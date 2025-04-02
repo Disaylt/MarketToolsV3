@@ -1,0 +1,6 @@
+@Ozon.Seller.Companies.WebApi_HostAddress = http://localhost:5267
+
+GET {{Ozon.Seller.Companies.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

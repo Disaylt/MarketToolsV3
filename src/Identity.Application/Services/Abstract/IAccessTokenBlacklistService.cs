@@ -8,6 +8,6 @@ namespace Identity.Application.Services.Abstract
 {
     public interface IAccessTokenBlacklistService
     {
-        Task AddAsync(string id);
+        Task AddAsync(string id, CancellationToken cancellationToken);
     }
 }

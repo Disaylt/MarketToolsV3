@@ -38,7 +38,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             await commandHandler.Handle(_command, It.IsAny<CancellationToken>());
 
             _sessionSearchServiceMock.Verify(x=> 
-                    x.ClearAsync(It.IsAny<string>()),
+                    x.ClearAsync(It.IsAny<string>(), CancellationToken.None),
                 Times.Once);
         }
     }

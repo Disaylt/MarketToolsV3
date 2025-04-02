@@ -19,7 +19,7 @@ namespace Identity.Application.Commands
         public async Task<Unit> Handle(DeactivateSessionCommand request, CancellationToken cancellationToken)
         {
             await sessionService.DeactivateAsync(request.Id, cancellationToken);
-            await sessionSearchService.ClearAsync(request.Id);
+            await sessionSearchService.ClearAsync(request.Id, cancellationToken);
 
             return Unit.Value;
         }

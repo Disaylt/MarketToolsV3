@@ -6,6 +6,6 @@ public interface IBaseQuickSearchService<TResponse, in TKey>
     where TResponse : IQuickSearchResponse
 
 {
-    Task<TResponse> GetAsync(TKey id, TimeSpan expire);
-    Task ClearAsync(TKey id);
+    Task<TResponse> GetAsync(TKey id, TimeSpan expire, CancellationToken cancellationToken);
+    Task ClearAsync(TKey id, CancellationToken cancellationToken);
 }

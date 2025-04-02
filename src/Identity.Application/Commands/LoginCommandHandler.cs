@@ -28,7 +28,8 @@ namespace Identity.Application.Commands
             {
                 logger.LogWarning("User {id} failed password verification", user?.Id);
 
-                throw new RootServiceException(HttpStatusCode.NotFound, "Неверно введены почта или пароль.");
+                throw new RootServiceException(HttpStatusCode.NotFound)
+                    .AddKeyMessages(nameof(LoginCommand.Email), "Неверно введены почта или пароль.");
             }
 
             Session session = new(user.Id, request.UserAgent);

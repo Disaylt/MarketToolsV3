@@ -24,12 +24,11 @@ namespace Identity.WebApi.Controllers
         [MapToApiVersion(1)]
         public async Task<IActionResult> RefreshTokenAsync([FromBody] NewAuthInfo body, CancellationToken cancellationToken)
         {
-            var command = new CreateAuthInfo
+            var command = new CreateAuthInfoCommand
             {
                 RefreshToken = body.RefreshToken,
                 ModulePath = body.ModulePath, 
                 ModuleId= body.ModuleId,
-                ModuleType = body.ModuleType,
                 UserAgent = HttpContext.Request.Headers.UserAgent.FirstOrDefault() ?? "Unknown"
             };
 

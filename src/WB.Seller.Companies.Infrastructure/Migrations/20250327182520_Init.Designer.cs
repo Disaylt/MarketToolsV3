@@ -12,7 +12,7 @@ using WB.Seller.Companies.Infrastructure.Database;
 namespace WB.Seller.Companies.Infrastructure.Migrations
 {
     [DbContext(typeof(WbSellerCompaniesDbContext))]
-    [Migration("20250321225244_Init")]
+    [Migration("20250327182520_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -29,38 +29,48 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
 
                     b.Property<int>("NumberOfTokenChecks")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("number_of_token_checks");
 
                     b.Property<int>("State")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("state");
 
                     b.Property<DateTime>("StateUpdated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("state_updated");
 
                     b.Property<string>("Token")
                         .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("token");
 
                     b.Property<DateTime>("Updated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_companies");
 
                     b.ToTable("companies", (string)null);
                 });
@@ -69,31 +79,40 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
 
                     b.Property<int>("Status")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
 
                     b.Property<int>("SubscriptionId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("subscription_id");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
                     b.Property<DateTime>("Updated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_permissions");
 
-                    b.HasIndex("SubscriptionId");
+                    b.HasIndex("SubscriptionId")
+                        .HasDatabaseName("ix_permissions_subscription_id");
 
                     b.HasIndex("Type", "Status", "SubscriptionId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_permissions_type_status_subscription_id");
 
                     b.ToTable("permissions", (string)null);
                 });
@@ -102,36 +121,46 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CompanyId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("company_id");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
 
                     b.Property<string>("Note")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("note");
 
                     b.Property<int>("Role")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("role");
 
                     b.Property<DateTime>("Updated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_subscriptions");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_subscriptions_user_id");
 
                     b.HasIndex("CompanyId", "UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_subscriptions_company_id_user_id");
 
                     b.ToTable("subscriptions", (string)null);
                 });
@@ -139,20 +168,25 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
             modelBuilder.Entity("WB.Seller.Companies.Domain.Entities.UserEntity", b =>
                 {
                     b.Property<string>("SubId")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("sub_id");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created");
 
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("login");
 
                     b.Property<DateTime>("Updated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated");
 
-                    b.HasKey("SubId");
+                    b.HasKey("SubId")
+                        .HasName("pk_users");
 
                     b.ToTable("users", (string)null);
                 });
@@ -163,7 +197,8 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                         .WithMany("Permissions")
                         .HasForeignKey("SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_permissions_subscriptions_subscription_id");
 
                     b.Navigation("Subscription");
                 });
@@ -174,13 +209,15 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                         .WithMany("Subscriptions")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_subscriptions_companies_company_id");
 
                     b.HasOne("WB.Seller.Companies.Domain.Entities.UserEntity", "User")
                         .WithMany("Subscriptions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_subscriptions_users_user_id");
 
                     b.Navigation("Company");
 

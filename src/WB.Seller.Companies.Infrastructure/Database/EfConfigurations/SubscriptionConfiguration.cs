@@ -9,11 +9,11 @@ using WB.Seller.Companies.Domain.Entities;
 
 namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
 {
-    internal class SubscriptionConfiguration : IEntityTypeConfiguration<SubscriptionEntity>
+    internal class SubscriptionConfiguration : BaseConfiguration<SubscriptionEntity>
     {
-        public void Configure(EntityTypeBuilder<SubscriptionEntity> builder)
+        public override void Configure(EntityTypeBuilder<SubscriptionEntity> builder)
         {
-            builder.ToTable("subscriptions");
+            base.Configure(builder);
 
             builder.HasKey(e => e.Id);
 

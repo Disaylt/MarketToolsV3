@@ -49,7 +49,6 @@ namespace Identity.Infrastructure.Services.Implementation.Claims
                     claims.Add(new Claim($"mp_{typeAndValue.Type}", typeAndValue.Value.ToString()));
                 }
 
-                claims.Add(new Claim("moduleType", details.ModuleAuthInfo.Type));
                 claims.Add(new Claim("modulePath", details.ModuleAuthInfo.Path));
                 claims.Add(new Claim("moduleId", details.ModuleAuthInfo.Id.ToString()));
             }

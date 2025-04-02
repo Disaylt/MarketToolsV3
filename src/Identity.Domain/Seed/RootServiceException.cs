@@ -7,10 +7,31 @@ using System.Threading.Tasks;
 
 namespace Identity.Domain.Seed
 {
-    public class RootServiceException(HttpStatusCode statusCode = HttpStatusCode.BadRequest, params string[] messages) : Exception
+    public class RootServiceException(HttpStatusCode statusCode = HttpStatusCode.BadRequest) : Exception
     {
-        public override string Message => string.Join('|', messages);
-        public IEnumerable<string> Messages { get; } = messages;
+        private const string NameOfMessage = "Messages";
+
+        private readonly Dictionary<string, List<string>> _keyAndMessagesPairs = new();
+
         public HttpStatusCode StatusCode { get; } = statusCode;
+        public IReadOnlyDictionary<string, IReadOnlyCollection<string>> KeyAndMessagesPairs =>
+            _keyAndMessagesPairs.ToDictionary(
+                x => x.Key, 
+                x => x.Value.AsReadOnly() as IReadOnlyCollection<string>);
+
+        public RootServiceException AddMessages(params string[] messages)
+        {
+            return AddKeyMessages(NameOfMessage, messages);
+        }
+
+        public RootServiceException AddKeyMessages(string key, params string[] messages)
+        {
+            if (_keyAndMessagesPairs.TryAdd(key, messages.ToList()) == false)
+            {
+                _keyAndMessagesPairs[key].AddRange(messages);
+            }
+
+            return this;
+        }
     }
 }

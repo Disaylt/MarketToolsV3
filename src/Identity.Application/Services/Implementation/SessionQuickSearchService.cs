@@ -18,22 +18,22 @@ namespace Identity.Application.Services.Implementation
         ISessionMapper<SessionDto> sessionMapper)
         : IStringIdQuickSearchService<SessionDto>
     {
-        public async Task ClearAsync(string id)
+        public async Task ClearAsync(string id, CancellationToken cancellationToken)
         {
-            await sessionCacheRepository.DeleteAsync<SessionDto>(id, CancellationToken.None);
+            await sessionCacheRepository.DeleteAsync<SessionDto>(id, cancellationToken);
         }
 
-        public async Task<SessionDto> GetAsync(string id, TimeSpan expire)
+        public async Task<SessionDto> GetAsync(string id, TimeSpan expire, CancellationToken cancellationToken)
         {
-            SessionDto? session = await sessionCacheRepository.GetAsync<SessionDto>(id);
+            SessionDto? session = await sessionCacheRepository.GetAsync<SessionDto>(id, cancellationToken);
 
             if (session != null) return session;
 
-            Session entity = await sessionRepository.FindByIdRequiredAsync(id, CancellationToken.None);
+            Session entity = await sessionRepository.FindByIdRequiredAsync(id, cancellationToken);
 
             session = sessionMapper.Map(entity);
 
-            await sessionCacheRepository.SetAsync(session.Id, session, expire);
+            await sessionCacheRepository.SetAsync(session.Id, session, expire, cancellationToken);
 
             return session;
         }

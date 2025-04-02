@@ -28,7 +28,7 @@ namespace Identity.Infrastructure.Database
                 return _transaction.TransactionId;
             }
         }
-        public virtual async Task<Guid> BeginTransactionAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Guid> BeginTransactionAsync(CancellationToken cancellationToken)
         {
             if (_transaction != null)
             {
@@ -40,16 +40,16 @@ namespace Identity.Infrastructure.Database
             return _transaction.TransactionId;
         }
 
-        public virtual async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken)
         {
-            await eventsRepository.PublishAllAsync();
+            await eventsRepository.PublishAllAsync(cancellationToken);
 
             await context.SaveChangesAsync(cancellationToken);
 
             return true;
         }
 
-        public virtual async Task CommitAsync(CancellationToken cancellationToken = default)
+        public virtual async Task CommitAsync(CancellationToken cancellationToken)
         {
             if (_transaction == null) throw new NullReferenceException(nameof(_transaction));
 
@@ -69,7 +69,7 @@ namespace Identity.Infrastructure.Database
             }
         }
 
-        public virtual async Task RollbackAsync(CancellationToken cancellationToken = default)
+        public virtual async Task RollbackAsync(CancellationToken cancellationToken)
         {
             if (_transaction == null) return;
 

@@ -29,4 +29,11 @@
     <ProjectReference Include="..\WB.Seller.Companies.Infrastructure\WB.Seller.Companies.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
+    <Folder Include="Services\Abstract\" />
+    <Folder Include="Services\Implementation\" />
+    <Folder Include="Utilities\Abstract\" />
+  </ItemGroup>
+
 </Project>

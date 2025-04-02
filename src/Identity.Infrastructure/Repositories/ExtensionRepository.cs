@@ -10,19 +10,19 @@ namespace Identity.Infrastructure.Repositories
 {
     public class ExtensionRepository : IExtensionRepository
     {
-        public async Task<int> CountAsync<T>(IQueryable<T> query) where T : class
+        public async Task<int> CountAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : class
         {
-            return await query.CountAsync();
+            return await query.CountAsync(cancellationToken);
         }
 
-        public async Task<T?> FirstOrDefaultAsync<T>(IQueryable<T> query) where T : class
+        public async Task<T?> FirstOrDefaultAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : class
         {
-            return await query.FirstOrDefaultAsync();
+            return await query.FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<List<T>> ToListAsync<T>(IQueryable<T> query) where T : class
+        public async Task<List<T>> ToListAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : class
         {
-            return await query.ToListAsync();
+            return await query.ToListAsync(cancellationToken);
         }
     }
 }

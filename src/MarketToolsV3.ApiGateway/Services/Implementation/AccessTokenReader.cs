@@ -29,16 +29,13 @@ namespace MarketToolsV3.ApiGateway.Services.Implementation
 
         private ModuleAuthInfoDto? CreateModuleAuth(JwtSecurityToken jwtSecurityToken)
         {
-            string? moduleType = jwtSecurityToken.Claims.FindByType("moduleType");
             string? modulePath = jwtSecurityToken.Claims.FindByType("modulePath");
 
             if (int.TryParse(jwtSecurityToken.Claims.FindByType("moduleId"), out var moduleId)
-                && moduleType != null
                 && modulePath != null)
             {
                 return new()
                 {
-                    Type = moduleType,
                     Id = moduleId,
                     Path = modulePath
                 };
