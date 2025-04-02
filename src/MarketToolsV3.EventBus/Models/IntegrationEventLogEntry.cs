@@ -16,7 +16,7 @@ namespace MarketToolsV3.EventBus.Models
         /// <summary>
         /// For EF core
         /// </summary>
-        private IntegrationEventLogEntity(){}
+        private IntegrationEventLogEntry(){}
 #pragma warning restore CS8618, CS9264
 
         public IntegrationEventLogEntry(BaseIntegrationEvent @event, Guid transactionId)
