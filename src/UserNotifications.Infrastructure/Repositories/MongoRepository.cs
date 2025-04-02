@@ -9,7 +9,6 @@ using UserNotifications.Domain.Entities;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
 using System.Linq.Expressions;
-using UserNotifications.Infrastructure.Utilities;
 
 namespace UserNotifications.Infrastructure.Repositories
 {
@@ -22,6 +21,11 @@ namespace UserNotifications.Infrastructure.Repositories
         private readonly IClientSessionHandle _clientSessionHandle = clientSessionHandleContext.Session;
         public IUnitOfWork UnitOfWork => unitOfWork;
 
+        public IQueryable<T> AsQueryable()
+        {
+            return collection.AsQueryable();
+        }
+
         public async Task<T> FindByIdAsync(string id, CancellationToken cancellationToken)
         {
             var filter = Builders<T>.Filter
@@ -33,15 +37,6 @@ namespace UserNotifications.Infrastructure.Repositories
         public async Task InsertAsync(T entity, CancellationToken cancellationToken)
         {
             await collection.InsertOneAsync(_clientSessionHandle, entity, cancellationToken: cancellationToken);
-        }
-
-        public async Task<IReadOnlyCollection<T>> ToListAsync(Expression<Func<T, bool>>? expression = null, CancellationToken cancellationToken = default)
-        {
-            var mongoFilter = MongoFilterUtility.CreateOrEmpty(expression);
-            return await collection
-                .Find(mongoFilter)
-                .ToListAsync();
-
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Identity.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -88,6 +88,83 @@ namespace Identity.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", "public");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExternalId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdentityId", "Path", "Type", "ExternalId")
+                        .IsUnique();
+
+                    b.ToTable("modules", "public");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.ModuleClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId", "Type")
+                        .IsUnique();
+
+                    b.ToTable("moduleClaims", "public");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.ModuleRole", b =>
+                {
+                    b.Property<string>("Value")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Value", "ModuleId");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("moduleRoles", "public");
                 });
 
             modelBuilder.Entity("Identity.Domain.Entities.Session", b =>
@@ -258,6 +335,39 @@ namespace Identity.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", "public");
                 });
 
+            modelBuilder.Entity("Identity.Domain.Entities.Module", b =>
+                {
+                    b.HasOne("Identity.Domain.Entities.IdentityPerson", "Identity")
+                        .WithMany("Modules")
+                        .HasForeignKey("IdentityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Identity");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.ModuleClaim", b =>
+                {
+                    b.HasOne("Identity.Domain.Entities.Module", "Module")
+                        .WithMany("Claims")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.ModuleRole", b =>
+                {
+                    b.HasOne("Identity.Domain.Entities.Module", "Module")
+                        .WithMany("Roles")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+                });
+
             modelBuilder.Entity("Identity.Domain.Entities.Session", b =>
                 {
                     b.HasOne("Identity.Domain.Entities.IdentityPerson", "Identity")
@@ -322,7 +432,16 @@ namespace Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Identity.Domain.Entities.IdentityPerson", b =>
                 {
+                    b.Navigation("Modules");
+
                     b.Navigation("Sessions");
+                });
+
+            modelBuilder.Entity("Identity.Domain.Entities.Module", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

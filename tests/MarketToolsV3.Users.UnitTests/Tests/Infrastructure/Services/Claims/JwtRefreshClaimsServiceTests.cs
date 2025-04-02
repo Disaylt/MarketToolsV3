@@ -20,7 +20,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             JwtRefreshTokenDto refreshToken = new()
             {
-                Id = ""
+                Id = "",
+                AccessTokenId = ""
             };
 
             IEnumerable<string> claimTypes = service
@@ -38,7 +39,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             JwtRefreshTokenDto refreshToken = new()
             {
-                Id = ""
+                Id = "",
+                AccessTokenId = ""
             };
 
             IEnumerable<string> claimTypes = service
@@ -56,7 +58,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             JwtRefreshTokenDto refreshToken = new()
             {
-                Id = ""
+                Id = "",
+                AccessTokenId = ""
             };
 
             IEnumerable<string> claimTypes = service

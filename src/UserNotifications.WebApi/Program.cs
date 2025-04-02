@@ -1,12 +1,14 @@
 using Asp.Versioning;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 using UserNotifications.Applications;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure;
 using UserNotifications.Infrastructure.Database;
+using UserNotifications.WebApi.ExceptionHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ ITypingConfigManager<ServiceConfiguration> serviceConfigManager =
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<RootExceptionHandler>();
 
 builder.Services.AddOpenApi("v1");
 
@@ -30,6 +34,8 @@ builder.Services.AddApiVersioning(opt =>
 });
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {

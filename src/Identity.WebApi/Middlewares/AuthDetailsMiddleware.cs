@@ -6,6 +6,8 @@ using System.Security.Claims;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services.Interfaces;
 using Microsoft.Extensions.Primitives;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Identity.WebApi.Middlewares
 {

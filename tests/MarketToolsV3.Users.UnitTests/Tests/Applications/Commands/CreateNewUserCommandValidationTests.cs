@@ -36,7 +36,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         {
             var command = new CreateNewUserCommand
             {
-                Login = _faker.Internet.UserName(),
+                Login = _faker.Random.String2(6, 150),
                 Password = _faker.Internet.Password(12),
                 Email = _faker.Internet.Email()
             };
@@ -48,7 +48,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         {
             var command = new CreateNewUserCommand
             {
-                Login = _faker.Internet.UserName(),
+                Login = _faker.Random.String2(6, 150),
                 Password = _faker.Random.String2(3),
                 Email = _faker.Internet.Email()
             };
@@ -60,8 +60,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         {
             var command = new CreateNewUserCommand
             {
-                Login = _faker.Internet.UserName(),
-                Password = _faker.Internet.Password(12),
+                Login = _faker.Random.String2(6, 150),
+                Password = _faker.Random.String2(6, 50),
                 Email = _faker.Internet.Email()
             };
             _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Password);
@@ -72,8 +72,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         {
             var command = new CreateNewUserCommand
             {
-                Login = _faker.Internet.UserName(),
-                Password = _faker.Internet.Password(12),
+                Login = _faker.Random.String2(6, 150),
+                Password = _faker.Random.String2(6, 50),
                 Email = "invalid-email"
             };
             _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Email);
@@ -84,11 +84,47 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         {
             var command = new CreateNewUserCommand
             {
-                Login = _faker.Internet.UserName(),
-                Password = _faker.Internet.Password(12),
+                Login = _faker.Random.String2(6, 150),
+                Password = _faker.Random.String2(6, 50),
                 Email = _faker.Internet.Email()
             };
             _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Email);
+        }
+      
+        [Test]
+        public void Validate_Should_Have_Error_When_Login_Exceeds_Max_Length()
+        {
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Random.String2(151),
+                Password = _faker.Random.String2(6, 50),
+                Email = _faker.Internet.Email()
+            };
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Login);
+        }
+
+        [Test]
+        public void Validate_Should_Have_Error_When_Password_Exceeds_Max_Length()
+        {
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Random.String2(6, 150),
+                Password = _faker.Random.String2(51),
+                Email = _faker.Internet.Email()
+            };
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Password);
+        }
+
+        [Test]
+        public void Validate_Should_Have_Error_When_Email_Exceeds_Max_Length()
+        {
+            var command = new CreateNewUserCommand
+            {
+                Login = _faker.Random.String2(6, 150),
+                Password = _faker.Random.String2(6, 50),
+                Email = _faker.Random.String2(151) + "@example.com"
+            };
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Email);
         }
     }
 }

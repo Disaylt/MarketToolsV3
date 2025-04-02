@@ -9,5 +9,6 @@ namespace Identity.Application.Models
     public record JwtRefreshTokenDto : IToken
     {
         public required string Id { get; init; }
+        public required string AccessTokenId { get; init; }
     }
 }

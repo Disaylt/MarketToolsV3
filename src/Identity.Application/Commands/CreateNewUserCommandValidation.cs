@@ -16,17 +16,15 @@ namespace Identity.Application.Commands
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Введите почту.")
                 .EmailAddress().WithMessage("Почта введена с ошибками.")
-                .MaximumLength(40).WithMessage("Максимальная длина почты 40 символов.");
-
+                .MaximumLength(150).WithMessage("Максимальная длина почты 150 символов.");
             RuleFor(x => x.Login)
                 .NotEmpty().WithMessage("Введите логин.")
                 .MinimumLength(6).WithMessage("Минимальная длина логина 6 символов.")
-                .MaximumLength(40).WithMessage("Максимальная длина логина 40 символов.");
-
+                .MaximumLength(150).WithMessage("Максимальная длина логина 150 символов.");
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Введите пароль.")
                 .MinimumLength(6).WithMessage("Минимальная длина пароля 6 символов.")
-                .MaximumLength(30).WithMessage("Максимальная длина пароля 30 символов.");
+                .MaximumLength(50).WithMessage("Максимальная длина пароля 50 символов.");
         }
     }
 }

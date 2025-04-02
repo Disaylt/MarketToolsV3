@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Identity.Application.Models;
+using Identity.Application.Services.Abstract;
 using Identity.Domain.Entities;
 using Identity.Domain.Seed;
 using Identity.Infrastructure.Database;
@@ -19,6 +21,8 @@ namespace MarketToolsV3.Users.IntegrationTests.Tests.Infrastructure.Services
         private Mock<IRepository<Session>> _sessionRepositoryMock;
         private Mock<IOptions<ServiceConfiguration>> _optionsMock;
         private Mock<IEventRepository> _eventRepositoryMock;
+        private Mock<IAccessTokenBlacklistService> _accessTokenBlacklistService;
+        private Mock<ITokenService<JwtRefreshTokenDto>> _refreshTokenService;
 
         [SetUp]
         public void Setup()
@@ -26,6 +30,8 @@ namespace MarketToolsV3.Users.IntegrationTests.Tests.Infrastructure.Services
             _sessionRepositoryMock = new Mock<IRepository<Session>>();
             _eventRepositoryMock = new Mock<IEventRepository>();
             _optionsMock = new Mock<IOptions<ServiceConfiguration>>();
+            _accessTokenBlacklistService = new Mock<IAccessTokenBlacklistService>();
+            _refreshTokenService = new Mock<ITokenService<JwtRefreshTokenDto>>();
         }
 
         [TestCase("1", 10, 2)]
@@ -46,7 +52,9 @@ namespace MarketToolsV3.Users.IntegrationTests.Tests.Infrastructure.Services
             SessionService sessionService = new(
                 _sessionRepositoryMock.Object,
                 _optionsMock.Object,
-                _eventRepositoryMock.Object);
+                _eventRepositoryMock.Object,
+                _accessTokenBlacklistService.Object,
+                _refreshTokenService.Object);
 
             await using IdentityDbContext memoryDbContext = MemoryDbContextFactory.CreateIdentityContext();
 

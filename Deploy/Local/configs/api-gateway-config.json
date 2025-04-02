@@ -1,7 +1,7 @@
 {
     "Routes": [
-        {
-		  "DownstreamPathTemplate": "/api/{everything}",
+		{
+		  "DownstreamPathTemplate": "/api/{version}/{everything}",
 		  "DownstreamScheme": "https",
 		  "DownstreamHostAndPorts": [
 			{
@@ -9,11 +9,11 @@
 			  "Port": 7256
 			}
 		  ],
-		  "UpstreamPathTemplate": "/identity/{everything}",
+		  "UpstreamPathTemplate": "/api/{version}/auth/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		},
 		{
-		  "DownstreamPathTemplate": "/api/{everything}",
+		  "DownstreamPathTemplate": "/api/{version}/{everything}",
 		  "DownstreamScheme": "https",
 		  "DownstreamHostAndPorts": [
 			{
@@ -21,14 +21,15 @@
 			  "Port": 7256
 			}
 		  ],
-		  "Metadata":{
-			"skip-refresh-cookies":"true"  
+		  "AuthenticationOptions": {
+			"AuthenticationProviderKey": "Bearer",
+			"AllowedScopes": []
 		  },
-		  "UpstreamPathTemplate": "/auth/{everything}",
+		  "UpstreamPathTemplate": "/api/{version}/identity/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		},
 		{
-		  "DownstreamPathTemplate": "/api/{everything}",
+		  "DownstreamPathTemplate": "/api/{version}/{everything}",
 		  "DownstreamScheme": "https",
 		  "DownstreamHostAndPorts": [
 			{
@@ -36,11 +37,38 @@
 			  "Port": 7295
 			}
 		  ],
-		  "UpstreamPathTemplate": "/user-notifications/{everything}",
+		  "AuthenticationOptions": {
+			"AuthenticationProviderKey": "Bearer",
+			"AllowedScopes": []
+		  },
+		  "UpstreamPathTemplate": "/api/{version}/user-notifications/{everything}",
+		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
+		},
+		{
+		  "DownstreamPathTemplate": "/api/{version}/{everything}",
+		  "DownstreamScheme": "https",
+		  "DownstreamHostAndPorts": [
+			{
+			  "Host": "localhost",
+			  "Port": 7099
+			}
+		  ],
+		  "AuthenticationOptions": {
+			"AuthenticationProviderKey": "Bearer",
+			"AllowedScopes": []
+		  },
+		  "UpstreamPathTemplate": "/api/{version}/wb/seller/{everything}",
 		  "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
 		}
     ],
     "GlobalConfiguration": {
         "BaseUrl": "https://localhost:7249"
-    }
+    },
+	"SharedIdentityRedisConfig" : {
+		"Host": "localhost",
+		"Port": 6380,
+		"Password": "default",
+		"User": "easypassword",
+		"Database": 2
+	}
 }

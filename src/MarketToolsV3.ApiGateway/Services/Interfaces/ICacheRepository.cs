@@ -1,9 +1,9 @@
 ﻿namespace MarketToolsV3.ApiGateway.Services.Interfaces
 {
-    public interface ICacheRepository<T> where T : class
+    public interface ICacheRepository
     {
-        Task<T?> GetAsync(string key);
-        Task SetAsync(string key, T value, TimeSpan expire);
-        Task DeleteAsync(string key, CancellationToken cancellationToken);
+        Task<T?> GetAsync<T>(string key) where T : class;
+        Task SetAsync<T>(string key, T value, TimeSpan expire) where T : class;
+        Task DeleteAsync<T>(string key, CancellationToken cancellationToken) where T : class;
     }
 }

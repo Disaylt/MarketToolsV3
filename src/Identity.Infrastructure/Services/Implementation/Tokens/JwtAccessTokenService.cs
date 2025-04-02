@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using MarketToolsV3.ConfigurationManager.Models;
 using Identity.Infrastructure.Services.Implementation.Claims;
@@ -58,16 +59,72 @@ namespace Identity.Infrastructure.Services.Implementation.Tokens
             JwtAccessTokenDto jwtAccessTokenDto = new()
             {
                 UserId = jwtSecurityToken.Claims.FindByType(ClaimTypes.NameIdentifier) ?? "",
-                SessionId = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? ""
+                SessionId = jwtSecurityToken.Claims.FindByType(ClaimTypes.Sid) ?? "",
+                Id = jwtSecurityToken.Claims.FindByType(JwtRegisteredClaimNames.Jti) ?? ""
             };
 
-            IEnumerable<string> roles = jwtSecurityToken.Claims
-                .Where(x => x.Type == ClaimTypes.Role)
-                .Select(x => x.Value);
+            string? moduleType = jwtSecurityToken.Claims.FindByType("moduleType");
+            string? modulePath = jwtSecurityToken.Claims.FindByType("modulePath");
 
+            if (int.TryParse(jwtSecurityToken.Claims.FindByType("moduleId"), out var moduleId)
+                && moduleType != null
+                && modulePath != null)
+            {
+                jwtAccessTokenDto.ModuleAuthInfo = new()
+                {
+                    Type = moduleType,
+                    Id = moduleId,
+                    Path = modulePath,
+                    Roles = ParseModuleRoles(jwtSecurityToken.Claims),
+                    ClaimTypeAndValuePairs = ParseModuleClaims(jwtSecurityToken.Claims)
+                };
+            }
+
+            IEnumerable<string> roles = ParseRoles(jwtSecurityToken.Claims);
             jwtAccessTokenDto.Roles.AddRange(roles);
 
             return jwtAccessTokenDto;
+        }
+
+        private IReadOnlyCollection<string> ParseRoles(IEnumerable<Claim> claims)
+        {
+            return claims
+                .Where(x => x.Type == ClaimTypes.Role)
+                .Select(x => x.Value)
+                .ToList();
+        }
+
+        private static IReadOnlyCollection<string> ParseModuleRoles(IEnumerable<Claim> claims)
+        {
+            string moduleRoleType = $"module_{ClaimTypes.Role}";
+
+            return claims
+                .Where(x => x.Type == moduleRoleType)
+                .Select(x => x.Value)
+                .ToList();
+        }
+
+        private static IReadOnlyCollection<ModuleClaimDto> ParseModuleClaims(IEnumerable<Claim> claims)
+        {
+            List<ModuleClaimDto> result = [];
+            var tempStrValues = claims
+                .Where(x => x.Type.StartsWith("mp_"))
+                .Select(x => new { SplitType = x.Type.Split('_'), x.Value });
+
+            foreach (var claim in tempStrValues)
+            {
+                if (claim.SplitType.Length > 1
+                    && int.TryParse(claim.Value, out var valueResult))
+                {
+                    result.Add(new ModuleClaimDto
+                    {
+                        Type = claim.SplitType[1],
+                        Value = valueResult
+                    });
+                }
+            }
+
+            return result;
         }
     }
 }

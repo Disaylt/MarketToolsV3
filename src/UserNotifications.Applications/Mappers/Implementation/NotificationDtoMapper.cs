@@ -16,13 +16,13 @@ namespace UserNotifications.Applications.Mappers.Implementation
         {
             return new NotificationDto
             {
+                Id = notification.Id,
                 Created = notification.Created,
                 IsRead = notification.IsRead,
                 Message = notification.Message,
                 UserId = notification.UserId,
                 Title = notification.Title,
-                Category = notification.Category,
-                CategoryView = notification.Category?.GetDescription()
+                Category = notification.Category
             };
         }
     }

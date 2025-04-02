@@ -49,7 +49,7 @@ namespace MarketToolsV3.ConfigurationManager
 
         private async Task<IConfigurationRoot> CreateConfigurationRootAsync(string serviceName)
         {
-            MarketToolsConfigurationBuilder builder = new MarketToolsConfigurationBuilder(applicationConfig);
+            MarketToolsConfigurationBuilder builder = new(applicationConfig);
             await builder.UploadAsync(serviceName);
 
             return builder.Build();

@@ -1,0 +1,37 @@
+[
+  {
+    "Tag": "register",
+    "TaskEndCondition": 0,
+    "TaskCompleteCondition": 1,
+    "NumberOfExecutions": 1,
+    "Path": "auth/v1/users/register",
+    "Method": "POST",
+    "TimeoutBeforeRun": 2000,
+    "Body": {
+      "Email": "test@test.test",
+      "Login": "testUser",
+      "Password": "123123"
+    }
+  },
+  {
+    "Tag": "login",
+    "TaskEndCondition": 1,
+    "TaskCompleteCondition": 1,
+    "NumberOfExecutions": 1,
+    "Path": "auth/v1/users/login",
+    "Method": "POST",
+    "TimeoutBeforeRun": 2000,
+    "Body": {
+      "Email": "test@test.test",
+      "Password": "123123"
+    }
+  },
+  {
+    "Tag": "details",
+    "TaskEndCondition": 0,
+    "TaskCompleteCondition": 1,
+    "NumberOfExecutions": 5,
+    "Path": "identity/v1/users/details",
+    "Method": "GET"
+  }
+]
