@@ -68,7 +68,8 @@ namespace Identity.Infrastructure.Services.Implementation
 
             if (session.Token == null)
             {
-                throw new RootServiceException(HttpStatusCode.NotFound, "Токен сессии не найден");
+                throw new RootServiceException(HttpStatusCode.NotFound)
+                    .AddMessages("Токен сессии не найден");
             }     
 
             JwtRefreshTokenDto tokenData = refreshTokenService.Read(session.Token);

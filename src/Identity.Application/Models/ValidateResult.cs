@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Identity.Domain.Seed;
 
 namespace Identity.Application.Models
 {
-    public class ValidateResult(bool isValid, params string[] errorMessage)
+    public record ValidateResult(bool IsValid, RootServiceException Exception)
     {
-        public bool IsValid { get; } = isValid;
-        public IReadOnlyCollection<string> ErrorMessages { get; } = errorMessage;
     }
 }

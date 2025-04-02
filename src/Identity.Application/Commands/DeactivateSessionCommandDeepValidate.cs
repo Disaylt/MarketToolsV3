@@ -26,7 +26,7 @@ namespace Identity.Application.Commands
 
             if (session.UserId != request.UserId)
             {
-                ErrorMessages.Add("Нет доступа к сессии.");
+                Exception.AddMessages("Нет доступа к сессии.");
             }
         }
     }

@@ -95,6 +95,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Marketplaces", "Marketplace
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aggregator", "Aggregator", "{35D48EC4-712B-4448-85D4-E5D0223754A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ozon.Seller.Companies.Domain", "src\Ozon.Seller.Companies.Domain\Ozon.Seller.Companies.Domain.csproj", "{2822551C-F8C4-4EAC-99CB-ADF0AB289C1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ozon.Seller.Companies.Application", "src\Ozon.Seller.Companies.Application\Ozon.Seller.Companies.Application.csproj", "{C9AB522D-B968-4F09-89F9-947BD03B3B7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ozon.Seller.Companies.Infrastructure", "src\Ozon.Seller.Companies.Infrastructure\Ozon.Seller.Companies.Infrastructure.csproj", "{5923B0EA-11CC-4942-B0DD-7E6770D9AECC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ozon.Seller.Companies.WebApi", "src\Ozon.Seller.Companies.WebApi\Ozon.Seller.Companies.WebApi.csproj", "{7E3989A6-BA89-4395-9DC0-8F393E64A604}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +233,22 @@ Global
 		{180D006E-7C8E-4AAF-ADD8-67A64CA1E2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{180D006E-7C8E-4AAF-ADD8-67A64CA1E2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{180D006E-7C8E-4AAF-ADD8-67A64CA1E2D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2822551C-F8C4-4EAC-99CB-ADF0AB289C1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2822551C-F8C4-4EAC-99CB-ADF0AB289C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2822551C-F8C4-4EAC-99CB-ADF0AB289C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2822551C-F8C4-4EAC-99CB-ADF0AB289C1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9AB522D-B968-4F09-89F9-947BD03B3B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9AB522D-B968-4F09-89F9-947BD03B3B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9AB522D-B968-4F09-89F9-947BD03B3B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9AB522D-B968-4F09-89F9-947BD03B3B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5923B0EA-11CC-4942-B0DD-7E6770D9AECC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5923B0EA-11CC-4942-B0DD-7E6770D9AECC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5923B0EA-11CC-4942-B0DD-7E6770D9AECC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5923B0EA-11CC-4942-B0DD-7E6770D9AECC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E3989A6-BA89-4395-9DC0-8F393E64A604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E3989A6-BA89-4395-9DC0-8F393E64A604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E3989A6-BA89-4395-9DC0-8F393E64A604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E3989A6-BA89-4395-9DC0-8F393E64A604}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -273,6 +297,10 @@ Global
 		{180D006E-7C8E-4AAF-ADD8-67A64CA1E2D0} = {6A539288-EDE6-450E-BC1E-E08676888AF4}
 		{1F093151-4324-4228-9402-CDF58E1866B9} = {0888B86C-31CF-4288-BAE6-27515593310F}
 		{35D48EC4-712B-4448-85D4-E5D0223754A9} = {1F093151-4324-4228-9402-CDF58E1866B9}
+		{2822551C-F8C4-4EAC-99CB-ADF0AB289C1D} = {9172AFFA-D753-4087-90D9-7E2575763541}
+		{C9AB522D-B968-4F09-89F9-947BD03B3B7A} = {9172AFFA-D753-4087-90D9-7E2575763541}
+		{5923B0EA-11CC-4942-B0DD-7E6770D9AECC} = {9172AFFA-D753-4087-90D9-7E2575763541}
+		{7E3989A6-BA89-4395-9DC0-8F393E64A604} = {9172AFFA-D753-4087-90D9-7E2575763541}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}

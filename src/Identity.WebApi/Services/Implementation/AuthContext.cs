@@ -11,12 +11,14 @@ namespace Identity.WebApi.Services.Implementation
 
         public string GetSessionIdRequired()
         {
-            return SessionId ?? throw new RootServiceException(HttpStatusCode.BadRequest, "ID сессии не найден.");
+            return SessionId ?? throw new RootServiceException()
+                .AddMessages("ID сессии не найден.");
         }
 
         public string GetUserIdRequired()
         {
-            return UserId ?? throw new RootServiceException(HttpStatusCode.BadRequest, "ID пользователя не найден.");
+            return UserId ?? throw new RootServiceException()
+                .AddMessages("ID пользователя не найден.");
         }
     }
 }
