@@ -24,6 +24,8 @@
     <ProjectReference Include="..\Identity.Application\Identity.Application.csproj" />
     <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
     <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
+    <ProjectReference Include="..\MarketToolsV3.EventBus\MarketToolsV3.EventBus.csproj" />
+    <ProjectReference Include="..\MarketToolsV3.IntegrationEventLogServiceEf\MarketToolsV3.IntegrationEventLogServiceEf.csproj" />
   </ItemGroup>
 
 </Project>

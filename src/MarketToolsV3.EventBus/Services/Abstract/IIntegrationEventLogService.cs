@@ -9,6 +9,6 @@ namespace MarketToolsV3.EventBus.Services.Abstract
 {
     public interface IIntegrationEventLogService
     {
-        Task AddEventAsync(BaseIntegrationEvent @event, CancellationToken cancellationToken);
+        Task SaveEventAsync(BaseIntegrationEvent @event, CancellationToken cancellationToken);
     }
 }

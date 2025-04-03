@@ -13,7 +13,10 @@ namespace MarketToolsV3.IntegrationEventLogServiceEf
     public class IntegrationEventLogService<TContext>(TContext context) : IIntegrationEventLogService
     where TContext : DbContext
     {
-        public async Task AddEventAsync(BaseIntegrationEvent @event, CancellationToken cancellationToken)
+        private readonly DbSet<IntegrationEventLogEntry> _integrationEventLogRepository =
+            context.Set<IntegrationEventLogEntry>();
+
+        public async Task SaveEventAsync(BaseIntegrationEvent @event, CancellationToken cancellationToken)
         {
             if (context.Database.CurrentTransaction is null)
             {
@@ -21,12 +24,14 @@ namespace MarketToolsV3.IntegrationEventLogServiceEf
             }
 
             IntegrationEventLogEntry logEvent = new(@event, context.Database.CurrentTransaction.TransactionId);
-            await context.Set<IntegrationEventLogEntry>().AddAsync(logEvent, cancellationToken);
+
+            await _integrationEventLogRepository
+                .AddAsync(logEvent, cancellationToken);
         }
 
         public async Task<IReadOnlyCollection<IntegrationEventLogEntry>> GetNotPublishByTransaction(Guid transactionId)
         {
-            return await context.Set<IntegrationEventLogEntry>()
+            return await _integrationEventLogRepository
                 .Where(x => x.TransactionId == transactionId && x.State == EventStateEnum.NotPublished)
                 .ToListAsync();
         }
