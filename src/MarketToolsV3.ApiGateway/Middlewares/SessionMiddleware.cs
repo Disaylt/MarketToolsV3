@@ -5,7 +5,6 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Proto.Contract.Identity;
-using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace MarketToolsV3.ApiGateway.Middlewares;
 

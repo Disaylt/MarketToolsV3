@@ -13,7 +13,6 @@ using Ocelot.Metadata;
 using Ocelot.Middleware;
 using Ocelot.Responses;
 using Proto.Contract.Identity;
-using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace MarketToolsV3.ApiGateway.Middlewares
 {

@@ -1,5 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using MarketToolsV3.FakeData.WebApi.Application.Features.Json.Services.Abstract;
+﻿using MarketToolsV3.FakeData.WebApi.Application.Features.Json.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Application.Models;
 using MarketToolsV3.FakeData.WebApi.Application.Utilities.Abstract;
 using System.Collections.Generic;
