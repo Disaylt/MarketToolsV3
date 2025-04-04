@@ -54,7 +54,8 @@ namespace Identity.Infrastructure
 
             collection.AddDbContext<IdentityDbContext>(opt =>
             {
-                opt.UseNpgsql(serviceConfiguration.DatabaseConnection);
+                opt.UseNpgsql(serviceConfiguration.DatabaseConnection)
+                    .UseSnakeCaseNamingConvention();
             });
 
             AddRedisCache(collection, serviceConfiguration.SharedIdentityRedisConfig, "shared-identity");

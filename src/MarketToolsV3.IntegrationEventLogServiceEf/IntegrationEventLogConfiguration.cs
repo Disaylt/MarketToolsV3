@@ -15,8 +15,7 @@ namespace MarketToolsV3.IntegrationEventLogServiceEf
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasIndex(x => new { x.TransactionId, x.State });
-            builder.HasIndex(x => x.TransactionId).IsUnique();
+            builder.HasIndex(x => new { x.TransactionId, x.State});
             builder.HasIndex(x => x.Type);
 
             builder.Property(x => x.Type).HasMaxLength(1000);
