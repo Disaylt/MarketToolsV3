@@ -12,7 +12,7 @@ using WB.Seller.Companies.Infrastructure.Database;
 namespace WB.Seller.Companies.Infrastructure.Migrations
 {
     [DbContext(typeof(WbSellerCompaniesDbContext))]
-    [Migration("20250327182520_Init")]
+    [Migration("20250403225940_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -38,27 +38,11 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_active");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("name");
-
-                    b.Property<int>("NumberOfTokenChecks")
-                        .HasColumnType("integer")
-                        .HasColumnName("number_of_token_checks");
-
-                    b.Property<int>("State")
-                        .HasColumnType("integer")
-                        .HasColumnName("state");
-
-                    b.Property<DateTime>("StateUpdated")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("state_updated");
 
                     b.Property<string>("Token")
                         .HasMaxLength(2000)

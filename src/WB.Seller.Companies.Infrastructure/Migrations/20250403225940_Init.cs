@@ -20,10 +20,6 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     token = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true),
-                    is_active = table.Column<bool>(type: "boolean", nullable: false),
-                    state = table.Column<int>(type: "integer", nullable: false),
-                    number_of_token_checks = table.Column<int>(type: "integer", nullable: false),
-                    state_updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
