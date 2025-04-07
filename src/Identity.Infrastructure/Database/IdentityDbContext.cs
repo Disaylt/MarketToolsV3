@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Domain.Entities;
 using Identity.Infrastructure.Database.EfConfigurations;
-using MarketToolsV3.EventBus.Models;
+using MarketToolsV3.IntegrationEventLogService.Models;
 using MarketToolsV3.IntegrationEventLogServiceEf;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

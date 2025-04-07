@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Domain.Events;
 using IntegrationEvents.Contract.Identity;
-using MarketToolsV3.EventBus.Services.Abstract;
+using MarketToolsV3.IntegrationEventLogService.Services.Abstract;
 using MassTransit;
 using MediatR;
 

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using IntegrationEvents.Contract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using IntegrationEvents.Contract;
 
-namespace MarketToolsV3.EventBus.Models
+namespace MarketToolsV3.IntegrationEventLogService.Models
 {
     public class IntegrationEventLogEntry
     {
@@ -16,7 +16,7 @@ namespace MarketToolsV3.EventBus.Models
         /// <summary>
         /// For EF core
         /// </summary>
-        private IntegrationEventLogEntry(){}
+        private IntegrationEventLogEntry() { }
 #pragma warning restore CS8618, CS9264
 
         public IntegrationEventLogEntry(BaseIntegrationEvent @event, Guid transactionId)

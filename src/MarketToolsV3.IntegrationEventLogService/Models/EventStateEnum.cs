@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarketToolsV3.EventBus.Models
+namespace MarketToolsV3.IntegrationEventLogService.Models
 {
     public enum EventStateEnum
     {

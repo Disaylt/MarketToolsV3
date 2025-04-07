@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarketToolsV3.EventBus.Services.Abstract
+namespace MarketToolsV3.IntegrationEventLogService.Models
 {
-    public interface IEventBusService
+    public record IntegrationEventInfoDto(Type Type, object Content)
     {
-
     }
 }

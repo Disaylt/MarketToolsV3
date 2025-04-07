@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IntegrationEvents.Contract\IntegrationEvents.Contract.csproj" />
-    <ProjectReference Include="..\MarketToolsV3.EventBus\MarketToolsV3.EventBus.csproj" />
+    <ProjectReference Include="..\MarketToolsV3.IntegrationEventLogService\MarketToolsV3.IntegrationEventLogService.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IntegrationEvents.Contract;
-using MarketToolsV3.EventBus.Models;
-using MarketToolsV3.EventBus.Services.Abstract;
+using MarketToolsV3.IntegrationEventLogService.Models;
+using MarketToolsV3.IntegrationEventLogService.Services.Abstract;
 
 namespace MarketToolsV3.IntegrationEventLogServiceEf
 {
