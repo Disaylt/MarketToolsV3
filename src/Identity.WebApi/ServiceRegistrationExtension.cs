@@ -6,6 +6,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Identity.Infrastructure.Database;
 using Identity.WebApi.Services.Implementation;
 using Identity.WebApi.ExceptionHandlers;
 
@@ -17,6 +18,12 @@ namespace Identity.WebApi
         {
             collection.AddMassTransit(mt =>
             {
+                mt.AddEntityFrameworkOutbox<IdentityDbContext>(o =>
+                {
+                    o.UsePostgres();
+                    o.UseBusOutbox();
+                });
+
                 mt.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(messageBrokerConfig.RabbitMqConnection,

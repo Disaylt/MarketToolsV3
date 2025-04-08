@@ -11,7 +11,7 @@ using MediatR;
 
 namespace Identity.Application.EventHandlers.Domain
 {
-    public class PushIdentityCreatedEventHandler(IIntegrationEventLogService integrationEventLogService)
+    public class PushIdentityCreatedEventHandler(IBus bus)
         : INotificationHandler<IdentityCreated>
     {
         public async Task Handle(IdentityCreated notification, CancellationToken cancellationToken)
@@ -22,7 +22,7 @@ namespace Identity.Application.EventHandlers.Domain
                 Login = notification.Identity.UserName ?? "Unknown"
             };
 
-            await integrationEventLogService.SaveEventAsync(integrationMessage, cancellationToken);
+            await bus.Publish(integrationMessage, cancellationToken);
         }
     }
 }
