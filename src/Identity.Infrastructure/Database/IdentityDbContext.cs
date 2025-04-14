@@ -7,6 +7,7 @@ using Identity.Domain.Entities;
 using Identity.Infrastructure.Database.EfConfigurations;
 using MarketToolsV3.IntegrationEventLogService.Models;
 using MarketToolsV3.IntegrationEventLogServiceEf;
+using MassTransit;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ namespace Identity.Infrastructure.Database
         public DbSet<Module> Modules { get; set; } = null!;
         public DbSet<ModuleRole> ModuleRoles { get; set; } = null!;
         public DbSet<ModuleClaim> ModuleClaims { get; set; } = null!;
+        public DbSet<IntegrationEventLogEntry> IntegrationLogEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +27,7 @@ namespace Identity.Infrastructure.Database
             modelBuilder.ApplyConfiguration(new ModuleConfiguration());
             modelBuilder.ApplyConfiguration(new ModuleClaimConfiguration());
             modelBuilder.ApplyConfiguration(new ModuleRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new IntegrationEventLogConfiguration());
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("public");

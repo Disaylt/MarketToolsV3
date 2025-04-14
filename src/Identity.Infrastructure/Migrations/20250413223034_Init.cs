@@ -58,7 +58,7 @@ namespace Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "integration_event_logs",
+                name: "integration_log_events",
                 schema: "public",
                 columns: table => new
                 {
@@ -72,7 +72,7 @@ namespace Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_integration_event_logs", x => x.id);
+                    table.PrimaryKey("pk_integration_log_events", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -328,22 +328,15 @@ namespace Identity.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_integration_event_logs_transaction_id",
+                name: "ix_integration_log_events_transaction_id_state",
                 schema: "public",
-                table: "integration_event_logs",
-                column: "transaction_id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_integration_event_logs_transaction_id_state",
-                schema: "public",
-                table: "integration_event_logs",
+                table: "integration_log_events",
                 columns: new[] { "transaction_id", "state" });
 
             migrationBuilder.CreateIndex(
-                name: "ix_integration_event_logs_type",
+                name: "ix_integration_log_events_type",
                 schema: "public",
-                table: "integration_event_logs",
+                table: "integration_log_events",
                 column: "type");
 
             migrationBuilder.CreateIndex(
@@ -397,7 +390,7 @@ namespace Identity.Infrastructure.Migrations
                 schema: "public");
 
             migrationBuilder.DropTable(
-                name: "integration_event_logs",
+                name: "integration_log_events",
                 schema: "public");
 
             migrationBuilder.DropTable(

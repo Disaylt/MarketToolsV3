@@ -11,6 +11,9 @@ namespace MarketToolsV3.IntegrationEventLogService.Services.Abstract
     public interface IIntegrationEventLogService
     {
         Task SaveEventAsync(BaseIntegrationEvent @event, CancellationToken cancellationToken);
-        Task<IReadOnlyCollection<IntegrationEventLogEntry>> GetNotPublishByTransaction(Guid transactionId);
+        Task<IReadOnlyCollection<IntegrationEventLogEntry>> GetNotPublishByTransaction(Guid transactionId, CancellationToken cancellationToken);
+        Task MarkEventAsInProgressAsync(Guid eventId, CancellationToken cancellationToken);
+        Task MarkEventAsPublishedAsync(Guid eventId, CancellationToken cancellationToken);
+        Task MarkEventAsFailedAsync(Guid eventId, CancellationToken cancellationToken);
     }
 }

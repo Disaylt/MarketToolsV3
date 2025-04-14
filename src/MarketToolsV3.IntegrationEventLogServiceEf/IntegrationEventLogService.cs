@@ -29,11 +29,42 @@ namespace MarketToolsV3.IntegrationEventLogServiceEf
                 .AddAsync(logEvent, cancellationToken);
         }
 
-        public async Task<IReadOnlyCollection<IntegrationEventLogEntry>> GetNotPublishByTransaction(Guid transactionId)
+        public async Task<IReadOnlyCollection<IntegrationEventLogEntry>> GetNotPublishByTransaction(Guid transactionId, CancellationToken cancellationToken)
         {
             return await _integrationEventLogRepository
                 .Where(x => x.TransactionId == transactionId && x.State == EventStateEnum.NotPublished)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task MarkEventAsInProgressAsync(Guid eventId, CancellationToken cancellationToken)
+        {
+            await UpdateEventStatusAsync(eventId, EventStateEnum.InProcess, cancellationToken);
+        }
+
+        public async Task MarkEventAsPublishedAsync(Guid eventId, CancellationToken cancellationToken)
+        {
+            await UpdateEventStatusAsync(eventId, EventStateEnum.Complete, cancellationToken);
+        }
+
+        public async Task MarkEventAsFailedAsync(Guid eventId, CancellationToken cancellationToken)
+        {
+            await UpdateEventStatusAsync(eventId, EventStateEnum.Error, cancellationToken);
+        }
+
+        private async Task UpdateEventStatusAsync(Guid eventId, 
+            EventStateEnum state,
+            CancellationToken cancellationToken)
+        {
+            var eventLog = await _integrationEventLogRepository.FindAsync([eventId], cancellationToken: cancellationToken)
+                           ?? throw new NullReferenceException("Event not found!");
+            eventLog.State = state;
+
+            if (state == EventStateEnum.InProcess)
+            {
+                eventLog.TimeSent++;
+            }
+
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Identity.Application.Behaviors
                 throw CreatePrimeException(exceptions);
             }
 
-            return await next();
+            return await next(cancellationToken);
         }
 
         private RootServiceException CreatePrimeException(RootServiceException[] exceptions)

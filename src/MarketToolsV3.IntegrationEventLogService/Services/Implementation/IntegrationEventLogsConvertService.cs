@@ -14,9 +14,7 @@ namespace MarketToolsV3.IntegrationEventLogService.Services.Implementation
     {
         public IntegrationEventInfoDto Convert(IntegrationEventLogEntry log)
         {
-            Type type = IntegrationsStore.FullNameAndTypePairs
-                            .GetValueOrDefault(log.Type)
-                        ?? throw new NullReferenceException("Integration event not found");
+            Type type = IntegrationsStore.FullNameAndTypePairs[log.Type];
 
             object content = JsonSerializer.Deserialize(log.Content, type)
                              ?? throw new JsonException($"Bad deserialize {log.Type}");

@@ -240,7 +240,7 @@ namespace Identity.Infrastructure.Migrations
                     b.ToTable("sessions", "public");
                 });
 
-            modelBuilder.Entity("MarketToolsV3.EventBus.Models.IntegrationEventLogEntry", b =>
+            modelBuilder.Entity("MarketToolsV3.IntegrationEventLogService.Models.IntegrationEventLogEntry", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -276,15 +276,15 @@ namespace Identity.Infrastructure.Migrations
                         .HasColumnName("type");
 
                     b.HasKey("Id")
-                        .HasName("pk_integration_event_logs");
+                        .HasName("pk_integration_log_events");
 
                     b.HasIndex("Type")
-                        .HasDatabaseName("ix_integration_event_logs_type");
+                        .HasDatabaseName("ix_integration_log_events_type");
 
                     b.HasIndex("TransactionId", "State")
-                        .HasDatabaseName("ix_integration_event_logs_transaction_id_state");
+                        .HasDatabaseName("ix_integration_log_events_transaction_id_state");
 
-                    b.ToTable("integration_event_logs", "public");
+                    b.ToTable("integration_log_events", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

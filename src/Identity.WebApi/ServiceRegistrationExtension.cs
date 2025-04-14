@@ -18,12 +18,6 @@ namespace Identity.WebApi
         {
             collection.AddMassTransit(mt =>
             {
-                mt.AddEntityFrameworkOutbox<IdentityDbContext>(o =>
-                {
-                    o.UsePostgres();
-                    o.UseBusOutbox();
-                });
-
                 mt.UsingRabbitMq((context, cfg) =>
                 {
                     cfg.Host(messageBrokerConfig.RabbitMqConnection,
