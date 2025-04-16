@@ -22,6 +22,7 @@ using Identity.Infrastructure.Services.Implementation.Tokens;
 using MarketToolsV3.ConfigurationManager.Models;
 using MarketToolsV3.EventBus;
 using MarketToolsV3.EventLogBus;
+using MarketToolsV3.IntegrationEventLogService;
 using MarketToolsV3.IntegrationEventLogService.Services.Abstract;
 using MarketToolsV3.IntegrationEventLogServiceEf;
 using MassTransit;
@@ -75,9 +76,11 @@ namespace Identity.Infrastructure
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
 
-            collection.AddEventBus();
-            collection.AddEventLogBus();
-            collection.AddIntegrationEventLogServiceEf<IdentityDbContext>();
+            collection
+                .AddEventBus()
+                .AddEventLogBus()
+                .AddIntegrationEventLogServiceEf<IdentityDbContext>()
+                .AddIntegrationEventLogServices();
 
             collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
             collection.AddSingleton<IJwtTokenService, JwtTokenService>();

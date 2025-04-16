@@ -13,7 +13,17 @@ namespace MarketToolsV3.EventBus.Services.Implementation
     {
         public async Task PublishAsync(object @event, Type type, CancellationToken cancellationToken)
         {
-            await bus.Publish(@event, type, cancellationToken);
+            var publishTask = bus.Publish(@event, type, cancellationToken);
+            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
+            var completedTask = await Task.WhenAny(publishTask, timeoutTask);
+
+            if (completedTask == timeoutTask)
+            {
+                throw new TimeoutException("Event publication time has expired.");
+            }
+
+            await publishTask;
         }
     }
 }

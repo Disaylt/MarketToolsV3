@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MarketToolsV3.IntegrationEventLogService.Models;
 using MarketToolsV3.EventLogBus.Services.Abstract;
 using Microsoft.Extensions.Logging;
+using MassTransit;
 
 namespace MarketToolsV3.EventLogBus.Services.Implementation
 {
