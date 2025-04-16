@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20250328125210_Init")]
+    [Migration("20250413223034_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Identity.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -135,18 +135,12 @@ namespace Identity.Infrastructure.Migrations
                         .HasColumnType("character varying(512)")
                         .HasColumnName("path");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("type");
-
                     b.HasKey("Id")
                         .HasName("pk_modules");
 
-                    b.HasIndex("IdentityId", "Path", "Type", "ExternalId")
+                    b.HasIndex("IdentityId", "Path", "ExternalId")
                         .IsUnique()
-                        .HasDatabaseName("ix_modules_identity_id_path_type_external_id");
+                        .HasDatabaseName("ix_modules_identity_id_path_external_id");
 
                     b.ToTable("modules", "public");
                 });
@@ -247,6 +241,53 @@ namespace Identity.Infrastructure.Migrations
                         .HasDatabaseName("ix_sessions_identity_id");
 
                     b.ToTable("sessions", "public");
+                });
+
+            modelBuilder.Entity("MarketToolsV3.IntegrationEventLogService.Models.IntegrationEventLogEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(99999)
+                        .HasColumnType("character varying(99999)")
+                        .HasColumnName("content");
+
+                    b.Property<DateTimeOffset>("DateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("date_time");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer")
+                        .HasColumnName("state");
+
+                    b.Property<int>("TimeSent")
+                        .HasColumnType("integer")
+                        .HasColumnName("time_sent");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("transaction_id");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_integration_log_events");
+
+                    b.HasIndex("Type")
+                        .HasDatabaseName("ix_integration_log_events_type");
+
+                    b.HasIndex("TransactionId", "State")
+                        .HasDatabaseName("ix_integration_log_events_transaction_id_state");
+
+                    b.ToTable("integration_log_events", "public");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

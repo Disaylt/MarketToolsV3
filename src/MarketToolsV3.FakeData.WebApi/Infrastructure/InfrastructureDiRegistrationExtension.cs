@@ -17,6 +17,7 @@ using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Abstract;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Http.Abstract;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Http.Implementation;
 using MarketToolsV3.FakeData.WebApi.Infrastructure.Services.Implementation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MarketToolsV3.FakeData.WebApi.Infrastructure
@@ -26,6 +27,12 @@ namespace MarketToolsV3.FakeData.WebApi.Infrastructure
         public static IServiceCollection AddInfrastructureService(this IServiceCollection serviceCollection, ServiceConfig serviceConfig)
         {
             serviceCollection.AddNpgsql<FakeDataDbContext>(serviceConfig.DatabaseConnection);
+
+            serviceCollection.AddDbContext<FakeDataDbContext>(opt =>
+            {
+                opt.UseNpgsql(serviceConfig.DatabaseConnection)
+                    .UseSnakeCaseNamingConvention();
+            });
 
             serviceCollection.AddScoped<ITaskEntityService, TaskEntityService>();
             serviceCollection.AddScoped<ITaskDetailsEntityService, TaskDetailsEntityService>();

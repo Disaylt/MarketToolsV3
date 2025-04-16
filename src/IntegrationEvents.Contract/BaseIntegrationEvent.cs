@@ -8,6 +8,6 @@ namespace IntegrationEvents.Contract
 {
     public record BaseIntegrationEvent
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; init; } = Guid.NewGuid();
     }
 }

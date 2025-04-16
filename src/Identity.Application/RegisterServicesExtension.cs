@@ -14,6 +14,7 @@ using Identity.Application.Models;
 using Identity.Application.Services.Abstract;
 using Identity.Application.Services.Implementation;
 using FluentValidation;
+using MarketToolsV3.EventLogBus;
 
 namespace Identity.Application
 {

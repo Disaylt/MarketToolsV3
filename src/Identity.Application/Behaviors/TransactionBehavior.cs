@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Application.Seed;
+using MarketToolsV3.EventLogBus.Services.Abstract;
 
 namespace Identity.Application.Behaviors
 {
     public class TransactionBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork,
-        ILogger<TransactionBehavior<TRequest, TResponse>> logger)
+        ILogger<TransactionBehavior<TRequest, TResponse>> logger,
+        IEventLogBus eventLogBus)
         : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand<TResponse>
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -22,18 +24,20 @@ namespace Identity.Application.Behaviors
             {
                 if (unitOfWork.HasTransaction)
                 {
-                    return await next();
+                    return await next(cancellationToken);
                 }
 
                 transactionId = await unitOfWork.BeginTransactionAsync(cancellationToken);
 
-                logger.LogInformation("Create transaction id - {transactionId}.", transactionId);
+                logger.LogInformation("Create transaction id - {transactionId}.", transactionId.Value);
 
-                TResponse response = await next();
+                TResponse response = await next(cancellationToken);
 
                 await unitOfWork.CommitAsync(cancellationToken);
 
-                logger.LogInformation("Transaction id - {transactionId} commited.", transactionId);
+                logger.LogInformation("Transaction id - {transactionId} commited.", transactionId.Value);
+
+                await eventLogBus.PublishNewByTransactionAsync(transactionId.Value, cancellationToken);
 
                 return response;
             }

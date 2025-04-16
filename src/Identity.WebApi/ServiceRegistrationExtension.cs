@@ -6,6 +6,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Identity.Infrastructure.Database;
 using Identity.WebApi.Services.Implementation;
 using Identity.WebApi.ExceptionHandlers;
 

@@ -58,6 +58,24 @@ namespace Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "integration_log_events",
+                schema: "public",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    date_time = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    state = table.Column<int>(type: "integer", nullable: false),
+                    time_sent = table.Column<int>(type: "integer", nullable: false),
+                    transaction_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    content = table.Column<string>(type: "character varying(99999)", maxLength: 99999, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_integration_log_events", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 schema: "public",
                 columns: table => new
@@ -181,7 +199,6 @@ namespace Identity.Infrastructure.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    type = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     path = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: false),
                     external_id = table.Column<int>(type: "integer", nullable: false),
                     identity_id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
@@ -311,6 +328,18 @@ namespace Identity.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "ix_integration_log_events_transaction_id_state",
+                schema: "public",
+                table: "integration_log_events",
+                columns: new[] { "transaction_id", "state" });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_integration_log_events_type",
+                schema: "public",
+                table: "integration_log_events",
+                column: "type");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_module_claims_module_id_type",
                 schema: "public",
                 table: "moduleClaims",
@@ -324,10 +353,10 @@ namespace Identity.Infrastructure.Migrations
                 column: "module_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_modules_identity_id_path_type_external_id",
+                name: "ix_modules_identity_id_path_external_id",
                 schema: "public",
                 table: "modules",
-                columns: new[] { "identity_id", "path", "type", "external_id" },
+                columns: new[] { "identity_id", "path", "external_id" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -358,6 +387,10 @@ namespace Identity.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens",
+                schema: "public");
+
+            migrationBuilder.DropTable(
+                name: "integration_log_events",
                 schema: "public");
 
             migrationBuilder.DropTable(
