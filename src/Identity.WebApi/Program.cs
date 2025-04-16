@@ -5,14 +5,10 @@ using Identity.Domain.Seed;
 using Identity.Infrastructure;
 using Identity.WebApi;
 using Identity.WebApi.Middlewares;
-using Identity.WebApi.Services;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
-using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
-using Serilog;
-using Serilog.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();

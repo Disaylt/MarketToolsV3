@@ -11,6 +11,7 @@ using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.DbMigrations.Service.Workers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WB.Seller.Companies.Infrastructure.Database;
 
 namespace MarketToolsV3.DbMigrations.Service.Extensions
 {
@@ -22,7 +23,11 @@ namespace MarketToolsV3.DbMigrations.Service.Extensions
             ITypingConfigManager<ServiceConfiguration> serviceConfigManager =
                 await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(IdentityConfig.ServiceName);
 
-            builder.Services.AddNpgsql<IdentityDbContext>(serviceConfigManager.Value.DatabaseConnection);
+            builder.Services.AddDbContext<IdentityDbContext>(opt =>
+            {
+                opt.UseNpgsql(serviceConfigManager.Value.DatabaseConnection)
+                    .UseSnakeCaseNamingConvention();
+            });
 
             builder.Services
                 .AddMigrationBuilderHostService<IdentityDbContext>()

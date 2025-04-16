@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Identity.Domain.Events;
 using IntegrationEvents.Contract.Identity;
+using MarketToolsV3.IntegrationEventLogService.Services.Abstract;
 using MassTransit;
 using MediatR;
 
 namespace Identity.Application.EventHandlers.Domain
 {
-    public class PushIdentityCreatedEventHandler(IBus bus)
+    public class PushIdentityCreatedEventHandler(IIntegrationEventLogService integrationEventLogService)
         : INotificationHandler<IdentityCreated>
     {
         public async Task Handle(IdentityCreated notification, CancellationToken cancellationToken)
@@ -21,7 +22,7 @@ namespace Identity.Application.EventHandlers.Domain
                 Login = notification.Identity.UserName ?? "Unknown"
             };
 
-            await bus.Publish(integrationMessage, cancellationToken);
+            await integrationEventLogService.SaveEventAsync(integrationMessage, cancellationToken);
         }
     }
 }

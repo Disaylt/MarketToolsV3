@@ -23,7 +23,11 @@ namespace MarketToolsV3.DbMigrations.Service.Extensions
             ITypingConfigManager<ServiceConfiguration> serviceConfigManager =
                 await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(ServiceConstants.ServiceName);
 
-            builder.Services.AddNpgsql<WbSellerCompaniesDbContext>(serviceConfigManager.Value.DatabaseConnection);
+            builder.Services.AddDbContext<WbSellerCompaniesDbContext>(opt =>
+            {
+                opt.UseNpgsql(serviceConfigManager.Value.DatabaseConnection)
+                    .UseSnakeCaseNamingConvention();
+            });
 
             builder.Services
                 .AddMigrationBuilderHostService<WbSellerCompaniesDbContext>()

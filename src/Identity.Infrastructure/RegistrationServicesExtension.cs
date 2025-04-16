@@ -20,6 +20,11 @@ using Identity.Infrastructure.Services.Implementation;
 using Identity.Infrastructure.Services.Implementation.Claims;
 using Identity.Infrastructure.Services.Implementation.Tokens;
 using MarketToolsV3.ConfigurationManager.Models;
+using MarketToolsV3.EventBus;
+using MarketToolsV3.EventLogBus;
+using MarketToolsV3.IntegrationEventLogService;
+using MarketToolsV3.IntegrationEventLogService.Services.Abstract;
+using MarketToolsV3.IntegrationEventLogServiceEf;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -48,6 +53,7 @@ namespace Identity.Infrastructure
             collection.AddScoped<IQueryableHandler<Module, ModuleAuthInfoDto>, ModuleToAuthServiceTransferQueryableHandler>();
             collection.AddScoped<IQueryObjectHandler<GetActivateSessionQueryObject, Session>, GetActivateSessionQueryObjectHandler>();
             collection.AddScoped<IQueryObjectHandler<FindModuleQueryObject, Module>, FindModuleQueryObjectHandler>();
+            collection.AddScoped<IIntegrationEventLogService, IntegrationEventLogService<IdentityDbContext>>();
 
             collection.AddDbContext<IdentityDbContext>(opt =>
             {
@@ -69,6 +75,12 @@ namespace Identity.Infrastructure
                 })
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
+
+            collection
+                .AddEventBus()
+                .AddEventLogBus()
+                .AddIntegrationEventLogServiceEf<IdentityDbContext>()
+                .AddIntegrationEventLogServices();
 
             collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
             collection.AddSingleton<IJwtTokenService, JwtTokenService>();
