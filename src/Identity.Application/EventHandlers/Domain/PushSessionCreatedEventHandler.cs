@@ -11,7 +11,7 @@ using MediatR;
 
 namespace Identity.Application.EventHandlers.Domain
 {
-    public class PushSessionCreatedEventHandler(IIntegrationEventLogService integrationEventLogService)
+    public class PushSessionCreatedEventHandler(IPublishEndpoint publishEndpoint)
         : INotificationHandler<SessionCreated>
     {
         public async Task Handle(SessionCreated notification, CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ namespace Identity.Application.EventHandlers.Domain
                 UserAgent = notification.Session.UserAgent
             };
 
-            await integrationEventLogService.SaveEventAsync(integrationMessage, cancellationToken);
+            await publishEndpoint.Publish(integrationMessage, cancellationToken);
         }
     }
 }
