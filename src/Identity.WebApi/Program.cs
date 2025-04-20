@@ -8,6 +8,7 @@ using Identity.WebApi.Middlewares;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
+using MarketToolV3.Authentication;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +29,7 @@ ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi("v1");
-builder.Services.AddServiceAuthentication(authConfigManager.Value);
+builder.Services.AddServiceAuthentication(authConfigManager.Value, false);
 builder.Services.AddWebApiServices();
 builder.Services
     .AddMessageBroker(messageBrokerConfigManager.Value)
@@ -59,7 +60,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<AuthDetailsMiddleware>();
+app.UseAuthContext();
 
 app.MapControllers();
 

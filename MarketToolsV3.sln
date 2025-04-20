@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolsV3.EventBus", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolsV3.EventLogBus", "src\MarketToolsV3.EventLogBus\MarketToolsV3.EventLogBus.csproj", "{AC06D103-AB48-483B-9B71-2E366B6A13FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolV3.Authentication", "src\MarketToolV3.Authentication\MarketToolV3.Authentication.csproj", "{23925D6B-FCA1-4CF5-9167-B0C114CC3C68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -261,6 +263,10 @@ Global
 		{AC06D103-AB48-483B-9B71-2E366B6A13FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC06D103-AB48-483B-9B71-2E366B6A13FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC06D103-AB48-483B-9B71-2E366B6A13FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23925D6B-FCA1-4CF5-9167-B0C114CC3C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23925D6B-FCA1-4CF5-9167-B0C114CC3C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23925D6B-FCA1-4CF5-9167-B0C114CC3C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23925D6B-FCA1-4CF5-9167-B0C114CC3C68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -315,6 +321,7 @@ Global
 		{7E881491-A2B8-453A-A7FB-A19916908DA3} = {6A539288-EDE6-450E-BC1E-E08676888AF4}
 		{DA2E7005-257C-46BD-A982-DF8D8F6FE622} = {6A539288-EDE6-450E-BC1E-E08676888AF4}
 		{AC06D103-AB48-483B-9B71-2E366B6A13FB} = {6A539288-EDE6-450E-BC1E-E08676888AF4}
+		{23925D6B-FCA1-4CF5-9167-B0C114CC3C68} = {6A539288-EDE6-450E-BC1E-E08676888AF4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}

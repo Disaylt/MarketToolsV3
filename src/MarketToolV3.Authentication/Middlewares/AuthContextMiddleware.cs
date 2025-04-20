@@ -1,17 +1,15 @@
-﻿using Identity.Application.Models;
-using Identity.Application.Services;
-using Identity.WebApi.Services;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
-using Identity.WebApi.Models;
-using Identity.WebApi.Services.Interfaces;
-using Microsoft.Extensions.Primitives;
-using System.Text.Json;
-using System.Text.Json.Nodes;
+using System.Text;
+using System.Threading.Tasks;
+using MarketToolV3.Authentication.Services.Abstract;
 
-namespace Identity.WebApi.Middlewares
+namespace MarketToolV3.Authentication.Middlewares
 {
-    public class AuthDetailsMiddleware(RequestDelegate next)
+    public class AuthContextMiddleware(RequestDelegate next)
     {
         public async Task Invoke(HttpContext httpContext,
             IAuthContext authContext)
