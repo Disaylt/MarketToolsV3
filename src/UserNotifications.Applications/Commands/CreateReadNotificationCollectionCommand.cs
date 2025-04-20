@@ -9,7 +9,7 @@ using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.Applications.Commands
 {
-    public class CreateReadNotificationCollectionCommand : ICommand<IReadOnlyCollection<NotificationDto>>
+    public class CreateReadNotificationCollectionCommand : ICommand<PaginationDto<NotificationDto>>
     {
         public string? UserId { get; set; }
         public Category? Category { get; set; }

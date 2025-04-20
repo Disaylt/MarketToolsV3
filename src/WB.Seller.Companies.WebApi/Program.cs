@@ -1,6 +1,7 @@
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
+using MarketToolV3.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OpenApi;
@@ -29,7 +30,7 @@ builder.Services.AddControllers();
 builder.Services
     .AddInfrastructureLayer(serviceConfigManager.Value)
     .AddApplicationServices()
-    .AddServiceAuthentication(authConfigManager.Value);
+    .AddServiceAuthentication(authConfigManager.Value, false);
 
 builder.Services.AddOpenApi("v1", opt =>
 {

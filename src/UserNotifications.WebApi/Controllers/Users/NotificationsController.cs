@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
+using MarketToolV3.Authentication.Services.Abstract;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserNotifications.Applications.Commands;
 using UserNotifications.WebApi.Models.Notifications;
@@ -9,7 +11,8 @@ namespace UserNotifications.WebApi.Controllers.Users
     [Route("api/v{version:apiVersion}/notifications")]
     [ApiController]
     [ApiVersion("1")]
-    public class NotificationsController(IMediator mediator)
+    [Authorize]
+    public class NotificationsController(IMediator mediator, IAuthContext authContext)
         : ControllerBase
     {
         [HttpGet]
@@ -18,7 +21,7 @@ namespace UserNotifications.WebApi.Controllers.Users
         {
             CreateReadNotificationCollectionCommand request = new()
             {
-                UserId = "1",
+                UserId = authContext.GetUserIdRequired(),
                 Category = query.Category,
                 IsRead = query.IsRead,
                 Skip = query.Skip,

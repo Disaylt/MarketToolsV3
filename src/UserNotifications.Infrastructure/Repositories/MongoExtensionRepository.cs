@@ -10,9 +10,14 @@ namespace UserNotifications.Infrastructure.Repositories
 {
     public class MongoExtensionRepository : IExtensionRepository
     {
-        public Task<List<T>> ToListAsync<T>(IQueryable<T> query)
+        public Task<int> CountAsync<T>(IQueryable<T> query, CancellationToken cancellationToken)
         {
-            return query.ToListAsync();
+            return query.CountAsync(cancellationToken);
+        }
+
+        public Task<List<T>> ToListAsync<T>(IQueryable<T> query, CancellationToken cancellationToken)
+        {
+            return query.ToListAsync(cancellationToken);
         }
     }
 }
