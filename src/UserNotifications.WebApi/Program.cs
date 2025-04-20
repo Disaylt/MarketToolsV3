@@ -2,6 +2,7 @@ using Asp.Versioning;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
+using MarketToolV3.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Scalar.AspNetCore;
 using UserNotifications.Applications;
@@ -15,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
     await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(ServiceConstants.ServiceName);
+ITypingConfigManager<AuthConfig> authConfigManager =
+    await configurationServiceFactory.CreateFromAuthAsync();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -24,7 +27,8 @@ builder.Services.AddExceptionHandler<RootExceptionHandler>();
 builder.Services.AddOpenApi("v1");
 
 builder.Services.AddApplicationLayer()
-    .AddInfrastructureServices(serviceConfigManager.Value);
+    .AddInfrastructureServices(serviceConfigManager.Value)
+    .AddServiceAuthentication(authConfigManager.Value, false);
 
 builder.Services.AddApiVersioning(opt =>
 {
@@ -45,7 +49,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseAuthContext();
 
 app.MapControllers();
 

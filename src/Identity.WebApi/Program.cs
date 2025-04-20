@@ -4,7 +4,6 @@ using Identity.Domain.Constants;
 using Identity.Domain.Seed;
 using Identity.Infrastructure;
 using Identity.WebApi;
-using Identity.WebApi.Middlewares;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;

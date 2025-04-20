@@ -4,13 +4,14 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserNotifications.Applications.Commands;
+using UserNotifications.Applications.Queries;
 using UserNotifications.WebApi.Models.Notifications;
 
 namespace UserNotifications.WebApi.Controllers.Users
 {
     [Route("api/v{version:apiVersion}/notifications")]
     [ApiController]
-    [ApiVersion("1")]
+    [ApiVersion(1)]
     [Authorize]
     public class NotificationsController(IMediator mediator, IAuthContext authContext)
         : ControllerBase
@@ -31,6 +32,20 @@ namespace UserNotifications.WebApi.Controllers.Users
             var result = await mediator.Send(request);
 
             return Ok(result);
+        }
+
+        [HttpGet("count-new")]
+        [MapToApiVersion(1)]
+        public async Task<IActionResult> CountNewAsync()
+        {
+            CountNewNotificationsQuery request = new()
+            {
+                UserId = authContext.GetUserIdRequired()
+            };
+
+            var result = await mediator.Send(request);
+
+            return Ok(new { Count = result });
         }
     }
 }
