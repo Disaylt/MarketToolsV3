@@ -26,6 +26,7 @@ using MarketToolsV3.IntegrationEventLogService;
 using MarketToolsV3.IntegrationEventLogService.Services.Abstract;
 using MarketToolsV3.IntegrationEventLogServiceEf;
 using MassTransit;
+using MassTransit.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -75,12 +76,6 @@ namespace Identity.Infrastructure
                 })
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
-
-            collection
-                .AddEventBus()
-                .AddEventLogBus()
-                .AddIntegrationEventLogServiceEf<IdentityDbContext>()
-                .AddIntegrationEventLogServices();
 
             collection.AddSingleton<IJwtSecurityTokenHandler, AppJwtSecurityTokenHandler>();
             collection.AddSingleton<IJwtTokenService, JwtTokenService>();

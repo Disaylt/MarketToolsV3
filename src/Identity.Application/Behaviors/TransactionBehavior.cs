@@ -12,8 +12,7 @@ using MarketToolsV3.EventLogBus.Services.Abstract;
 namespace Identity.Application.Behaviors
 {
     public class TransactionBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork,
-        ILogger<TransactionBehavior<TRequest, TResponse>> logger,
-        IEventLogBus eventLogBus)
+        ILogger<TransactionBehavior<TRequest, TResponse>> logger)
         : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand<TResponse>
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -36,8 +35,6 @@ namespace Identity.Application.Behaviors
                 await unitOfWork.CommitAsync(cancellationToken);
 
                 logger.LogInformation("Transaction id - {transactionId} commited.", transactionId.Value);
-
-                await eventLogBus.PublishNewByTransactionAsync(transactionId.Value, cancellationToken);
 
                 return response;
             }
