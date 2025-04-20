@@ -3,6 +3,7 @@ using FluentValidation;
 using FluentValidation.TestHelper;
 using Bogus;
 using Identity.Application.Commands;
+using Elastic.CommonSchema;
 
 namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
 {
@@ -12,6 +13,8 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
         private CreateNewUserCommandValidation _validator;
         private Faker _faker;
 
+        private const string Domain = "@test.test";
+
         [SetUp]
         public void Setup()
         {
@@ -19,112 +22,122 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Applications.Commands
             _faker = new Faker();
         }
 
-        [Test]
-        public void Validate_Login_Should_Have_Error_For_Invalid_Login()
+        private CreateNewUserCommand CreateDefaultCommand()
         {
-            var command = new CreateNewUserCommand
+            return new()
             {
-                Login = _faker.Random.String2(2),
-                Password = _faker.Internet.Password(12),
-                Email = _faker.Internet.Email()
+                Email = _faker.Random.String2(1, 150 - Domain.Length) + Domain,
+                Login = _faker.Random.String2(6, 150),
+                Password = _faker.Random.String2(6, 50)
             };
-            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Login);
         }
 
         [Test]
-        public void Validate_Login_Should_Not_Have_Error_For_Valid_Login()
+        public void ValidatePassword_WhenPasswordIsLongerThenMaxLength_ExpectedError()
         {
-            var command = new CreateNewUserCommand
-            {
-                Login = _faker.Random.String2(6, 150),
-                Password = _faker.Internet.Password(12),
-                Email = _faker.Internet.Email()
-            };
-            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Login);
-        }
+            var command = CreateDefaultCommand();
+            command.Password = _faker.Random.String2(51);
 
-        [Test]
-        public void Validate_Password_Should_Have_Error_For_Invalid_Password()
-        {
-            var command = new CreateNewUserCommand
-            {
-                Login = _faker.Random.String2(6, 150),
-                Password = _faker.Random.String2(3),
-                Email = _faker.Internet.Email()
-            };
             _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Password);
         }
 
         [Test]
-        public void Validate_Password_Should_Not_Have_Error_For_Valid_Password()
+        public void ValidatePassword_WhenPasswordEqualsMaxLength_ExpectedValid()
         {
-            var command = new CreateNewUserCommand
-            {
-                Login = _faker.Random.String2(6, 150),
-                Password = _faker.Random.String2(6, 50),
-                Email = _faker.Internet.Email()
-            };
+            var command = CreateDefaultCommand();
+            command.Password = _faker.Random.String2(50);
+
+            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c=> c.Password);
+        }
+
+        [Test]
+        public void ValidatePassword_WhenPasswordEqualsMinLength_ExpectedValid()
+        {
+            var command = CreateDefaultCommand();
+            command.Password = _faker.Random.String2(6);
+
             _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Password);
         }
 
         [Test]
-        public void Validate_Email_Should_Have_Error_For_Invalid_Email()
+        public void ValidatePassword_WhenPasswordIsShortedThenMinLength_ExpectedError()
         {
-            var command = new CreateNewUserCommand
-            {
-                Login = _faker.Random.String2(6, 150),
-                Password = _faker.Random.String2(6, 50),
-                Email = "invalid-email"
-            };
-            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Email);
-        }
+            var command = CreateDefaultCommand();
+            command.Password = _faker.Random.String2(5);
 
-        [Test]
-        public void Validate_Email_Should_Not_Have_Error_For_Valid_Email()
-        {
-            var command = new CreateNewUserCommand
-            {
-                Login = _faker.Random.String2(6, 150),
-                Password = _faker.Random.String2(6, 50),
-                Email = _faker.Internet.Email()
-            };
-            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Email);
-        }
-
-        [Test]
-        public void Validate_Should_Have_Error_When_Login_Exceeds_Max_Length()
-        {
-            var command = new CreateNewUserCommand
-            {
-                Login = _faker.Random.String2(151),
-                Password = _faker.Random.String2(6, 50),
-                Email = _faker.Internet.Email()
-            };
-            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Login);
-        }
-
-        [Test]
-        public void Validate_Should_Have_Error_When_Password_Exceeds_Max_Length()
-        {
-            var command = new CreateNewUserCommand
-            {
-                Login = _faker.Random.String2(6, 150),
-                Password = _faker.Random.String2(51),
-                Email = _faker.Internet.Email()
-            };
             _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Password);
         }
 
         [Test]
-        public void Validate_Should_Have_Error_When_Email_Exceeds_Max_Length()
+        public void ValidateLogin_WhenLoginIsLongerThenMaxLength_ExpectedError()
         {
-            var command = new CreateNewUserCommand
-            {
-                Login = _faker.Random.String2(6, 150),
-                Password = _faker.Random.String2(6, 50),
-                Email = _faker.Random.String2(151) + "@example.com"
-            };
+            var command = CreateDefaultCommand();
+            command.Login = _faker.Random.String2(151);
+
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Login);
+        }
+
+        [Test]
+        public void ValidateLogin_WhenLoginEqualsMaxLength_ExpectedValid()
+        {
+            var command = CreateDefaultCommand();
+            command.Login = _faker.Random.String2(150);
+
+            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Login);
+        }
+
+        [Test]
+        public void ValidateLogin_WhenLoginEqualsMinLength_ExpectedValid()
+        {
+            var command = CreateDefaultCommand();
+            command.Login = _faker.Random.String2(6);
+
+            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Login);
+        }
+
+        [Test]
+        public void ValidateLogin_WhenLoginIsShortedThenMinLength_ExpectedError()
+        {
+            var command = CreateDefaultCommand();
+            command.Login = _faker.Random.String2(5);
+
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Login);
+        }
+
+        [Test]
+        public void ValidateEmail_WhenEmailIsLongerThenMaxLength_ExpectedError()
+        {
+            var command = CreateDefaultCommand();
+            command.Email = _faker.Random.String2( 151 - Domain.Length) + Domain;
+
+            _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Email);
+        }
+
+        [Test]
+        public void ValidateEmail_WhenEmailEqualsMaxLength_ExpectedValid()
+        {
+            var command = CreateDefaultCommand();
+            command.Email = _faker.Random.String2(150 - Domain.Length) + Domain;
+
+            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Email);
+        }
+
+        [Test]
+        public void ValidateEmail_WhenWriteValidEmail_ExpectedValid()
+        {
+            var command = CreateDefaultCommand();
+
+            _validator.TestValidate(command).ShouldNotHaveValidationErrorFor(c => c.Email);
+        }
+
+        [Test]
+        public void ValidateEmail_WhenWriteInvalidEmail_ExpectedInvalid()
+        {
+            var command = CreateDefaultCommand();
+            command.Email = _faker.Random.String2(6, 150);
+
             _validator.TestValidate(command).ShouldHaveValidationErrorFor(c => c.Email);
         }
     }
+
 }
