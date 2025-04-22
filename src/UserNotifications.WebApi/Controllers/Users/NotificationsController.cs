@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserNotifications.Applications.Commands;
 using UserNotifications.Applications.Queries;
+using UserNotifications.Applications.Utilities.Abstract;
+using UserNotifications.Domain.Enums;
 using UserNotifications.WebApi.Models.Notifications;
 
 namespace UserNotifications.WebApi.Controllers.Users
@@ -13,7 +15,9 @@ namespace UserNotifications.WebApi.Controllers.Users
     [ApiController]
     [ApiVersion(1)]
     [Authorize]
-    public class NotificationsController(IMediator mediator, IAuthContext authContext)
+    public class NotificationsController(IMediator mediator,
+        IAuthContext authContext,
+        IEnumParserUtility enumParserUtility)
         : ControllerBase
     {
         [HttpGet]
@@ -46,6 +50,15 @@ namespace UserNotifications.WebApi.Controllers.Users
             var result = await mediator.Send(request);
 
             return Ok(new { Count = result });
+        }
+
+        [HttpGet("categories")]
+        [MapToApiVersion(1)]
+        public IActionResult GetCategories()
+        {
+            var result = enumParserUtility.Parse<Category>();
+
+            return Ok(result);
         }
     }
 }

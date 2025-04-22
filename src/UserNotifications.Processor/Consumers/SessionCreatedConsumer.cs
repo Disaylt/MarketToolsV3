@@ -19,7 +19,7 @@ namespace UserNotifications.Processor.Consumers
             {
                 UserId = context.Message.UserId,
                 Category = Category.Identity,
-                Title = "Система безопасноссти",
+                Title = "Система безопасности",
                 Message = $"Выполнен вход с устройства - {context.Message.UserAgent}"
             };
 
