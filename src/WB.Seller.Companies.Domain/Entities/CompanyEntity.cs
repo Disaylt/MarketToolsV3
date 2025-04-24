@@ -11,7 +11,7 @@ namespace WB.Seller.Companies.Domain.Entities
 
         private readonly List<SubscriptionEntity> _subscriptions = [];
         public IReadOnlyCollection<SubscriptionEntity> Subscriptions => _subscriptions;
-        public IReadOnlyCollection<UserEntity> Users { get; private set; } = [];
+        public IReadOnlyCollection<UserEntity> Users { get; private set; } = new List<UserEntity>();
 
         protected CompanyEntity()
         {

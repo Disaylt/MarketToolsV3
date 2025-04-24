@@ -17,7 +17,7 @@ namespace WB.Seller.Companies.Infrastructure.Database.EfConfigurations
 
             builder.HasKey(e => e.Id);
 
-            builder.HasIndex(e => new { e.Type, e.Status, e.SubscriptionId })
+            builder.HasIndex(e => new { e.Type, e.SubscriptionId })
                 .IsUnique();
 
             builder.HasOne(e => e.Subscription)
