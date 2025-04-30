@@ -8,6 +8,7 @@ using Identity.WebApi.Controllers;
 using Identity.WebApi.Models;
 using Identity.WebApi.Services;
 using Identity.WebApi.Services.Interfaces;
+using MarketToolV3.Authentication.Services.Abstract;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

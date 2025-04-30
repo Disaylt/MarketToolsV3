@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UserNotifications.Applications.Seed;
-using UserNotifications.Domain.Seed;
+using MarketToolsV3.PermissionStore.Application.Seed;
+using MarketToolsV3.PermissionStore.Domain.Seed;
 
-namespace UserNotifications.Applications.Behaviors
+namespace MarketToolsV3.PermissionStore.Application.Behaviors
 {
-    public class TransactionBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork,
+    public class TransactionBehavior<TRequest, TResponse>(ITransactionContext unitOfWork,
         ILogger<TransactionBehavior<TRequest, TResponse>> logger)
         : IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand<TResponse>
     {

@@ -1,11 +1,6 @@
 ﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace UserNotifications.Infrastructure.Database
+namespace MarketToolsV3.PermissionStore.Infrastructure.Database
 {
     public class ClientSessionHandleContext(IMongoClient client) : IClientSessionHandleContext, IDisposable, IAsyncDisposable
     {

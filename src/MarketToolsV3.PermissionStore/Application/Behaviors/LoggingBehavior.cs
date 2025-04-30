@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserNotifications.Applications.Behaviors
+namespace MarketToolsV3.PermissionStore.Application.Behaviors
 {
     internal class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
         : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
