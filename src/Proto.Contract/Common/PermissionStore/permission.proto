@@ -1,0 +1,33 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Proto.Contract.Common.PermissionStore";
+
+package permission;
+
+service Permission{
+	rpc GetByFilter(FilterRequest) returns (PermissionsListReply);
+	rpc Refresh(RefreshRequest) returns (EmptyReply);
+}
+
+message FilterRequest{
+	string module = 1;
+}
+
+message PermissionsListReply{
+	repeated ModulePermission permissions = 2;
+}
+
+
+message RefreshRequest{
+	string module = 1;
+	repeated ModulePermission permissions = 2;
+}
+
+message ModulePermission {
+	string path = 1;
+	string view_name = 2;
+}
+
+message EmptyReply{
+
+}

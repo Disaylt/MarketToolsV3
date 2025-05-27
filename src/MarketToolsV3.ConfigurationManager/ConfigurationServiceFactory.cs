@@ -47,6 +47,11 @@ namespace MarketToolsV3.ConfigurationManager
             return await CreateFromServiceAsync<MessageBrokerConfig>(ConfigurationNames.MessageBroker);
         }
 
+        public async Task<ITypingConfigManager<ModulesInfoConfig>> CreateFromModulesInfoAsync()
+        {
+            return await CreateFromServiceAsync<ModulesInfoConfig>(ConfigurationNames.ModulesInfo);
+        }
+
         private async Task<IConfigurationRoot> CreateConfigurationRootAsync(string serviceName)
         {
             MarketToolsConfigurationBuilder builder = new(applicationConfig);

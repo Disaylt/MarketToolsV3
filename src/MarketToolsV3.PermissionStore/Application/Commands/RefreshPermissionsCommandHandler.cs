@@ -22,7 +22,7 @@ public class RefreshPermissionsCommandHandler(
         ActionsStoreModel<PermissionEntity> options = permissionsService
             .DistributeByActions(pathAndExistsPermissionPairs, request.Permissions, request.Module);
 
-        List<Task> tasks =
+        Task[] tasks =
         [
             permissionsRepository.InsertManyAsync(options.ToAdd, cancellationToken),
             permissionsRepository.RemoveRangeAsync(options.ToRemove, cancellationToken),

@@ -1,7 +1,9 @@
-﻿using MarketToolsV3.PermissionStore.Domain.Entities;
+﻿using MarketToolsV3.PermissionStore.Application.Services.Abstract;
+using MarketToolsV3.PermissionStore.Domain.Entities;
 using MarketToolsV3.PermissionStore.Domain.Seed;
 using MarketToolsV3.PermissionStore.Infrastructure.Database;
 using MarketToolsV3.PermissionStore.Infrastructure.Repositories;
+using MarketToolsV3.PermissionStore.Infrastructure.Services.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 
@@ -22,6 +24,7 @@ public static class InfrastructureServicesRegistration
         services.AddScoped<ITransactionContext, MongoTransactionContext>();
         services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
         services.AddScoped<IExtensionRepository, MongoExtensionRepository>();
+        services.AddScoped<IPermissionsEntityService, PermissionsEntityService>();
         services.AddScoped<IRepository<PermissionEntity>, PermissionsMongoRepository>();
 
         return services;

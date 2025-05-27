@@ -7,28 +7,23 @@ namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionsByFilterQueryHandler(
     IPermissionsEntityService permissionsEntityService)
-    : IRequestHandler<GetPermissionsByFilterQuery, ModuleGroupDto>
+    : IRequestHandler<GetPermissionsByFilterQuery, IEnumerable<ModulePermissionDto>>
 {
-    public async Task<ModuleGroupDto> Handle(GetPermissionsByFilterQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ModulePermissionDto>> Handle(GetPermissionsByFilterQuery request, CancellationToken cancellationToken)
     {
         IReadOnlyCollection<PermissionEntity> entities = await permissionsEntityService
             .GetRangeByModuleAsync(request.Module, cancellationToken);
 
-        return new ModuleGroupDto
-        {
-            Module = request.Module,
-            Permissions = MapPermissions(entities)
-        };
+        return MapPermissions(entities);
     }
 
-    private IReadOnlyCollection<ModulePermissionDto> MapPermissions(IEnumerable<PermissionEntity> entities)
+    private IEnumerable<ModulePermissionDto> MapPermissions(IEnumerable<PermissionEntity> entities)
     {
         return entities
             .Select(x => new ModulePermissionDto()
             {
                 Path = x.Path,
                 ViewName = x.ViewName
-            })
-            .ToList();
+            });
     }
 }

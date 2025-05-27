@@ -11,7 +11,7 @@ namespace WB.Seller.Companies.Domain.Entities
     public class PermissionEntity : Entity
     {
         public PermissionStatus Status { get; private set; }
-        public string Type { get; private set; }
+        public string Path { get; private set; }
 
         public int SubscriptionId { get; private set; }
         public SubscriptionEntity Subscription { get; private set; }
@@ -20,13 +20,13 @@ namespace WB.Seller.Companies.Domain.Entities
         protected PermissionEntity()
         {
             Subscription = null!;
-            Type = string.Empty;
+            Path = string.Empty;
         }
 
-        public PermissionEntity(PermissionStatus status, string type, int subscriptionId) : this()
+        public PermissionEntity(PermissionStatus status, string path, int subscriptionId) : this()
         {
             Status = status;
-            Type = type;
+            Path = path;
             SubscriptionId = subscriptionId;
         }
     }

@@ -121,6 +121,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PermissionStore", "Permissi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolsV3.PermissionStore", "src\MarketToolsV3.PermissionStore\MarketToolsV3.PermissionStore.csproj", "{1A6E6D3F-7594-4597-8E0A-7751C248565D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolsV3.PermissionStore.GrpcService", "src\MarketToolsV3.PermissionStore.GrpcService\MarketToolsV3.PermissionStore.GrpcService.csproj", "{CE84DCD6-120E-A4B0-7FCC-151C2B6CE8FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -287,6 +289,10 @@ Global
 		{1A6E6D3F-7594-4597-8E0A-7751C248565D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A6E6D3F-7594-4597-8E0A-7751C248565D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A6E6D3F-7594-4597-8E0A-7751C248565D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE84DCD6-120E-A4B0-7FCC-151C2B6CE8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE84DCD6-120E-A4B0-7FCC-151C2B6CE8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE84DCD6-120E-A4B0-7FCC-151C2B6CE8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE84DCD6-120E-A4B0-7FCC-151C2B6CE8FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -348,6 +354,7 @@ Global
 		{55E836E7-3F0F-41ED-9F29-E0DA0382BE05} = {999BD1A4-C93D-499C-89AA-435BC3DF0093}
 		{2FE49472-1C6E-4B1A-AE6D-CF9DEE490E1B} = {6A539288-EDE6-450E-BC1E-E08676888AF4}
 		{1A6E6D3F-7594-4597-8E0A-7751C248565D} = {2FE49472-1C6E-4B1A-AE6D-CF9DEE490E1B}
+		{CE84DCD6-120E-A4B0-7FCC-151C2B6CE8FE} = {2FE49472-1C6E-4B1A-AE6D-CF9DEE490E1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}

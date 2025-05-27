@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MarketToolsV3.PermissionStore.Application.Behaviors;
+using MarketToolsV3.PermissionStore.Application.Services.Abstract;
+using MarketToolsV3.PermissionStore.Application.Services.Implementation;
 
 namespace MarketToolsV3.PermissionStore.Application
 {
@@ -20,6 +22,8 @@ namespace MarketToolsV3.PermissionStore.Application
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
                 cfg.AddOpenBehavior(typeof(TransactionBehavior<,>));
             });
+
+            services.AddSingleton<IPermissionsService, PermissionsService>();
 
             return services;
         }
