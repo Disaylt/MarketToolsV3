@@ -7,26 +7,28 @@ using MediatR;
 namespace MarketToolsV3.PermissionStore.Application.Commands;
 
 public class RefreshPermissionsCommandHandler(
-    IPermissionsEntityService permissionsEntityService,
     IPermissionsService permissionsService,
-    IRepository<PermissionEntity> permissionsRepository)
+    IRepository<PermissionEntity> permissionsRepository,
+    IExtensionRepository extensionRepository)
     : IRequestHandler<RefreshPermissionsCommand, Unit>
 {
     
     public async Task<Unit> Handle(RefreshPermissionsCommand request, CancellationToken cancellationToken)
     {
-        Dictionary<string, PermissionEntity> pathAndExistsPermissionPairs = await permissionsEntityService
-            .GetRangeByModuleAsync(request.Module, cancellationToken)
-            .ContinueWith(x => x.Result.ToDictionary(item => item.Path), cancellationToken);
+        IQueryable<PermissionEntity> existsPermissionsQuery = permissionsRepository
+            .AsQueryable()
+            .Where(x => x.Module == request.Module);
+
+        IReadOnlyCollection<PermissionEntity> existsPermissions =
+            await extensionRepository.ToListAsync(existsPermissionsQuery, cancellationToken);
 
         ActionsStoreModel<PermissionEntity> options = permissionsService
-            .DistributeByActions(pathAndExistsPermissionPairs, request.Permissions, request.Module);
+            .DistributeByActions(existsPermissions, request.Permissions, request.Module);
 
         Task[] tasks =
         [
             permissionsRepository.InsertManyAsync(options.ToAdd, cancellationToken),
-            permissionsRepository.RemoveRangeAsync(options.ToRemove, cancellationToken),
-            permissionsRepository.UpdateRangeAsync(options.ToUpdate, cancellationToken)
+            permissionsRepository.RemoveRangeAsync(options.ToRemove, cancellationToken)
         ];
 
         await Task.WhenAll(tasks);

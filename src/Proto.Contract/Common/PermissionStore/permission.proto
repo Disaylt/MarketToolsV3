@@ -7,6 +7,7 @@ package permission;
 service Permission{
 	rpc GetByFilter(FilterRequest) returns (PermissionsListReply);
 	rpc Refresh(RefreshRequest) returns (EmptyReply);
+	rpc GetPermissionTree(PermissionTreeRequest) returns (PermissionTreeResponse);
 }
 
 message FilterRequest{
@@ -20,7 +21,7 @@ message PermissionsListReply{
 
 message RefreshRequest{
 	string module = 1;
-	repeated ModulePermission permissions = 2;
+	repeated string permissions = 2;
 }
 
 message ModulePermission {
@@ -30,4 +31,31 @@ message ModulePermission {
 
 message EmptyReply{
 
+}
+
+message PermissionTreeRequest {
+    string module = 1;
+    repeated PermissionNode permissions = 2;
+}
+
+message PermissionNode {
+    string path = 1;
+    PermissionStatus status = 2;
+}
+
+message PermissionTreeResponse {
+    repeated PermissionSettingNode permissions = 1;
+}
+
+message PermissionSettingNode {
+    string view = 1;
+    string name = 2;
+    PermissionStatus status = 3;
+    repeated PermissionSettingNode children = 4;
+}
+
+enum PermissionStatus {
+        None = 0;
+        OnlyRead = 1;
+        ReadAndWrite = 2;
 }

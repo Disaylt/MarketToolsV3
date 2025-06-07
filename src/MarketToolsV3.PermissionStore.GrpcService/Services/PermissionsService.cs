@@ -17,14 +17,8 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         var command = new RefreshPermissionsCommand
         {
             Module = request.Module,
-            Permissions = request
-                .Permissions
-                .Select(p => new ModulePermissionDto
-                {
-                    Path = p.Path,
-                    ViewName = p.ViewName
-                })
-                .ToList()
+            Permissions = [.. request
+                .Permissions]
         };
 
         await mediator.Send(command);
@@ -52,5 +46,10 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         result.Permissions.AddRange(permissions);
 
         return result;
+    }
+
+    public override Task<PermissionTreeResponse> GetPermissionTree(PermissionTreeRequest request, ServerCallContext context)
+    {
+        return base.GetPermissionTree(request, context);
     }
 }

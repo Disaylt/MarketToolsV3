@@ -8,38 +8,34 @@ namespace MarketToolsV3.PermissionStore.Application.Services.Implementation;
 public class PermissionsService : IPermissionsService
 {
     public ActionsStoreModel<PermissionEntity> DistributeByActions(
-        Dictionary<string, PermissionEntity> pathAndExistsPermissionPairs, 
-        IReadOnlyCollection<ModulePermissionDto> permissions, 
+        IEnumerable<PermissionEntity> existsPermissions,
+        IEnumerable<string> permissions, 
         string module)
     {
         ActionsStoreModel<PermissionEntity> options = new();
 
+        Dictionary<string, PermissionEntity> pathAndEntityPairs = existsPermissions
+            .ToDictionary(x => x.Path);
+
         foreach (var requestPermission in permissions)
         {
-            PermissionEntity? permission = pathAndExistsPermissionPairs.GetValueOrDefault(requestPermission.Path);
+            PermissionEntity? permission = pathAndEntityPairs.GetValueOrDefault(requestPermission);
 
             if (permission is null)
             {
                 PermissionEntity newPermission = new()
                 {
-                    Module = module,
-                    Path = requestPermission.Path,
-                    ViewName = requestPermission.ViewName
+                    Path = requestPermission,
+                    Module = module
                 };
                 options.ToAdd.Add(newPermission);
                 continue;
             }
 
-            if (permission.ViewName != requestPermission.ViewName)
-            {
-                permission.ViewName = requestPermission.ViewName;
-                options.ToUpdate.Add(permission);
-            }
-
-            pathAndExistsPermissionPairs.Remove(requestPermission.Path);
+            pathAndEntityPairs.Remove(requestPermission);
         }
 
-        options.ToRemove.AddRange(pathAndExistsPermissionPairs.Values);
+        options.ToRemove.AddRange(pathAndEntityPairs.Values);
 
         return options;
     }

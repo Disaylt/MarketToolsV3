@@ -19,7 +19,7 @@ public class PermissionsMongoRepository(
         {
             var filter = Builders<PermissionEntity>.Filter.Eq(x => x.Id, entity.Id);
             var update = Builders<PermissionEntity>.Update
-                .Set(x => x.ViewName, entity.ViewName);
+                .Set(x => x.Module, entity.Module);
 
             bulkOps.Add(new UpdateOneModel<PermissionEntity>(filter, update));
         }

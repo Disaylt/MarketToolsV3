@@ -12,6 +12,5 @@ namespace MarketToolsV3.PermissionStore.Domain.Entities
     {
         public required string Module { get; set; }
         public required string Path { get; set; }
-        public required string ViewName { get; set; }
     }
 }

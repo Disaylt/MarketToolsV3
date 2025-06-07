@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using MarketToolsV3.PermissionStore.Application.Behaviors;
 using MarketToolsV3.PermissionStore.Application.Services.Abstract;
 using MarketToolsV3.PermissionStore.Application.Services.Implementation;
+using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
+using MarketToolsV3.PermissionStore.Application.Utilities.Implementation;
 
 namespace MarketToolsV3.PermissionStore.Application
 {
@@ -24,6 +26,7 @@ namespace MarketToolsV3.PermissionStore.Application
             });
 
             services.AddSingleton<IPermissionsService, PermissionsService>();
+            services.AddSingleton<IPermissionsUtility, PermissionsUtility>();
 
             return services;
         }

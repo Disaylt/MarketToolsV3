@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MarketToolsV3.PermissionStore.Application.Models
 {
-    public record ModulePermissionDto
+    public record PermissionViewDto
     {
         public required string Path { get; init; }
         public required string ViewName { get; init; }

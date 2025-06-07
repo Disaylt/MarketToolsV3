@@ -1,29 +1,35 @@
-﻿using MarketToolsV3.PermissionStore.Application.Models;
-using MarketToolsV3.PermissionStore.Application.Services.Abstract;
+﻿using MarketToolsV3.PermissionStore.Application.Extensions;
+using MarketToolsV3.PermissionStore.Application.Models;
+using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
 using MarketToolsV3.PermissionStore.Domain.Entities;
+using MarketToolsV3.PermissionStore.Domain.Seed;
 using MediatR;
 
 namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionsByFilterQueryHandler(
-    IPermissionsEntityService permissionsEntityService)
-    : IRequestHandler<GetPermissionsByFilterQuery, IEnumerable<ModulePermissionDto>>
+    IRepository<PermissionEntity> permissionsRepository,
+    IExtensionRepository extensionRepository,
+    IPermissionsUtility permissionsUtility)
+    : IRequestHandler<GetPermissionsByFilterQuery, IEnumerable<PermissionViewDto>>
 {
-    public async Task<IEnumerable<ModulePermissionDto>> Handle(GetPermissionsByFilterQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PermissionViewDto>> Handle(GetPermissionsByFilterQuery request, CancellationToken cancellationToken)
     {
-        IReadOnlyCollection<PermissionEntity> entities = await permissionsEntityService
-            .GetRangeByModuleAsync(request.Module, cancellationToken);
-
-        return MapPermissions(entities);
-    }
-
-    private IEnumerable<ModulePermissionDto> MapPermissions(IEnumerable<PermissionEntity> entities)
-    {
-        return entities
-            .Select(x => new ModulePermissionDto()
+        IQueryable<PermissionViewDto> existsPermissionsQuery = permissionsRepository
+            .AsQueryable()
+            .WhereIf(string.IsNullOrEmpty(request.Module) == false, x=> x.Module == request.Module)
+            .Select(x => new PermissionViewDto
             {
                 Path = x.Path,
-                ViewName = x.ViewName
+                ViewName = string.Empty
+            });
+        
+        var permissions = await extensionRepository.ToListAsync(existsPermissionsQuery, cancellationToken);
+
+        return permissions
+            .Select(permission => permission with
+            {
+                ViewName = permissionsUtility.FindOrDefaultByPathView(permission.Path)
             });
     }
 }

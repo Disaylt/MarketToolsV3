@@ -11,8 +11,8 @@ namespace MarketToolsV3.PermissionStore.Application.Services.Abstract
     public interface IPermissionsService
     {
         ActionsStoreModel<PermissionEntity> DistributeByActions(
-            Dictionary<string, PermissionEntity> pathAndExistsPermissionPairs,
-            IReadOnlyCollection<ModulePermissionDto> permissions,
+            IEnumerable<PermissionEntity> existsPermissions,
+            IEnumerable<string> permissions,
             string module);
     }
 }
