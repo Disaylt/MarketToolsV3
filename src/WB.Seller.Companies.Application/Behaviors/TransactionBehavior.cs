@@ -22,14 +22,14 @@ namespace WB.Seller.Companies.Application.Behaviors
             {
                 if (unitOfWork.HasTransaction)
                 {
-                    return await next();
+                    return await next(cancellationToken);
                 }
 
                 transactionId = await unitOfWork.BeginTransactionAsync(cancellationToken);
 
                 logger.LogInformation("Create transaction id - {transactionId}.", transactionId);
 
-                TResponse response = await next();
+                TResponse response = await next(cancellationToken);
 
                 await unitOfWork.CommitAsync(cancellationToken);
 

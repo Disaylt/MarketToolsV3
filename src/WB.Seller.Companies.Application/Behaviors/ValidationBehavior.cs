@@ -33,7 +33,7 @@ namespace WB.Seller.Companies.Application.Behaviors
                     throw new RootServiceException(HttpStatusCode.BadRequest, errorMessages);
             }
 
-            return await next();
+            return await next(cancellationToken);
         }
     }
 }

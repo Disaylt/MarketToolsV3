@@ -33,7 +33,7 @@ namespace WB.Seller.Companies.Application.Behaviors
                 throw new RootServiceException(messages: messages);
             }
 
-            return await next();
+            return await next(cancellationToken);
         }
     }
 }

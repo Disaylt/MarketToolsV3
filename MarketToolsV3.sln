@@ -111,7 +111,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolV3.Authentication
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Features", "Features", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Automatization", "Automatization", "{2D2AB71E-BA6B-4D71-B743-B4D6B1B2B1A4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Automation", "Automation", "{2D2AB71E-BA6B-4D71-B743-B4D6B1B2B1A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PriceManager", "PriceManager", "{999BD1A4-C93D-499C-89AA-435BC3DF0093}"
 EndProject
@@ -124,6 +124,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WB.Seller.Features.Automation.PriceManager.Domain", "src\WB.Seller.Features.Automation.PriceManager.Domain\WB.Seller.Features.Automation.PriceManager.Domain.csproj", "{876CB931-5662-45A8-997C-45A846C51F97}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WB.Seller.Features.Automation.PriceManager.Infrastructure", "src\WB.Seller.Features.Automation.PriceManager.Infrastructure\WB.Seller.Features.Automation.PriceManager.Infrastructure.csproj", "{B49F30D5-F1D6-4E95-802F-D9A2845D948B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WB.Seller.Features.Automation.PriceManager.Application", "src\WB.Seller.Features.Automation.PriceManager.Application\WB.Seller.Features.Automation.PriceManager.Application.csproj", "{DEBECE99-1B44-47B4-ACA1-5695E39EC30A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -299,6 +301,10 @@ Global
 		{B49F30D5-F1D6-4E95-802F-D9A2845D948B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B49F30D5-F1D6-4E95-802F-D9A2845D948B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B49F30D5-F1D6-4E95-802F-D9A2845D948B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBECE99-1B44-47B4-ACA1-5695E39EC30A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBECE99-1B44-47B4-ACA1-5695E39EC30A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBECE99-1B44-47B4-ACA1-5695E39EC30A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBECE99-1B44-47B4-ACA1-5695E39EC30A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -362,6 +368,7 @@ Global
 		{CE84DCD6-120E-A4B0-7FCC-151C2B6CE8FE} = {2FE49472-1C6E-4B1A-AE6D-CF9DEE490E1B}
 		{876CB931-5662-45A8-997C-45A846C51F97} = {999BD1A4-C93D-499C-89AA-435BC3DF0093}
 		{B49F30D5-F1D6-4E95-802F-D9A2845D948B} = {999BD1A4-C93D-499C-89AA-435BC3DF0093}
+		{DEBECE99-1B44-47B4-ACA1-5695E39EC30A} = {999BD1A4-C93D-499C-89AA-435BC3DF0093}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}
