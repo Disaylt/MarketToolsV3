@@ -2,6 +2,11 @@
 	"Identity":{
 		"Grpc":"https://localhost:7269"
 	},
+	"Common":{
+		"Permissions":{
+			"Grpc":"https://localhost:7177"
+		}
+	},
 	"ApiGateway":{
 		"WebApi" : "https://localhost:7249"
 	}

@@ -10,6 +10,12 @@ namespace MarketToolsV3.ConfigurationManager.Models
     {
         public AddressConfig Identity { get; set; } = new();
         public AddressConfig ApiGateway { get; set; } = new();
+        public CommonModule Common { get; set; } = new();
+    }
+
+    public class CommonModule
+    {
+        public AddressConfig Permissions { get; set; } = new();
     }
 
     public class AddressConfig
