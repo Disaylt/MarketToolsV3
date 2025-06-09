@@ -1,4 +1,5 @@
-﻿using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
+﻿using MarketToolsV3.PermissionStore.Application.Models;
+using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
 using MarketToolsV3.PermissionStore.Domain.Seed;
 using Microsoft.Extensions.Options;
 
@@ -25,5 +26,16 @@ public class PermissionsUtility(
                    .Parameters
                    .GetValueOrDefault(name)
                ?? name;
+    }
+
+    public IReadOnlyCollection<PermissionViewDto> MapFromPaths(IEnumerable<string> paths)
+    {
+        return paths
+            .Select(path => new PermissionViewDto
+            {
+                Path = path,
+                ViewName = FindOrDefaultByPathView(path)
+            })
+            .ToList();
     }
 }

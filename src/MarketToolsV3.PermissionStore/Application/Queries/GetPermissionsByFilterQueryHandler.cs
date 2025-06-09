@@ -15,21 +15,9 @@ public class GetPermissionsByFilterQueryHandler(
 {
     public async Task<IEnumerable<PermissionViewDto>> Handle(GetPermissionsByFilterQuery request, CancellationToken cancellationToken)
     {
-        IQueryable<PermissionViewDto> existsPermissionsQuery = permissionsRepository
-            .AsQueryable()
-            .WhereIf(string.IsNullOrEmpty(request.Module) == false, x=> x.Module == request.Module)
-            .Select(x => new PermissionViewDto
-            {
-                Path = x.Path,
-                ViewName = string.Empty
-            });
-        
-        var permissions = await extensionRepository.ToListAsync(existsPermissionsQuery, cancellationToken);
+        IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByRangeModules(request.Modules);
+        var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
 
-        return permissions
-            .Select(permission => permission with
-            {
-                ViewName = permissionsUtility.FindOrDefaultByPathView(permission.Path)
-            });
+        return permissionsUtility.MapFromPaths(paths);
     }
 }
