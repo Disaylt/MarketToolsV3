@@ -5,6 +5,6 @@ namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionTreeQuery : IRequest<IReadOnlyCollection<PermissionSettingNodeDto>>
 {
-    public IReadOnlyCollection<PermissionSettingDto> Permissions { get; set; } = [];
-    public string SkipPath { get; set; } = string.Empty;
+    public IEnumerable<PermissionSettingDto> Permissions { get; set; } = [];
+    public IEnumerable<string> Modules { get; set; } = [];
 }

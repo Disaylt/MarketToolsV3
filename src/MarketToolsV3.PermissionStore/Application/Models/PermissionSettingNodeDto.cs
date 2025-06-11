@@ -7,5 +7,5 @@ public record PermissionSettingNodeDto
     public required string Name { get; init; }
     public required string View { get; init; }
     public PermissionStatusEnum Status { get; init; }
-    public List<PermissionSettingNodeDto> Nodes { get; } = [];
+    public IReadOnlyList<PermissionSettingNodeDto> Nodes { get; init; } = [];
 }

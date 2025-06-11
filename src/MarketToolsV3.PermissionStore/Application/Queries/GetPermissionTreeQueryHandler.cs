@@ -6,40 +6,30 @@ using MarketToolsV3.PermissionStore.Domain.Seed;
 using MediatR;
 using System.Collections.Generic;
 using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
+using MarketToolsV3.PermissionStore.Application.Extensions;
 
 namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionTreeQueryHandler(
     IRepository<PermissionEntity> permissionsRepository,
-    IExtensionRepository extensionRepository,
-    IPermissionsUtility permissionsUtility)
+    IExtensionRepository extensionRepository)
     : IRequestHandler<GetPermissionTreeQuery, IReadOnlyCollection<PermissionSettingNodeDto>>
 {
     public async Task<IReadOnlyCollection<PermissionSettingNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
     {
-        IReadOnlyCollection<string> permissions = await GetPermissionsAsync(cancellationToken);
+        IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByRangeModules(request.Modules);
+        var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
 
-        var pathAndStatusPairs = request.Permissions
-            .ToDictionary(x => x.Path, x => x.Status);
-
-        List<PermissionSettingNodeDto> root = [];
-
-        var groupedByFirstSegment = permissions
-            .GroupBy(mp => mp.Split(':')[0]);
-
-        foreach (var group in groupedByFirstSegment)
-        {
-            var rootSetting = BuildPermissionHierarchy(group.Key, [.. group], pathAndStatusPairs);
-            root.Add(rootSetting);
-        }
-
-        return root;
+        return paths
+            .GroupBy(mp => mp.Split(':')[0])
+            .Select(group => 
+                BuildPermissionHierarchy(group.Key, [.. group]))
+            .ToList();
     }
 
     private PermissionSettingNodeDto BuildPermissionHierarchy(
         string currentSegment,
-        IReadOnlyCollection<string> modulePermissions,
-        Dictionary<string, PermissionStatusEnum> groupedByFirstSegment)
+        IReadOnlyCollection<string> modulePermissions)
     {
         var setting = new PermissionSettingNodeDto
         {
@@ -66,27 +56,12 @@ public class GetPermissionTreeQueryHandler(
             {
                 var childSetting = BuildPermissionHierarchy(
                     $"{currentSegment}:{nextGroup.Key}",
-                    [.. nextGroup.Select(x => x.ModulePermission)],
-                    groupedByFirstSegment);
+                    [.. nextGroup.Select(x => x.ModulePermission)]);
 
                 setting.Nodes.Add(childSetting);
             }
         }
 
-        if (groupedByFirstSegment.TryGetValue(setting.Name, out var status))
-        {
-            setting = setting with { Status = status };
-        }
-
         return setting;
-    }
-
-    private async Task<IReadOnlyCollection<string>> GetPermissionsAsync(CancellationToken cancellationToken)
-    {
-        IQueryable<string> existsPermissionsQuery = permissionsRepository
-            .AsQueryable()
-            .Select(x => x.Path);
-
-        return await extensionRepository.ToListAsync(existsPermissionsQuery, cancellationToken);
     }
 }
