@@ -8,10 +8,10 @@ using MongoDB.Bson;
 
 namespace MarketToolsV3.PermissionStore.Domain.Entities
 {
-    public class PermissionEntity : Entity
+    public class ModuleEntity : Entity
     {
         public required string Module { get; set; }
-        public HashSet<string> Paths { get; set; } = [];
+        public HashSet<string> Permissions { get; set; } = [];
         public HashSet<string> ParentModules { get; set; } = [];
     }
 }

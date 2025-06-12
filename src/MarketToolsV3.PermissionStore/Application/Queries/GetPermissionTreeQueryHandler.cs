@@ -11,7 +11,7 @@ using MarketToolsV3.PermissionStore.Application.Extensions;
 namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionTreeQueryHandler(
-    IRepository<PermissionEntity> permissionsRepository,
+    IRepository<ModuleEntity> permissionsRepository,
     IExtensionRepository extensionRepository,
     IPermissionsNodeService permissionsNodeService)
     : IRequestHandler<GetPermissionTreeQuery, IReadOnlyCollection<PermissionSettingNodeDto>>

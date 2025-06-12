@@ -14,6 +14,7 @@ namespace MarketToolsV3.PermissionStore.Domain.Seed
         Task InsertAsync(T entity, CancellationToken cancellationToken);
         Task InsertManyAsync(IEnumerable<T> entities, CancellationToken cancellationToken);
         Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken);
+        Task UpdateAsync(ModuleEntity entity, CancellationToken cancellationToken);
         Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken);
         IQueryable<T> AsQueryable();
     }

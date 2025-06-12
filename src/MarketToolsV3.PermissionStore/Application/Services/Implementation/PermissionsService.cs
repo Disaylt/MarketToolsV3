@@ -7,23 +7,22 @@ namespace MarketToolsV3.PermissionStore.Application.Services.Implementation;
 
 public class PermissionsService : IPermissionsService
 {
-    public ActionsStoreModel<PermissionEntity> DistributeByActions(
-        IEnumerable<PermissionEntity> existsPermissions,
-        IEnumerable<string> permissions, 
-        string module)
+    public ActionsStoreModel<ModuleEntity> DistributeByActions(
+        ModuleEntity module,
+        IEnumerable<string> permissions)
     {
-        ActionsStoreModel<PermissionEntity> options = new();
+        ActionsStoreModel<ModuleEntity> options = new();
 
-        Dictionary<string, PermissionEntity> pathAndEntityPairs = existsPermissions
+        Dictionary<string, ModuleEntity> pathAndEntityPairs = existsPermissions
             .ToDictionary(x => x.Path);
 
         foreach (var requestPermission in permissions)
         {
-            PermissionEntity? permission = pathAndEntityPairs.GetValueOrDefault(requestPermission);
+            ModuleEntity? permission = pathAndEntityPairs.GetValueOrDefault(requestPermission);
 
             if (permission is null)
             {
-                PermissionEntity newPermission = new()
+                ModuleEntity newPermission = new()
                 {
                     Path = requestPermission,
                     Module = module

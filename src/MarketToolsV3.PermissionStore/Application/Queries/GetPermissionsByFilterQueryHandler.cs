@@ -8,7 +8,7 @@ using MediatR;
 namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionsByFilterQueryHandler(
-    IRepository<PermissionEntity> permissionsRepository,
+    IRepository<ModuleEntity> permissionsRepository,
     IExtensionRepository extensionRepository,
     IPermissionsUtility permissionsUtility)
     : IRequestHandler<GetPermissionsByFilterQuery, IEnumerable<PermissionViewDto>>

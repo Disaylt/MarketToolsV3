@@ -10,9 +10,8 @@ namespace MarketToolsV3.PermissionStore.Application.Services.Abstract
 {
     public interface IPermissionsService
     {
-        ActionsStoreModel<PermissionEntity> DistributeByActions(
-            IEnumerable<PermissionEntity> existsPermissions,
-            IEnumerable<string> permissions,
-            string module);
+        ActionsStoreModel<ModuleEntity> DistributeByActions(
+            ModuleEntity module,
+            IEnumerable<string> permissions);
     }
 }

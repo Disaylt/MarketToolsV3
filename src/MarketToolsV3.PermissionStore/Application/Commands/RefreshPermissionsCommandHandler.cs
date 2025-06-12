@@ -8,30 +8,34 @@ namespace MarketToolsV3.PermissionStore.Application.Commands;
 
 public class RefreshPermissionsCommandHandler(
     IPermissionsService permissionsService,
-    IRepository<PermissionEntity> permissionsRepository,
+    IRepository<ModuleEntity> moduleRepository,
     IExtensionRepository extensionRepository)
     : IRequestHandler<RefreshPermissionsCommand, Unit>
 {
     
     public async Task<Unit> Handle(RefreshPermissionsCommand request, CancellationToken cancellationToken)
     {
-        IQueryable<PermissionEntity> existsPermissionsQuery = permissionsRepository
+        IQueryable<ModuleEntity> existsPermissionsQuery = moduleRepository
             .AsQueryable()
             .Where(x => x.Module == request.Module);
 
-        IReadOnlyCollection<PermissionEntity> existsPermissions =
-            await extensionRepository.ToListAsync(existsPermissionsQuery, cancellationToken);
+        ModuleEntity? module = await extensionRepository.FirstOrDefaultAsync(existsPermissionsQuery, cancellationToken);
 
-        ActionsStoreModel<PermissionEntity> options = permissionsService
-            .DistributeByActions(existsPermissions, request.Permissions, request.Module);
+        if (module is null)
+        {
+            ModuleEntity newModule = new()
+            {
+                Module = request.Module,
+                ParentModules = request.ParentModules.ToHashSet(),
+                Permissions = request.Permissions.ToHashSet()
+            };
 
-        Task[] tasks =
-        [
-            permissionsRepository.InsertManyAsync(options.ToAdd, cancellationToken),
-            permissionsRepository.RemoveRangeAsync(options.ToRemove, cancellationToken)
-        ];
-
-        await Task.WhenAll(tasks);
+            await moduleRepository.InsertAsync(newModule, cancellationToken);
+        }
+        else
+        {
+            await moduleRepository
+        }
 
         return Unit.Value;
     }

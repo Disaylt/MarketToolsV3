@@ -45,4 +45,5 @@ public abstract class MongoRepository<T>(IMongoCollection<T> collection,
     }
 
     public abstract Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken);
+    public abstract Task UpdateAsync(ModuleEntity entity, CancellationToken cancellationToken);
 }

@@ -8,7 +8,7 @@ namespace MarketToolsV3.PermissionStore.Application.Extensions;
 public static class PermissionRepositoryExtensions
 {
     public static IQueryable<string> BuildPathsQueryByRangeModules(
-        this IRepository<PermissionEntity> permissionsRepository,
+        this IRepository<ModuleEntity> permissionsRepository,
         IEnumerable<string> modules)
     {
         return permissionsRepository

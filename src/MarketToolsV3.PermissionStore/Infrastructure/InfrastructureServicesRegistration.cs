@@ -18,12 +18,12 @@ public static class InfrastructureServicesRegistration
         services.AddSingleton(x =>
             x.GetRequiredService<IMongoClient>().GetDatabase(config.DatabaseName));
         services.AddSingleton(x =>
-            x.GetRequiredService<IMongoDatabase>().GetCollection<PermissionEntity>(config.PermissionsCollectionName));
+            x.GetRequiredService<IMongoDatabase>().GetCollection<ModuleEntity>(config.PermissionsCollectionName));
 
         services.AddScoped<ITransactionContext, MongoTransactionContext>();
         services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
         services.AddScoped<IExtensionRepository, MongoExtensionRepository>();
-        services.AddScoped<IRepository<PermissionEntity>, PermissionsMongoRepository>();
+        services.AddScoped<IRepository<ModuleEntity>, PermissionsMongoRepository>();
 
         return services;
     }
