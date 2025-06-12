@@ -11,6 +11,7 @@ namespace MarketToolsV3.PermissionStore.Domain.Entities
     public class PermissionEntity : Entity
     {
         public required string Module { get; set; }
-        public required string Path { get; set; }
+        public HashSet<string> Paths { get; set; } = [];
+        public HashSet<string> ParentModules { get; set; } = [];
     }
 }

@@ -8,19 +8,37 @@ namespace MarketToolsV3.ConfigurationManager.Models
 {
     public class ServicesAddressesConfig
     {
-        public AddressConfig Identity { get; set; } = new();
-        public AddressConfig ApiGateway { get; set; } = new();
-        public CommonModule Common { get; set; } = new();
+        public required ModuleConfig Identity { get; set; }
+        public required ModuleConfig ApiGateway { get; set; }
+        public required CommonModule Common { get; set; }
+        public required WbModule Wb { get; set; }
     }
 
     public class CommonModule
     {
-        public AddressConfig Permissions { get; set; } = new();
+        public required ModuleConfig Permissions { get; set; }
     }
 
-    public class AddressConfig
+    public class WbModule
     {
-        public string? Grpc { get; set; }
-        public string? WebApi { get; set; }
+        public required WbSellerModule Seller { get; set; }
+    }
+
+    public class WbSellerModule
+    {
+        public required ModuleConfig Companies { get; set; }
+        public required WbAutomationModule Automation { get; set; }
+    }
+
+    public class WbAutomationModule
+    {
+        public required ModuleConfig PriceManager { get; set; }
+    }
+
+    public class ModuleConfig
+    {
+        public required string Name { get; set; }
+        public IReadOnlyList<string> GrpcAddresses { get; set; } = [];
+        public IReadOnlyList<string> WebApiAddresses { get; set; } = [];
     }
 }

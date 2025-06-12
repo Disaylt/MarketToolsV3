@@ -11,13 +11,11 @@ namespace WB.Seller.Companies.Application.Queries;
 
 public class GetPermissionSettingsQueryHandler(
     IPermissionsExternalService permissionsExternalService,
-    IOptions<ModulesInfoConfig> modulesInfoOptions,
     IQueryDataHandler<SearchPermissionsQueryData, IEnumerable<PermissionDto>> permissionsQueryDataHandler)
     : IRequestHandler<GetPermissionSettingsQuery, IEnumerable<PermissionSettingDto>>
 {
     public async Task<IEnumerable<PermissionSettingDto>> Handle(GetPermissionSettingsQuery request, CancellationToken cancellationToken)
     {
-        string module = modulesInfoOptions.Value.Marketplaces.Wb;
         var allPermissions = await permissionsExternalService.GetRangeByModuleAsync(module);
 
         var subscriberPermissionsQueryData = new SearchPermissionsQueryData

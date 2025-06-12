@@ -30,7 +30,7 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
     {
         var query = new GetPermissionsByFilterQuery
         {
-            Module = request.Module
+
         };
 
         var response = await mediator.Send(query);

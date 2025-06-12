@@ -3,7 +3,7 @@ using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
 
 namespace MarketToolsV3.PermissionStore.Application.Utilities.Implementation;
 
-public class PermissionsNodeUtility
+public class PermissionsNodeUtility : IPermissionsNodeUtility
 {
     public IDictionary<string, IEnumerable<PermissionSlimNodeDto>> GetChildPermissions(IEnumerable<string> permissions, string parentSegment)
     {

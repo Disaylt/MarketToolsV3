@@ -12,7 +12,8 @@ namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionTreeQueryHandler(
     IRepository<PermissionEntity> permissionsRepository,
-    IExtensionRepository extensionRepository)
+    IExtensionRepository extensionRepository,
+    IPermissionsNodeService permissionsNodeService)
     : IRequestHandler<GetPermissionTreeQuery, IReadOnlyCollection<PermissionSettingNodeDto>>
 {
     public async Task<IReadOnlyCollection<PermissionSettingNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
@@ -20,48 +21,18 @@ public class GetPermissionTreeQueryHandler(
         IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByRangeModules(request.Modules);
         var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
 
+        Dictionary<string, PermissionStatusEnum> permissionAndStatusPairs =
+            request.Permissions.ToDictionary(x => x.Path, x => x.Status);
+
         return paths
             .GroupBy(mp => mp.Split(':')[0])
-            .Select(group => 
-                BuildPermissionHierarchy(group.Key, [.. group]))
-            .ToList();
-    }
-
-    private PermissionSettingNodeDto BuildPermissionHierarchy(
-        string currentSegment,
-        IReadOnlyCollection<string> modulePermissions)
-    {
-        var setting = new PermissionSettingNodeDto
-        {
-            Name = currentSegment,
-            View = permissionsUtility.FindOrDefaultByNameView(currentSegment)
-        };
-
-        var childPermissions = modulePermissions
-            .Where(mp => mp.StartsWith(currentSegment + ":"))
-            .ToList();
-
-        if (childPermissions.Count != 0)
-        {
-            var nextSegmentGroups = childPermissions
-                .Select(mp =>
-                {
-                    var segments = mp.Split(':');
-                    var nextSegment = segments[Array.IndexOf(segments, currentSegment) + 1];
-                    return new { NextSegment = nextSegment, ModulePermission = mp };
-                })
-                .GroupBy(x => x.NextSegment);
-
-            foreach (var nextGroup in nextSegmentGroups)
+            .Select(group =>
             {
-                var childSetting = BuildPermissionHierarchy(
-                    $"{currentSegment}:{nextGroup.Key}",
-                    [.. nextGroup.Select(x => x.ModulePermission)]);
+                var setting = permissionsNodeService.BuildPermissionHierarchy(group.Key, [.. group]);
+                permissionsNodeService.SetStatuses(setting, permissionAndStatusPairs);
 
-                setting.Nodes.Add(childSetting);
-            }
-        }
-
-        return setting;
+                return setting;
+            })
+            .ToList();
     }
 }
