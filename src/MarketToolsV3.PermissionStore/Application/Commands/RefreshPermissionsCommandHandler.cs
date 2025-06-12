@@ -34,7 +34,10 @@ public class RefreshPermissionsCommandHandler(
         }
         else
         {
-            await moduleRepository
+            module.ParentModules = request.ParentModules.ToHashSet();
+            module.Permissions = request.Permissions.ToHashSet();
+
+            await moduleRepository.UpdateAsync(module, cancellationToken);
         }
 
         return Unit.Value;
