@@ -30,12 +30,11 @@ public class PermissionsUtility(
 
     public IReadOnlyCollection<PermissionViewDto> MapFromPaths(IEnumerable<string> paths)
     {
-        return paths
+        return [.. paths
             .Select(path => new PermissionViewDto
             {
                 Path = path,
                 ViewName = FindOrDefaultByPathView(path)
-            })
-            .ToList();
+            })];
     }
 }

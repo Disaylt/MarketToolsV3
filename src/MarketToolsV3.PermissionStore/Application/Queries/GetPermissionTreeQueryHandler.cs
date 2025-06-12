@@ -18,13 +18,13 @@ public class GetPermissionTreeQueryHandler(
 {
     public async Task<IReadOnlyCollection<PermissionSettingNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
     {
-        IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByRangeModules(request.Modules);
+        IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByParentModule(request.Module);
         var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
 
         Dictionary<string, PermissionStatusEnum> permissionAndStatusPairs =
             request.Permissions.ToDictionary(x => x.Path, x => x.Status);
 
-        return paths
+        return [.. paths
             .GroupBy(mp => mp.Split(':')[0])
             .Select(group =>
             {
@@ -32,7 +32,6 @@ public class GetPermissionTreeQueryHandler(
                 permissionsNodeService.SetStatuses(setting, permissionAndStatusPairs);
 
                 return setting;
-            })
-            .ToList();
+            })];
     }
 }

@@ -16,7 +16,7 @@ public class GetPermissionSettingsQueryHandler(
 {
     public async Task<IEnumerable<PermissionSettingDto>> Handle(GetPermissionSettingsQuery request, CancellationToken cancellationToken)
     {
-        var allPermissions = await permissionsExternalService.GetRangeByModuleAsync(module);
+        var allPermissions = await permissionsExternalService.GetRangeByModuleAsync("");
 
         var subscriberPermissionsQueryData = new SearchPermissionsQueryData
         {

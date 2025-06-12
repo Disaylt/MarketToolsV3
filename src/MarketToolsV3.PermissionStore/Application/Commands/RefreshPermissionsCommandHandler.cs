@@ -25,16 +25,16 @@ public class RefreshPermissionsCommandHandler(
             ModuleEntity newModule = new()
             {
                 Module = request.Module,
-                ParentModules = request.ParentModules.ToHashSet(),
-                Permissions = request.Permissions.ToHashSet()
+                ParentModules = [.. request.ParentModules],
+                Permissions = [.. request.Permissions]
             };
 
             await moduleRepository.InsertAsync(newModule, cancellationToken);
         }
         else
         {
-            module.ParentModules = request.ParentModules.ToHashSet();
-            module.Permissions = request.Permissions.ToHashSet();
+            module.ParentModules = [.. request.ParentModules];
+            module.Permissions = [.. request.Permissions];
 
             await moduleRepository.UpdateAsync(module, cancellationToken);
         }

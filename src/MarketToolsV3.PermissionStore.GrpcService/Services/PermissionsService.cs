@@ -2,6 +2,7 @@
 using Google.Protobuf.Collections;
 using Grpc.Core;
 using MarketToolsV3.PermissionStore.Application.Commands;
+using MarketToolsV3.PermissionStore.Application.Enums;
 using MarketToolsV3.PermissionStore.Application.Models;
 using MarketToolsV3.PermissionStore.Application.Queries;
 using MediatR;
@@ -30,7 +31,7 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
     {
         var query = new GetPermissionsByFilterQuery
         {
-
+            Module = request.Module
         };
 
         var response = await mediator.Send(query);
@@ -48,8 +49,46 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         return result;
     }
 
-    public override Task<PermissionTreeResponse> GetPermissionTree(PermissionTreeRequest request, ServerCallContext context)
+    public override async Task<PermissionTreeResponse> GetPermissionTree(PermissionTreeRequest request, ServerCallContext context)
     {
-        return base.GetPermissionTree(request, context);
+        var query = new GetPermissionTreeQuery
+        {
+            Module = request.Module,
+            Permissions = request.Permissions
+                .Select(x => new PermissionSettingDto
+                {
+                    Path = x.Path,
+                    Status = (PermissionStatusEnum)x.Status
+                })
+        };
+
+        var permissionsTree = await mediator.Send(query);
+
+        var result = new PermissionTreeResponse();
+        foreach (var permissionTree in permissionsTree)
+        {
+            var newPermissionTree = CreateTree(permissionTree);
+            result.Permissions.Add(newPermissionTree);
+        }
+
+        return result;
+    }
+
+    private PermissionSettingNode CreateTree(PermissionSettingNodeDto node)
+    {
+        PermissionSettingNode newNode = new()
+        {
+            Name = node.Name,
+            Status = (PermissionStatus)node.Status,
+            View = node.View
+        };
+
+        foreach (var nextNode in node.Nodes)
+        {
+            var nextNewNode = CreateTree(nextNode);
+            newNode.Children.Add(nextNewNode);
+        }
+
+        return newNode;
     }
 }

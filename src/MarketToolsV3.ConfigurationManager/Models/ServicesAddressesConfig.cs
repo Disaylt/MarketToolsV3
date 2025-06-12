@@ -40,5 +40,23 @@ namespace MarketToolsV3.ConfigurationManager.Models
         public required string Name { get; set; }
         public IReadOnlyList<string> GrpcAddresses { get; set; } = [];
         public IReadOnlyList<string> WebApiAddresses { get; set; } = [];
+
+        public string? GetOrDefaultRandomGrpcAddress()
+        {
+            return GetRandomAddress(GrpcAddresses);
+        }
+
+        public string? GetOrDefaultRandomWebApiAddress()
+        {
+            return GetRandomAddress(WebApiAddresses);
+        }
+
+        private string? GetRandomAddress(IReadOnlyList<string> addresses)
+        {
+            if (addresses.Count == 0) return null;
+            int randomIndex = Random.Shared.Next(addresses.Count);
+
+            return addresses[randomIndex];
+        }
     }
 }

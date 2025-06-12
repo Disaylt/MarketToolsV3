@@ -27,15 +27,6 @@ ITypingConfigManager<ServiceConfiguration> serviceConfigManager =
 ITypingConfigManager<AuthConfig> authConfigManager =
     await configurationServiceFactory.CreateFromAuthAsync();
 
-ITypingConfigManager<ModulesInfoConfig> modulesInfoConfigManager =
-    await configurationServiceFactory.CreateFromModulesInfoAsync()
-        .ContinueWith(task =>
-        {
-            task.Result.AddAsOptions(builder.Services);
-
-            return task.Result;
-        });
-
 builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
