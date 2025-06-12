@@ -10,6 +10,7 @@ namespace MarketToolsV3.ConfigurationManager.Models
     {
         public required ModuleConfig Identity { get; set; }
         public required ModuleConfig ApiGateway { get; set; }
+        public required ModuleConfig UserNotifications { get; set; }
         public required CommonModule Common { get; set; }
         public required WbModule Wb { get; set; }
     }

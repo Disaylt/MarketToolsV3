@@ -2,7 +2,7 @@
 
 public static class ServiceConstants
 {
-    public const string ServiceName = "wb-seller-features-automation-price_manager";
+    public const string ServiceName = "wb-seller-automation-price_manager";
 
 
 }
