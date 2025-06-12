@@ -15,7 +15,7 @@ public class GetPermissionsByFilterQueryHandler(
 {
     public async Task<IEnumerable<PermissionViewDto>> Handle(GetPermissionsByFilterQuery request, CancellationToken cancellationToken)
     {
-        IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByRangeModules(request.Modules);
+        IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByParentModule(request.Module);
         var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
 
         return permissionsUtility.MapFromPaths(paths);

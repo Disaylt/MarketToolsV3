@@ -7,7 +7,6 @@ using MediatR;
 namespace MarketToolsV3.PermissionStore.Application.Commands;
 
 public class RefreshPermissionsCommandHandler(
-    IPermissionsService permissionsService,
     IRepository<ModuleEntity> moduleRepository,
     IExtensionRepository extensionRepository)
     : IRequestHandler<RefreshPermissionsCommand, Unit>

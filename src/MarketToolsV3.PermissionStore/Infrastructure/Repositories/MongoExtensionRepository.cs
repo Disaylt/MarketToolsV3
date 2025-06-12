@@ -6,17 +6,17 @@ namespace MarketToolsV3.PermissionStore.Infrastructure.Repositories;
 
 public class MongoExtensionRepository : IExtensionRepository
 {
-    public Task<int> CountAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : Entity
+    public Task<int> CountAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : class
     {
         return query.CountAsync(cancellationToken);
     }
 
-    public Task<List<T>> ToListAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : Entity
+    public Task<List<T>> ToListAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : class
     {
         return query.ToListAsync(cancellationToken);
     }
 
-    public async Task<T?> FirstOrDefaultAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : Entity
+    public async Task<T?> FirstOrDefaultAsync<T>(IQueryable<T> query, CancellationToken cancellationToken) where T : class
     {
         return await query.FirstOrDefaultAsync(cancellationToken);
     }
