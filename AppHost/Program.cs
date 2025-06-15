@@ -27,4 +27,6 @@ foreach (var project in projects)
         .WithEndpoint("http", endpoint => endpoint.IsProxied = false, false);
 }
 
+builder.AddProject<Projects.WB_Seller_Features_Automation_PriceManager_Processor>("wb-seller-features-automation-pricemanager-processor");
+
 builder.Build().Run();

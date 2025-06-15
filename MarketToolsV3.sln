@@ -129,6 +129,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WB.Seller.Features.Automati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketToolsV3.Configs", "src\MarketToolsV3.Configs\MarketToolsV3.Configs.csproj", "{54D60886-14F7-49E6-9823-6F81EAD0D8A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WB.Seller.Features.Automation.PriceManager.Processor", "src\WB.Seller.Features.Automation.PriceManager.Processor\WB.Seller.Features.Automation.PriceManager.Processor.csproj", "{32BF89B3-EB56-C16E-9F50-FF44072D99E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -311,6 +313,10 @@ Global
 		{54D60886-14F7-49E6-9823-6F81EAD0D8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54D60886-14F7-49E6-9823-6F81EAD0D8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54D60886-14F7-49E6-9823-6F81EAD0D8A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32BF89B3-EB56-C16E-9F50-FF44072D99E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32BF89B3-EB56-C16E-9F50-FF44072D99E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32BF89B3-EB56-C16E-9F50-FF44072D99E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32BF89B3-EB56-C16E-9F50-FF44072D99E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -376,6 +382,7 @@ Global
 		{B49F30D5-F1D6-4E95-802F-D9A2845D948B} = {999BD1A4-C93D-499C-89AA-435BC3DF0093}
 		{DEBECE99-1B44-47B4-ACA1-5695E39EC30A} = {999BD1A4-C93D-499C-89AA-435BC3DF0093}
 		{54D60886-14F7-49E6-9823-6F81EAD0D8A8} = {6A539288-EDE6-450E-BC1E-E08676888AF4}
+		{32BF89B3-EB56-C16E-9F50-FF44072D99E5} = {999BD1A4-C93D-499C-89AA-435BC3DF0093}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B32E777C-798B-4741-B238-AD9EFD1193F7}
