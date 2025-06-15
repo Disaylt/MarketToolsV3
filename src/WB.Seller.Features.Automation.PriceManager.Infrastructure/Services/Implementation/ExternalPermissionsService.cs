@@ -2,5 +2,8 @@
 
 public class ExternalPermissionsService
 {
-    
+    public async Task RefreshPermissions()
+    {
+
+    }
 }
