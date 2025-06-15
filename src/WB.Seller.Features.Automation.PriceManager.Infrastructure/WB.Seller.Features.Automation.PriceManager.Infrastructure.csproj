@@ -14,10 +14,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
+    <ProjectReference Include="..\Proto.Contract\Proto.Contract.csproj" />
+    <ProjectReference Include="..\WB.Seller.Features.Automation.PriceManager.Application\WB.Seller.Features.Automation.PriceManager.Application.csproj" />
     <ProjectReference Include="..\WB.Seller.Features.Automation.PriceManager.Domain\WB.Seller.Features.Automation.PriceManager.Domain.csproj" />
   </ItemGroup>
 
