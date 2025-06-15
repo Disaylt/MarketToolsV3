@@ -4,5 +4,5 @@
 	"ValidIssuer":null,
 	"IsCheckValidAudience":false,
 	"IsCheckValidIssuer":false,
-	"IsCheckExpireDate":true,
+	"IsCheckExpireDate":true
 }
