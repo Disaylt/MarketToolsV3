@@ -22,14 +22,14 @@ namespace UserNotifications.Applications.Behaviors
             {
                 if (unitOfWork.HasTransaction)
                 {
-                    return await next();
+                    return await next(cancellationToken);
                 }
 
                 await unitOfWork.BeginTransactionAsync();
 
                 logger.LogInformation("Create transaction id - {transactionId}.", transactionId);
 
-                TResponse response = await next();
+                TResponse response = await next(cancellationToken);
 
                 await unitOfWork.CommitTransactionAsync();
 

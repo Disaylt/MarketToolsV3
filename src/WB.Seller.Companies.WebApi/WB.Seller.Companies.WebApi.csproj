@@ -24,13 +24,13 @@
   <ItemGroup>
     <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
     <ProjectReference Include="..\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\MarketToolV3.Authentication\MarketToolV3.Authentication.csproj" />
     <ProjectReference Include="..\WB.Seller.Companies.Application\WB.Seller.Companies.Application.csproj" />
     <ProjectReference Include="..\WB.Seller.Companies.Domain\WB.Seller.Companies.Domain.csproj" />
     <ProjectReference Include="..\WB.Seller.Companies.Infrastructure\WB.Seller.Companies.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middlewares\" />
     <Folder Include="Services\Abstract\" />
     <Folder Include="Services\Implementation\" />
     <Folder Include="Utilities\Abstract\" />

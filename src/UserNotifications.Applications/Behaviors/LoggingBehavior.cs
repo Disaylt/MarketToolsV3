@@ -16,7 +16,7 @@ namespace UserNotifications.Applications.Behaviors
             logger.LogInformation("Handling {request}", typeof(TRequest).Name);
             logger.LogDebug("Request body {@body}", request);
 
-            var response = await next();
+            var response = await next(cancellationToken);
 
             logger.LogDebug("Response body {@body}", response);
             logger.LogInformation("Handled {request}", typeof(TResponse).Name);

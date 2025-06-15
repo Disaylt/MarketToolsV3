@@ -19,7 +19,7 @@ public class SessionMiddleware(RequestDelegate next)
     {
         if (authContext is { State: AuthState.AccessTokenValid, SessionId: not null })
         {
-            SessionInfoRequest sessionInfoRequest = new SessionInfoRequest
+            SessionInfoRequest sessionInfoRequest = new()
             {
                 Id = authContext.SessionId
             };

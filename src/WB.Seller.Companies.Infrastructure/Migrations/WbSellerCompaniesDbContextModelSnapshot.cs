@@ -77,8 +77,9 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("subscription_id");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer")
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("type");
 
                     b.Property<DateTime>("Updated")
@@ -91,9 +92,9 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                     b.HasIndex("SubscriptionId")
                         .HasDatabaseName("ix_permissions_subscription_id");
 
-                    b.HasIndex("Type", "Status", "SubscriptionId")
+                    b.HasIndex("Type", "SubscriptionId")
                         .IsUnique()
-                        .HasDatabaseName("ix_permissions_type_status_subscription_id");
+                        .HasDatabaseName("ix_permissions_type_subscription_id");
 
                     b.ToTable("permissions", (string)null);
                 });

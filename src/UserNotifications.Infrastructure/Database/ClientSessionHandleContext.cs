@@ -14,15 +14,14 @@ namespace UserNotifications.Infrastructure.Database
         public void Dispose()
         {
             Session.Dispose();
-
             GC.SuppressFinalize(this);
         }
 
         public ValueTask DisposeAsync()
         {
             Dispose();
-
             GC.SuppressFinalize(this);
+
             return ValueTask.CompletedTask;
         }
     }

@@ -20,25 +20,33 @@ namespace UserNotifications.Applications.Commands
         IUpdateEntityService<NotificationUpdateModel> notificationUpdateEntityService,
         IQueryableHandler<Notification, NotificationDto> notificationToTransferQueryableHandler,
         IExtensionRepository extensionRepository)
-        : IRequestHandler<CreateReadNotificationCollectionCommand, IReadOnlyCollection<NotificationDto>>
+        : IRequestHandler<CreateReadNotificationCollectionCommand, PaginationDto<NotificationDto>>
     {
-        public async Task<IReadOnlyCollection<NotificationDto>> Handle(CreateReadNotificationCollectionCommand request, CancellationToken cancellationToken)
+        public async Task<PaginationDto<NotificationDto>> Handle(CreateReadNotificationCollectionCommand request, CancellationToken cancellationToken)
         {
-            SearchNotificationQueryObject queryObject = new()
-            {
-                Category = request.Category,
-                IsRead = request.IsRead,
-                UserId = request.UserId
-            };
+            SearchNotificationQueryObject queryObject = CreateQueryObject(request);
 
-            var query = queryObjectHandler
-                .Create(queryObject)
+            var generalQuery = queryObjectHandler
+                .Create(queryObject);
+
+            var paginationQuery = generalQuery
                 .Skip(request.Skip)
                 .Take(request.Take);
 
-            var transferQuery = await notificationToTransferQueryableHandler.HandleAsync(query);
-            var notifications = await extensionRepository.ToListAsync(transferQuery);
+            var transferQuery = await notificationToTransferQueryableHandler.HandleAsync(paginationQuery);
+            var notifications = await extensionRepository.ToListAsync(transferQuery, cancellationToken);
 
+            await MarkAsReadAsync(notifications);
+
+            return new()
+            {
+                Items = notifications,
+                Total = await extensionRepository.CountAsync(generalQuery, cancellationToken)
+            };
+        }
+
+        private async Task MarkAsReadAsync(IEnumerable<NotificationDto> notifications)
+        {
             var notificationsNotReadIds = notifications
                 .Where(x => x.IsRead == false)
                 .Select(x => x.Id)
@@ -51,8 +59,16 @@ namespace UserNotifications.Applications.Commands
             };
 
             await notificationUpdateEntityService.UpdateManyAsync(updateModel);
+        }
 
-            return notifications;
+        private SearchNotificationQueryObject CreateQueryObject(CreateReadNotificationCollectionCommand request)
+        {
+            return new()
+            {
+                Category = request.Category,
+                IsRead = request.IsRead,
+                UserId = request.UserId
+            };
         }
     }
 }

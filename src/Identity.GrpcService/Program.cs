@@ -7,6 +7,7 @@ using Identity.Infrastructure;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
+using MarketToolV3.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ ITypingConfigManager<MessageBrokerConfig> messageBrokerConfigManager =
 
 builder.Services.AddGrpc();
 
-builder.Services.AddServiceAuthentication(authConfigManager.Value);
+builder.Services.AddServiceAuthentication(authConfigManager.Value, false);
 
 builder.Services
     .AddMessageBroker(messageBrokerConfigManager.Value)

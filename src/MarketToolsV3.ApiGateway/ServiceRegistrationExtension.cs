@@ -82,7 +82,7 @@ public static class ServiceRegistrationExtension
     public static IServiceCollection AddAuthGrpcClient(this IServiceCollection collection,
         ServicesAddressesConfig servicesAddressesConfig)
     {
-        string? identityGrpcAddress = servicesAddressesConfig.Identity.Grpc;
+        string? identityGrpcAddress = servicesAddressesConfig.Identity.GetOrDefaultRandomGrpcAddress();
 
         if (string.IsNullOrEmpty(identityGrpcAddress) == false)
         {

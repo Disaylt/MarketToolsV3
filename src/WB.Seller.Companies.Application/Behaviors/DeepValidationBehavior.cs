@@ -23,17 +23,16 @@ namespace WB.Seller.Companies.Application.Behaviors
                 deepValidateResults.Add(result);
             }
 
-            string[] messages = deepValidateResults
+            string[] messages = [.. deepValidateResults
                 .Where(x => x.IsValid == false)
-                .SelectMany(x => x.ErrorMessages)
-                .ToArray();
+                .SelectMany(x => x.ErrorMessages)];
 
             if (messages.Length > 0)
             {
                 throw new RootServiceException(messages: messages);
             }
 
-            return await next();
+            return await next(cancellationToken);
         }
     }
 }
