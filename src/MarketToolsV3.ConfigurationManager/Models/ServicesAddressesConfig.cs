@@ -39,17 +39,23 @@ namespace MarketToolsV3.ConfigurationManager.Models
     public class ModuleConfig
     {
         public required string Name { get; set; }
-        public IReadOnlyList<string> GrpcAddresses { get; set; } = [];
-        public IReadOnlyList<string> WebApiAddresses { get; set; } = [];
+        public required AddressesConfig Addresses { get; set; }
+    }
+
+    public class AddressesConfig
+    {
+
+        public IReadOnlyList<string> Grpc { get; set; } = [];
+        public IReadOnlyList<string> WebApi { get; set; } = [];
 
         public string? GetOrDefaultRandomGrpcAddress()
         {
-            return GetRandomAddress(GrpcAddresses);
+            return GetRandomAddress(Grpc);
         }
 
         public string? GetOrDefaultRandomWebApiAddress()
         {
-            return GetRandomAddress(WebApiAddresses);
+            return GetRandomAddress(WebApi);
         }
 
         private string? GetRandomAddress(IReadOnlyList<string> addresses)

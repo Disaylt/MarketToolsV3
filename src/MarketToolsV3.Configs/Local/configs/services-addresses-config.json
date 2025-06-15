@@ -1,38 +1,50 @@
 {
-	"Identity":{
-		"Name":"identity",
-		"GrpcAddresses": ["https://localhost:7269"],
-		"WebApiAddresses":[]
+	"Identity": {
+		"Name": "identity",
+		"Addresses": {
+			"Grpc": [ "https://localhost:7269" ],
+			"WebApi": []
+		}
 	},
 	"Common":{
-		"Permissions":{
-			"Name":"permissions-store",
-			"GrpcAddresses": [ "https://localhost:7177"],
-			"WebApiAddresses":[]
+		"Permissions": {
+			"Name": "permissions-store",
+			"Addresses": {
+				"Grpc": [ "https://localhost:7177" ],
+				"WebApi": []
+			}
 		}
 	},
 	"ApiGateway":{
-		"Name":"api-gateway",
-		"GrpcAddresses": [],
-		"WebApiAddresses":["https://localhost:7249"]
+		"Name": "api-gateway",
+		"Addresses": {
+			"Grpc": [],
+			"WebApi": [ "https://localhost:7249" ]
+		}
 	},
-	"UserNotifications":{
-		"Name":"user-notifications",
-		"GrpcAddresses": [],
-		"WebApiAddresses":[]
+	"UserNotifications": {
+		"Name": "user-notifications",
+		"Addresses": {
+			"Grpc": [],
+			"WebApi": []
+		}
 	},
 	"Wb":{
 		"Seller":{
-			"Companies":{
-				"Name":"wb-seller-companies",
-				"GrpcAddresses": [],
-				"WebApiAddresses":[]
+			"Companies": {
+				"Name": "wb-seller-companies",
+				"Addresses": {
+					"Grpc": [],
+					"WebApi": []
+				}
 			},
 			"Automation":{
-				"PriceManager":{
-					"Name":"wb-seller-automation-price_manager",
-					"GrpcAddresses": [],
-					"WebApiAddresses":[]
+				"PriceManager": {
+					"Name": "wb-seller-automation-price_manager",
+					"Addresses": {
+						"Grpc": [],
+						"WebApi": []
+					}
 				}
 			}
 		}
