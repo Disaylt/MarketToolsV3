@@ -10,6 +10,8 @@ using UserNotifications.Applications.Behaviors;
 using UserNotifications.Applications.Mappers.Abstract;
 using UserNotifications.Applications.Mappers.Implementation;
 using UserNotifications.Applications.Models;
+using UserNotifications.Applications.Utilities.Abstract;
+using UserNotifications.Applications.Utilities.Implementation;
 
 namespace UserNotifications.Applications
 {
@@ -27,6 +29,7 @@ namespace UserNotifications.Applications
 
             serviceCollection.AddMappers();
 
+            serviceCollection.AddSingleton<IEnumParserUtility, EnumParserUtility>();
 
             return serviceCollection;
         }

@@ -21,7 +21,7 @@ namespace WB.Seller.Companies.Domain.Entities
 
 
         private readonly List<PermissionEntity> _permissions = new();
-        public IReadOnlyCollection<PermissionEntity> Permissions => _permissions.AsReadOnly();
+        public IReadOnlyCollection<PermissionEntity> Permissions => _permissions;
 
         protected SubscriptionEntity()
         {

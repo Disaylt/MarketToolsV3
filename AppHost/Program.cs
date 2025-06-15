@@ -12,7 +12,8 @@ IReadOnlyCollection<IResourceBuilder<ProjectResource>> projects =
     builder.AddProject<Identity_GrpcService>("IdentityGrpcService"),
     builder.AddProject<WB_Seller_Companies_Processor>("WbSellerCompaniesProcessor"),
     builder.AddProject<MarketToolsV3_FakeData_WebApi>("MarketToolsV3FakeDataWebApi"),
-    builder.AddProject<Ozon_Seller_Companies_WebApi>("OzonSellerCompaniesWebApi")
+    builder.AddProject<Ozon_Seller_Companies_WebApi>("OzonSellerCompaniesWebApi"),
+    builder.AddProject<MarketToolsV3_PermissionStore_GrpcService>("MarketToolsV3PermissionStoreGrpcService")
 ];
 
 var configTypeParameter = builder.AddParameter("ConfigType");

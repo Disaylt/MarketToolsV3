@@ -12,5 +12,6 @@ namespace MarketToolsV3.ConfigurationManager.Constant
         public static string Logging { get; } = "logging";
         public static string MessageBroker { get; } = "message-broker";
         public static string ServiceAddresses { get; } = "services-addresses";
+        public static string ModulesInfo { get; } = "modules-info";
     }
 }

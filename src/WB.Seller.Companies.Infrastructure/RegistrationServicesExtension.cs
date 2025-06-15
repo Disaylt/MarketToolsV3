@@ -16,6 +16,8 @@ using WB.Seller.Companies.Infrastructure.QueryDataHandlers.Companies;
 using Npgsql;
 using WB.Seller.Companies.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using WB.Seller.Companies.Application.QueryData.Permissions;
+using WB.Seller.Companies.Infrastructure.QueryDataHandlers.Permissions;
 
 namespace WB.Seller.Companies.Infrastructure
 {
@@ -38,7 +40,8 @@ namespace WB.Seller.Companies.Infrastructure
             collection.AddSingleton<IMapperFactory, MapperFactory>();
 
             collection.AddScoped<IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<SubscriptionRole, CompanySlimInfoDto>>>, SlimCompanyRoleGroupsQueryDataHandler>();
-            
+            collection.AddScoped<IQueryDataHandler<SearchPermissionsQueryData, IEnumerable<PermissionDto>>, SearchPermissionsQueryDataHandler>();
+
             return collection;
         }
     }

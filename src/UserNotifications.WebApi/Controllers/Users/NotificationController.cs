@@ -10,7 +10,7 @@ namespace UserNotifications.WebApi.Controllers.Users
 {
     [Route("api/v{version:apiVersion}/notifications")]
     [ApiController]
-    [ApiVersion("1")]
+    [ApiVersion(1)]
     public class NotificationController(IMediator mediator) : ControllerBase
     {
         [HttpPost]

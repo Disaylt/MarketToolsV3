@@ -10,6 +10,7 @@ using Identity.WebApi.Models;
 using Identity.WebApi.Services;
 using Identity.WebApi.Services.Interfaces;
 using MarketToolsV3.Users.UnitTests.Sources.WebApi.UserController;
+using MarketToolV3.Authentication.Services.Abstract;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
