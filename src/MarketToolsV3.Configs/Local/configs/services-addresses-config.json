@@ -1,36 +1,36 @@
 {
 	"Identity":{
-		"Name":"identity"
+		"Name":"identity",
 		"GrpcAddresses": ["https://localhost:7269"],
 		"WebApiAddresses":[]
 	},
 	"Common":{
 		"Permissions":{
-			"Name":"permissions-store"
-			"GrpcAddresses": [],
-			"WebApiAddresses":["https://localhost:7177"]
+			"Name":"permissions-store",
+			"GrpcAddresses": [ "https://localhost:7177"],
+			"WebApiAddresses":[]
 		}
 	},
 	"ApiGateway":{
-		"Name":"api-gateway"
+		"Name":"api-gateway",
 		"GrpcAddresses": [],
 		"WebApiAddresses":["https://localhost:7249"]
 	},
 	"UserNotifications":{
-		"Name":"user-notifications"
+		"Name":"user-notifications",
 		"GrpcAddresses": [],
 		"WebApiAddresses":[]
 	},
 	"Wb":{
 		"Seller":{
 			"Companies":{
-				"Name":"wb-seller-companies"
+				"Name":"wb-seller-companies",
 				"GrpcAddresses": [],
 				"WebApiAddresses":[]
 			},
 			"Automation":{
 				"PriceManager":{
-					"Name":"wb-seller-automation-price_manager"
+					"Name":"wb-seller-automation-price_manager",
 					"GrpcAddresses": [],
 					"WebApiAddresses":[]
 				}
