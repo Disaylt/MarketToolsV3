@@ -8,6 +8,6 @@ namespace WB.Seller.Features.Automation.PriceManager.Application.Services.Abstra
 {
     public interface IExternalPermissionsService
     {
-
+        Task RefreshPermissionsAsync();
     }
 }

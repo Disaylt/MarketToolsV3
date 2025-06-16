@@ -4,28 +4,28 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Options;
 using Proto.Contract.Common.PermissionStore;
 using WB.Seller.Features.Automation.PriceManager.Application.Seed;
+using WB.Seller.Features.Automation.PriceManager.Application.Services.Abstract;
 
 namespace WB.Seller.Features.Automation.PriceManager.Infrastructure.Services.Implementation;
 
 public class ExternalPermissionsService
-    : IAsyncDisposable, IDisposable
+    : IDisposable, IExternalPermissionsService
 {
     private readonly GrpcChannel _grpcChannel;
-    private readonly ModuleConfig _permissionsConfig;
     private readonly Permission.PermissionClient _permissionClient;
+    private readonly ServicesAddressesConfig _servicesAddressesConfig;
 
     public ExternalPermissionsService(
         IOptions<ServicesAddressesConfig> addressesOptions,
         GrpcChannelOptions grpcChannelOptions)
     {
-        _permissionsConfig = addressesOptions
-                        .Value
-                        .Common
-                        .Permissions;
+        _servicesAddressesConfig = addressesOptions.Value;
 
-        string address = _permissionsConfig
-                         .Addresses
-                         .GetOrDefaultRandomGrpcAddress()
+        string address = _servicesAddressesConfig
+                             .Common
+                             .Permissions
+                             .Addresses
+                             .GetOrDefaultRandomGrpcAddress()
                          ?? throw new NullReferenceException("Permissions grpc address not found.");
 
         _grpcChannel = GrpcChannel.ForAddress(address, grpcChannelOptions);
@@ -34,24 +34,38 @@ public class ExternalPermissionsService
 
     public async Task RefreshPermissionsAsync()
     {
-        RefreshRequest request = new RefreshRequest
+        RefreshRequest request = new()
         {
             Permissions = { PermissionsStorage.Collection },
-            Module = _permissionsConfig.Name
+            Module = GetPermissionModuleName(),
+            ParentModules = { GetWbSellerCompanyModuleName() }
         };
 
         await _permissionClient.RefreshAsync(request);
     }
 
-    public ValueTask DisposeAsync()
+    private string GetWbSellerCompanyModuleName()
     {
-        Dispose();
+        return _servicesAddressesConfig
+            .Wb
+            .Seller
+            .Companies
+            .Name;
+    }
 
-        return ValueTask.CompletedTask;
+    private string GetPermissionModuleName()
+    {
+        return _servicesAddressesConfig
+            .Wb
+            .Seller
+            .Automation
+            .PriceManager
+            .Name;
     }
 
     public void Dispose()
     {
         _grpcChannel.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

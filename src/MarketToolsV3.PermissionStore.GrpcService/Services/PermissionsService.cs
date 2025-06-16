@@ -18,8 +18,8 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         var command = new RefreshPermissionsCommand
         {
             Module = request.Module,
-            Permissions = [.. request
-                .Permissions]
+            Permissions = request.Permissions,
+            ParentModules = request.ParentModules
         };
 
         await mediator.Send(command);
