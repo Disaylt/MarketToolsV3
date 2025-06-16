@@ -9,6 +9,7 @@ using MassTransit.Configuration;
 using UserNotifications.Domain.Seed;
 using UserNotifications.Infrastructure.Database;
 using Microsoft.Extensions.Options;
+using MarketToolsV3.ConfigurationManager.Models;
 
 namespace MarketToolsV3.DbMigrations.Service.Extensions
 {
@@ -17,9 +18,9 @@ namespace MarketToolsV3.DbMigrations.Service.Extensions
         public static async Task AddUserNotificationsMigrations(this IHostApplicationBuilder builder)
         {
             ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
-
+            ITypingConfigManager<ServicesAddressesConfig> addressesConfig = await configurationServiceFactory.CreateFromServicesAddressesAsync();
             ITypingConfigManager<ServiceConfiguration> serviceConfigManager = await configurationServiceFactory
-                    .CreateFromServiceAsync<ServiceConfiguration>(ServiceConstants.ServiceName);
+                    .CreateFromServiceAsync<ServiceConfiguration>(addressesConfig.Value.UserNotifications.Name);
             serviceConfigManager.AddAsOptions(builder.Services);
 
             builder.Services
