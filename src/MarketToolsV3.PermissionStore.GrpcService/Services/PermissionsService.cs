@@ -74,7 +74,7 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         return result;
     }
 
-    private PermissionSettingNode CreateTree(PermissionSettingNodeDto node)
+    private static PermissionSettingNode CreateTree(PermissionSettingNodeDto node)
     {
         PermissionSettingNode newNode = new()
         {

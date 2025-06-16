@@ -58,7 +58,7 @@ namespace MarketToolsV3.ConfigurationManager.Models
             return GetRandomAddress(WebApi);
         }
 
-        private string? GetRandomAddress(IReadOnlyList<string> addresses)
+        private static string? GetRandomAddress(IReadOnlyList<string> addresses)
         {
             if (addresses.Count == 0) return null;
             int randomIndex = Random.Shared.Next(addresses.Count);

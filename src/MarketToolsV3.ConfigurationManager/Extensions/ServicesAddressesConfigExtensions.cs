@@ -25,4 +25,9 @@ public static class ServicesAddressesConfigExtensions
     {
         return config.Wb.Seller.Companies;
     }
+
+    public static ModuleConfig GetUserNotificationsModule(this ServicesAddressesConfig config)
+    {
+        return config.UserNotifications;
+    }
 }

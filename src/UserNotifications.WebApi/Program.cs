@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager.Extensions;
 using MarketToolsV3.ConfigurationManager.Models;
 using MarketToolV3.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,8 +15,14 @@ using UserNotifications.WebApi.ExceptionHandlers;
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
+
+ITypingConfigManager<ServicesAddressesConfig> addressesConfig = await configurationServiceFactory.CreateFromServicesAddressesAsync();
+addressesConfig.AddAsOptions(builder.Services);
+
+var module = addressesConfig.Value.UserNotifications;
+
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
-    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(ServiceConstants.ServiceName);
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(module.Name);
 ITypingConfigManager<AuthConfig> authConfigManager =
     await configurationServiceFactory.CreateFromAuthAsync();
 
