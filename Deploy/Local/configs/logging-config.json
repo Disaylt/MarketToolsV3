@@ -1,5 +1,0 @@
-{
-	"ElasticConnection":"https://localhost:9200",
-	"ElasticUser":"elastic",
-	"ElasticPassword":"easypassword",
-}

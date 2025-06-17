@@ -1,11 +1,11 @@
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager.Extensions;
 using MarketToolsV3.ConfigurationManager.Models;
 using MarketToolV3.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
 using WB.Seller.Companies.Application;
-using WB.Seller.Companies.Domain.Constants;
 using WB.Seller.Companies.Domain.Seed;
 using WB.Seller.Companies.Infrastructure;
 using WB.Seller.Companies.WebApi.Utilities.Implementation;
@@ -14,15 +14,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
-ITypingConfigManager<ServiceConfiguration> serviceConfigManager =
-    await configurationServiceFactory
-        .CreateFromServiceAsync<ServiceConfiguration>(ServiceConstants.ServiceName)
-        .ContinueWith(task =>
-        {
-            task.Result.AddAsOptions(builder.Services);
+ITypingConfigManager<ServicesAddressesConfig> addressesConfig = await configurationServiceFactory.CreateFromServicesAddressesAsync();
+addressesConfig.AddAsOptions(builder.Services);
 
-            return task.Result;
-        });
+var module = addressesConfig.Value.GetWbSellerCompaniesModule();
+
+ITypingConfigManager<ServiceConfiguration> serviceConfigManager =
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(module.Name);
+serviceConfigManager.AddAsOptions(builder.Services);
+
 
 ITypingConfigManager<AuthConfig> authConfigManager =
     await configurationServiceFactory.CreateFromAuthAsync();

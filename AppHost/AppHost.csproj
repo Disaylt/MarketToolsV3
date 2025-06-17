@@ -28,6 +28,7 @@
     <ProjectReference Include="..\src\UserNotifications.WebApi\UserNotifications.WebApi.csproj" />
     <ProjectReference Include="..\src\WB.Seller.Companies.Processor\WB.Seller.Companies.Processor.csproj" />
     <ProjectReference Include="..\src\WB.Seller.Companies.WebApi\WB.Seller.Companies.WebApi.csproj" />
+    <ProjectReference Include="..\src\WB.Seller.Features.Automation.PriceManager.Processor\WB.Seller.Features.Automation.PriceManager.Processor.csproj" />
   </ItemGroup>
 
 </Project>

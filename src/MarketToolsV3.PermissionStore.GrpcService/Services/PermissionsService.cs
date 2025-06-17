@@ -18,8 +18,8 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         var command = new RefreshPermissionsCommand
         {
             Module = request.Module,
-            Permissions = [.. request
-                .Permissions]
+            Permissions = request.Permissions,
+            ParentModules = request.ParentModules
         };
 
         await mediator.Send(command);
@@ -74,7 +74,7 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         return result;
     }
 
-    private PermissionSettingNode CreateTree(PermissionSettingNodeDto node)
+    private static PermissionSettingNode CreateTree(PermissionSettingNodeDto node)
     {
         PermissionSettingNode newNode = new()
         {

@@ -21,6 +21,7 @@ message PermissionsListReply{
 message RefreshRequest{
 	string module = 1;
 	repeated string permissions = 2;
+	repeated string parentModules = 3;
 }
 
 message ModulePermission {
