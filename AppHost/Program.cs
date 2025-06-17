@@ -13,7 +13,8 @@ IReadOnlyCollection<IResourceBuilder<ProjectResource>> projects =
     builder.AddProject<WB_Seller_Companies_Processor>("WbSellerCompaniesProcessor"),
     builder.AddProject<MarketToolsV3_FakeData_WebApi>("MarketToolsV3FakeDataWebApi"),
     builder.AddProject<Ozon_Seller_Companies_WebApi>("OzonSellerCompaniesWebApi"),
-    builder.AddProject<MarketToolsV3_PermissionStore_GrpcService>("MarketToolsV3PermissionStoreGrpcService")
+    builder.AddProject<MarketToolsV3_PermissionStore_GrpcService>("MarketToolsV3PermissionStoreGrpcService"),
+    builder.AddProject<WB_Seller_Features_Automation_PriceManager_Processor>("WbSellerFeaturesAutomationPriceManagerProcessor")
 ];
 
 var configTypeParameter = builder.AddParameter("ConfigType");
@@ -26,7 +27,5 @@ foreach (var project in projects)
         .WithEndpoint("https", endpoint => endpoint.IsProxied = false, false)
         .WithEndpoint("http", endpoint => endpoint.IsProxied = false, false);
 }
-
-builder.AddProject<Projects.WB_Seller_Features_Automation_PriceManager_Processor>("wb-seller-features-automation-pricemanager-processor");
 
 builder.Build().Run();

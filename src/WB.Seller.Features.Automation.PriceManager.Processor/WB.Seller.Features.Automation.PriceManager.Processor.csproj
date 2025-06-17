@@ -16,5 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarketToolsV3.Host.ServiceDefaults\MarketToolsV3.Host.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\WB.Seller.Features.Automation.PriceManager.Application\WB.Seller.Features.Automation.PriceManager.Application.csproj" />
+    <ProjectReference Include="..\WB.Seller.Features.Automation.PriceManager.Domain\WB.Seller.Features.Automation.PriceManager.Domain.csproj" />
+    <ProjectReference Include="..\WB.Seller.Features.Automation.PriceManager.Infrastructure\WB.Seller.Features.Automation.PriceManager.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

@@ -31,8 +31,4 @@
 	<ItemGroup>
 		<Protobuf Include="..\Proto.Contract\Common\PermissionStore\permission.proto" GrpcServices="Client" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Services\Abstract\" />
-	</ItemGroup>
 </Project>
