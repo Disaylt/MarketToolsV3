@@ -1,5 +1,4 @@
 using MarketToolsV3.ApiGateway;
-using MarketToolsV3.ApiGateway.Domain.Constants;
 using MarketToolsV3.ApiGateway.Middlewares;
 using MarketToolsV3.ApiGateway.Services.Implementation;
 using MarketToolsV3.ApiGateway.Services.Interfaces;
@@ -13,13 +12,19 @@ using Proto.Contract.Identity;
 using Scalar.AspNetCore;
 using System.IdentityModel.Tokens.Jwt;
 using MarketToolsV3.ApiGateway.Domain.Seed;
+using MarketToolsV3.ConfigurationManager.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
+ITypingConfigManager<ServicesAddressesConfig> addressesConfig = await configurationServiceFactory.CreateFromServicesAddressesAsync();
+addressesConfig.AddAsOptions(builder.Services);
+
+var module = addressesConfig.Value.GetApiGatewayModule();
+
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = await configurationServiceFactory
-    .CreateFromServiceAsync<ServiceConfiguration>(ApiGatewayConstant.ServiceName);
+    .CreateFromServiceAsync<ServiceConfiguration>(module.Name);
 serviceConfigManager.JoinTo(builder.Configuration);
 
 var authConfigManager = await configurationServiceFactory.CreateFromAuthAsync();

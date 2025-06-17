@@ -18,4 +18,8 @@
     <Folder Include="Infrastructure\Services\Implementation\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MarketToolsV3.ConfigurationManager\MarketToolsV3.ConfigurationManager.csproj" />
+  </ItemGroup>
+
 </Project>

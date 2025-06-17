@@ -1,5 +1,7 @@
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager.Extensions;
+using MarketToolsV3.ConfigurationManager.Models;
 using MarketToolsV3.PermissionStore.Application;
 using MarketToolsV3.PermissionStore.Domain.Seed;
 using MarketToolsV3.PermissionStore.GrpcService.Services;
@@ -8,8 +10,14 @@ using MarketToolsV3.PermissionStore.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
+
+ITypingConfigManager<ServicesAddressesConfig> addressesConfig = await configurationServiceFactory.CreateFromServicesAddressesAsync();
+addressesConfig.AddAsOptions(builder.Services);
+
+var module = addressesConfig.Value.GetPermissionsModule();
+
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager =
-    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(ServiceConstants.ServiceName);
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(module.Name);
 
 builder.AddServiceDefaults();
 

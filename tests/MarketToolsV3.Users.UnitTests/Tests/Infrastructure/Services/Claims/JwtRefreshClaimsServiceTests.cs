@@ -26,8 +26,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             IEnumerable<string> claimTypes = service
                 .Create(refreshToken)
-                .Select(x=> x.Type)
-                .ToList();
+                .Select(x => x.Type);
 
             Assert.That(claimTypes, Does.Contain(JwtRegisteredClaimNames.Jti));
         }
@@ -45,8 +44,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             IEnumerable<string> claimTypes = service
                 .Create(refreshToken)
-                .Select(x => x.Type)
-                .ToList();
+                .Select(x => x.Type);
 
             Assert.That(claimTypes, Does.Contain(JwtRegisteredClaimNames.Iat));
         }
@@ -64,8 +62,7 @@ namespace MarketToolsV3.Users.UnitTests.Tests.Infrastructure.Services.Claims
 
             IEnumerable<string> claimTypes = service
                 .Create(refreshToken)
-                .Select(x => x.Type)
-                .ToList();
+                .Select(x => x.Type);
 
             Assert.That(claimTypes, Does.Contain(ClaimTypes.Sid));
         }

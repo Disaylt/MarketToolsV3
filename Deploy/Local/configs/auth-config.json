@@ -1,8 +1,0 @@
-{
-	"AuthSecret":"localTest123localtest123localtest123localtest123",
-	"ValidAudience":null,
-	"ValidIssuer":null,
-	"IsCheckValidAudience":false,
-	"IsCheckValidIssuer":false,
-	"IsCheckExpireDate":true,
-}

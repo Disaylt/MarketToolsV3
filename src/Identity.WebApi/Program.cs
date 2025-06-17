@@ -1,11 +1,11 @@
 using Asp.Versioning;
 using Identity.Application;
-using Identity.Domain.Constants;
 using Identity.Domain.Seed;
 using Identity.Infrastructure;
 using Identity.WebApi;
 using MarketToolsV3.ConfigurationManager;
 using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager.Extensions;
 using MarketToolsV3.ConfigurationManager.Models;
 using MarketToolV3.Authentication;
 using Scalar.AspNetCore;
@@ -16,8 +16,13 @@ builder.Services.AddHttpContextAccessor();
 
 ConfigurationServiceFactory configurationServiceFactory = new(builder.Configuration);
 
+ITypingConfigManager<ServicesAddressesConfig> addressesConfig = await configurationServiceFactory.CreateFromServicesAddressesAsync();
+addressesConfig.AddAsOptions(builder.Services);
+
+var module = addressesConfig.Value.GetIdentityModule();
+
 ITypingConfigManager<ServiceConfiguration> serviceConfigManager = 
-    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(IdentityConfig.ServiceName);
+    await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(module.Name);
 serviceConfigManager.AddAsOptions(builder.Services);
 ITypingConfigManager<AuthConfig> authConfigManager = 
     await configurationServiceFactory.CreateFromAuthAsync();
