@@ -17,6 +17,7 @@ namespace MarketToolV3.Authentication
         public static void AddServiceAuthentication(this IServiceCollection collection, AuthConfig authConfig, bool validateLifetime = true)
         {
             collection.AddScoped<IAuthContext, AuthContext>();
+            collection.AddExceptionHandler<AuthExceptionHandler>();
 
             byte[] secretBytes = Encoding.UTF8.GetBytes(authConfig.AuthSecret);
 
