@@ -15,7 +15,7 @@ public class SearchPermissionsQueryDataHandler(IDbConnection dbConnection)
                                         p.type as {nameof(PermissionDto.Path)}
                                         from permissions as p
                                         join subscription as s on p.subscription_id = s.id
-                                        where s.user_id = @{nameof(SearchPermissionsQueryData.SubscriberId)} 
+                                        where s.user_id = @{nameof(SearchPermissionsQueryData.SubscriberId)}
                                         and s.company_id = @{nameof(SearchPermissionsQueryData.CompanyId)}";
 
     public async Task<IEnumerable<PermissionDto>> HandleAsync(SearchPermissionsQueryData queryData)

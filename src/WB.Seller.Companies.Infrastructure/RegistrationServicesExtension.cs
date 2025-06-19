@@ -70,6 +70,10 @@ namespace WB.Seller.Companies.Infrastructure
 
             collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
 
+
+            SqlMapper.AddTypeHandler(new JsonTypeHandler<IEnumerable<PermissionDto>>());
+            SqlMapper.AddTypeHandler(new JsonTypeHandler<IEnumerable<CompanySlimInfoDto>>());
+
             return collection;
         }
     }

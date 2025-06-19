@@ -6,4 +6,5 @@ namespace WB.Seller.Companies.Application.QueryData.Permissions;
 public class SubscriptionAggregateQueryData : IQueryData<SubscriptionAggregateDto>
 {
     public required string UserId { get; set; }
+    public required int CompanyId { get; set; }
 }

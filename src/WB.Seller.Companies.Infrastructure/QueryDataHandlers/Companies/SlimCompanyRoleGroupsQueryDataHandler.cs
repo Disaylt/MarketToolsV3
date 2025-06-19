@@ -19,26 +19,21 @@ namespace WB.Seller.Companies.Infrastructure.QueryDataHandlers.Companies
         : IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<SubscriptionRole, CompanySlimInfoDto>>>
     {
         private const string QueryString = @$"select
-                                                s.role as Role,
-                                                jsonb_agg(jsonb_build_object('Id', c.id, 'Name', c.name)) as Values
-                                                from companies as c
-                                                join subscriptions as s on s.company_id = c.id
-                                                join users as u on u.sub_id = s.user_id
-                                                where sub_id = @{nameof(SlimCompanyRoleGroupsQueryData.UserId)}
-                                                group by s.role";
+                                            s.role as Key,
+                                            jsonb_agg(
+                                                jsonb_build_object(
+                                                    '{nameof(CompanySlimInfoDto.Id)}', c.id, 
+                                                    '{nameof(CompanySlimInfoDto.Name)}', c.name)) 
+                                                as Values
+                                            from companies as c
+                                            join subscriptions as s on s.company_id = c.id
+                                            join users as u on u.sub_id = s.user_id
+                                            where sub_id = @{nameof(SlimCompanyRoleGroupsQueryData.UserId)}
+                                            group by s.role";
 
         public async Task<IEnumerable<GroupDto<SubscriptionRole, CompanySlimInfoDto>>> HandleAsync(SlimCompanyRoleGroupsQueryData queryData)
         {
-            var response =
-                await dbConnection.QueryAsync<(int Role, string Values)>(
-                    QueryString, queryData);
-
-            return response
-                .Select(x => new GroupDto<SubscriptionRole, CompanySlimInfoDto>()
-                {
-                    Key = (SubscriptionRole)x.Role,
-                    Values = JsonSerializer.Deserialize<IEnumerable<CompanySlimInfoDto>>(x.Values) ?? []
-                });
+            return await dbConnection.QueryAsync<GroupDto<SubscriptionRole, CompanySlimInfoDto>>(QueryString, queryData);
         }
     }
 }
