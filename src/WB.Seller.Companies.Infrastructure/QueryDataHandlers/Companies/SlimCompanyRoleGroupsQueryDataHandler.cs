@@ -20,7 +20,7 @@ namespace WB.Seller.Companies.Infrastructure.QueryDataHandlers.Companies
     {
         private const string QueryString = @$"select
                                                 s.role as Role,
-                                                jsonb_agg(jsonb_build_object('Id', c.id, 'Name', c.Name)) as Values
+                                                jsonb_agg(jsonb_build_object('Id', c.id, 'Name', c.name)) as Values
                                                 from companies as c
                                                 join subscriptions as s on s.company_id = c.id
                                                 join users as u on u.sub_id = s.user_id

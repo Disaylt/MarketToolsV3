@@ -20,7 +20,7 @@ namespace WB.Seller.Companies.Domain.Entities
         public SubscriptionRole Role { get; private set; }
 
 
-        private readonly List<PermissionEntity> _permissions = new();
+        private readonly List<PermissionEntity> _permissions = [];
         public IReadOnlyCollection<PermissionEntity> Permissions => _permissions;
 
         protected SubscriptionEntity()
