@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Subscriptions\" />
     <Folder Include="Services\Abstract\" />
     <Folder Include="Services\Implementation\" />
     <Folder Include="Utilities\Abstract\" />
