@@ -4,7 +4,7 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Options;
 using Proto.Contract.Common.PermissionStore;
 using WB.Seller.Features.Automation.PriceManager.Application.Seed;
-using WB.Seller.Features.Automation.PriceManager.Infrastructure.Services.Abstract;
+using WB.Seller.Features.Automation.PriceManager.Application.Services.Abstract;
 
 namespace WB.Seller.Features.Automation.PriceManager.Infrastructure.Services.Implementation;
 

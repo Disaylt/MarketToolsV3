@@ -2,12 +2,12 @@
 using System.Net.Http;
 using Grpc.Net.Client;
 using Polly;
-using WB.Seller.Features.Automation.PriceManager.Infrastructure.Services.Abstract;
 using WB.Seller.Features.Automation.PriceManager.Infrastructure.Services.Implementation;
 using Microsoft.Extensions.Hosting;
 using MarketToolsV3.ConfigurationManager.Abstraction;
 using MarketToolsV3.ConfigurationManager.Models;
 using MarketToolsV3.ConfigurationManager;
+using WB.Seller.Features.Automation.PriceManager.Application.Services.Abstract;
 
 namespace WB.Seller.Features.Automation.PriceManager.Infrastructure;
 

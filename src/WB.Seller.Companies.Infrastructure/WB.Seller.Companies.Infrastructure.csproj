@@ -9,6 +9,12 @@
   <ItemGroup>
 	  <PackageReference Include="Dapper" Version="2.1.66" />
 	  <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
+	  <PackageReference Include="Google.Protobuf" Version="3.31.1" />
+	  <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />
+	  <PackageReference Include="Grpc.Tools" Version="2.72.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	  <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.3" />
@@ -17,8 +23,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Proto.Contract\Proto.Contract.csproj" />
     <ProjectReference Include="..\WB.Seller.Companies.Application\WB.Seller.Companies.Application.csproj" />
     <ProjectReference Include="..\WB.Seller.Companies.Domain\WB.Seller.Companies.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Abstraction\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="..\Proto.Contract\Common\PermissionStore\permission.proto" GrpcServices="Client" />
+	</ItemGroup>
 </Project>

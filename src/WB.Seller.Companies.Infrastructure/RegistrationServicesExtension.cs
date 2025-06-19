@@ -18,6 +18,10 @@ using WB.Seller.Companies.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using WB.Seller.Companies.Application.QueryData.Permissions;
 using WB.Seller.Companies.Infrastructure.QueryDataHandlers.Permissions;
+using WB.Seller.Companies.Infrastructure.Utilities.Abstract;
+using WB.Seller.Companies.Infrastructure.Utilities.Implementation;
+using WB.Seller.Companies.Application.Services.Abstract;
+using WB.Seller.Companies.Infrastructure.Services.Implementation;
 
 namespace WB.Seller.Companies.Infrastructure
 {
@@ -38,9 +42,11 @@ namespace WB.Seller.Companies.Infrastructure
             collection.AddScoped<IUnitOfWork, EfCoreUnitOfWork<WbSellerCompaniesDbContext>>();
 
             collection.AddSingleton<IMapperFactory, MapperFactory>();
+            collection.AddSingleton<IPermissionMapperUtility, PermissionMapperUtility>();
 
             collection.AddScoped<IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<SubscriptionRole, CompanySlimInfoDto>>>, SlimCompanyRoleGroupsQueryDataHandler>();
             collection.AddScoped<IQueryDataHandler<SearchPermissionsQueryData, IEnumerable<PermissionDto>>, SearchPermissionsQueryDataHandler>();
+            collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
 
             return collection;
         }

@@ -4,5 +4,5 @@ namespace WB.Seller.Companies.Application.Services.Abstract;
 
 public interface IPermissionsExternalService
 {
-    Task<IReadOnlyCollection<ModulePermissionInfoDto>> GetRangeByModuleAsync(string module);
+    Task<IEnumerable<PermissionSettingNodeDto>> GetPermissionsSettingTreeAsync(IEnumerable<PermissionDto> userPermissions);
 }
