@@ -12,6 +12,7 @@ service Permission{
 
 message FilterRequest{
 	string module = 1;
+    repeated PermissionSetting permissions = 2;
 }
 
 message PermissionsListReply{
@@ -41,10 +42,10 @@ message EmptyReply{
 
 message PermissionTreeRequest {
     string module = 1;
-    repeated PermissionNode permissions = 2;
+    repeated PermissionSetting permissions = 2;
 }
 
-message PermissionNode {
+message PermissionSetting {
     string path = 1;
     PermissionStatus status = 2;
 }
