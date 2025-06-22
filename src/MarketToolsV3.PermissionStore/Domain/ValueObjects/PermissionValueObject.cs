@@ -1,6 +1,6 @@
-﻿namespace MarketToolsV3.PermissionStore.Application.Models;
+﻿namespace MarketToolsV3.PermissionStore.Domain.ValueObjects;
 
-public class PermissionDto
+public class PermissionValueObject
 {
     public required string Path { get; init; }
     public bool RequireUse { get; init; }
