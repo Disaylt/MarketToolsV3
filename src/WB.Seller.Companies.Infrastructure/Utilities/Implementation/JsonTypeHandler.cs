@@ -16,7 +16,7 @@ public class JsonTypeHandler<T> : SqlMapper.TypeHandler<T>
         return default!;
     }
 
-    public override void SetValue(IDbDataParameter parameter, T value)
+    public override void SetValue(IDbDataParameter parameter, T? value)
     {
         parameter.Value = JsonSerializer.Serialize(value);
     }

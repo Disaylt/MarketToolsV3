@@ -15,6 +15,7 @@ public class PermissionMapperUtility : IPermissionMapperUtility
             Name = permission.Name,
             Status = (PermissionStatus)permission.Status,
             Path = permission.Path,
+            RequireUse = permission.RequireUse,
             ChildNodes = [.. MapPermissionSettingNodes(permission.Children)]
         });
     }
