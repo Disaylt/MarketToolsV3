@@ -31,6 +31,7 @@ public static class ServicesRegistrationExtension
             DisposeHttpClient = false
         });
 
+        serviceCollection.AddSingleton<IPermissionsService, PermissionsService>();
         serviceCollection.AddScoped<IExternalPermissionsService, ExternalPermissionsService>();
         return serviceCollection;
     }

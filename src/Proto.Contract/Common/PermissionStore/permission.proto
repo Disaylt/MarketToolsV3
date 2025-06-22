@@ -21,19 +21,7 @@ message PermissionsListReply{
 
 message RefreshRequest{
 	string creator = 1;
-	repeated Permission permissions = 2;
-}
-
-message Permission{
-    string path = 1;
-    bool requireUse = 2;
-	repeated string availableModules = 3;
-}
-
-message PermissionView {
-	string path = 1;
-	string view_name = 2;
-    bool requireUse = 3;
+	repeated PermissionInfo permissions = 2;
 }
 
 message EmptyReply{
@@ -45,13 +33,25 @@ message PermissionTreeRequest {
     repeated PermissionSetting permissions = 2;
 }
 
+message PermissionTreeResponse {
+    repeated PermissionSettingNode permissionsTree = 1;
+}
+
+message PermissionInfo{
+    string path = 1;
+    bool requireUse = 2;
+	repeated string availableModules = 3;
+}
+
+message PermissionView {
+	string path = 1;
+	string view_name = 2;
+    bool requireUse = 3;
+}
+
 message PermissionSetting {
     string path = 1;
     PermissionStatus status = 2;
-}
-
-message PermissionTreeResponse {
-    repeated PermissionSettingNode permissionsTree = 1;
 }
 
 message PermissionSettingNode {
