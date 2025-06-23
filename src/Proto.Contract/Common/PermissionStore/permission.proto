@@ -16,7 +16,7 @@ message FilterRequest{
 }
 
 message PermissionsListReply{
-	repeated PermissionView permissions = 2;
+	repeated PermissionSetting permissions = 2;
 }
 
 message RefreshRequest{

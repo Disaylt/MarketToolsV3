@@ -12,7 +12,7 @@ public class PermissionsNodeService(
     IPermissionsNodeUtility permissionsNodeUtility)
 : IPermissionsNodeService
 {
-    public PermissionSettingNodeDto BuildPermissionHierarchy(string currentSegment,
+    public PermissionSettingViewNodeDto BuildPermissionHierarchy(string currentSegment,
         IReadOnlyCollection<string> modulePermissions)
     {
         var setting = CreateNode(currentSegment);
@@ -29,22 +29,9 @@ public class PermissionsNodeService(
         return setting;
     }
 
-    public void SetStatuses(PermissionSettingNodeDto node, Dictionary<string, PermissionStatusEnum> permissionAndStatusPairs)
+    private IReadOnlyList<PermissionSettingViewNodeDto> AddNextSegments(IDictionary<string, IEnumerable<PermissionSlimNodeDto>> childPermissions, string currentSegment)
     {
-        node = node with
-        {
-            Status = permissionAndStatusPairs.GetValueOrDefault(node.Name)
-        };
-
-        foreach (var nextNode in node.Nodes)
-        {
-            SetStatuses(nextNode, permissionAndStatusPairs);
-        }
-    }
-
-    private IReadOnlyList<PermissionSettingNodeDto> AddNextSegments(IDictionary<string, IEnumerable<PermissionSlimNodeDto>> childPermissions, string currentSegment)
-    {
-        List<PermissionSettingNodeDto> nodes = [];
+        List<PermissionSettingViewNodeDto> nodes = [];
         foreach (var nextGroup in childPermissions)
         {
             var childSetting = BuildPermissionHierarchy(
@@ -57,12 +44,12 @@ public class PermissionsNodeService(
         return nodes;
     }
 
-    private PermissionSettingNodeDto CreateNode(string segment)
+    private PermissionSettingViewNodeDto CreateNode(string segment)
     {
-        return new PermissionSettingNodeDto
+        return new PermissionSettingViewNodeDto
         {
-            Name = segment,
-            View = permissionsUtility.FindOrDefaultByPathView(segment)
+            Path = segment,
+            Name = permissionsUtility.FindOrDefaultByPathView(segment)
         };
     }
 }

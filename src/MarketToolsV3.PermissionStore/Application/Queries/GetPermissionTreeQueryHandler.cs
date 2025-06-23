@@ -14,15 +14,13 @@ public class GetPermissionTreeQueryHandler(
     IRepository<ModuleEntity> permissionsRepository,
     IExtensionRepository extensionRepository,
     IPermissionsNodeService permissionsNodeService)
-    : IRequestHandler<GetPermissionTreeQuery, IReadOnlyCollection<PermissionSettingNodeDto>>
+    : IRequestHandler<GetPermissionTreeQuery, IReadOnlyCollection<PermissionSettingViewNodeDto>>
 {
-    public async Task<IReadOnlyCollection<PermissionSettingNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<PermissionSettingViewNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
     {
         IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByParentModule(request.Module);
         var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
 
-        Dictionary<string, PermissionStatusEnum> permissionAndStatusPairs =
-            request.Permissions.ToDictionary(x => x.Path, x => x.Status);
 
         return [.. paths
             .GroupBy(mp => mp.Split(':')[0])

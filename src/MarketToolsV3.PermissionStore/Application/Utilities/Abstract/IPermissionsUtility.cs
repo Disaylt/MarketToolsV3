@@ -6,5 +6,5 @@ public interface IPermissionsUtility
 {
     string FindOrDefaultByPathView(string path);
     string FindOrDefaultByNameView(string name);
-    IReadOnlyCollection<PermissionViewDto> MapFromPaths(IEnumerable<string> paths);
+    T SetName<T>(T permissionSetting) where T : PermissionSettingViewDto;
 }

@@ -2,7 +2,7 @@
 
 namespace MarketToolsV3.PermissionStore.Application.Models;
 
-public class PermissionSettingDto
+public record PermissionSettingDto
 {
     public required string Path { get; init; }
     public PermissionStatusEnum Status { get; init; }

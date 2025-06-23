@@ -5,9 +5,7 @@ namespace MarketToolsV3.PermissionStore.Application.Services.Abstract;
 
 public interface IPermissionsNodeService
 {
-    PermissionSettingNodeDto BuildPermissionHierarchy(
+    PermissionSettingViewNodeDto BuildPermissionHierarchy(
         string currentSegment,
         IReadOnlyCollection<string> modulePermissions);
-
-    void SetStatuses(PermissionSettingNodeDto node, Dictionary<string, PermissionStatusEnum> permissionAndStatusPairs);
 }
