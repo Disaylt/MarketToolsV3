@@ -28,12 +28,4 @@ public class PermissionsUtility(
                    .GetValueOrDefault(name)
                ?? name;
     }
-
-    public T SetName<T>(T permissionSetting) where T : PermissionSettingViewDto
-    {
-        return permissionSetting with
-        {
-            View = FindOrDefaultByNameView(permissionSetting.Name)
-        };
-    }
 }

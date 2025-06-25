@@ -6,5 +6,4 @@ public interface IPermissionsUtility
 {
     string FindOrDefaultByPathView(string path);
     string FindOrDefaultByNameView(string name);
-    T SetName<T>(T permissionSetting) where T : PermissionSettingViewDto;
 }

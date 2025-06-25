@@ -2,7 +2,7 @@
 
 public class PermissionDto
 {
-    public required string Path { get; init; }
-    public bool RequireUse { get; init; }
-    public IEnumerable<string> AvailableModules { get; init; } = [];
+    public required string Path { get; set; }
+    public bool RequireUse { get; set; }
+    public IEnumerable<string> AvailableModules { get; set; } = [];
 }

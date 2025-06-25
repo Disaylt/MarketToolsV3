@@ -2,5 +2,5 @@
 
 public record PermissionNodeDto(string Name)
 {
-    public IEnumerable<PermissionNodeDto> Next { get; init; } = [];
+    public IEnumerable<PermissionNodeDto> Next { get; set; } = [];
 }
