@@ -2,7 +2,7 @@
 
 namespace MarketToolsV3.PermissionStore.Application.Models;
 
-public record PermissionSettingViewDto : PermissionSettingDto
+public record PermissionSettingViewDto(string Name) : PermissionSettingDto
 {
-    public required string Name { get; init; }
+    public string View { get; init; } = Name;
 }

@@ -20,13 +20,16 @@ public class GetRangePermissionSettingQueryHandler(
     {
         permissionSettingContextService.SetContext(request.Permissions);
 
-        IQueryable<PermissionValueObject> pathsQuery = permissionsRepository.BuildPathsQueryByParentModule(request.Module);
-        var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
+        IQueryable<PermissionValueObject> pathsQuery = permissionsRepository
+            .BuildPathsQueryByParentModule(request.Module);
 
-        return paths
+        var permissions = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
+
+        return permissions
             .Select(p => new PermissionSettingDto
             {
-                Path = p.Path
+                Path = p.Path,
+                RequireUse = p.RequireUse
             })
             .Select(permissionSettingContextService.SetStatus);
     }

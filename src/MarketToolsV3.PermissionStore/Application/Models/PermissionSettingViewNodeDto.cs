@@ -2,7 +2,7 @@
 
 namespace MarketToolsV3.PermissionStore.Application.Models;
 
-public record PermissionSettingViewNodeDto : PermissionSettingViewDto
+public record PermissionSettingViewNodeDto(string Name) : PermissionSettingViewDto(Name)
 {
-    public IReadOnlyList<PermissionSettingViewNodeDto> Nodes { get; init; } = [];
+    public IEnumerable<PermissionSettingViewNodeDto> Nodes { get; init; } = [];
 }

@@ -7,29 +7,58 @@ using MediatR;
 using System.Collections.Generic;
 using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
 using MarketToolsV3.PermissionStore.Application.Extensions;
+using MarketToolsV3.PermissionStore.Domain.ValueObjects;
+using MarketToolsV3.PermissionStore.Application.Services.Implementation;
 
 namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionTreeQueryHandler(
     IRepository<ModuleEntity> permissionsRepository,
     IExtensionRepository extensionRepository,
-    IPermissionsNodeService permissionsNodeService)
-    : IRequestHandler<GetPermissionTreeQuery, IReadOnlyCollection<PermissionSettingViewNodeDto>>
+    IPermissionNodeService permissionsNodeService,
+    IPermissionSettingContextService permissionSettingContextService,
+    IPermissionsUtility permissionsUtility)
+    : IRequestHandler<GetPermissionTreeQuery, IEnumerable<PermissionSettingViewNodeDto>>
 {
-    public async Task<IReadOnlyCollection<PermissionSettingViewNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PermissionSettingViewNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
     {
-        IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByParentModule(request.Module);
-        var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
+        permissionSettingContextService.SetContext(request.Permissions);
 
+        IQueryable<PermissionValueObject> pathsQuery = permissionsRepository
+            .BuildPathsQueryByParentModule(request.Module);
 
-        return [.. paths
-            .GroupBy(mp => mp.Split(':')[0])
-            .Select(group =>
-            {
-                var setting = permissionsNodeService.BuildPermissionHierarchy(group.Key, [.. group]);
-                permissionsNodeService.SetStatuses(setting, permissionAndStatusPairs);
+        var permissions = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
 
-                return setting;
-            })];
+        var segments = permissions.Select(p => p.Path.Split(':'));
+
+        var permissionNodes = permissionsNodeService.CreateNodes(segments, 0);
+
+        return permissionsNodeService.ConvertToViewNodes(permissionNodes);
+    }
+
+    private PermissionSettingViewNodeDto SetNames(PermissionSettingViewNodeDto node)
+    {
+        var newNode = permissionsUtility.SetName(node);
+
+        return newNode with
+        {
+            Nodes = newNode
+                .Nodes
+                .Select(SetNames)
+                .ToList()
+        };
+    }
+
+    private PermissionSettingViewNodeDto SetStatuses(PermissionSettingViewNodeDto node)
+    {
+        var newNode = permissionSettingContextService.SetStatus(node);
+
+        return newNode with
+        {
+            Nodes = newNode
+                .Nodes
+                .Select(SetStatuses)
+                .ToList()
+        };
     }
 }

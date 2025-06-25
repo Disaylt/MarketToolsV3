@@ -50,7 +50,7 @@ namespace WB.Seller.Companies.Infrastructure
             collection.AddScoped<IQueryDataHandler<SlimCompanyRoleGroupsQueryData, IEnumerable<GroupDto<SubscriptionRole, CompanySlimInfoDto>>>, SlimCompanyRoleGroupsQueryDataHandler>();
             collection.AddScoped<IQueryDataHandler<SearchPermissionsQueryData, IEnumerable<PermissionDto>>, SearchPermissionsQueryDataHandler>();
             collection.AddScoped<IQueryDataHandler<SubscriptionAggregateQueryData, SubscriptionAggregateDto>, SubscriptionAggregateQueryDataHandler>();
-            //collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
+            collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
 
             collection.AddHttpClient("grpc")
                 .AddStandardResilienceHandler(opt =>
@@ -68,7 +68,7 @@ namespace WB.Seller.Companies.Infrastructure
                 DisposeHttpClient = false
             });
 
-            //collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
+            collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
 
 
             SqlMapper.AddTypeHandler(new JsonTypeHandler<IEnumerable<PermissionDto>>());

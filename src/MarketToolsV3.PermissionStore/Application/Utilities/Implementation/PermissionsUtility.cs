@@ -33,7 +33,7 @@ public class PermissionsUtility(
     {
         return permissionSetting with
         {
-            Name = FindOrDefaultByPathView(permissionSetting.Path)
+            View = FindOrDefaultByNameView(permissionSetting.Name)
         };
     }
 }

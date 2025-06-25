@@ -34,20 +34,30 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
 
     public override async Task<PermissionsListReply> GetRange(FilterRequest request, ServerCallContext context)
     {
-        //var query = new GetRangePermissionSettingQuery
-        //{
-        //    Module = request.Module,
-        //    Permissions = request.Permissions
-        //        .Select(p => new PermissionSettingDto
-        //        {
-        //            Path = p.Path,
-        //            Status = (PermissionStatusEnum)p.Status
-        //        })
-        //};
+        var query = new GetRangePermissionSettingQuery
+        {
+            Module = request.Module,
+            Permissions = request.Permissions
+                .Select(p => new PermissionSettingDto
+                {
+                    Path = p.Path,
+                    Status = (PermissionStatusEnum)p.Status
+                })
+        };
 
-        //var response = await mediator.Send(query);
+        var response = await mediator.Send(query);
 
-        return await base.GetRange(request, context);
+        return new PermissionsListReply
+        {
+            Permissions =
+            {
+                response.Select(x => new PermissionSetting
+                {
+                    Path = x.Path,
+                    Status = (PermissionStatus)x.Status
+                })
+            }
+        };
     }
 
     public override async Task<PermissionTreeResponse> GetPermissionTree(PermissionTreeRequest request, ServerCallContext context)
@@ -59,7 +69,7 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
                 .Select(x => new PermissionSettingDto
                 {
                     Path = x.Path,
-                    Status = (PermissionStatusEnum)x.Status
+                    Status = (PermissionStatusEnum)x.Status,
                 })
         };
 
@@ -81,7 +91,7 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         {
             Name = node.Name,
             Status = (PermissionStatus)node.Status,
-            View = node.View
+            Path = node.Path
         };
 
         foreach (var nextNode in node.Nodes)
