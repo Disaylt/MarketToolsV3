@@ -79,7 +79,7 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         foreach (var permissionTree in permissionsTree)
         {
             var newPermissionTree = CreateTree(permissionTree);
-            result.Permissions.Add(newPermissionTree);
+            result.PermissionsTree.Add(newPermissionTree);
         }
 
         return result;
