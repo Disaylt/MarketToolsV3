@@ -13,7 +13,7 @@ public class PermissionsUtility(
     public string FindOrDefaultByPathView(string path)
     {
         string lastKey = path
-            .Split(':')
+            .Split('.')
             .Last();
 
         return FindOrDefaultByNameView(lastKey);

@@ -36,7 +36,7 @@ public class GetPermissionTreeQueryHandler(
 
     private IEnumerable<PermissionNodeDto> CreateNodes(IEnumerable<PermissionValueObject> permissions)
     {
-        var segments = permissions.Select(p => p.Path.Split(':'));
+        var segments = permissions.Select(p => p.Path.Split('.'));
 
         return permissionsNodeService.CreateNodes(segments, 0);
     }

@@ -161,7 +161,7 @@ public class PermissionSettingNodeBuilder : IPermissionSettingNodeBuilder
 
     private static void SetPath(PermissionSettingNodeViewModel node, string lastSegmentsGroup)
     {
-        node.Path = $"{lastSegmentsGroup}:{node.Name}";
+        node.Path = $"{lastSegmentsGroup}.{node.Name}";
 
         foreach (var nextNode in node.Nodes)
         {
