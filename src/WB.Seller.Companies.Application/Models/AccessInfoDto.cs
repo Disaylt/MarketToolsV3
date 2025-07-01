@@ -2,8 +2,8 @@
 
 namespace WB.Seller.Companies.Application.Models;
 
-public record CompanyAccessInfoDto
+public record AccessInfoDto
 {
     public required SubscriptionRole Role { get; init; }
-    public IEnumerable<PermissionSettingNodeDto> Permissions { get; init; } = [];
+    public Dictionary<string, PermissionStatus> PermissionSettings { get; init; } = [];
 }

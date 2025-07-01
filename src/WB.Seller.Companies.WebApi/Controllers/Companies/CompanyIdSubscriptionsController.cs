@@ -16,7 +16,7 @@ namespace WB.Seller.Companies.WebApi.Controllers.Companies
         IAuthContext authContext)
         : ControllerBase
     {
-        [HttpGet("aggregate")]
+        [HttpGet("details")]
         public async Task<IActionResult> GetAggregateAsync(int companyId)
         {
             GetCompanyAccessInfoQuery query = new()

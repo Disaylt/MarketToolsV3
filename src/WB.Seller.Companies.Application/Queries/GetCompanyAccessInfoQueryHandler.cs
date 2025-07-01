@@ -7,11 +7,10 @@ using WB.Seller.Companies.Domain.Seed;
 namespace WB.Seller.Companies.Application.Queries;
 
 public class GetCompanyAccessInfoQueryHandler(
-    IQueryDataHandler<SubscriptionAggregateQueryData, SubscriptionAggregateDto> queryDataHandler,
-    IPermissionsExternalService permissionsExternalService)
-: IRequestHandler<GetCompanyAccessInfoQuery, CompanyAccessInfoDto>
+    IQueryDataHandler<SubscriptionAggregateQueryData, SubscriptionAggregateDto> queryDataHandler)
+: IRequestHandler<GetCompanyAccessInfoQuery, AccessInfoDto>
 {
-    public async Task<CompanyAccessInfoDto> Handle(GetCompanyAccessInfoQuery request, CancellationToken cancellationToken)
+    public async Task<AccessInfoDto> Handle(GetCompanyAccessInfoQuery request, CancellationToken cancellationToken)
     {
         SubscriptionAggregateDto subscriptionAggregate = await queryDataHandler.HandleAsync(new()
         {
@@ -22,7 +21,9 @@ public class GetCompanyAccessInfoQueryHandler(
         return new()
         {
             Role = subscriptionAggregate.Role,
-            Permissions = await permissionsExternalService.GetPermissionsSettingTreeAsync(subscriptionAggregate.Permissions)
+            PermissionSettings = subscriptionAggregate
+                .Permissions
+                .ToDictionary(x=> x.Path, x => x.Status)
         };
     }
 }

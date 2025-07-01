@@ -15,7 +15,7 @@ public class PermissionsService(IOptions<ServicesAddressesConfig> addressesOptio
             new PermissionInfoDto
             {
                 Path = PermissionsStorage.Root,
-                RequireUse = false,
+                RequireUse = true,
                 AvailableModules = [
                     GetWbCompanyModule()
                     ]
