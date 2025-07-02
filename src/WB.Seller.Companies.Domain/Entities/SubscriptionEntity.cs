@@ -19,7 +19,6 @@ namespace WB.Seller.Companies.Domain.Entities
         public string? Note { get; private set; }
         public SubscriptionRole Role { get; private set; }
 
-
         private readonly List<PermissionEntity> _permissions = [];
         public IReadOnlyCollection<PermissionEntity> Permissions => _permissions;
 
