@@ -21,7 +21,7 @@ public class GetCompanyAccessInfoQueryHandler(
         return new()
         {
             Role = subscriptionAggregate.Role,
-            PermissionSettings = subscriptionAggregate
+            Permissions = subscriptionAggregate
                 .Permissions
                 .ToDictionary(x=> x.Path, x => x.Status)
         };
