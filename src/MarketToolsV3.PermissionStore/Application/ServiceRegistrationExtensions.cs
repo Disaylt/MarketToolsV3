@@ -26,8 +26,8 @@ namespace MarketToolsV3.PermissionStore.Application
             });
 
             services.AddSingleton<IPermissionsUtility, PermissionsUtility>();
-            services.AddSingleton<IPermissionsNodeService, PermissionsNodeService>();
-            services.AddSingleton<IPermissionsNodeUtility, PermissionsNodeUtility>();
+            services.AddSingleton<IPermissionNodeService, PermissionNodeService>();
+            services.AddScoped<IPermissionSettingContextService, PermissionSettingContextService>();
 
             return services;
         }

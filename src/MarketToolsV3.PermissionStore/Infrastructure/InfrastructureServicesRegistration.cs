@@ -1,4 +1,6 @@
 ﻿using MarketToolsV3.PermissionStore.Application.Services.Abstract;
+using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
+using MarketToolsV3.PermissionStore.Application.Utilities.Implementation;
 using MarketToolsV3.PermissionStore.Domain.Entities;
 using MarketToolsV3.PermissionStore.Domain.Seed;
 using MarketToolsV3.PermissionStore.Infrastructure.Database;
@@ -20,6 +22,7 @@ public static class InfrastructureServicesRegistration
         services.AddSingleton(x =>
             x.GetRequiredService<IMongoDatabase>().GetCollection<ModuleEntity>(config.PermissionsCollectionName));
 
+        services.AddScoped<IPermissionSettingNodeBuilder, PermissionSettingNodeBuilder>();
         services.AddScoped<ITransactionContext, MongoTransactionContext>();
         services.AddScoped<IClientSessionHandleContext, ClientSessionHandleContext>();
         services.AddScoped<IExtensionRepository, MongoExtensionRepository>();

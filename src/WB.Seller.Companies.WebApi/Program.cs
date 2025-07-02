@@ -50,6 +50,7 @@ builder.Services.AddApiVersioning(opt =>
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
 app.MapDefaultEndpoints();
 
 if (app.Environment.IsDevelopment())

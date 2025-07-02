@@ -17,9 +17,14 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
     {
         var command = new RefreshPermissionsCommand
         {
-            Module = request.Module,
-            Permissions = request.Permissions,
-            ParentModules = request.ParentModules
+            Creator = request.Creator,
+            Permissions = request.Permissions
+                .Select(p => new PermissionDto
+                {
+                    Path = p.Path,
+                    RequireUse = p.RequireUse,
+                    AvailableModules = p.AvailableModules
+                })
         };
 
         await mediator.Send(command);
@@ -27,26 +32,32 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         return new EmptyReply();
     }
 
-    public override async Task<PermissionsListReply> GetByFilter(FilterRequest request, ServerCallContext context)
+    public override async Task<PermissionsListReply> GetRange(FilterRequest request, ServerCallContext context)
     {
-        var query = new GetPermissionsByFilterQuery
+        var query = new GetRangePermissionSettingQuery
         {
-            Module = request.Module
+            Module = request.Module,
+            Permissions = request.Permissions
+                .Select(p => new PermissionSettingDto
+                {
+                    Path = p.Path,
+                    Status = (PermissionStatusEnum)p.Status
+                })
         };
 
         var response = await mediator.Send(query);
 
-        var permissions = response
-            .Select(p => new ModulePermission
+        return new PermissionsListReply
+        {
+            Permissions =
             {
-                Path = p.Path,
-                ViewName = p.ViewName
-            });
-
-        var result = new PermissionsListReply();
-        result.Permissions.AddRange(permissions);
-
-        return result;
+                response.Select(x => new PermissionSetting
+                {
+                    Path = x.Path,
+                    Status = (PermissionStatus)x.Status
+                })
+            }
+        };
     }
 
     public override async Task<PermissionTreeResponse> GetPermissionTree(PermissionTreeRequest request, ServerCallContext context)
@@ -58,7 +69,7 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
                 .Select(x => new PermissionSettingDto
                 {
                     Path = x.Path,
-                    Status = (PermissionStatusEnum)x.Status
+                    Status = (PermissionStatusEnum)x.Status,
                 })
         };
 
@@ -68,19 +79,19 @@ public class PermissionsService(IMediator mediator) : Permission.PermissionBase
         foreach (var permissionTree in permissionsTree)
         {
             var newPermissionTree = CreateTree(permissionTree);
-            result.Permissions.Add(newPermissionTree);
+            result.PermissionsTree.Add(newPermissionTree);
         }
 
         return result;
     }
 
-    private static PermissionSettingNode CreateTree(PermissionSettingNodeDto node)
+    private static PermissionSettingNode CreateTree(PermissionSettingViewNodeDto node)
     {
         PermissionSettingNode newNode = new()
         {
             Name = node.Name,
             Status = (PermissionStatus)node.Status,
-            View = node.View
+            Path = node.Path
         };
 
         foreach (var nextNode in node.Nodes)

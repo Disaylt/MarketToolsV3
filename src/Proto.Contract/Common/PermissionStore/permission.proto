@@ -5,28 +5,23 @@ option csharp_namespace = "Proto.Contract.Common.PermissionStore";
 package permission;
 
 service Permission{
-	rpc GetByFilter(FilterRequest) returns (PermissionsListReply);
+	rpc GetRange(FilterRequest) returns (PermissionsListReply);
 	rpc Refresh(RefreshRequest) returns (EmptyReply);
 	rpc GetPermissionTree(PermissionTreeRequest) returns (PermissionTreeResponse);
 }
 
 message FilterRequest{
 	string module = 1;
+    repeated PermissionSetting permissions = 2;
 }
 
 message PermissionsListReply{
-	repeated ModulePermission permissions = 2;
+	repeated PermissionSetting permissions = 2;
 }
 
 message RefreshRequest{
-	string module = 1;
-	repeated string permissions = 2;
-	repeated string parentModules = 3;
-}
-
-message ModulePermission {
-	string path = 1;
-	string view_name = 2;
+	string creator = 1;
+	repeated PermissionInfo permissions = 2;
 }
 
 message EmptyReply{
@@ -35,23 +30,36 @@ message EmptyReply{
 
 message PermissionTreeRequest {
     string module = 1;
-    repeated PermissionNode permissions = 2;
+    repeated PermissionSetting permissions = 2;
 }
 
-message PermissionNode {
+message PermissionTreeResponse {
+    repeated PermissionSettingNode permissionsTree = 1;
+}
+
+message PermissionInfo{
+    string path = 1;
+    bool requireUse = 2;
+	repeated string availableModules = 3;
+}
+
+message PermissionView {
+	string path = 1;
+	string view_name = 2;
+    bool requireUse = 3;
+}
+
+message PermissionSetting {
     string path = 1;
     PermissionStatus status = 2;
 }
 
-message PermissionTreeResponse {
-    repeated PermissionSettingNode permissions = 1;
-}
-
 message PermissionSettingNode {
-    string view = 1;
-    string name = 2;
+    string name = 1;
+    string path = 2;
     PermissionStatus status = 3;
-    repeated PermissionSettingNode children = 4;
+    bool requireUse = 4;
+    repeated PermissionSettingNode children = 5;
 }
 
 enum PermissionStatus {
