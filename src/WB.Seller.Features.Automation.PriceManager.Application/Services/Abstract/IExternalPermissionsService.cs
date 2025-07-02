@@ -1,4 +1,4 @@
-﻿namespace WB.Seller.Features.Automation.PriceManager.Infrastructure.Services.Abstract
+﻿namespace WB.Seller.Features.Automation.PriceManager.Application.Services.Abstract
 {
     public interface IExternalPermissionsService
     {

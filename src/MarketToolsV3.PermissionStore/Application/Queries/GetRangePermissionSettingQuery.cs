@@ -3,7 +3,8 @@ using MediatR;
 
 namespace MarketToolsV3.PermissionStore.Application.Queries;
 
-public class GetPermissionsByFilterQuery : IRequest<IEnumerable<PermissionViewDto>>
+public class GetRangePermissionSettingQuery : IRequest<IEnumerable<PermissionSettingDto>>
 {
     public required string Module { get; set; }
+    public IEnumerable<PermissionSettingDto> Permissions { get; set; } = [];
 }

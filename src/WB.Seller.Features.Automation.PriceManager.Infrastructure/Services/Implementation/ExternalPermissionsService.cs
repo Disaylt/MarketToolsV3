@@ -4,7 +4,7 @@ using MarketToolsV3.ConfigurationManager.Models;
 using Microsoft.Extensions.Options;
 using Proto.Contract.Common.PermissionStore;
 using WB.Seller.Features.Automation.PriceManager.Application.Seed;
-using WB.Seller.Features.Automation.PriceManager.Infrastructure.Services.Abstract;
+using WB.Seller.Features.Automation.PriceManager.Application.Services.Abstract;
 
 namespace WB.Seller.Features.Automation.PriceManager.Infrastructure.Services.Implementation;
 
@@ -14,10 +14,12 @@ public class ExternalPermissionsService
     private readonly GrpcChannel _grpcChannel;
     private readonly Permission.PermissionClient _permissionClient;
     private readonly ServicesAddressesConfig _servicesAddressesConfig;
+    private readonly IPermissionsService _permissionsService;
 
     public ExternalPermissionsService(
         IOptions<ServicesAddressesConfig> addressesOptions,
-        GrpcChannelOptions grpcChannelOptions)
+        GrpcChannelOptions grpcChannelOptions,
+        IPermissionsService permissionsService)
     {
         _servicesAddressesConfig = addressesOptions.Value;
 
@@ -30,27 +32,30 @@ public class ExternalPermissionsService
 
         _grpcChannel = GrpcChannel.ForAddress(address, grpcChannelOptions);
         _permissionClient = new Permission.PermissionClient(_grpcChannel);
+        _permissionsService = permissionsService;
     }
 
     public async Task RefreshPermissionsAsync()
     {
         RefreshRequest request = new()
         {
-            Permissions = { PermissionsStorage.Collection },
-            Module = GetPermissionModuleName(),
-            ParentModules = { GetWbSellerCompanyModuleName() }
+            Creator = GetPermissionModuleName(),
+            Permissions = { GetPermissionsInfo() }
         };
 
         await _permissionClient.RefreshAsync(request);
     }
 
-    private string GetWbSellerCompanyModuleName()
+    private IEnumerable<PermissionInfo> GetPermissionsInfo()
     {
-        return _servicesAddressesConfig
-            .Wb
-            .Seller
-            .Companies
-            .Name;
+        return _permissionsService
+            .GetPermissions()
+            .Select(x => new PermissionInfo
+            {
+                AvailableModules = { x.AvailableModules },
+                Path = x.Path,
+                RequireUse = x.RequireUse
+            });
     }
 
     private string GetPermissionModuleName()

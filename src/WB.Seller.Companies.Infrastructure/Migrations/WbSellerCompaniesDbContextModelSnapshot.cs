@@ -69,6 +69,11 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created");
 
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("path");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
@@ -76,11 +81,6 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                     b.Property<int>("SubscriptionId")
                         .HasColumnType("integer")
                         .HasColumnName("subscription_id");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("type");
 
                     b.Property<DateTime>("Updated")
                         .HasColumnType("timestamp with time zone")
@@ -92,9 +92,9 @@ namespace WB.Seller.Companies.Infrastructure.Migrations
                     b.HasIndex("SubscriptionId")
                         .HasDatabaseName("ix_permissions_subscription_id");
 
-                    b.HasIndex("Type", "SubscriptionId")
+                    b.HasIndex("Path", "SubscriptionId")
                         .IsUnique()
-                        .HasDatabaseName("ix_permissions_type_subscription_id");
+                        .HasDatabaseName("ix_permissions_path_subscription_id");
 
                     b.ToTable("permissions", (string)null);
                 });

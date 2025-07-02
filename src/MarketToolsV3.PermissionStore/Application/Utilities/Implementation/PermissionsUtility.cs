@@ -2,6 +2,7 @@
 using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
 using MarketToolsV3.PermissionStore.Domain.Seed;
 using Microsoft.Extensions.Options;
+using System.IO;
 
 namespace MarketToolsV3.PermissionStore.Application.Utilities.Implementation;
 
@@ -12,7 +13,7 @@ public class PermissionsUtility(
     public string FindOrDefaultByPathView(string path)
     {
         string lastKey = path
-            .Split(':')
+            .Split('.')
             .Last();
 
         return FindOrDefaultByNameView(lastKey);
@@ -26,15 +27,5 @@ public class PermissionsUtility(
                    .Parameters
                    .GetValueOrDefault(name)
                ?? name;
-    }
-
-    public IReadOnlyCollection<PermissionViewDto> MapFromPaths(IEnumerable<string> paths)
-    {
-        return [.. paths
-            .Select(path => new PermissionViewDto
-            {
-                Path = path,
-                ViewName = FindOrDefaultByPathView(path)
-            })];
     }
 }

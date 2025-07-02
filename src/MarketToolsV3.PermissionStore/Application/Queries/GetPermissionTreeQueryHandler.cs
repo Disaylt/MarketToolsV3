@@ -7,31 +7,45 @@ using MediatR;
 using System.Collections.Generic;
 using MarketToolsV3.PermissionStore.Application.Utilities.Abstract;
 using MarketToolsV3.PermissionStore.Application.Extensions;
+using MarketToolsV3.PermissionStore.Domain.ValueObjects;
+using MarketToolsV3.PermissionStore.Application.Services.Implementation;
+using System.Threading;
 
 namespace MarketToolsV3.PermissionStore.Application.Queries;
 
 public class GetPermissionTreeQueryHandler(
     IRepository<ModuleEntity> permissionsRepository,
     IExtensionRepository extensionRepository,
-    IPermissionsNodeService permissionsNodeService)
-    : IRequestHandler<GetPermissionTreeQuery, IReadOnlyCollection<PermissionSettingNodeDto>>
+    IPermissionNodeService permissionsNodeService,
+    IPermissionSettingNodeBuilder permissionSettingNodeBuilder,
+    IPermissionsUtility permissionsUtility)
+    : IRequestHandler<GetPermissionTreeQuery, IEnumerable<PermissionSettingViewNodeDto>>
 {
-    public async Task<IReadOnlyCollection<PermissionSettingNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PermissionSettingViewNodeDto>> Handle(GetPermissionTreeQuery request, CancellationToken cancellationToken)
     {
-        IQueryable<string> pathsQuery = permissionsRepository.BuildPathsQueryByParentModule(request.Module);
-        var paths = await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
+        var permissions = await GetPermissionsAsync(request.Module, cancellationToken);
+        var permissionNodes = CreateNodes(permissions);
 
-        Dictionary<string, PermissionStatusEnum> permissionAndStatusPairs =
-            request.Permissions.ToDictionary(x => x.Path, x => x.Status);
+        return permissionSettingNodeBuilder
+            .SetNodes(permissionNodes)
+            .SetStatuses(request.Permissions)
+            .SetRequireUseStatuses(permissions)
+            .SetViewNames(permissionsUtility)
+            .Build();
+    }
 
-        return [.. paths
-            .GroupBy(mp => mp.Split(':')[0])
-            .Select(group =>
-            {
-                var setting = permissionsNodeService.BuildPermissionHierarchy(group.Key, [.. group]);
-                permissionsNodeService.SetStatuses(setting, permissionAndStatusPairs);
+    private IEnumerable<PermissionNodeDto> CreateNodes(IEnumerable<PermissionValueObject> permissions)
+    {
+        var segments = permissions.Select(p => p.Path.Split('.'));
 
-                return setting;
-            })];
+        return permissionsNodeService.CreateNodes(segments, 0);
+    }
+
+    private async Task<IReadOnlyCollection<PermissionValueObject>> GetPermissionsAsync(string module, CancellationToken cancellationToken)
+    {
+        IQueryable<PermissionValueObject> pathsQuery = permissionsRepository
+            .BuildPathsQueryByParentModule(module);
+
+        return await extensionRepository.ToListAsync(pathsQuery, cancellationToken);
     }
 }

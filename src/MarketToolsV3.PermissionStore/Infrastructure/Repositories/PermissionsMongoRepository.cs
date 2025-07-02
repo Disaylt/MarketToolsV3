@@ -18,9 +18,7 @@ public class PermissionsMongoRepository(
         foreach (var entity in entities)
         {
             var filter = Builders<ModuleEntity>.Filter.Eq(x => x.Id, entity.Id);
-            var update = Builders<ModuleEntity>.Update
-                .Set(x=> x.ParentModules, entity.ParentModules)
-                .Set(x=> x.Permissions, entity.Permissions);
+            var update = CreateUpdateDefinition(entity);
 
             bulkOps.Add(new UpdateOneModel<ModuleEntity>(filter, update));
         }
@@ -31,10 +29,15 @@ public class PermissionsMongoRepository(
     public override async Task UpdateAsync(ModuleEntity entity, CancellationToken cancellationToken)
     {
         var filter = Builders<ModuleEntity>.Filter.Eq(x => x.Id, entity.Id);
-        var update = Builders<ModuleEntity>.Update
-            .Set(x => x.ParentModules, entity.ParentModules)
-            .Set(x => x.Permissions, entity.Permissions);
+        var update = CreateUpdateDefinition(entity);
 
         await Collection.UpdateOneAsync(filter, update, null, cancellationToken);
+    }
+
+    private UpdateDefinition<ModuleEntity> CreateUpdateDefinition(ModuleEntity entity)
+    {
+        return Builders<ModuleEntity>.Update
+            .Set(x => x.Permissions, entity.Permissions)
+            .Set(x => x.Permissions, entity.Permissions);
     }
 }

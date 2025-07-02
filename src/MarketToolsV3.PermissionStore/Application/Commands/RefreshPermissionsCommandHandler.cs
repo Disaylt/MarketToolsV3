@@ -2,6 +2,7 @@
 using MarketToolsV3.PermissionStore.Application.Services.Abstract;
 using MarketToolsV3.PermissionStore.Domain.Entities;
 using MarketToolsV3.PermissionStore.Domain.Seed;
+using MarketToolsV3.PermissionStore.Domain.ValueObjects;
 using MediatR;
 
 namespace MarketToolsV3.PermissionStore.Application.Commands;
@@ -16,7 +17,7 @@ public class RefreshPermissionsCommandHandler(
     {
         IQueryable<ModuleEntity> existsPermissionsQuery = moduleRepository
             .AsQueryable()
-            .Where(x => x.Module == request.Module);
+            .Where(x => x.Creator == request.Creator);
 
         ModuleEntity? module = await extensionRepository.FirstOrDefaultAsync(existsPermissionsQuery, cancellationToken);
 
@@ -24,21 +25,29 @@ public class RefreshPermissionsCommandHandler(
         {
             ModuleEntity newModule = new()
             {
-                Module = request.Module,
-                ParentModules = [.. request.ParentModules],
-                Permissions = [.. request.Permissions]
+                Creator = request.Creator,
+                Permissions = MapPermissions(request.Permissions)
             };
 
             await moduleRepository.InsertAsync(newModule, cancellationToken);
         }
         else
         {
-            module.ParentModules = [.. request.ParentModules];
-            module.Permissions = [.. request.Permissions];
-
+            module.Permissions = MapPermissions(request.Permissions);
             await moduleRepository.UpdateAsync(module, cancellationToken);
         }
 
         return Unit.Value;
+    }
+
+    private IEnumerable<PermissionValueObject> MapPermissions(IEnumerable<PermissionDto> permissions)
+    {
+        return permissions
+            .Select(p => new PermissionValueObject
+            {
+                AvailableModules = p.AvailableModules,
+                Path = p.Path,
+                RequireUse = p.RequireUse
+            });
     }
 }

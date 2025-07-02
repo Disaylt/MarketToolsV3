@@ -12,10 +12,10 @@ namespace WB.Seller.Companies.Domain.Entities
         public string SubId { get; private set; }
         public string Login { get; private set; }
 
-        private readonly List<SubscriptionEntity> _subscriptions = new();
+        private readonly List<SubscriptionEntity> _subscriptions = [];
         public IReadOnlyCollection<SubscriptionEntity> Subscriptions => _subscriptions;
 
-        private readonly List<CompanyEntity> _companies = new();
+        private readonly List<CompanyEntity> _companies = [];
         public IReadOnlyCollection<CompanyEntity> Companies => _companies;
 
         protected UserEntity()
