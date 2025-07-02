@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Domain.Entities;
-using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.Applications.UpdateModels
 {
@@ -14,6 +13,6 @@ namespace UserNotifications.Applications.UpdateModels
         public string? Message { get; init; }
         public string? Title { get; init; }
         public bool? IsRead { get; init; }
-        public Category? Category { get; init; }
+        public string? Category { get; init; }
     }
 }

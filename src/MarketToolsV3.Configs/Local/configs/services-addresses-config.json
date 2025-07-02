@@ -6,7 +6,7 @@
 			"WebApi": []
 		}
 	},
-	"Common":{
+	"Common": {
 		"Permissions": {
 			"Name": "permissions-store",
 			"Addresses": {
@@ -15,7 +15,7 @@
 			}
 		}
 	},
-	"ApiGateway":{
+	"ApiGateway": {
 		"Name": "api-gateway",
 		"Addresses": {
 			"Grpc": [],
@@ -29,8 +29,8 @@
 			"WebApi": []
 		}
 	},
-	"Wb":{
-		"Seller":{
+	"Wb": {
+		"Seller": {
 			"Companies": {
 				"Name": "wb-seller-companies",
 				"Addresses": {
@@ -38,7 +38,7 @@
 					"WebApi": []
 				}
 			},
-			"Automation":{
+			"Automation": {
 				"PriceManager": {
 					"Name": "wb-seller-automation-price_manager",
 					"Addresses": {

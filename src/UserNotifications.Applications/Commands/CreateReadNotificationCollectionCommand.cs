@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using UserNotifications.Applications.Models;
 using UserNotifications.Applications.Seed;
-using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.Applications.Commands
 {
     public class CreateReadNotificationCollectionCommand : ICommand<PaginationDto<NotificationDto>>
     {
         public string? UserId { get; set; }
-        public Category? Category { get; set; }
+        public string? Category { get; set; }
         public bool? IsRead { get; set; }
         public int Take { get; set; }
         public int Skip { get; set; }

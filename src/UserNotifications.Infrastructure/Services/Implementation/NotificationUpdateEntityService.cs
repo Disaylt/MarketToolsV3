@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using UserNotifications.Applications.Services.Abstract;
 using UserNotifications.Applications.UpdateModels;
 using UserNotifications.Domain.Entities;
-using UserNotifications.Domain.Enums;
 using UserNotifications.Infrastructure.Database;
 using UserNotifications.Infrastructure.Utilities;
 
@@ -26,7 +25,7 @@ namespace UserNotifications.Infrastructure.Services.Implementation
                 : Builders<Notification>.Filter.Where(data.Filter);
 
             var updateDefinitions = new UpdateDefinitionContainer<Notification>()
-                .AddIfTrue(data.Category.HasValue, x => x.Category, data.Category!)
+                .AddIfTrue(data.Category != null, x => x.Category, data.Category!)
                 .AddIfTrue(data.IsRead.HasValue, x => x.IsRead, data.IsRead!)
                 .AddIfTrue(data.Message != null, x => x.Message, data.Message)
                 .AddIfTrue(data.Title != null, x => x.Title, data.Title)
