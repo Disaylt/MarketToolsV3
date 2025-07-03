@@ -11,6 +11,7 @@ namespace WB.Seller.Companies.Domain.Entities
     {
         public string SubId { get; private set; }
         public string Login { get; private set; }
+        public string NormalizedLogin { get; private set; }
 
         private readonly List<SubscriptionEntity> _subscriptions = [];
         public IReadOnlyCollection<SubscriptionEntity> Subscriptions => _subscriptions;
@@ -22,12 +23,14 @@ namespace WB.Seller.Companies.Domain.Entities
         {
             SubId = null!;
             Login = null!;
+            NormalizedLogin = null!;
         }
 
         public UserEntity(string id, string login) : this()
         {
             SubId = id;
             Login = login;
+            NormalizedLogin = login.ToUpper();
         }
 
         public void AddSubscription(SubscriptionEntity subscription)

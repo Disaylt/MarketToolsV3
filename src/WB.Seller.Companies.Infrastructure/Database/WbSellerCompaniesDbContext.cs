@@ -15,6 +15,7 @@ namespace WB.Seller.Companies.Infrastructure.Database
         public DbSet<PermissionEntity> Permissions { get; set; } = null!;
         public DbSet<UserEntity> Users { get; set; } = null!;
         public DbSet<SubscriptionEntity> Subscriptions { get; set; } = null!;
+        public DbSet<SubscriptionCodeEntity> SubscriptionCodes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
