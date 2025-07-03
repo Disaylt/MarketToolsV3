@@ -22,6 +22,9 @@ namespace WB.Seller.Companies.Domain.Entities
         private readonly List<PermissionEntity> _permissions = [];
         public IReadOnlyCollection<PermissionEntity> Permissions => _permissions;
 
+        private readonly List<SubscriptionCodeEntity> _codes = [];
+        public IReadOnlyCollection<SubscriptionCodeEntity> Codes => _codes;
+
         protected SubscriptionEntity()
         {
             UserId = null!;
@@ -45,6 +48,11 @@ namespace WB.Seller.Companies.Domain.Entities
         {
             User = user;
             Company = company;
+        }
+
+        public void AddCode(SubscriptionCodeEntity code)
+        {
+            _codes.Add(code);
         }
 
         public void AddPermission(PermissionEntity permission)

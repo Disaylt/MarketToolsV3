@@ -8,5 +8,8 @@ public enum SubscriptionRole
     Owner,
 
     [Description("Подписчик")]
-    Subscriber
+    Subscriber,
+
+    [Description("Ожидает подтверждения")]
+    AwaitConfirmation
 }
