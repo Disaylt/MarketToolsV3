@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using UserNotifications.Domain.Enums;
 
 namespace UserNotifications.WebApi.Models.Notifications
 {
@@ -16,6 +15,6 @@ namespace UserNotifications.WebApi.Models.Notifications
         public string? Title { get; set; }
 
         [Required]
-        public Category Category { get; set; }
+        public required string Category { get; set; }
     }
 }

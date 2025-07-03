@@ -7,18 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using UserNotifications.Applications.Commands;
-using UserNotifications.Domain.Enums;
+using MarketToolsV3.ConfigurationManager.Models;
+using Microsoft.Extensions.Options;
 
 namespace UserNotifications.Processor.Consumers
 {
-    internal class SessionCreatedConsumer(IMediator mediator) : IConsumer<SessionCreatedIntegrationEvent>
+    internal class SessionCreatedConsumer(IMediator mediator, IOptions<ServicesAddressesConfig> servicesAddressesConfig) 
+        : IConsumer<SessionCreatedIntegrationEvent>
     {
         public async Task Consume(ConsumeContext<SessionCreatedIntegrationEvent> context)
         {
             CreateNotificationCommand command = new()
             {
                 UserId = context.Message.UserId,
-                Category = Category.Identity,
+                Category = servicesAddressesConfig.Value.Identity.Name,
                 Title = "Система безопасности",
                 Message = $"Выполнен вход с устройства - {context.Message.UserAgent}"
             };

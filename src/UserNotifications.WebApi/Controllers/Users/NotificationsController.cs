@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using UserNotifications.Applications.Commands;
 using UserNotifications.Applications.Queries;
 using UserNotifications.Applications.Utilities.Abstract;
-using UserNotifications.Domain.Enums;
 using UserNotifications.WebApi.Models.Notifications;
 
 namespace UserNotifications.WebApi.Controllers.Users
