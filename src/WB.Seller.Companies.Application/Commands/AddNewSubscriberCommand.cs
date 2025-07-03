@@ -7,4 +7,5 @@ public class AddNewSubscriberCommand : ICommand<Unit>
 {
     public required string Login { get; set; }
     public int CompanyId { get; set; }
+    public string? Note { get; set; }
 }

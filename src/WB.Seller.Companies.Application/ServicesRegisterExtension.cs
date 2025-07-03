@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using WB.Seller.Companies.Application.Behaviors;
 using WB.Seller.Companies.Application.Mappers;
 using WB.Seller.Companies.Application.Models;
+using WB.Seller.Companies.Application.Utilities.Abstract;
+using WB.Seller.Companies.Application.Utilities.Implementation;
 using WB.Seller.Companies.Domain.Entities;
 using WB.Seller.Companies.Domain.Seed;
 
@@ -18,6 +20,7 @@ namespace WB.Seller.Companies.Application
         public static IServiceCollection AddApplicationServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<IFromMapper<CompanyEntity, CompanyDto>, CompanyTransferFromEntityMapper>();
+            serviceCollection.AddSingleton<ICodeUtility, CodeUtility>();
 
             serviceCollection.AddMediatR(cfg =>
             {
