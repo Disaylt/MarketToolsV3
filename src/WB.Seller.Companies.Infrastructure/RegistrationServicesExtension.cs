@@ -25,6 +25,7 @@ using WB.Seller.Companies.Application.Services.Abstract;
 using WB.Seller.Companies.Infrastructure.Services.Implementation;
 using System.Net.Http;
 using Polly;
+using WB.Seller.Companies.Application.Seed;
 
 namespace WB.Seller.Companies.Infrastructure
 {
@@ -51,6 +52,7 @@ namespace WB.Seller.Companies.Infrastructure
             collection.AddScoped<IQueryDataHandler<SearchPermissionsQueryData, IEnumerable<PermissionDto>>, SearchPermissionsQueryDataHandler>();
             collection.AddScoped<IQueryDataHandler<SubscriptionAggregateQueryData, SubscriptionAggregateDto>, SubscriptionAggregateQueryDataHandler>();
             collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
+            collection.AddScoped<IQueryHandleService, QueryHandleService>();
 
             collection.AddHttpClient("grpc")
                 .AddStandardResilienceHandler(opt =>
