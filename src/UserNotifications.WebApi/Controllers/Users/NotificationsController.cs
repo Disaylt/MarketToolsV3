@@ -55,9 +55,7 @@ namespace UserNotifications.WebApi.Controllers.Users
         [MapToApiVersion(1)]
         public IActionResult GetCategories()
         {
-            var result = enumParserUtility.Parse<Category>();
-
-            return Ok(result);
+            return Ok();
         }
     }
 }
