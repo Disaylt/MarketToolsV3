@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WB.Seller.Companies.Domain.Seed;
+using MediatR;
+using WB.Seller.Companies.Infrastructure.Extensions;
 
 namespace WB.Seller.Companies.Infrastructure.Database
 {
-    public class EfCoreUnitOfWork<TContext>(TContext context) : IUnitOfWork, IDisposable, IAsyncDisposable
+    public class EfCoreUnitOfWork<TContext>(TContext context, IMediator mediator) : IUnitOfWork, IDisposable, IAsyncDisposable
        where TContext : DbContext
     {
         private IDbContextTransaction? _transaction;
@@ -41,7 +43,9 @@ namespace WB.Seller.Companies.Infrastructure.Database
 
         public virtual async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
+            IEnumerable<INotification> notifications = context.ChangeTracker.SelectNotifications();
             await context.SaveChangesAsync(cancellationToken);
+            await mediator.PublishNotifications(notifications, cancellationToken);
 
             return true;
         }
@@ -52,7 +56,7 @@ namespace WB.Seller.Companies.Infrastructure.Database
 
             try
             {
-                await context.SaveChangesAsync(cancellationToken);
+                await SaveEntitiesAsync(cancellationToken);
                 await _transaction.CommitAsync(cancellationToken);
             }
             catch

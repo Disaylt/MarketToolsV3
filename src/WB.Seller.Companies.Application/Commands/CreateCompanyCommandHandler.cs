@@ -27,8 +27,6 @@ namespace WB.Seller.Companies.Application.Commands
             SubscriptionEntity newSubscription = new(owner, newCompany, request.Description, SubscriptionRole.Owner);
             await subscriptionRepository.AddAsync(newSubscription,cancellationToken);
 
-            await companyRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-
             return mapperFactory
                 .CreateFromMapper<CompanyEntity, CompanyDto>()
                 .Map(newCompany);

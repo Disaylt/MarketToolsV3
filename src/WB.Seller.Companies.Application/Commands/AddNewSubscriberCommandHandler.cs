@@ -10,8 +10,7 @@ namespace WB.Seller.Companies.Application.Commands;
 
 public class AddNewSubscriberCommandHandler(IUserEntityService userEntityService,
     ICodeUtility codeUtility,
-    IRepository<SubscriptionEntity> subscriptionRepository,
-    IUnitOfWork unitOfWork)
+    IRepository<SubscriptionEntity> subscriptionRepository)
     : IRequestHandler<AddNewSubscriberCommand, Unit>
 {
     public async Task<Unit> Handle(AddNewSubscriberCommand request, CancellationToken cancellationToken)
@@ -24,7 +23,6 @@ public class AddNewSubscriberCommandHandler(IUserEntityService userEntityService
         newSubscription.AddCode(code);
 
         await subscriptionRepository.AddAsync(newSubscription, cancellationToken);
-        await unitOfWork.SaveEntitiesAsync(cancellationToken);
 
         return Unit.Value;
     }

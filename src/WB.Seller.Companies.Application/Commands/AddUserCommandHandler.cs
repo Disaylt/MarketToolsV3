@@ -16,7 +16,6 @@ namespace WB.Seller.Companies.Application.Commands
         {
             UserEntity user = new UserEntity(request.UserId, request.Login);
             await userRepository.AddAsync(user, cancellationToken);
-            await userRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             return Unit.Value;
         }
