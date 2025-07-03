@@ -28,29 +28,19 @@ namespace MarketToolsV3.ConfigurationManager
         }
 
         public async Task<ITypingConfigManager<AuthConfig>> CreateFromAuthAsync()
-        {
-            return await CreateFromServiceAsync<AuthConfig>(ConfigurationNames.Auth);
-        }
+        => await CreateFromServiceAsync<AuthConfig>(ConfigurationNames.Auth);
 
         public async Task<ITypingConfigManager<LoggingConfig>> CreateFromLoggingAsync()
-        {
-            return await CreateFromServiceAsync<LoggingConfig>(ConfigurationNames.Logging);
-        }
+        => await CreateFromServiceAsync<LoggingConfig>(ConfigurationNames.Logging);
 
         public async Task<ITypingConfigManager<ServicesAddressesConfig>> CreateFromServicesAddressesAsync()
-        {
-            return await CreateFromServiceAsync<ServicesAddressesConfig>(ConfigurationNames.ServiceAddresses);
-        }
+        => await CreateFromServiceAsync<ServicesAddressesConfig>(ConfigurationNames.ServiceAddresses);
 
         public async Task<ITypingConfigManager<MessageBrokerConfig>> CreateFromMessageBrokerAsync()
-        {
-            return await CreateFromServiceAsync<MessageBrokerConfig>(ConfigurationNames.MessageBroker);
-        }
+        => await CreateFromServiceAsync<MessageBrokerConfig>(ConfigurationNames.MessageBroker);
 
-        public async Task<ITypingConfigManager<TranslateCollectionConfig>> CreateFromTranslateCollectionAsync()
-        {
-            return await CreateFromServiceAsync<TranslateCollectionConfig>(ConfigurationNames.TranslateCollection);
-        }
+        public async Task<ITypingConfigManager<TranslateCollectionConfig>> CreateFromTranslateCollectionAsync() 
+        => await CreateFromServiceAsync<TranslateCollectionConfig>(ConfigurationNames.TranslateCollection);
 
         private async Task<IConfigurationRoot> CreateConfigurationRootAsync(string serviceName)
         {
