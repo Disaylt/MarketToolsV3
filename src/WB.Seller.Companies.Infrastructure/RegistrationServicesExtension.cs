@@ -53,6 +53,7 @@ namespace WB.Seller.Companies.Infrastructure
             collection.AddScoped<IQueryDataHandler<SubscriptionAggregateQueryData, SubscriptionAggregateDto>, SubscriptionAggregateQueryDataHandler>();
             collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
             collection.AddScoped<IQueryHandleService, QueryHandleService>();
+            collection.AddScoped<IUserEntityService, UserEntityService>();
 
             collection.AddHttpClient("grpc")
                 .AddStandardResilienceHandler(opt =>
