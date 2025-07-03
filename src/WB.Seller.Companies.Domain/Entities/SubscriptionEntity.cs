@@ -50,9 +50,10 @@ namespace WB.Seller.Companies.Domain.Entities
             Company = company;
         }
 
-        public void AddCode(SubscriptionCodeEntity code)
+        public void AddCode(string code)
         {
-            _codes.Add(code);
+            SubscriptionCodeEntity subscription = new(code, this);
+            _codes.Add(subscription);
         }
 
         public void AddPermission(PermissionEntity permission)

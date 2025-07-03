@@ -20,19 +20,12 @@ public class AddNewSubscriberCommandHandler(IUserEntityService userEntityService
                    ?? throw new RootServiceException(HttpStatusCode.NotFound, "Пользователь с таким логином не найден.");
 
         SubscriptionEntity newSubscription = new(user.SubId, request.CompanyId, request.Note, SubscriptionRole.AwaitConfirmation);
-        SubscriptionCodeEntity subscriptionCode = CreateSubscriptionCode();
-        newSubscription.AddCode(subscriptionCode);
+        string code = codeUtility.Generate();
+        newSubscription.AddCode(code);
 
         await subscriptionRepository.AddAsync(newSubscription, cancellationToken);
         await unitOfWork.SaveEntitiesAsync(cancellationToken);
 
         return Unit.Value;
-    }
-
-    private SubscriptionCodeEntity CreateSubscriptionCode()
-    {
-        string code = codeUtility.Generate();
-
-        return new(code);
     }
 }
