@@ -3,7 +3,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WB.Seller.Companies.Application.Commands;
 using WB.Seller.Companies.Application.Queries;
+using WB.Seller.Companies.WebApi.Models.Companies.Subscriptions;
 
 namespace WB.Seller.Companies.WebApi.Controllers.Companies
 {
@@ -28,6 +30,21 @@ namespace WB.Seller.Companies.WebApi.Controllers.Companies
             var result = await mediator.Send(query);
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody] NewSubscriptionModel body)
+        {
+            AddNewSubscriberCommand command = new()
+            {
+                CompanyId = body.CompanyId,
+                Login = body.Login,
+                Note = body.Note
+            };
+
+            await mediator.Send(command);
+
+            return Ok();
         }
     }
 }
