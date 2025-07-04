@@ -26,6 +26,10 @@ using WB.Seller.Companies.Infrastructure.Services.Implementation;
 using System.Net.Http;
 using Polly;
 using WB.Seller.Companies.Application.Seed;
+using MarketToolsV3.ConfigurationManager.Models;
+using MassTransit;
+using MarketToolsV3.ConfigurationManager.Abstraction;
+using MarketToolsV3.ConfigurationManager;
 
 namespace WB.Seller.Companies.Infrastructure
 {
@@ -52,7 +56,7 @@ namespace WB.Seller.Companies.Infrastructure
             collection.AddScoped<IQueryDataHandler<SearchPermissionsQueryData, IEnumerable<PermissionDto>>, SearchPermissionsQueryDataHandler>();
             collection.AddScoped<IQueryDataHandler<SubscriptionAggregateQueryData, SubscriptionAggregateDto>, SubscriptionAggregateQueryDataHandler>();
             collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
-            collection.AddScoped<IQueryHandleService, QueryHandleService>();
+            collection.AddSingleton<IQueryHandleService, QueryHandleService>();
             collection.AddScoped<IUserEntityService, UserEntityService>();
 
             collection.AddHttpClient("grpc")
@@ -73,11 +77,49 @@ namespace WB.Seller.Companies.Infrastructure
 
             collection.AddScoped<IPermissionsExternalService, ExternalPermissionsService>();
 
-
             SqlMapper.AddTypeHandler(new JsonTypeHandler<IEnumerable<PermissionDto>>());
             SqlMapper.AddTypeHandler(new JsonTypeHandler<IEnumerable<CompanySlimInfoDto>>());
 
             return collection;
+        }
+
+        public static async Task ConfigureBrokerMessenger(this IServiceCollection collection,
+            ConfigurationServiceFactory configurationServiceFactory,
+            Action<IBusRegistrationConfigurator>? busRegistrationConfigurator = null,
+            Action<IBusRegistrationContext, IRabbitMqBusFactoryConfigurator>? rabbitMqBusFactoryConfigurator = null
+            )
+        {
+
+            MessageBrokerConfig messageBrokerConfig = await configurationServiceFactory
+                .CreateFromMessageBrokerAsync()
+                .ContinueWith(x=> x.Result.Value);
+
+            collection.AddMassTransit(mt =>
+            {
+                mt.AddEntityFrameworkOutbox<WbSellerCompaniesDbContext>(o =>
+                {
+                    o.UsePostgres();
+
+                    o.UseBusOutbox();
+                });
+
+                busRegistrationConfigurator?.Invoke(mt);
+
+                mt.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(messageBrokerConfig.RabbitMqConnection,
+                        "/",
+                        h =>
+                        {
+                            h.Username(messageBrokerConfig.RabbitMqLogin);
+                            h.Password(messageBrokerConfig.RabbitMqPassword);
+                        });
+
+                    rabbitMqBusFactoryConfigurator?.Invoke(context, cfg);
+
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
         }
     }
 }

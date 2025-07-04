@@ -23,7 +23,6 @@ ITypingConfigManager<ServiceConfiguration> serviceConfigManager =
     await configurationServiceFactory.CreateFromServiceAsync<ServiceConfiguration>(module.Name);
 serviceConfigManager.AddAsOptions(builder.Services);
 
-
 ITypingConfigManager<AuthConfig> authConfigManager =
     await configurationServiceFactory.CreateFromAuthAsync();
 
@@ -35,6 +34,8 @@ builder.Services
     .AddInfrastructureLayer(serviceConfigManager.Value)
     .AddApplicationServices()
     .AddServiceAuthentication(authConfigManager.Value, false);
+
+await builder.Services.ConfigureBrokerMessenger(configurationServiceFactory);
 
 builder.Services.AddOpenApi("v1", opt =>
 {

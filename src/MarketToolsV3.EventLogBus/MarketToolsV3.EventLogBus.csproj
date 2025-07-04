@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MarketToolsV3.EventBus\MarketToolsV3.EventBus.csproj" />
     <ProjectReference Include="..\MarketToolsV3.IntegrationEventLogService\MarketToolsV3.IntegrationEventLogService.csproj" />
   </ItemGroup>

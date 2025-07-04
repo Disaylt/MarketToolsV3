@@ -15,8 +15,7 @@ namespace UserNotifications.WebApi.Controllers.Users
     [ApiVersion(1)]
     [Authorize]
     public class NotificationsController(IMediator mediator,
-        IAuthContext authContext,
-        IEnumParserUtility enumParserUtility)
+        IAuthContext authContext)
         : ControllerBase
     {
         [HttpGet]
