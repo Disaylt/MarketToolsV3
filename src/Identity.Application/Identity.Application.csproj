@@ -20,8 +20,4 @@
     <ProjectReference Include="..\MarketToolsV3.IntegrationEventLogService\MarketToolsV3.IntegrationEventLogService.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Utilities\Implementation\" />
-  </ItemGroup>
-
 </Project>

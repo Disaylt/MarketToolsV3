@@ -68,5 +68,14 @@ namespace Identity.Infrastructure.Services.Implementation
                    ?? throw new RootServiceException(HttpStatusCode.NotFound)
                        .AddMessages("Пользователь не найден.");
         }
+
+        public async Task SetNewConfirmationCodeAsync(string id, string code, CancellationToken ct)
+        {
+            var person = await identityRepository.FindByIdRequiredAsync(id, ct);
+            person.ConfirmationCode = code;
+            person.ConfirmationCodeUpdated = DateTime.UtcNow;
+
+            await identityRepository.UnitOfWork.SaveEntitiesAsync(ct);
+        }
     }
 }

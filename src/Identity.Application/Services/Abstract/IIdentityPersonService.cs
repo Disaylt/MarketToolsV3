@@ -13,6 +13,7 @@ namespace Identity.Application.Services.Abstract
         Task<IdentityPerson?> FindByEmailAsync(string email);
         Task<IdentityPerson?> FindByIdAsync(string id);
         Task<IdentityPerson> FindByIdRequiredAsync(string id);
+        Task SetNewConfirmationCodeAsync(string id, string code, CancellationToken ct);
         Task<bool> CheckPassword(IdentityPerson identity, string password);
     }
 }
