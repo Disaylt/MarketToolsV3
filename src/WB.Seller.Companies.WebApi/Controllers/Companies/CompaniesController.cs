@@ -18,7 +18,7 @@ namespace WB.Seller.Companies.WebApi.Controllers.Companies
         [HttpGet("slim")]
         [MapToApiVersion("1")]
         [Authorize]
-        public async Task<IActionResult> CreateAsync(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetSlimCompaniesAsync(CancellationToken cancellationToken)
         {
             GetSlimCompaniesQuery query = new()
             {
