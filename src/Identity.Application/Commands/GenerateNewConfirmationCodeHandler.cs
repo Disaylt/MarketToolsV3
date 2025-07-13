@@ -13,7 +13,7 @@ public class GenerateNewConfirmationCodeHandler(ICodeUtility codeUtility,
     public async Task<Unit> Handle(GenerateNewConfirmationCode request, CancellationToken cancellationToken)
     {
         string code = codeUtility.Generate(6);
-        await personService.SetNewConfirmationCodeAsync(request.UserId, code, cancellationToken);
+        await personService.SetNewConfirmationCodeAsync(request.Email, code, cancellationToken);
 
         return Unit.Value;
     }

@@ -94,5 +94,14 @@ namespace Identity.WebApi.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("code")]
+        [MapToApiVersion(1)]
+        public async Task<IActionResult> GenerateConfirmationCodeAsync([FromBody] GenerateNewConfirmationCode body)
+        {
+            await mediator.Send(body);
+
+            return Ok();
+        }
     }
 }

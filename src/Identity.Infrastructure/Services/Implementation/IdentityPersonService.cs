@@ -69,9 +69,10 @@ namespace Identity.Infrastructure.Services.Implementation
                        .AddMessages("Пользователь не найден.");
         }
 
-        public async Task SetNewConfirmationCodeAsync(string id, string code, CancellationToken ct)
+        public async Task SetNewConfirmationCodeAsync(string email, string code, CancellationToken ct)
         {
-            var person = await identityRepository.FindByIdRequiredAsync(id, ct);
+            var person = await userManager.FindByEmailAsync(email)
+                ?? throw new RootServiceException(HttpStatusCode.NotFound).AddMessages("Почта не найдена.");
             person.ConfirmationCode = code;
             person.ConfirmationCodeUpdated = DateTime.UtcNow;
 

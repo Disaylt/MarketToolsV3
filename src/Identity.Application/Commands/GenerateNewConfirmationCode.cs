@@ -5,5 +5,5 @@ namespace Identity.Application.Commands;
 
 public class GenerateNewConfirmationCode : ICommand<Unit>
 {
-    public required string UserId { get; set; }
+    public required string Email { get; set; }
 }
