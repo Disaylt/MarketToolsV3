@@ -9,6 +9,8 @@ namespace Identity.Domain.Entities
 {
     public class IdentityPerson : IdentityUser
     {
+        public string? ConfirmationCode { get; set; }
+        public DateTime ConfirmationCodeUpdated { get; set; }
         public DateTime CreateDate { get; private set; } = DateTime.UtcNow;
         public List<Session> Sessions { get; set; } = [];
         public List<Module> Modules { get; set; } = [];
